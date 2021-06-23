@@ -1,0 +1,5 @@
+LIBRARY MPLibraryVC
+EXPORTS
+initialize_miniprogram
+finalize_miniprogram
+retrieve_mp_abilities
