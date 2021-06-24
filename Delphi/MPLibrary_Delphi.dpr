@@ -12,7 +12,8 @@ uses
   System.Classes,
   uMPHeader_Delphi in 'src\uMPHeader_Delphi.pas',
   uMPFunctionsImpl in 'src\uMPFunctionsImpl.pas',
-  uTSMasterInternal_Delphi in 'src\uTSMasterInternal_Delphi.pas';
+  uTSMasterInternal_Delphi in 'src\uTSMasterInternal_Delphi.pas',
+  uIncLibTSMaster in 'src\uIncLibTSMaster.pas';
 
 {$R *.res}
 
