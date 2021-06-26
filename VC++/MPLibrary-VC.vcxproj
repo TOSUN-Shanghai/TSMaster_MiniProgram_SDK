@@ -162,6 +162,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TSMaster.h" />
+    <ClInclude Include="TSMasterBaseInclude.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
@@ -174,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TSMasterBaseSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MPExport.def" />

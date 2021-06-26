@@ -3,3 +3,4 @@ EXPORTS
 initialize_miniprogram
 finalize_miniprogram
 retrieve_mp_abilities
+write_api_document

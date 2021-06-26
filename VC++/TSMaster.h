@@ -423,6 +423,8 @@ typedef void (__stdcall *TProcedureSetCANFD)(const void* AObj, const PCANFD AVal
 typedef TCANFD (__stdcall *TTCANFDFunction)(const void* AObj);
 typedef void (__stdcall *TProcedureSetLIN)(const void* AObj, const PLIN AValue);
 typedef TLIN (__stdcall *TTLINFunction)(const void* AObj);
+typedef void(__stdcall* TWriteAPIDocumentFunc)(const void* AOpaque, const char* AName, const char* AGroup, const char* ADesc, const char* AExample, const s32 AParaCount);
+typedef void(__stdcall* TWriteAPIParaFunc)(const void* AOpaque, const s32 AIdx, const char* AAPIName, const char* AParaName, const bool AIsConst, const char* AParaType, const char* ADesc);
 
 // TSMaster variable =============================================
 typedef struct {

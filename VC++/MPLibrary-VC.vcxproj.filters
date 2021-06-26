@@ -33,6 +33,9 @@
     <ClInclude Include="TSMaster.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TSMasterBaseInclude.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -48,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MPLibCodeExtern.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TSMasterBaseSource.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
