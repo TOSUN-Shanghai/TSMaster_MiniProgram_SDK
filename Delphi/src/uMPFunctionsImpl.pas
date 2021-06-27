@@ -84,8 +84,8 @@ end;
 
 function OnMPRetrieveAbilities(const AObj: pointer; const AReg: TRegTSMasterFunction): s32;
 begin
-  if not AReg(AObj, 'on_custom_callback', 'perform_add', 'const A1: s32; const A2: s32', @perform_add, 'add function example') then Exit(-1);
-  if not AReg(AObj, 'on_custom_callback', 'perform_dec', 'const A1: s32', @perform_dec, 'dec function example') then Exit(-1);
+  if not AReg(AObj, 'on_custom_callback', 'perform_add', 'const s32 A1, const s32 A2', @perform_add, 'add function example') then Exit(-1);
+  if not AReg(AObj, 'on_custom_callback', 'perform_dec', 'const s32 A1'              , @perform_dec, 'dec function example') then Exit(-1);
   Result := 2;
 
 end;
