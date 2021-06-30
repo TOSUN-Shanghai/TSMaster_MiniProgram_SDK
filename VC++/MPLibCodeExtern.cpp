@@ -1,4 +1,4 @@
-﻿#include "TSMaster.h"
+﻿#include "TSMasterMP.h"
 #include "MPLibrary.h"
 #include "Test.h"
 

@@ -1,5 +1,5 @@
 ﻿#define TSMP_IMPL
-#include "TSMaster.h"
+#include "TSMasterMP.h"
 #include "MPLibrary.h"
 #include "Database.h"
 #include "Test.h"
