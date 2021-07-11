@@ -280,10 +280,12 @@ type
   TTSLog_blf_write_can = function (const AHandle: s32; const ACAN: PlibCAN): s32; stdcall;
   TTSLog_blf_write_can_fd = function (const AHandle: s32; const ACANFD: PLIBCANFD): s32; stdcall;
   TTSLog_blf_write_lin = function (const AHandle: s32; const ALIN: PLIBLIN): s32; stdcall;
+  TTSLog_blf_write_realtime_comment = function (const AHandle: s32; const ATimeUs: s64; const AComment: PAnsiChar): s32; stdcall;
   TTSLog_blf_write_end = function (const AHandle: s32): s32; stdcall;
   TTSLog_blf_read_start = function (const AFileName: PAnsiChar; AHandle: ps32; AObjCount: ps32): s32; stdcall;
   TTSLog_blf_read_status = function (const AHandle: s32; AObjReadCount: ps32): s32; stdcall;
   TTSLog_blf_read_object = function (const AHandle: s32; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PLIBLIN; ACANFD: PLIBCANFD): s32; stdcall;
+  TTSLog_blf_read_object_w_comment = function (const AHandle: s32; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PCAN; ALIN: PLIN; ACANFD: PCANFD; AComment: Prealtime_comment_t): s32; stdcall;
   TTSLog_blf_read_end = function (const AHandle: s32): s32; stdcall;
   TTSLog_blf_seek_object_time = function (const AHandle: s32; const AProg100: Double; var ATime: s64; var AProgressedCnt: s32): s32; stdcall;
   TTSLog_blf_to_asc = function (const ABLFFileName: PAnsiChar; const AASCFileName: pansichar; const AProgressCallback: TProgressCallback): s32; stdcall;
@@ -583,8 +585,11 @@ type
     ioip_disconnect_tcp_server: TIoIPDisconnectTCPServer;
     ioip_send_buffer_tcp      : TIoIPSendBufferTCP      ;
     ioip_send_buffer_udp      : TIoIPSendBufferUDP      ;
+    // blf functions for comment
+    tslog_blf_write_realtime_comment: TTSLog_blf_write_realtime_comment;
+    tslog_blf_read_object_w_comment : TTSLog_blf_read_object_w_comment;
     // place holders
-    FDummy: array [0..944-1] of s32;
+    FDummy               : array [0..942-1] of s32;
     // internal functions
     function WaitCANMessage_NA(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function WaitCANFDMessage_NA(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
