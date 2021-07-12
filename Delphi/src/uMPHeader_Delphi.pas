@@ -183,6 +183,7 @@ type
   TTSAppGetTSMasterVersion = function(const AYear: ps32; const AMonth: ps32; const ADay: ps32; const ABuildNumber: ps32): s32; stdcall;
   TUIShowPageByIndex = function(const AIndex: s32): s32; stdcall;
   TUIShowPageByName = function(const AName: PAnsiChar): s32; stdcall;
+  TWriteRealtimeComment = function(const AStr: PAnsiChar): s32; stdcall;
   // excel functions
   Texcel_load = function(const AFileName: PAnsiChar; const AObj: PPointer): s32; stdcall;
   Texcel_get_sheet_count = function(const AObj: Pointer; out ACount: s32): s32; stdcall;
@@ -471,8 +472,9 @@ type
     get_tsmaster_version       : TTSAppGetTSMasterVersion       ;
     ui_show_page_by_index      : TUIShowPageByIndex             ;
     ui_show_page_by_name       : TUIShowPageByName              ;
+    write_realtime_comment     : TWriteRealtimeComment          ;
     // place holders
-    FDummy                     : array [0..970-1] of s32;
+    FDummy                     : array [0..969-1] of s32;
     procedure TerminateApplication_NA; cdecl;
     function Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
