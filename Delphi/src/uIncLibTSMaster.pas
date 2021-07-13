@@ -203,7 +203,15 @@ type
   // BLF
   TProgressCallback = procedure(const AProgress100: Double); stdcall;
   PSupportedObjType = ^TSupportedObjType; // TSupportedObjType must be 4 bytes aligned
-  TSupportedObjType = (sotCAN = 0, sotLIN = 1, sotCANFD = 2, sotUnknown = $FFFFFFF);
+  TSupportedObjType = (sotCAN = 0, sotLIN = 1, sotCANFD = 2, sotRealtimeComment = 3, sotUnknown = $FFFFFFF);
+  Trealtime_comment_t = packed record
+    FTimeUs: int64;
+    FEventType: integer;     // 0
+    FCapacity: cardinal;
+    FComment: pansichar;
+  end;
+  Prealtime_comment_t = ^Trealtime_comment_t;
+  TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
   // TS device type
   TLIBCANFDControllerType = (lfdtCAN = 0, lfdtISOCAN = 1, lfdtNonISOCAN = 2);
   TLIBCANFDControllerMode = (lfdmNormal = 0, lfdmACKOff = 1, lfdmRestricted = 2);
@@ -804,10 +812,12 @@ function tslog_blf_write_start(const AFileName: PAnsiChar; AHandle: pinteger): i
 function tslog_blf_write_can(const AHandle: integer; const ACAN: PlibCAN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_can_fd(const AHandle: integer; const ACANFD: PlibCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_lin(const AHandle: integer; const ALIN: PlibLIN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_blf_write_realtime_comment(const AHandle: Integer; const ATimeUs: int64; const AComment: PAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_end(const AHandle: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_start(const AFileName: PAnsiChar; AHandle: pinteger; AObjCount: pinteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_status(const AHandle: integer; AObjReadCount: pinteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_object(const AHandle: integer; AProgressedCnt: pinteger; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_blf_read_object_w_comment(const AHandle: Integer; AProgressedCnt: pinteger; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD; AComment: Prealtime_comment_t): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_end(const AHandle: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_seek_object_time(const AHandle: integer; const AProg100: Double; var ATime: int64; var AProgressedCnt: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_to_asc(const ABLFFileName: PAnsiChar; const AASCFileName: pansichar; const AProgressCallback: TProgressCallback): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}

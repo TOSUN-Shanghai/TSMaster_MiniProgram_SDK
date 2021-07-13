@@ -1,4 +1,4 @@
-unit uMPDocuments;
+unit uMPDocuments_Delphi;
 
 interface
 
@@ -9,6 +9,8 @@ uses
   uinclibtsmaster;
 
 procedure write_api_document(const AObj: Pointer; const AWriteDoc: TLIBWriteAPIDocumentFunc; const AWritePara: TLIBWriteAPIParaFunc); stdcall;
+exports
+  write_api_document;     // write api document
 
 implementation
 

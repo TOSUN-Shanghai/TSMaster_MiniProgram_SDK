@@ -14,15 +14,9 @@ uses
   uMPFunctionsImpl in 'src\uMPFunctionsImpl.pas',
   uTSMasterInternal_Delphi in 'src\uTSMasterInternal_Delphi.pas',
   uIncLibTSMaster in 'src\uIncLibTSMaster.pas',
-  uMPDocuments in 'src\uMPDocuments.pas';
+  uMPDocuments_Delphi in 'src\uMPDocuments_Delphi.pas';
 
 {$R *.res}
-
-exports
-  initialize_miniprogram, // start run of mini program
-  finalize_miniprogram,   // stop run of mini program
-  retrieve_mp_abilities,  // get mp abilities before run
-  write_api_document;     // write api document
 
 begin
 end.

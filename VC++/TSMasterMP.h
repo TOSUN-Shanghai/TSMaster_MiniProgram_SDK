@@ -59,6 +59,7 @@ typedef unsigned __int64* pu64;
 typedef signed __int64* ps64;
 typedef float* pfloat;
 typedef double* pdouble;
+typedef char* pchar;
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))

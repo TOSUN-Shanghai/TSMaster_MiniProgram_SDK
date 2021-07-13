@@ -17,6 +17,10 @@ type
 function initialize_miniprogram(const AConf: PTSMasterConfiguration): s32; stdcall;
 function finalize_miniprogram: s32; stdcall;
 function retrieve_mp_abilities(const AObj: pointer; const AReg: TRegTSMasterFunction): s32; stdcall;
+exports
+  initialize_miniprogram, // start run of mini program
+  finalize_miniprogram,   // stop run of mini program
+  retrieve_mp_abilities;  // get mp abilities before run
 
 var
   // System Variables definition
