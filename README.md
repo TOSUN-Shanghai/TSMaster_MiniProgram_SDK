@@ -4,6 +4,10 @@
 You can now develop your own mini program library in your favorite programming language
 
 ## Steps to use SDK (VC++ example)
+
+[0] create a project based on your current simulation configuration
+![image](https://github.com/TOSUN-Shanghai/TSMaster_MiniProgram_SDK/blob/main/res/step0_CreateProject.png)
+
 [1] edit and compile your dll  
 ![image](https://github.com/TOSUN-Shanghai/TSMaster_MiniProgram_SDK/blob/main/res/step1_compile.png)
 
