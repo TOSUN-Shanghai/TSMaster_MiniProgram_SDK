@@ -313,7 +313,8 @@ type
   TTestCheckErrorEnd = function(const ACount: PInteger): integer; stdcall;
   TTestWriteResultImage = function(const AObj: Pointer; const AName: pansichar; const AImageFilePath: PAnsiChar): Integer; stdcall;
   TTestRetrieveCurrentResultFolder = function(const AObj: Pointer; AFolder: PPAnsiChar): Integer; stdcall;
-  
+  TTestCheckTerminate = function: integer; stdcall;
+
   // TSMaster variables ========================================================
   TEventInC = procedure; cdecl;
   // integer
@@ -631,8 +632,9 @@ type
     FCheckErrorEnd: TTestCheckErrorEnd;
     FWriteResultImage: TTestWriteResultImage;
     FRetrieveCurrentResultFolder: TTestRetrieveCurrentResultFolder;
+    FCheckTestTerminate: TTestCheckTerminate;
     // place holders
-    FDummy           : array [0..996-1] of s32;
+    FDummy           : array [0..995-1] of s32;
     procedure SetVerdictOK_NA(const AStr: PAnsiChar); cdecl;
     procedure SetVerdictNOK_NA(const AStr: PAnsiChar); cdecl;
     procedure SetVerdictCOK_NA(const AStr: PAnsiChar); cdecl;
