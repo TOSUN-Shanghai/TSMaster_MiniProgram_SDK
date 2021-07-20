@@ -301,7 +301,9 @@ type
   TIoIPDisconnectTCPServer = function(const AObj: Pointer; const AHandle: s32): s32; stdcall;
   TIoIPSendBufferTCP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
   TIoIPSendBufferUDP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
-  
+  TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
   // Test features
   TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
   TTestSetVerdictNOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
@@ -591,8 +593,11 @@ type
     // blf functions for comment
     tslog_blf_write_realtime_comment: TTSLog_blf_write_realtime_comment;
     tslog_blf_read_object_w_comment : TTSLog_blf_read_object_w_comment;
+    // IP functions added 2021-07-20
+    ioip_receive_tcp_client_response: TIoIPRecvTCPClientResponse;
+    ioip_send_tcp_server_response   : TIoIPSendTCPServerResponse;
     // place holders
-    FDummy               : array [0..942-1] of s32;
+    FDummy               : array [0.. 940 - 1] of s32;
     // internal functions
     function WaitCANMessage_NA(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function WaitCANFDMessage_NA(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
