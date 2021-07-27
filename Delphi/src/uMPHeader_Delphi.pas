@@ -185,6 +185,8 @@ type
   TUIShowPageByName = function(const AName: PAnsiChar): s32; stdcall;
   TWriteRealtimeComment = function(const AStr: PAnsiChar): s32; stdcall;
   TTSAppSetThreadPriority = function(const AObj: Pointer; const AIndex: s32): s32; stdcall;
+  TTSAppGetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PAnsiChar): s32; stdcall;
+  TTSAppSetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
   // excel functions
   Texcel_load = function(const AFileName: PAnsiChar; const AObj: PPointer): s32; stdcall;
   Texcel_get_sheet_count = function(const AObj: Pointer; out ACount: s32): s32; stdcall;
@@ -478,8 +480,10 @@ type
     ui_show_page_by_name               : TUIShowPageByName              ;
     write_realtime_comment             : TWriteRealtimeComment          ;
     internal_set_thread_priority       : TTSAppSetThreadPriority        ;
+    get_system_var_generic             : TTSAppGetSystemVarGeneric      ;
+    set_system_var_generic             : TTSAppSetSystemVarGeneric      ;
     // place holders
-    FDummy                     : array [0..968-1] of s32;
+    FDummy                             : array [0..966-1] of s32;
     procedure TerminateApplication_NA; cdecl;
     function Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
