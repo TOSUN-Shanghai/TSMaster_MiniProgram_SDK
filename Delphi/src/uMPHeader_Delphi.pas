@@ -187,6 +187,12 @@ type
   TTSAppSetThreadPriority = function(const AObj: Pointer; const AIndex: s32): s32; stdcall;
   TTSAppGetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PAnsiChar): s32; stdcall;
   TTSAppSetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  // text file
+  TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
+  TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
+  TWriteTextFileLineWithDoubleArray = function(const AHandle: s32; const AArray: PDouble; const ACount: s32): s32; stdcall;
+  TWriteTextFileLineWithStringArray = function(const AHandle: s32; const AArray: PPAnsiChar; const ACount: s32): s32; stdcall;
+  TWriteTextFileEnd = function(const AHandle: s32): s32; stdcall;
   // excel functions
   Texcel_load = function(const AFileName: PAnsiChar; const AObj: PPointer): s32; stdcall;
   Texcel_get_sheet_count = function(const AObj: Pointer; out ACount: s32): s32; stdcall;
@@ -482,8 +488,13 @@ type
     internal_set_thread_priority       : TTSAppSetThreadPriority        ;
     get_system_var_generic             : TTSAppGetSystemVarGeneric      ;
     set_system_var_generic             : TTSAppSetSystemVarGeneric      ;
+    write_text_file_start              : TWriteTextFileStart            ;
+    write_text_file_line               : TWriteTextFileLine             ;
+    write_text_file_line_double_array  : TWriteTextFileLineWithDoubleArray;
+    write_text_file_line_string_array  : TWriteTextFileLineWithStringArray;
+    write_text_file_end                : TWriteTextFileEnd;
     // place holders
-    FDummy                             : array [0..966-1] of s32;
+    FDummy                             : array [0..961-1] of s32;
     procedure TerminateApplication_NA; cdecl;
     function Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
