@@ -1,6 +1,9 @@
 unit uMPHeader_Delphi;
 
 {
+  F3 for fast location
+  TS_APP_PROTO_END  TS_COM_PROTO_END  TS_TEST_PROTO_END
+
   Note: dynamic address cannot be used in mp library !!!
         because multiple script may also use the same library function, but global object cannot be used more than one!!!
 }
@@ -187,6 +190,10 @@ type
   TTSAppSetThreadPriority = function(const AObj: Pointer; const AIndex: s32): s32; stdcall;
   TTSAppGetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PAnsiChar): s32; stdcall;
   TTSAppSetSystemVarGeneric = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TTSAppForceDirectory = function(const ADir: PAnsiChar): s32; stdcall;
+  TTSAppDirectoryExists = function(const ADir: PAnsiChar): s32; stdcall;
+  TTSAppOpenDirectoryAndSelectFile = function(const AFileName: PAnsiChar): s32; stdcall;
+  TTSAppMiniDelayCPU = function(): s32; stdcall;
   // text file
   TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
@@ -312,7 +319,7 @@ type
   TIoIPSendBufferUDP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
   TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
   TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-
+  TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
   // Test features
   TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
   TTestSetVerdictNOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
@@ -492,9 +499,13 @@ type
     write_text_file_line               : TWriteTextFileLine             ;
     write_text_file_line_double_array  : TWriteTextFileLineWithDoubleArray;
     write_text_file_line_string_array  : TWriteTextFileLineWithStringArray;
-    write_text_file_end                : TWriteTextFileEnd;
+    write_text_file_end                : TWriteTextFileEnd                ;
+    force_directory                    : TTSAppForceDirectory             ;
+    directory_exists                   : TTSAppDirectoryExists            ;
+    open_directory_and_select_file     : TTSAppOpenDirectoryAndSelectFile ;
+    mini_delay_cpu                     : TTSAppMiniDelayCPU               ;
     // place holders
-    FDummy                             : array [0..961-1] of s32;
+    FDummy                             : array [0..957-1] of s32;
     procedure TerminateApplication_NA; cdecl;
     function Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
@@ -614,8 +625,9 @@ type
     // IP functions added 2021-07-20
     ioip_receive_tcp_client_response: TIoIPRecvTCPClientResponse;
     ioip_send_tcp_server_response   : TIoIPSendTCPServerResponse;
+    ioip_send_udp_broadcast         : TIoIPSendUDPBroadcast;
     // place holders
-    FDummy               : array [0.. 940 - 1] of s32;
+    FDummy               : array [0.. 939 - 1] of s32;
     // internal functions
     function WaitCANMessage_NA(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function WaitCANFDMessage_NA(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
