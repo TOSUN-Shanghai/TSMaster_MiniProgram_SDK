@@ -320,6 +320,10 @@ type
   TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
   TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
   TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: s32; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
   TTestSetVerdictNOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
@@ -610,24 +614,27 @@ type
     tslog_blf_to_asc          : Ttslog_blf_to_asc          ;
     tslog_asc_to_blf          : Ttslog_asc_to_blf          ;
     // IP functions
-    ioip_create               : TIoIPCreate             ;
-    ioip_delete               : TIoIPDelete             ;
-    ioip_enable_tcp_server    : TIoIPEnableTCPServer    ;
-    ioip_enable_udp_server    : TIoIPEnableUDPServer    ;
-    ioip_connect_tcp_server   : TIoIPConnectTCPServer   ;
-    ioip_connect_udp_server   : TIoIPConnectUDPServer   ;
-    ioip_disconnect_tcp_server: TIoIPDisconnectTCPServer;
-    ioip_send_buffer_tcp      : TIoIPSendBufferTCP      ;
-    ioip_send_buffer_udp      : TIoIPSendBufferUDP      ;
+    ioip_create_NA               : TIoIPCreate             ;
+    ioip_delete_NA               : TIoIPDelete             ;
+    ioip_enable_tcp_server_NA    : TIoIPEnableTCPServer    ;
+    ioip_enable_udp_server_NA    : TIoIPEnableUDPServer    ;
+    ioip_connect_tcp_server_NA   : TIoIPConnectTCPServer   ;
+    ioip_connect_udp_server_NA   : TIoIPConnectUDPServer   ;
+    ioip_disconnect_tcp_server_NA: TIoIPDisconnectTCPServer;
+    ioip_send_buffer_tcp_NA      : TIoIPSendBufferTCP      ;
+    ioip_send_buffer_udp_NA      : TIoIPSendBufferUDP      ;
     // blf functions for comment
-    tslog_blf_write_realtime_comment: TTSLog_blf_write_realtime_comment;
-    tslog_blf_read_object_w_comment : TTSLog_blf_read_object_w_comment;
+    tslog_blf_write_realtime_comment   : TTSLog_blf_write_realtime_comment;
+    tslog_blf_read_object_w_comment    : TTSLog_blf_read_object_w_comment;
     // IP functions added 2021-07-20
-    ioip_receive_tcp_client_response: TIoIPRecvTCPClientResponse;
-    ioip_send_tcp_server_response   : TIoIPSendTCPServerResponse;
-    ioip_send_udp_broadcast         : TIoIPSendUDPBroadcast;
+    ioip_receive_tcp_client_response_NA: TIoIPRecvTCPClientResponse;
+    ioip_send_tcp_server_response_NA   : TIoIPSendTCPServerResponse;
+    ioip_send_udp_broadcast_NA         : TIoIPSendUDPBroadcast;
+    ioip_set_udp_server_buffer_size_NA : TIoIPSetUDPServerBufferSize;
+    ioip_receive_udp_client_response_NA: TIoIPRecvUDPClientResponse;
+    ioip_send_udp_server_response_NA   : TIoIPSendUDPServerResponse;
     // place holders
-    FDummy               : array [0.. 939 - 1] of s32;
+    FDummy               : array [0.. 936 - 1] of s32;
     // internal functions
     function WaitCANMessage_NA(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function WaitCANFDMessage_NA(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -651,6 +658,21 @@ type
     function UnregisterPreTxLINEvents(): integer; cdecl;
     function UnregisterPreTxCANFDEvents(): integer; cdecl;
     function UnregisterALLPreTxEvents(): integer; cdecl;
+    function ioip_create(const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32; cdecl;
+    function ioip_delete(const AHandle: s32): s32; cdecl;
+    function ioip_enable_tcp_server(const AHandle: s32; const AEnable: Boolean): s32; cdecl;
+    function ioip_enable_udp_server(const AHandle: s32; const AEnable: Boolean): s32; cdecl;
+    function ioip_connect_tcp_server(const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
+    function ioip_connect_udp_server(const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
+    function ioip_disconnect_tcp_server(const AHandle: s32): s32; cdecl;
+    function ioip_send_buffer_tcp(const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_send_buffer_udp(const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_receive_tcp_client_response(const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
+    function ioip_send_tcp_server_response(const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_send_udp_broadcast(const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_set_udp_server_buffer_size(const AHandle: s32; const ASize: s32): s32; cdecl;
+    function ioip_receive_udp_client_response(const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
+    function ioip_send_udp_server_response(const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
   end;
   PTSCOM = ^TTSCOM;
 
@@ -918,6 +940,126 @@ begin
 end;
 
 { TTSCOM }
+
+function TTSCOM.ioip_connect_tcp_server(const AHandle: s32;
+  const AIpAddress: PAnsiChar; const APort: u16): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_connect_tcp_server_NA(fObj, AHandle, AIpAddress, APort);
+
+end;
+
+function TTSCOM.ioip_connect_udp_server(const AHandle: s32;
+  const AIpAddress: PAnsiChar; const APort: u16): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_connect_udp_server_NA(fObj, AHandle, AIpAddress, APort);
+
+end;
+
+function TTSCOM.ioip_create(const APortTCP, APortUDP: u16;
+  const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_create_NA(fObj, APortTCP, APortUDP, AOnTCPDataEvent, AOnUDPDataEvent, AHandle);
+
+end;
+
+function TTSCOM.ioip_delete(const AHandle: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_delete_NA(fObj, AHandle);
+
+end;
+
+function TTSCOM.ioip_disconnect_tcp_server(const AHandle: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_disconnect_tcp_server_NA(fObj, AHandle);
+
+end;
+
+function TTSCOM.ioip_enable_tcp_server(const AHandle: s32;
+  const AEnable: Boolean): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_enable_tcp_server_NA(fObj, AHandle, AEnable);
+
+end;
+
+function TTSCOM.ioip_enable_udp_server(const AHandle: s32;
+  const AEnable: Boolean): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_enable_udp_server_NA(fObj, AHandle, AEnable);
+
+end;
+
+function TTSCOM.ioip_receive_tcp_client_response(
+  const AHandle, ATimeoutMs: s32; const ABufferToReadTo: Pointer;
+  const AActualSize: ps32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_receive_tcp_client_response_NA(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
+
+end;
+
+function TTSCOM.ioip_receive_udp_client_response(
+  const AHandle, ATimeoutMs: s32; const ABufferToReadTo: Pointer;
+  const AActualSize: ps32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_receive_udp_client_response_NA(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
+
+end;
+
+function TTSCOM.ioip_send_buffer_tcp(const AHandle: s32;
+  const APointer: Pointer; const ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_send_buffer_tcp_NA(fObj, AHandle, apointer, ASize);
+
+end;
+
+function TTSCOM.ioip_send_buffer_udp(const AHandle: s32;
+  const APointer: Pointer; const ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_send_buffer_udp_NA(fObj, AHandle, apointer, ASize);
+
+end;
+
+function TTSCOM.ioip_send_tcp_server_response(
+  const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_send_tcp_server_response_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+
+end;
+
+function TTSCOM.ioip_send_udp_broadcast(const AHandle: s32;
+  const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_send_udp_broadcast_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+
+end;
+
+function TTSCOM.ioip_send_udp_server_response(
+  const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_send_udp_server_response_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+
+end;
+
+function TTSCOM.ioip_set_udp_server_buffer_size(
+  const AHandle, ASize: s32): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := ioip_set_udp_server_buffer_size_NA(fObj, AHandle, ASize);
+
+end;
 
 function TTSCOM.RegisterCANEvent(const AEvent: TCANQueueEvent_Win32): integer;
 begin
