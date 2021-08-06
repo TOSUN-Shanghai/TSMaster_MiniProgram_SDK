@@ -99,7 +99,7 @@ type
 	  FOffset: Double;
   end;
   PMPCANSignal = ^TMPCANSignal;
-  
+
 // TSMiniProgram C type definition =======================================================
   // generic defintions in header
   TMPProcedure = procedure (const AObj: Pointer); stdcall;
@@ -211,7 +211,8 @@ type
   Texcel_set_cell_count = function(const AObj: Pointer; const AIdxSheet: integer; const ARowCount: integer; const AColCount: integer): s32; stdcall;
   Texcel_set_cell_value = function(const AObj: Pointer; const AIdxSheet: Integer; const AIdxRow: integer; const AIdxCol: Integer; const AValue: PAnsiChar): s32; stdcall;
   Texcel_unload = function(const AObj: Pointer): s32; stdcall;
-  Texcel_unload_all = function(): s32; stdcall;  
+  Texcel_unload_all = function(): s32; stdcall;
+  // TS_APP_PROTO_END
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
   TTSConfigureBaudrateCANFD = function(const AIdxChn: integer; const ABaudrateKbpsArb, ABaudrateKbpsData: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -255,16 +256,16 @@ type
   TUnregisterCANFDEvents = function (const AObj: pointer): integer; stdcall;
   TUnregisterALLEvents = function (const AObj: pointer): integer; stdcall;
   // bus pre-tx callback handler
-  TRegisterPreTxCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall; 
-  TUnregisterPreTxCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall; 
-  TRegisterPreTxCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; 
-  TUnregisterPreTxCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; 
-  TRegisterPreTxLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; 
-  TUnregisterPreTxLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; 
-  TUnregisterPreTxCANEvents = function (const AObj: pointer): integer; stdcall; 
-  TUnregisterPreTxLINEvents = function (const AObj: pointer): integer; stdcall; 
-  TUnregisterPreTxCANFDEvents = function (const AObj: pointer): integer; stdcall; 
-  TUnregisterPreTxALLEvents = function (const AObj: pointer): integer; stdcall; 
+  TRegisterPreTxCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall;
+  TRegisterPreTxCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall;
+  TRegisterPreTxLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxCANEvents = function (const AObj: pointer): integer; stdcall;
+  TUnregisterPreTxLINEvents = function (const AObj: pointer): integer; stdcall;
+  TUnregisterPreTxCANFDEvents = function (const AObj: pointer): integer; stdcall;
+  TUnregisterPreTxALLEvents = function (const AObj: pointer): integer; stdcall;
   // online replay
   Ttslog_add_online_replay_config = function (const AFileName: PAnsiChar; out AIndex: s32): integer; stdcall;
   Ttslog_set_online_replay_config = function (const AIndex: s32; const AName: PAnsiChar; const AFileName: PAnsiChar; const AAutoStart: Boolean; const AIsRepetitiveMode: boolean; const AStartTimingMode: TLIBOnlineReplayTimingMode; const AStartDelayTimeMs: s32; const ASendTx: boolean; const ASendRx: Boolean; const AMappings: PAnsiChar): integer; stdcall;
@@ -317,12 +318,12 @@ type
   TIoIPDisconnectTCPServer = function(const AObj: Pointer; const AHandle: s32): s32; stdcall;
   TIoIPSendBufferTCP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
   TIoIPSendBufferUDP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
-  TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-  TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-  TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-  TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: s32; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-  TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-  TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+  TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
+  TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: s32; const ASize: s32): s32; stdcall;
+  TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
+  TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
@@ -411,110 +412,110 @@ type
 
   // TSMaster application record in C script
   TTSApp = packed record // C type
-    FObj:                         Pointer                    ;
-    set_current_application:      TTSAppSetCurrentApplication;
-    get_current_application:      TTSAppGetCurrentApplication;
-    del_application:              TTSAppDelApplication       ;
-    add_application:              TTSAppAddApplication       ;
-    get_application_list:         TTSAppGetApplicationList   ;
-    set_can_channel_count:        TTSAppSetCANChannelCount   ;
-    set_lin_channel_count:        TTSAppSetLINChannelCount   ;
-    get_can_channel_count:        TTSAppGetCANChannelCount   ;
-    get_lin_channel_count:        TTSAppGetLINChannelCount   ;
-    set_mapping:                  TTSAppSetMapping           ;
-    get_mapping:                  TTSAppGetMapping           ;
-    del_mapping:                  TTSAppDeleteMapping        ;
-    connect:                      TTSAppConnectApplication   ;
-    disconnect:                   TTSAppDisconnectApplication;
-    Log:                          TTSAppLogger               ;
-    configure_baudrate_can:       TTSConfigureBaudrateCAN    ;
-    configure_baudrate_canfd:     TTSConfigureBaudrateCANFD  ;
-    set_turbo_mode:               TTSSetTurboMode            ;
-    get_turbo_mode:               TTSGetTurboMode            ;
-    get_error_description:        TTSGetErrorDescription     ;
-    terminate_application_NA:     TTSTerminate               ;
-    wait_NA:                      TTSWait                    ;
-    internal_check:               TTSCheckError              ;
-    start_log_NA:                 TTSStartLog                ;
-    end_log_NA:                   TTSEndLog                  ;
-    check_terminate_NA:           TTSCheckTerminate          ;
-    get_timestamp:                TTSGetTimestampUs          ;
-    show_confirm_dialog:          TTSShowConfirmDialog       ;
-    pause:                        TTSPause                   ;
-    internal_set_check_failed_terminate:   TTSSetCheckFailedTerminate   ;
-    get_system_var_count               :   TTSAppGetSystemVarCount      ;
-    get_system_var_def_by_index        :   TTSAppGetSystemVarDefByIndex ;
-    get_system_var_def_by_name         :   TTSAppFindSystemVarDefByName ;
-    get_system_var_double              :   TTSAppGetSystemVarDouble     ;
-    get_system_var_int32               :   TTSAppGetSystemVarInt32      ;
-    get_system_var_uint32              :   TTSAppGetSystemVarUInt32     ;
-    get_system_var_int64               :   TTSAppGetSystemVarInt64      ;
-    get_system_var_uint64              :   TTSAppGetSystemVarUInt64     ;
-    get_system_var_uint8_array         :   TTSAppGetSystemVarUInt8Array ;
-    get_system_var_int32_array         :   TTSAppGetSystemVarInt32Array ;
-    get_system_var_int64_array         :   TTSAppGetSystemVarInt64Array ;
-    get_system_var_double_array        :   TTSAppGetSystemVarDoubleArray;
-    get_system_var_string              :   TTSAppGetSystemVarString     ;
-    set_system_var_double              :   TTSAppSetSystemVarDouble     ;
-    set_system_var_int32               :   TTSAppSetSystemVarInt32      ;
-    set_system_var_uint32              :   TTSAppSetSystemVarUInt32     ;
-    set_system_var_int64               :   TTSAppSetSystemVarInt64      ;
-    set_system_var_uint64              :   TTSAppSetSystemVarUInt64     ;
-    set_system_var_uint8_array         :   TTSAppSetSystemVarUInt8Array ;
-    set_system_var_int32_array         :   TTSAppSetSystemVarInt32Array ;
-    set_system_var_int64_array         :   TTSAppSetSystemVarInt64Array ;
-    set_system_var_double_array        :   TTSAppSetSystemVarDoubleArray;
-    set_system_var_string              :   TTSAppSetSystemVarString     ;
-    make_toast                         :   TTSAppMakeToast              ;
-    execute_python_string              :   TTSAppExecutePythonString    ;
-    execute_python_script              :   TTSAppExecutePythonScript    ;
-    execute_app                        :   TTSAppExecuteApp             ;
-    terminate_app_by_name              :   TTSAppTerminateAppByName     ;
-    excel_load                         : Texcel_load                    ;
-    excel_get_sheet_count              : Texcel_get_sheet_count         ;
-    excel_set_sheet_count              : Texcel_set_sheet_count         ;
-    excel_get_sheet_name               : Texcel_get_sheet_name          ;
-    excel_get_cell_count               : Texcel_get_cell_count          ;
-    excel_get_cell_value               : Texcel_get_cell_value          ;
-    excel_set_cell_count               : Texcel_set_cell_count          ;
-    excel_set_cell_value               : Texcel_set_cell_value          ;
-    excel_unload                       : Texcel_unload                  ;
-    excel_unload_all                   : Texcel_unload_all              ;
-    log_system_var                     : TTSAppLogSystemVar             ;
-    excel_set_sheet_name               : Texcel_set_sheet_name          ;
-    call_mini_program_api              : TTSAppCallMPAPI                ;
-    split_string                       : TTSAppSplitString              ;
-    wait_system_var_existance          : TTSAppWaitSystemVarExistance   ;
-    wait_system_var_disappear          : TTSAppWaitSystemVarDisappear   ;
-    set_analysis_time_range            : TTSAppSetAnalysisTimeRange     ;
-    get_configuration_file_name        : TTSAppGetConfigurationFileName ;
-    get_configuration_file_path        : TTSAppGetConfigurationFilePath ;
-    set_default_output_dir             : TTSAppSetDefaultOutputDir      ;
-    save_screenshot                    : TTSAppSaveScreenshot           ;
-    enable_all_graphics                : TTSAppEnableGraphics           ;
-    get_tsmaster_version               : TTSAppGetTSMasterVersion       ;
-    ui_show_page_by_index              : TUIShowPageByIndex             ;
-    ui_show_page_by_name               : TUIShowPageByName              ;
-    write_realtime_comment             : TWriteRealtimeComment          ;
-    internal_set_thread_priority       : TTSAppSetThreadPriority        ;
-    get_system_var_generic             : TTSAppGetSystemVarGeneric      ;
-    set_system_var_generic             : TTSAppSetSystemVarGeneric      ;
-    write_text_file_start              : TWriteTextFileStart            ;
-    write_text_file_line               : TWriteTextFileLine             ;
-    write_text_file_line_double_array  : TWriteTextFileLineWithDoubleArray;
-    write_text_file_line_string_array  : TWriteTextFileLineWithStringArray;
-    write_text_file_end                : TWriteTextFileEnd                ;
-    force_directory                    : TTSAppForceDirectory             ;
-    directory_exists                   : TTSAppDirectoryExists            ;
-    open_directory_and_select_file     : TTSAppOpenDirectoryAndSelectFile ;
-    mini_delay_cpu                     : TTSAppMiniDelayCPU               ;
+    FObj                                : Pointer                          ;
+    set_current_application             : TTSAppSetCurrentApplication      ;
+    get_current_application             : TTSAppGetCurrentApplication      ;
+    del_application                     : TTSAppDelApplication             ;
+    add_application                     : TTSAppAddApplication             ;
+    get_application_list                : TTSAppGetApplicationList         ;
+    set_can_channel_count               : TTSAppSetCANChannelCount         ;
+    set_lin_channel_count               : TTSAppSetLINChannelCount         ;
+    get_can_channel_count               : TTSAppGetCANChannelCount         ;
+    get_lin_channel_count               : TTSAppGetLINChannelCount         ;
+    set_mapping                         : TTSAppSetMapping                 ;
+    get_mapping                         : TTSAppGetMapping                 ;
+    del_mapping                         : TTSAppDeleteMapping              ;
+    connect                             : TTSAppConnectApplication         ;
+    disconnect                          : TTSAppDisconnectApplication      ;
+    Log                                 : TTSAppLogger                     ;
+    configure_baudrate_can              : TTSConfigureBaudrateCAN          ;
+    configure_baudrate_canfd            : TTSConfigureBaudrateCANFD        ;
+    set_turbo_mode                      : TTSSetTurboMode                  ;
+    get_turbo_mode                      : TTSGetTurboMode                  ;
+    get_error_description               : TTSGetErrorDescription           ;
+    internal_terminate_application      : TTSTerminate                     ;
+    internal_wait                       : TTSWait                          ;
+    internal_check                      : TTSCheckError                    ;
+    internal_start_log                  : TTSStartLog                      ;
+    internal_end_log                    : TTSEndLog                        ;
+    internal_check_terminate            : TTSCheckTerminate                ;
+    get_timestamp                       : TTSGetTimestampUs                ;
+    show_confirm_dialog                 : TTSShowConfirmDialog             ;
+    pause                               : TTSPause                         ;
+    internal_set_check_failed_terminate : TTSSetCheckFailedTerminate       ;
+    get_system_var_count                : TTSAppGetSystemVarCount          ;
+    get_system_var_def_by_index         : TTSAppGetSystemVarDefByIndex     ;
+    get_system_var_def_by_name          : TTSAppFindSystemVarDefByName     ;
+    get_system_var_double               : TTSAppGetSystemVarDouble         ;
+    get_system_var_int32                : TTSAppGetSystemVarInt32          ;
+    get_system_var_uint32               : TTSAppGetSystemVarUInt32         ;
+    get_system_var_int64                : TTSAppGetSystemVarInt64          ;
+    get_system_var_uint64               : TTSAppGetSystemVarUInt64         ;
+    get_system_var_uint8_array          : TTSAppGetSystemVarUInt8Array     ;
+    get_system_var_int32_array          : TTSAppGetSystemVarInt32Array     ;
+    get_system_var_int64_array          : TTSAppGetSystemVarInt64Array     ;
+    get_system_var_double_array         : TTSAppGetSystemVarDoubleArray    ;
+    get_system_var_string               : TTSAppGetSystemVarString         ;
+    set_system_var_double               : TTSAppSetSystemVarDouble         ;
+    set_system_var_int32                : TTSAppSetSystemVarInt32          ;
+    set_system_var_uint32               : TTSAppSetSystemVarUInt32         ;
+    set_system_var_int64                : TTSAppSetSystemVarInt64          ;
+    set_system_var_uint64               : TTSAppSetSystemVarUInt64         ;
+    set_system_var_uint8_array          : TTSAppSetSystemVarUInt8Array     ;
+    set_system_var_int32_array          : TTSAppSetSystemVarInt32Array     ;
+    set_system_var_int64_array          : TTSAppSetSystemVarInt64Array     ;
+    set_system_var_double_array         : TTSAppSetSystemVarDoubleArray    ;
+    set_system_var_string               : TTSAppSetSystemVarString         ;
+    make_toast                          : TTSAppMakeToast                  ;
+    execute_python_string               : TTSAppExecutePythonString        ;
+    execute_python_script               : TTSAppExecutePythonScript        ;
+    execute_app                         : TTSAppExecuteApp                 ;
+    terminate_app_by_name               : TTSAppTerminateAppByName         ;
+    excel_load                          : Texcel_load                      ;
+    excel_get_sheet_count               : Texcel_get_sheet_count           ;
+    excel_set_sheet_count               : Texcel_set_sheet_count           ;
+    excel_get_sheet_name                : Texcel_get_sheet_name            ;
+    excel_get_cell_count                : Texcel_get_cell_count            ;
+    excel_get_cell_value                : Texcel_get_cell_value            ;
+    excel_set_cell_count                : Texcel_set_cell_count            ;
+    excel_set_cell_value                : Texcel_set_cell_value            ;
+    excel_unload                        : Texcel_unload                    ;
+    excel_unload_all                    : Texcel_unload_all                ;
+    log_system_var                      : TTSAppLogSystemVar               ;
+    excel_set_sheet_name                : Texcel_set_sheet_name            ;
+    call_mini_program_api               : TTSAppCallMPAPI                  ;
+    split_string                        : TTSAppSplitString                ;
+    wait_system_var_existance           : TTSAppWaitSystemVarExistance     ;
+    wait_system_var_disappear           : TTSAppWaitSystemVarDisappear     ;
+    set_analysis_time_range             : TTSAppSetAnalysisTimeRange       ;
+    get_configuration_file_name         : TTSAppGetConfigurationFileName   ;
+    get_configuration_file_path         : TTSAppGetConfigurationFilePath   ;
+    set_default_output_dir              : TTSAppSetDefaultOutputDir        ;
+    save_screenshot                     : TTSAppSaveScreenshot             ;
+    enable_all_graphics                 : TTSAppEnableGraphics             ;
+    get_tsmaster_version                : TTSAppGetTSMasterVersion         ;
+    ui_show_page_by_index               : TUIShowPageByIndex               ;
+    ui_show_page_by_name                : TUIShowPageByName                ;
+    write_realtime_comment              : TWriteRealtimeComment            ;
+    internal_set_thread_priority        : TTSAppSetThreadPriority          ;
+    get_system_var_generic              : TTSAppGetSystemVarGeneric        ;
+    set_system_var_generic              : TTSAppSetSystemVarGeneric        ;
+    write_text_file_start               : TWriteTextFileStart              ;
+    write_text_file_line                : TWriteTextFileLine               ;
+    write_text_file_line_double_array   : TWriteTextFileLineWithDoubleArray;
+    write_text_file_line_string_array   : TWriteTextFileLineWithStringArray;
+    write_text_file_end                 : TWriteTextFileEnd                ;
+    force_directory                     : TTSAppForceDirectory             ;
+    directory_exists                    : TTSAppDirectoryExists            ;
+    open_directory_and_select_file      : TTSAppOpenDirectoryAndSelectFile ;
+    mini_delay_cpu                      : TTSAppMiniDelayCPU               ;
     // place holders
-    FDummy                             : array [0..957-1] of s32;
-    procedure TerminateApplication_NA; cdecl;
-    function Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
+    FDummy                              : array [0..957-1] of s32          ;
+    procedure terminate_application; cdecl;
+    function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
     function end_log: s32; cdecl;
-    function CheckTerminate_NA: s32; cdecl;
+    function check_terminate: s32; cdecl;
     function check(const AErrorCode: s32): s32; cdecl;
     function set_check_failed_terminate(const AToTerminate: Boolean): s32; cdecl;
     function set_thread_priority(const APriorty: s32): s32; cdecl;
@@ -523,141 +524,141 @@ type
 
   // TSMaster Communication record in C script
   TTSCOM = packed record // C type
-    FObj:                    Pointer               ;
+    FObj                                      : Pointer               ;
     // CAN functions
-    transmit_can_async:      TTransmitCANAsync     ;
-    transmit_can_sync:       TTransmitCANSync      ;
+    transmit_can_async                        : TTransmitCANAsync     ;
+    transmit_can_sync                         : TTransmitCANSync      ;
     // CAN FD functions
-    transmit_canfd_async:    TTransmitCANFDAsync   ;
-    transmit_canfd_sync:     TTransmitCANFDSync    ;
+    transmit_canfd_async                      : TTransmitCANFDAsync   ;
+    transmit_canfd_sync                       : TTransmitCANFDSync    ;
     // LIN functions
-    transmit_lin_async:      TTransmitLINAsync     ;
-    transmit_lin_sync:       TTransmitLINSync      ;
+    transmit_lin_async                        : TTransmitLINAsync     ;
+    transmit_lin_sync                         : TTransmitLINSync      ;
     // Database functions
-    get_can_signal_value:    TMPGetCANSignalValue  ;
-    set_can_signal_value:    TMPSetCANSignalValue  ;
+    get_can_signal_value                      : TMPGetCANSignalValue  ;
+    set_can_signal_value                      : TMPSetCANSignalValue  ;
     // Bus Statistics
-    enable_bus_statistics:   TEnableBusStatistics  ;
-    clear_bus_statistics:    TClearBusStatistics   ;
-    get_bus_statistics:      TGetBusStatistics     ;
-    get_fps_can:             TGetFPSCAN            ;
-    get_fps_canfd:           TGetFPSCANFD          ;
-    get_fps_lin:             TGetFPSLIN            ;
+    enable_bus_statistics                     : TEnableBusStatistics  ;
+    clear_bus_statistics                      : TClearBusStatistics   ;
+    get_bus_statistics                        : TGetBusStatistics     ;
+    get_fps_can                               : TGetFPSCAN            ;
+    get_fps_canfd                             : TGetFPSCANFD          ;
+    get_fps_lin                               : TGetFPSLIN            ;
     // Bus functions
-    wait_can_message_NA:      TWaitCANMessage       ;
-    wait_canfd_message_NA:    TWaitCANFDMessage     ;
-    add_cyclic_message_can:   TAddCyclicMsgCAN      ;
-    add_cyclic_message_canfd: TAddCyclicMsgCANFD   ;
-    del_cyclic_message_can:   TDeleteCyclicMsgCAN  ;
-    del_cyclic_message_canfd: TDeleteCyclicMsgCANFD;
-    del_cyclic_messages:      TDeleteCyclicMsgs    ;
+    internal_wait_can_message                 : TWaitCANMessage       ;
+    internal_wait_canfd_message               : TWaitCANFDMessage     ;
+    add_cyclic_message_can                    : TAddCyclicMsgCAN      ;
+    add_cyclic_message_canfd                  : TAddCyclicMsgCANFD   ;
+    del_cyclic_message_can                    : TDeleteCyclicMsgCAN  ;
+    del_cyclic_message_canfd                  : TDeleteCyclicMsgCANFD;
+    del_cyclic_messages                       : TDeleteCyclicMsgs    ;
     // bus callbacks
-    register_event_can_NA:       TRegisterCANEvent;
-    unregister_event_can_NA:     TUnregisterCANEvent;
-    register_event_canfd_NA:     TRegisterCANFDEvent;
-    unregister_event_canfd_NA:   TUnregisterCANFDEvent;
-    register_event_lin_NA:       TRegisterLINEvent;
-    unregister_event_lin_NA:     TUnregisterLINEvent;
-    unregister_events_can_NA:    TUnregisterCANEvents;
-    unregister_events_lin_NA:    TUnregisterLINEvents;
-    unregister_events_canfd_NA:  TUnregisterCANFDEvents;
-    unregister_events_all_NA:    TUnregisterALLEvents;
+    internal_register_event_can               : TRegisterCANEvent;
+    internal_unregister_event_can             : TUnregisterCANEvent;
+    internal_register_event_canfd             : TRegisterCANFDEvent;
+    internal_unregister_event_canfd           : TUnregisterCANFDEvent;
+    internal_register_event_lin               : TRegisterLINEvent;
+    internal_unregister_event_lin             : TUnregisterLINEvent;
+    internal_unregister_events_can            : TUnregisterCANEvents;
+    internal_unregister_events_lin            : TUnregisterLINEvents;
+    internal_unregister_events_canfd          : TUnregisterCANFDEvents;
+    internal_unregister_events_all            : TUnregisterALLEvents;
     // online replay
-    tslog_add_online_replay_config     : Ttslog_add_online_replay_config ;
-    tslog_set_online_replay_config     : Ttslog_set_online_replay_config ;
-    tslog_get_online_replay_count      : Ttslog_get_online_replay_count  ;
-    tslog_get_online_replay_config     : Ttslog_get_online_replay_config ;
-    tslog_del_online_replay_config     : Ttslog_del_online_replay_config ;
-    tslog_del_online_replay_configs    : Ttslog_del_online_replay_configs;
-    tslog_start_online_replay          : Ttslog_start_online_replay      ;
-    tslog_start_online_replays         : Ttslog_start_online_replays     ;
-    tslog_pause_online_replay          : Ttslog_pause_online_replay      ;
-    tslog_pause_online_replays         : Ttslog_pause_online_replays     ;
-    tslog_stop_online_replay           : Ttslog_stop_online_replay       ;
-    tslog_stop_online_replays          : Ttslog_stop_online_replays      ;
-    tslog_get_online_replay_status     : Ttslog_get_online_replay_status ;
+    tslog_add_online_replay_config            : Ttslog_add_online_replay_config ;
+    tslog_set_online_replay_config            : Ttslog_set_online_replay_config ;
+    tslog_get_online_replay_count             : Ttslog_get_online_replay_count  ;
+    tslog_get_online_replay_config            : Ttslog_get_online_replay_config ;
+    tslog_del_online_replay_config            : Ttslog_del_online_replay_config ;
+    tslog_del_online_replay_configs           : Ttslog_del_online_replay_configs;
+    tslog_start_online_replay                 : Ttslog_start_online_replay      ;
+    tslog_start_online_replays                : Ttslog_start_online_replays     ;
+    tslog_pause_online_replay                 : Ttslog_pause_online_replay      ;
+    tslog_pause_online_replays                : Ttslog_pause_online_replays     ;
+    tslog_stop_online_replay                  : Ttslog_stop_online_replay       ;
+    tslog_stop_online_replays                 : Ttslog_stop_online_replays      ;
+    tslog_get_online_replay_status            : Ttslog_get_online_replay_status ;
     // can rbs
-    can_rbs_start                      : TCANRBSStart                    ;
-    can_rbs_stop                       : TCANRBSStop                     ;
-    can_rbs_is_running                 : TCANRBSIsRunning                ;
-    can_rbs_configure                  : TCANRBSConfigure                ;
-    can_rbs_activate_all_networks      : TCANRBSActivateAllNetworks      ;
-    can_rbs_activate_network_by_name   : TCANRBSActivateNetworkByName    ;
-    can_rbs_activate_node_by_name      : TCANRBSActivateNodeByName       ;
-    can_rbs_activate_message_by_name   : TCANRBSActivateMessageByName    ;
-    can_rbs_get_signal_value_by_element: TCANRBSGetSignalValueByElement  ;
-    can_rbs_get_signal_value_by_address: TCANRBSGetSignalValueByAddress  ;
-    can_rbs_set_signal_value_by_element: TCANRBSSetSignalValueByElement  ;
-    can_rbs_set_signal_value_by_address: TCANRBSSetSignalValueByAddress  ;
+    can_rbs_start                             : TCANRBSStart                    ;
+    can_rbs_stop                              : TCANRBSStop                     ;
+    can_rbs_is_running                        : TCANRBSIsRunning                ;
+    can_rbs_configure                         : TCANRBSConfigure                ;
+    can_rbs_activate_all_networks             : TCANRBSActivateAllNetworks      ;
+    can_rbs_activate_network_by_name          : TCANRBSActivateNetworkByName    ;
+    can_rbs_activate_node_by_name             : TCANRBSActivateNodeByName       ;
+    can_rbs_activate_message_by_name          : TCANRBSActivateMessageByName    ;
+    can_rbs_get_signal_value_by_element       : TCANRBSGetSignalValueByElement  ;
+    can_rbs_get_signal_value_by_address       : TCANRBSGetSignalValueByAddress  ;
+    can_rbs_set_signal_value_by_element       : TCANRBSSetSignalValueByElement  ;
+    can_rbs_set_signal_value_by_address       : TCANRBSSetSignalValueByAddress  ;
     // bus internal pre-tx functions
-    register_pretx_event_can_NA:      TRegisterPreTxCANEvent     ;
-    unregister_pretx_event_can_NA:    TUnregisterPreTxCANEvent   ;
-    register_pretx_event_canfd_NA:    TRegisterPreTxCANFDEvent   ;
-    unregister_pretx_event_canfd_NA:  TUnregisterPreTxCANFDEvent ;
-    register_pretx_event_lin_NA:      TRegisterPreTxLINEvent     ;
-    unregister_pretx_event_lin_NA:    TUnregisterPreTxLINEvent   ;
-    unregister_pretx_events_can_NA:   TUnregisterPreTxCANEvents  ;
-    unregister_pretx_events_lin_NA:   TUnregisterPreTxLINEvents  ;
-    unregister_pretx_events_canfd_NA: TUnregisterPreTxCANFDEvents;
-    unregister_pretx_events_all_NA:   TUnregisterPreTxALLEvents  ;
+    internal_register_pretx_event_can         : TRegisterPreTxCANEvent     ;
+    internal_unregister_pretx_event_can       : TUnregisterPreTxCANEvent   ;
+    internal_register_pretx_event_canfd       : TRegisterPreTxCANFDEvent   ;
+    internal_unregister_pretx_event_canfd     : TUnregisterPreTxCANFDEvent ;
+    internal_register_pretx_event_lin         : TRegisterPreTxLINEvent     ;
+    internal_unregister_pretx_event_lin       : TUnregisterPreTxLINEvent   ;
+    internal_unregister_pretx_events_can      : TUnregisterPreTxCANEvents  ;
+    internal_unregister_pretx_events_lin      : TUnregisterPreTxLINEvents  ;
+    internal_unregister_pretx_events_canfd    : TUnregisterPreTxCANFDEvents;
+    internal_unregister_pretx_events_all      : TUnregisterPreTxALLEvents  ;
     // blf functions
-    tslog_blf_write_start     : Ttslog_blf_write_start     ;
-    tslog_blf_write_can       : Ttslog_blf_write_can       ;
-    tslog_blf_write_can_fd    : Ttslog_blf_write_can_fd    ;
-    tslog_blf_write_lin       : Ttslog_blf_write_lin       ;
-    tslog_blf_write_end       : Ttslog_blf_write_end       ;
-    tslog_blf_read_start      : Ttslog_blf_read_start      ;
-    tslog_blf_read_status     : Ttslog_blf_read_status     ;
-    tslog_blf_read_object     : Ttslog_blf_read_object     ;
-    tslog_blf_read_end        : Ttslog_blf_read_end        ;
-    tslog_blf_seek_object_time: Ttslog_blf_seek_object_time;
-    tslog_blf_to_asc          : Ttslog_blf_to_asc          ;
-    tslog_asc_to_blf          : Ttslog_asc_to_blf          ;
+    tslog_blf_write_start                     : Ttslog_blf_write_start     ;
+    tslog_blf_write_can                       : Ttslog_blf_write_can       ;
+    tslog_blf_write_can_fd                    : Ttslog_blf_write_can_fd    ;
+    tslog_blf_write_lin                       : Ttslog_blf_write_lin       ;
+    tslog_blf_write_end                       : Ttslog_blf_write_end       ;
+    tslog_blf_read_start                      : Ttslog_blf_read_start      ;
+    tslog_blf_read_status                     : Ttslog_blf_read_status     ;
+    tslog_blf_read_object                     : Ttslog_blf_read_object     ;
+    tslog_blf_read_end                        : Ttslog_blf_read_end        ;
+    tslog_blf_seek_object_time                : Ttslog_blf_seek_object_time;
+    tslog_blf_to_asc                          : Ttslog_blf_to_asc          ;
+    tslog_asc_to_blf                          : Ttslog_asc_to_blf          ;
     // IP functions
-    ioip_create_NA               : TIoIPCreate             ;
-    ioip_delete_NA               : TIoIPDelete             ;
-    ioip_enable_tcp_server_NA    : TIoIPEnableTCPServer    ;
-    ioip_enable_udp_server_NA    : TIoIPEnableUDPServer    ;
-    ioip_connect_tcp_server_NA   : TIoIPConnectTCPServer   ;
-    ioip_connect_udp_server_NA   : TIoIPConnectUDPServer   ;
-    ioip_disconnect_tcp_server_NA: TIoIPDisconnectTCPServer;
-    ioip_send_buffer_tcp_NA      : TIoIPSendBufferTCP      ;
-    ioip_send_buffer_udp_NA      : TIoIPSendBufferUDP      ;
+    internal_ioip_create                      : TIoIPCreate             ;
+    internal_ioip_delete                      : TIoIPDelete             ;
+    internal_ioip_enable_tcp_server           : TIoIPEnableTCPServer    ;
+    internal_ioip_enable_udp_server           : TIoIPEnableUDPServer    ;
+    internal_ioip_connect_tcp_server          : TIoIPConnectTCPServer   ;
+    internal_ioip_connect_udp_server          : TIoIPConnectUDPServer   ;
+    internal_ioip_disconnect_tcp_server       : TIoIPDisconnectTCPServer;
+    internal_ioip_send_buffer_tcp             : TIoIPSendBufferTCP      ;
+    internal_ioip_send_buffer_udp             : TIoIPSendBufferUDP      ;
     // blf functions for comment
-    tslog_blf_write_realtime_comment   : TTSLog_blf_write_realtime_comment;
-    tslog_blf_read_object_w_comment    : TTSLog_blf_read_object_w_comment;
+    tslog_blf_write_realtime_comment          : TTSLog_blf_write_realtime_comment;
+    tslog_blf_read_object_w_comment           : TTSLog_blf_read_object_w_comment;
     // IP functions added 2021-07-20
-    ioip_receive_tcp_client_response_NA: TIoIPRecvTCPClientResponse;
-    ioip_send_tcp_server_response_NA   : TIoIPSendTCPServerResponse;
-    ioip_send_udp_broadcast_NA         : TIoIPSendUDPBroadcast;
-    ioip_set_udp_server_buffer_size_NA : TIoIPSetUDPServerBufferSize;
-    ioip_receive_udp_client_response_NA: TIoIPRecvUDPClientResponse;
-    ioip_send_udp_server_response_NA   : TIoIPSendUDPServerResponse;
+    internal_ioip_receive_tcp_client_response : TIoIPRecvTCPClientResponse;
+    internal_ioip_send_tcp_server_response    : TIoIPSendTCPServerResponse;
+    internal_ioip_send_udp_broadcast          : TIoIPSendUDPBroadcast;
+    internal_ioip_set_udp_server_buffer_size  : TIoIPSetUDPServerBufferSize;
+    internal_ioip_receive_udp_client_response : TIoIPRecvUDPClientResponse;
+    internal_ioip_send_udp_server_response    : TIoIPSendUDPServerResponse;
     // place holders
-    FDummy               : array [0.. 936 - 1] of s32;
+    FDummy                                    : array [0.. 936 - 1] of s32;
     // internal functions
-    function WaitCANMessage_NA(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
-    function WaitCANFDMessage_NA(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
-    function RegisterCANEvent(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
-    function UnregisterCANEvent(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
-    function RegisterCANFDEvent(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
-    function UnregisterCANFDEvent(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
-    function RegisterLINEvent(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
-    function UnregisterLINEvent(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
-    function UnregisterCANEvents(): integer; cdecl;
-    function UnregisterLINEvents(): integer; cdecl;
-    function UnregisterCANFDEvents(): integer; cdecl;
-    function UnregisterALLEvents(): integer; cdecl;
-    function RegisterPreTxCANEvent(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
-    function UnregisterPreTxCANEvent(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
-    function RegisterPreTxCANFDEvent(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
-    function UnregisterPreTxCANFDEvent(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
-    function RegisterPreTxLINEvent(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
-    function UnregisterPreTxLINEvent(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
-    function UnregisterPreTxCANEvents(): integer; cdecl;
-    function UnregisterPreTxLINEvents(): integer; cdecl;
-    function UnregisterPreTxCANFDEvents(): integer; cdecl;
-    function UnregisterALLPreTxEvents(): integer; cdecl;
+    function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
+    function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
+    function register_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function unregister_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function register_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
+    function unregister_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
+    function register_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
+    function unregister_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
+    function unregister_events_can(): integer; cdecl;
+    function unregister_events_lin(): integer; cdecl;
+    function unregister_events_canfd(): integer; cdecl;
+    function unregister_events_all(): integer; cdecl;
+    function register_pretx_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function unregister_pretx_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function register_pretx_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
+    function unregister_pretx_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
+    function register_pretx_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
+    function unregister_pretx_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
+    function unregister_pretx_events_can(): integer; cdecl;
+    function unregister_pretx_events_lin(): integer; cdecl;
+    function unregister_pretx_events_canfd(): integer; cdecl;
+    function unregister_pretx_events_all(): integer; cdecl;
     function ioip_create(const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32; cdecl;
     function ioip_delete(const AHandle: s32): s32; cdecl;
     function ioip_enable_tcp_server(const AHandle: s32; const AEnable: Boolean): s32; cdecl;
@@ -679,25 +680,27 @@ type
   // TSMaster test feature in C script
   TTSTest = packed record // C type
     FObj: Pointer;
-    FSetVerdictOK_NA: TTestSetVerdictOK;
-    FSetVerdictNOK_NA: TTestSetVerdictNOK;
-    FSetVerdictCOK_NA: TTestSetVerdictCOK;
-    FTestLog_NA: TTestLogger;
-    FWriteResultString: TTestWriteResultString;
-    FWriteResultValue: TTestWriteResultValue;
-    FCheckErrorBegin: TTestCheckErrorBegin;
-    FCheckErrorEnd: TTestCheckErrorEnd;
-    FWriteResultImage: TTestWriteResultImage;
-    FRetrieveCurrentResultFolder: TTestRetrieveCurrentResultFolder;
-    FCheckTestTerminate: TTestCheckTerminate;
+    internal_set_verdict_ok                 : TTestSetVerdictOK;
+    internal_set_verdict_nok                : TTestSetVerdictNOK;
+    internal_set_verdict_cok                : TTestSetVerdictCOK;
+    internal_log                            : TTestLogger;
+    internal_write_result_string            : TTestWriteResultString;
+    internal_write_result_value             : TTestWriteResultValue;
+    check_error_begin                       : TTestCheckErrorBegin;
+    check_error_end                         : TTestCheckErrorEnd;
+    internal_write_result_image             : TTestWriteResultImage;
+    internal_retrieve_current_result_folder : TTestRetrieveCurrentResultFolder;
+    check_test_terminate                    : TTestCheckTerminate;
     // place holders
-    FDummy           : array [0..995-1] of s32;
-    procedure SetVerdictOK_NA(const AStr: PAnsiChar); cdecl;
-    procedure SetVerdictNOK_NA(const AStr: PAnsiChar); cdecl;
-    procedure SetVerdictCOK_NA(const AStr: PAnsiChar); cdecl;
-    procedure Log_NA(const AStr: PAnsiChar; const ALevel: s32); cdecl;
-    procedure WriteResultString_NA(const AName: PAnsiChar; const AValue: PAnsiChar; const ALevel: s32); cdecl;
-    procedure WriteResultValue_NA(const AName: PAnsiChar; const AValue: Double; const ALevel: s32); cdecl;
+    FDummy                                  : array [0..995-1] of s32;
+    procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
+    procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
+    procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
+    procedure log(const AStr: PAnsiChar; const ALevel: s32); cdecl;
+    procedure write_result_string(const AName: PAnsiChar; const AValue: PAnsiChar; const ALevel: s32); cdecl;
+    procedure write_result_value(const AName: PAnsiChar; const AValue: Double; const ALevel: s32); cdecl;
+    function  write_result_image(const AName: PAnsiChar; const AImageFileFullPath: PAnsiChar): s32; cdecl;
+    function  retrieve_current_result_folder(AFolder: PPAnsiChar): s32; cdecl;
   end;
   PTSTest = ^TTSTest;
 
@@ -886,28 +889,29 @@ end;
 
 function TTSApp.check(const AErrorCode: s32): s32;
 begin
-  if 0 = AErrorCode then Exit(1);
-  Exit(0);
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_check(FObj, AErrorCode);
 
 end;
 
-function TTSApp.CheckTerminate_NA: s32;
+function TTSApp.check_terminate: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := check_terminate_NA(FObj);
+  Result := internal_check_terminate(FObj);
 
 end;
 
 function TTSApp.end_log: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := end_log_NA(fobj);
+  Result := internal_end_log(fobj);
 
 end;
 
 function TTSApp.set_check_failed_terminate(const AToTerminate: Boolean): s32;
 begin
-  Result := 0;
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_set_check_failed_terminate(FObj, AToTerminate);
 
 end;
 
@@ -921,21 +925,21 @@ end;
 function TTSApp.start_log: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := start_log_NA(FObj);
+  Result := internal_start_log(FObj);
 
 end;
 
-procedure TTSApp.TerminateApplication_NA;
+procedure TTSApp.terminate_application;
 begin
   if not Assigned(FObj) then exit;
-  terminate_application_NA(FObj);
+  internal_terminate_application(FObj);
 
 end;
 
-function TTSApp.Wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32;
+function TTSApp.wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := wait_NA(fobj, ATimeMs, AMessage);
+  result := internal_wait(fobj, ATimeMs, AMessage);
 
 end;
 
@@ -945,7 +949,7 @@ function TTSCOM.ioip_connect_tcp_server(const AHandle: s32;
   const AIpAddress: PAnsiChar; const APort: u16): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_connect_tcp_server_NA(fObj, AHandle, AIpAddress, APort);
+  result := internal_ioip_connect_tcp_server(fObj, AHandle, AIpAddress, APort);
 
 end;
 
@@ -953,7 +957,7 @@ function TTSCOM.ioip_connect_udp_server(const AHandle: s32;
   const AIpAddress: PAnsiChar; const APort: u16): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_connect_udp_server_NA(fObj, AHandle, AIpAddress, APort);
+  result := internal_ioip_connect_udp_server(fObj, AHandle, AIpAddress, APort);
 
 end;
 
@@ -961,21 +965,21 @@ function TTSCOM.ioip_create(const APortTCP, APortUDP: u16;
   const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_create_NA(fObj, APortTCP, APortUDP, AOnTCPDataEvent, AOnUDPDataEvent, AHandle);
+  result := internal_ioip_create(fObj, APortTCP, APortUDP, AOnTCPDataEvent, AOnUDPDataEvent, AHandle);
 
 end;
 
 function TTSCOM.ioip_delete(const AHandle: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_delete_NA(fObj, AHandle);
+  result := internal_ioip_delete(fObj, AHandle);
 
 end;
 
 function TTSCOM.ioip_disconnect_tcp_server(const AHandle: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_disconnect_tcp_server_NA(fObj, AHandle);
+  result := internal_ioip_disconnect_tcp_server(fObj, AHandle);
 
 end;
 
@@ -983,7 +987,7 @@ function TTSCOM.ioip_enable_tcp_server(const AHandle: s32;
   const AEnable: Boolean): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_enable_tcp_server_NA(fObj, AHandle, AEnable);
+  result := internal_ioip_enable_tcp_server(fObj, AHandle, AEnable);
 
 end;
 
@@ -991,7 +995,7 @@ function TTSCOM.ioip_enable_udp_server(const AHandle: s32;
   const AEnable: Boolean): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_enable_udp_server_NA(fObj, AHandle, AEnable);
+  result := internal_ioip_enable_udp_server(fObj, AHandle, AEnable);
 
 end;
 
@@ -1000,7 +1004,7 @@ function TTSCOM.ioip_receive_tcp_client_response(
   const AActualSize: ps32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_receive_tcp_client_response_NA(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
+  result := internal_ioip_receive_tcp_client_response(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
 
 end;
 
@@ -1009,7 +1013,7 @@ function TTSCOM.ioip_receive_udp_client_response(
   const AActualSize: ps32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_receive_udp_client_response_NA(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
+  result := internal_ioip_receive_udp_client_response(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
 
 end;
 
@@ -1017,7 +1021,7 @@ function TTSCOM.ioip_send_buffer_tcp(const AHandle: s32;
   const APointer: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_send_buffer_tcp_NA(fObj, AHandle, apointer, ASize);
+  result := internal_ioip_send_buffer_tcp(fObj, AHandle, apointer, ASize);
 
 end;
 
@@ -1025,7 +1029,7 @@ function TTSCOM.ioip_send_buffer_udp(const AHandle: s32;
   const APointer: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_send_buffer_udp_NA(fObj, AHandle, apointer, ASize);
+  result := internal_ioip_send_buffer_udp(fObj, AHandle, apointer, ASize);
 
 end;
 
@@ -1033,7 +1037,7 @@ function TTSCOM.ioip_send_tcp_server_response(
   const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_send_tcp_server_response_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+  result := internal_ioip_send_tcp_server_response(fObj, AHandle, ABufferToWriteFrom, ASize);
 
 end;
 
@@ -1041,7 +1045,7 @@ function TTSCOM.ioip_send_udp_broadcast(const AHandle: s32;
   const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_send_udp_broadcast_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+  result := internal_ioip_send_udp_broadcast(fObj, AHandle, APort, ABufferToWriteFrom, ASize);
 
 end;
 
@@ -1049,7 +1053,7 @@ function TTSCOM.ioip_send_udp_server_response(
   const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_send_udp_server_response_NA(fObj, AHandle, ABufferToWriteFrom, ASize);
+  result := internal_ioip_send_udp_server_response(fObj, AHandle, ABufferToWriteFrom, ASize);
 
 end;
 
@@ -1057,217 +1061,232 @@ function TTSCOM.ioip_set_udp_server_buffer_size(
   const AHandle, ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := ioip_set_udp_server_buffer_size_NA(fObj, AHandle, ASize);
+  result := internal_ioip_set_udp_server_buffer_size(fObj, AHandle, ASize);
 
 end;
 
-function TTSCOM.RegisterCANEvent(const AEvent: TCANQueueEvent_Win32): integer;
+function TTSCOM.register_event_can(const AEvent: TCANQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := register_event_can_NA(FObj, AEvent);
+  Result := internal_register_event_can(FObj, AEvent);
 
 end;
 
-function TTSCOM.RegisterCANFDEvent(
+function TTSCOM.register_event_canfd(
   const AEvent: TCANfdQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := register_event_canfd_NA(fobj, AEvent);
+  result := internal_register_event_canfd(fobj, AEvent);
 
 end;
 
-function TTSCOM.RegisterLINEvent(const AEvent: TliNQueueEvent_Win32): integer;
+function TTSCOM.register_event_lin(const AEvent: TliNQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := register_event_lin_NA(FObj, AEvent);
+  result := internal_register_event_lin(FObj, AEvent);
 
 end;
 
-function TTSCOM.RegisterPreTxCANEvent(
+function TTSCOM.register_pretx_event_can(
   const AEvent: TCANQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := register_pretx_event_can_NA(FObj, AEvent);
+  Result := internal_register_pretx_event_can(FObj, AEvent);
 
 end;
 
-function TTSCOM.RegisterPreTxCANFDEvent(
+function TTSCOM.register_pretx_event_canfd(
   const AEvent: TCANfdQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := register_pretx_event_canfd_NA(fobj, AEvent);
+  result := internal_register_pretx_event_canfd(fobj, AEvent);
 
 end;
 
-function TTSCOM.RegisterPreTxLINEvent(
+function TTSCOM.register_pretx_event_lin(
   const AEvent: TliNQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := register_pretx_event_lin_NA(FObj, AEvent);
+  result := internal_register_pretx_event_lin(FObj, AEvent);
 
 end;
 
-function TTSCOM.UnregisterALLEvents: integer;
+function TTSCOM.unregister_events_all: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_events_all_NA(FObj);
+  result := internal_unregister_events_all(FObj);
 
 end;
 
-function TTSCOM.UnregisterALLPreTxEvents: integer;
+function TTSCOM.unregister_pretx_events_all: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_pretx_events_all_NA(FObj);
+  result := internal_unregister_pretx_events_all(FObj);
 
 end;
 
-function TTSCOM.UnregisterCANEvent(const AEvent: TCANQueueEvent_Win32): integer;
+function TTSCOM.unregister_event_can(const AEvent: TCANQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_event_can_NA(FObj, AEvent);
+  Result := internal_unregister_event_can(FObj, AEvent);
 
 end;
 
-function TTSCOM.UnregisterCANEvents: integer;
+function TTSCOM.unregister_events_can: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_events_can_NA(FObj);
+  result := internal_unregister_events_can(FObj);
 
 end;
 
-function TTSCOM.UnregisterCANFDEvent(
+function TTSCOM.unregister_event_canfd(
   const AEvent: TCANfdQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_event_canfd_NA(fobj, aevent);
+  Result := internal_unregister_event_canfd(fobj, aevent);
 
 end;
 
-function TTSCOM.UnregisterCANFDEvents: integer;
+function TTSCOM.unregister_events_canfd: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_events_canfd_NA(FObj);
+  Result := internal_unregister_events_canfd(FObj);
 
 end;
 
-function TTSCOM.UnregisterLINEvent(const AEvent: TliNQueueEvent_Win32): integer;
+function TTSCOM.unregister_event_lin(const AEvent: TliNQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_event_lin_NA(fobj, AEvent);
+  result := internal_unregister_event_lin(fobj, AEvent);
 
 end;
 
-function TTSCOM.UnregisterLINEvents: integer;
+function TTSCOM.unregister_events_lin: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_events_lin_NA(FObj);
+  result := internal_unregister_events_lin(FObj);
 
 end;
 
-function TTSCOM.UnregisterPreTxCANEvent(
+function TTSCOM.unregister_pretx_event_can(
   const AEvent: TCANQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_pretx_event_can_NA(FObj, AEvent);
+  Result := internal_unregister_pretx_event_can(FObj, AEvent);
 
 end;
 
-function TTSCOM.UnregisterPreTxCANEvents: integer;
+function TTSCOM.unregister_pretx_events_can: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_pretx_events_can_NA(FObj);
+  result := internal_unregister_pretx_events_can(FObj);
 
 end;
 
-function TTSCOM.UnregisterPreTxCANFDEvent(
+function TTSCOM.unregister_pretx_event_canfd(
   const AEvent: TCANfdQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_pretx_event_canfd_NA(fobj, aevent);
+  Result := internal_unregister_pretx_event_canfd(fobj, aevent);
 
 end;
 
-function TTSCOM.UnregisterPreTxCANFDEvents: integer;
+function TTSCOM.unregister_pretx_events_canfd: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := unregister_pretx_events_canfd_NA(FObj);
+  Result := internal_unregister_pretx_events_canfd(FObj);
 
 end;
 
-function TTSCOM.UnregisterPreTxLINEvent(
+function TTSCOM.unregister_pretx_event_lin(
   const AEvent: TliNQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_pretx_event_lin_NA(fobj, AEvent);
+  result := internal_unregister_pretx_event_lin(fobj, AEvent);
 
 end;
 
-function TTSCOM.UnregisterPreTxLINEvents: integer;
+function TTSCOM.unregister_pretx_events_lin: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  result := unregister_pretx_events_lin_NA(FObj);
+  result := internal_unregister_pretx_events_lin(FObj);
 
 end;
 
-function TTSCOM.WaitCANFDMessage_NA(const ATxCANFD, ARxCANFD: PLIBCANFD;
+function TTSCOM.wait_canfd_message(const ATxCANFD, ARxCANFD: PLIBCANFD;
   const ATimeoutMs: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := wait_canfd_message_NA(FObj, ATxCANFD, ARxCANFD, ATimeoutMs);
+  Result := internal_wait_canfd_message(FObj, ATxCANFD, ARxCANFD, ATimeoutMs);
 
 end;
 
-function TTSCOM.WaitCANMessage_NA(const ATxCAN, ARxCAN: PLIBCAN;
+function TTSCOM.wait_can_message(const ATxCAN, ARxCAN: PLIBCAN;
   const ATimeoutMs: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
-  Result := wait_can_message_NA(FObj, ATxCAN, ARxCAN, ATimeoutMs);
+  Result := internal_wait_can_message(FObj, ATxCAN, ARxCAN, ATimeoutMs);
 
 end;
 
 { TTSTest }
 
-procedure TTSTest.Log_NA(const AStr: PAnsiChar; const ALevel: s32);
+procedure TTSTest.log(const AStr: PAnsiChar; const ALevel: s32);
 begin
   if not Assigned(FObj) then exit;
-  FTestLog_NA(FObj, astr, ALevel);
+  internal_log(FObj, astr, ALevel);
 
 end;
 
-procedure TTSTest.SetVerdictCOK_NA(const AStr: PAnsiChar);
+function TTSTest.retrieve_current_result_folder(AFolder: PPAnsiChar): s32;
 begin
-  if not Assigned(FObj) then exit;
-  FSetVerdictcOK_NA(FObj, astr);
+  if not Assigned(FObj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_retrieve_current_result_folder(FObj, afolder);
 
 end;
 
-procedure TTSTest.SetVerdictNOK_NA(const AStr: PAnsiChar);
+procedure TTSTest.set_verdict_cok(const AStr: PAnsiChar);
 begin
   if not Assigned(FObj) then exit;
-  FSetVerdictnOK_NA(FObj, astr);
+  internal_set_verdict_cok(FObj, astr);
 
 end;
 
-procedure TTSTest.SetVerdictOK_NA(const AStr: PAnsiChar);
+procedure TTSTest.set_verdict_nok(const AStr: PAnsiChar);
 begin
   if not Assigned(FObj) then exit;
-  FSetVerdictOK_NA(FObj, astr);
+  internal_set_verdict_nok(FObj, astr);
 
 end;
 
-procedure TTSTest.WriteResultString_NA(const AName, AValue: PAnsiChar;
+procedure TTSTest.set_verdict_ok(const AStr: PAnsiChar);
+begin
+  if not Assigned(FObj) then exit;
+  internal_set_verdict_ok(FObj, astr);
+
+end;
+
+function TTSTest.write_result_image(const AName,
+  AImageFileFullPath: PAnsiChar): s32;
+begin
+  if not Assigned(FObj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_write_result_image(FObj, aname, AImageFileFullPath);
+
+end;
+
+procedure TTSTest.write_result_string(const AName, AValue: PAnsiChar;
   const ALevel: s32);
 begin
   if not Assigned(FObj) then exit;
-  FWriteResultString(FObj, AName, avalue, ALevel);
+  internal_write_result_string(FObj, AName, avalue, ALevel);
 
 end;
 
-procedure TTSTest.WriteResultValue_NA(const AName: PAnsiChar; const AValue: Double;
+procedure TTSTest.write_result_value(const AName: PAnsiChar; const AValue: Double;
   const ALevel: s32);
 begin
   if not Assigned(FObj) then exit;
-  FWriteResultValue(FObj, AName, avalue, ALevel);
+  internal_write_result_value(FObj, AName, avalue, ALevel);
 
 end;
 
@@ -1336,3 +1355,4 @@ initialization
   CheckMPRecordSize;
 
 end.
+
