@@ -212,6 +212,7 @@ type
   Texcel_set_cell_value = function(const AObj: Pointer; const AIdxSheet: Integer; const AIdxRow: integer; const AIdxCol: Integer; const AValue: PAnsiChar): s32; stdcall;
   Texcel_unload = function(const AObj: Pointer): s32; stdcall;
   Texcel_unload_all = function(): s32; stdcall;
+  TTSAppWaitSystemVar = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar; const ATimeoutMs: s32): s32; stdcall;
   // TS_APP_PROTO_END
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -337,6 +338,7 @@ type
   TTestWriteResultImage = function(const AObj: Pointer; const AName: pansichar; const AImageFilePath: PAnsiChar): Integer; stdcall;
   TTestRetrieveCurrentResultFolder = function(const AObj: Pointer; AFolder: PPAnsiChar): Integer; stdcall;
   TTestCheckTerminate = function: integer; stdcall;
+  // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
   TEventInC = procedure; cdecl;
@@ -509,8 +511,9 @@ type
     directory_exists                    : TTSAppDirectoryExists            ;
     open_directory_and_select_file      : TTSAppOpenDirectoryAndSelectFile ;
     mini_delay_cpu                      : TTSAppMiniDelayCPU               ;
+    wait_system_var                     : TTSAppWaitSystemVar              ;
     // place holders
-    FDummy                              : array [0..957-1] of s32          ;
+    FDummy                              : array [0..956-1] of s32          ;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
