@@ -158,6 +158,7 @@ type
   TTSAppGetSystemVarInt64Array = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AVarCount: ps32; AValue: ps64): s32; stdcall;
   TTSAppGetSystemVarDoubleArray = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AVarCount: ps32; AValue: PDouble): s32; stdcall;
   TTSAppGetSystemVarString = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PAnsiChar): s32; stdcall;
+  TTSAppWaitSystemVar = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar; const ATimeoutMs: s32): s32; stdcall;
   TTSAppSetSystemVarDouble = function(const ACompleteName: PAnsiChar; const AValue: Double): s32; stdcall;
   TTSAppSetSystemVarInt32 = function(const ACompleteName: PAnsiChar; const AValue: s32): s32; stdcall;
   TTSAppSetSystemVarUInt32 = function(const ACompleteName: PAnsiChar; const AValue: u32): s32; stdcall;
@@ -212,7 +213,17 @@ type
   Texcel_set_cell_value = function(const AObj: Pointer; const AIdxSheet: Integer; const AIdxRow: integer; const AIdxCol: Integer; const AValue: PAnsiChar): s32; stdcall;
   Texcel_unload = function(const AObj: Pointer): s32; stdcall;
   Texcel_unload_all = function(): s32; stdcall;
-  TTSAppWaitSystemVar = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar; const ATimeoutMs: s32): s32; stdcall;
+  // mat file
+  TWriteMatFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
+  TWriteMatFileVariableDouble = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: Double): s32; stdcall;
+  TWriteMatFileVariableString = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TWriteMatFileVariableDoubleArray = function(const AHandle: s32; const AVarName: PAnsiChar; const AArray: PDouble; const ACount: s32): s32; stdcall;
+  TWriteMatFileEnd = function(const AHandle: s32): s32; stdcall;
+  TReadMatFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
+  TReadMatFileVariableCount = function(const AHandle: s32; const AVarName: PAnsiChar; ACount: ps32): s32; stdcall;
+  TReadMatFileVariableString = function(const AHandle: s32; const AVarName: PAnsiChar; AValue: PPAnsiChar; const ACapacity: s32): s32; stdcall;
+  TReadMatFileVariableDouble = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: PDouble; const AStartIdx: s32; const ACount: s32): s32; stdcall;
+  TReadMatFileEnd = function(const AHandle: s32): s32; stdcall;
   // TS_APP_PROTO_END
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -512,8 +523,18 @@ type
     open_directory_and_select_file      : TTSAppOpenDirectoryAndSelectFile ;
     mini_delay_cpu                      : TTSAppMiniDelayCPU               ;
     wait_system_var                     : TTSAppWaitSystemVar              ;
+    write_mat_file_start                : TWriteMatFileStart               ;
+    write_mat_file_variable_double      : TWriteMatFileVariableDouble      ;
+    write_mat_file_variable_string      : TWriteMatFileVariableString      ;
+    write_mat_file_variable_double_array: TWriteMatFileVariableDoubleArray ;
+    write_mat_file_end                  : TWriteMatFileEnd                 ;
+    read_mat_file_start                 : TReadMatFileStart                ;
+    read_mat_file_variable_count        : TReadMatFileVariableCount        ;
+    read_mat_file_variable_string       : TReadMatFileVariableString       ;
+    read_mat_file_variable_double       : TReadMatFileVariableDouble       ;
+    read_mat_file_end                   : TReadMatFileEnd                  ;
     // place holders
-    FDummy                              : array [0..956-1] of s32          ;
+    FDummy                              : array [0..946-1] of s32          ;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
