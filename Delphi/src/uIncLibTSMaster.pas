@@ -851,18 +851,18 @@ function tslin_stop_lin_channel(const AChnIdx: Integer): Integer;stdcall; {$IFND
 function tslin_start_lin_channel(const AChnIdx: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslin_set_node_funtiontype(const AChnIdx: Integer; const AFunctionType: TLINNodeType): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //LIN_Diag_Tp_Layer
-function tslin_diag_tp_master_request(const AChnIdx: Integer; const ANAD:Byte; const AData: PByte; const ADataNum: Integer; const ATimeoutMs: Integer): Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tslin_diag_tp_master_request_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tslin_diag_tp_reset(const AChnIdx: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tslin_diag_tp_slave_response_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_master_request(const AChnIdx: Integer; const ANAD:Byte; const AData: PByte; const ADataNum: Integer; const ATimeoutMs: Integer): Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_master_request_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_reset(const AChnIdx: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_slave_response_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //LIN_Diag_Service_Layer
 //ServiceID:0x22
-function tslin_diag_sp_read_data_by_identifier(const AChnIdx: Integer;const ANAD:Byte;const AId:uint16;
+function tsdiag_lin_read_data_by_identifier(const AChnIdx: Integer;const ANAD:Byte;const AId:uint16;
                              const AResNAD:PByte;const AResData:PByte;const AResDataNum:PNativeInt;
                              const ATimeoutMS:UInt32):Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 //ServiceID:0x2E
-function tslin_diag_sp_write_data_by_identifier(const AChnIdx: Integer;
+function tsdiag_lin_write_data_by_identifier(const AChnIdx: Integer;
                              const AReqNAD:Byte;
                              const AID:UInt16;
                              const AReqData:PByte;
@@ -872,16 +872,16 @@ function tslin_diag_sp_write_data_by_identifier(const AChnIdx: Integer;
                              const AResDataNum:PNativeInt;
                              const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //Session Control: 0x10
-function tslin_diag_sp_session_control(const AChnIdx: Integer;
+function tsdiag_lin_session_control(const AChnIdx: Integer;
                                           const ANAD:Byte;
                                           const ANewSession:Byte;
                                           const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //Service ID 0x19
-function tslin_diag_sp_fault_memory_read(const AChnIdx: Integer;
+function tsdiag_lin_fault_memory_read(const AChnIdx: Integer;
                                             const ANAD:Byte;
                                             const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //ServiceID 0x14
-function tslin_diag_sp_fault_memory_clear(const AChnIdx: Integer;
+function tsdiag_lin_fault_memory_clear(const AChnIdx: Integer;
                                              const ANAD:Byte;
                                              const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // mini program library
