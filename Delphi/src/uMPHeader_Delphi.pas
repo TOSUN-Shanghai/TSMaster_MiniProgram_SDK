@@ -308,6 +308,7 @@ type
   // blf functions
   TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: ps32; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
+  TTSLog_blf_write_set_max_count = function (const AHandle: s32; const ACount: u32): s32; stdcall;
   TTSLog_blf_write_can = function (const AHandle: s32; const ACAN: PlibCAN): s32; stdcall;
   TTSLog_blf_write_can_fd = function (const AHandle: s32; const ACANFD: PLIBCANFD): s32; stdcall;
   TTSLog_blf_write_lin = function (const AHandle: s32; const ALIN: PLIBLIN): s32; stdcall;
@@ -660,8 +661,9 @@ type
     internal_ioip_receive_udp_client_response : TIoIPRecvUDPClientResponse;
     internal_ioip_send_udp_server_response    : TIoIPSendUDPServerResponse;
     tslog_blf_write_start_w_timestamp         : TTSLog_blf_write_start_w_timestamp;
+    tslog_blf_write_set_max_count             : TTSLog_blf_write_set_max_count;
     // place holders
-    FDummy                                    : array [0.. 935 - 1] of s32;
+    FDummy                                    : array [0.. 934 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
