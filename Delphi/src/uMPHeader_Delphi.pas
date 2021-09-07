@@ -195,6 +195,8 @@ type
   TTSAppDirectoryExists = function(const ADir: PAnsiChar): s32; stdcall;
   TTSAppOpenDirectoryAndSelectFile = function(const AFileName: PAnsiChar): s32; stdcall;
   TTSAppMiniDelayCPU = function(): s32; stdcall;
+  TPromptUserInputValue = function(const APrompt: PAnsiChar; AValue: PDouble): s32; stdcall;
+  TPromptUserInputString = function(const APrompt: PAnsiChar; AValue: PAnsiChar; const ACapacity: s32): s32; stdcall;
   // text file
   TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
@@ -535,8 +537,10 @@ type
     read_mat_file_variable_string       : TReadMatFileVariableString       ;
     read_mat_file_variable_double       : TReadMatFileVariableDouble       ;
     read_mat_file_end                   : TReadMatFileEnd                  ;
+    prmopt_user_input_value             : TPromptUserInputValue           ;
+    prmopt_user_input_string            : TPromptUserInputString          ;
     // place holders
-    FDummy                              : array [0..946-1] of s32          ;
+    FDummy                              : array [0..944-1] of s32          ;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
