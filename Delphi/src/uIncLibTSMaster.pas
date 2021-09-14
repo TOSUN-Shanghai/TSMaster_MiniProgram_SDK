@@ -682,6 +682,10 @@ function tsapp_upgrade_firmware(const AChn: byte; const AFirmwareFile: string; c
 // communication receive functions
 procedure tsfifo_enable_receive_fifo; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tsfifo_disable_receive_fifo; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsfifo_add_can_canfd_pass_filter(const AIdxChn: integer; const AIdentifier:Integer; const AIsStd:Boolean):integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsfifo_add_lin_pass_filter(const AIdxChn: integer; const AIdentifier:Integer):integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsfifo_delete_can_canfd_pass_filter(const AIdxChn: integer; const AIdentifier:Integer):integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsfifo_delete_lin_pass_filter(const AIdxChn: integer; const AIdentifier:Integer):integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tsfifo_enable_receive_error_frames; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tsfifo_disable_receive_error_frames; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsfifo_receive_can_msgs(const ACANBuffers: PLIBCAN; const ACANBufferSize: PInteger; const AIdxChn: integer; const AIncludeTx: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
