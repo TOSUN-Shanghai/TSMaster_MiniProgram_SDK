@@ -214,7 +214,7 @@ type
   TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
   // TS device type
   TLIBCANFDControllerType = (lfdtCAN = 0, lfdtISOCAN = 1, lfdtNonISOCAN = 2);
-  TLIBCANFDControllerMode = (lfdmNormal = 0, lfdmACKOff = 1, lfdmRestricted = 2);
+  TLIBCANFDControllerMode = (lfdmNormal = 0, lfdmACKOff = 1, lfdmRestricted = 2, lfdmInternalLoopback = 3, lfdmExternalLoopback = 4);
   TLIB_TS_Device_Sub_Type = (
     TS_UNKNOWN_DEVICE   = 0,
     TSCAN_PRO           = 1,  // TSCAN_PRO_4_CHs_SJA1000
