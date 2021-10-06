@@ -225,7 +225,9 @@ type
     TSInterface         = 6,  // TSCAN_LIN_IO_2_CHs_F105    = 6,
     TC1002              = 7,  // TSCAN_LITE_2_CHs_F105      = 7,
     TC1014              = 8,  // TSCAN_LIN_DIO_AIO          = 8,  // TSCANLIN
-    TSCANFD2517         = 9   // TSCAN_FD_MINI_1_CHs_2517   = 9
+    TSCANFD2517         = 9,   // TSCAN_FD_MINI_1_CHs_2517   = 9
+    TC1026              = 10,
+    TSCANFD_LIN_Interface   = 11
   );
   // Vector XL device type
   TLIB_XL_Device_Sub_Type = (
@@ -664,8 +666,8 @@ function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
                                       ASerialStringBuffer: PAnsiChar; //array[0..63] of AnsiChar
                                       ASerialStringBufferSize: Integer
                                       ): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_set_vendor_detect_preferences(const AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_set_vendor_detect_preferences(const AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
 function tsapp_configure_baudrate_can(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_canfd(const AIdxChn: integer; const AArbRateKbps, ADataRateKbps: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
