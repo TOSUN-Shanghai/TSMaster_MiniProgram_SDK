@@ -303,6 +303,7 @@ type
   TCANRBSActivateNetworkByName = function (const AEnable: boolean; const ANetworkName: PAnsiChar; const AIncludingChildren: Boolean): integer; stdcall;
   TCANRBSActivateNodeByName = function (const AEnable: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AIncludingChildren: Boolean): integer; stdcall;
   TCANRBSActivateMessageByName = function (const AEnable: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
+  TCANRBSSetMessageCycleByName = function (const AIntervalMs: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
   TCANRBSGetSignalValueByElement = function (const AIdxChn: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; out AValue: Double): integer; stdcall;
   TCANRBSGetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; out AValue: Double): integer; stdcall;
   TCANRBSSetSignalValueByElement = function (const AIdxChn: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall;
@@ -666,8 +667,9 @@ type
     internal_ioip_send_udp_server_response    : TIoIPSendUDPServerResponse;
     tslog_blf_write_start_w_timestamp         : TTSLog_blf_write_start_w_timestamp;
     tslog_blf_write_set_max_count             : TTSLog_blf_write_set_max_count;
+    can_rbs_set_message_cycle_by_name         : TCANRBSSetMessageCycleByName;
     // place holders
-    FDummy                                    : array [0.. 934 - 1] of s32;
+    FDummy                                    : array [0.. 933 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
