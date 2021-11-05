@@ -603,7 +603,23 @@ const
   IDX_ERR_INVALID_HANDLE                 = 118;
   IDX_ERR_READ_FILE_ERROR                = 119;
   IDX_ERR_READ_TO_EOF                    = 120;
-  ERR_CODE_COUNT                         = 121;
+  IDX_ERR_CONF_NOT_SAVED                 = 121;
+  IDX_ERR_IP_PORT_OPEN_FAILED            = 122;
+  IDX_ERR_IP_TCP_CONNECT_FAILED          = 123;
+  IDX_ERR_DIR_NOT_EXISTS                 = 124;
+  IDX_ERR_CURRENT_LIB_NOT_SUPPORTED      = 125;
+  IDX_ERR_TEST_NOT_RUNNING               = 126;
+  IDX_ERR_SERV_RESPONSE_NOT_RECV         = 127;
+  IDX_ERR_CREATE_DIR_FAILED              = 128;
+  IDX_ERR_INCORRECT_ARGUMENT_TYPE        = 129;
+  IDX_ERR_READ_DATA_PACKAGE_OVERFLOW     = 130;
+  IDX_ERR_REPLAY_IS_ALREADY_RUNNING      = 131;
+  IDX_ERR_REPALY_MAP_ALREADY_EXIST       = 132;
+  IDX_ERR_USER_CANCEL_INPUT              = 133;
+  IDX_ERR_API_CHECK_FAILED               = 134;
+  IDX_ERR_CANABLE_GENERIC_ERROR          = 135;
+  IDX_ERR_WAIT_CRITERIA_NOT_SATISFIED    = 136;
+  ERR_CODE_COUNT                         = 137;
 
 // Note: Should also update C API!!!
 

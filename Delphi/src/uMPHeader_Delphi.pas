@@ -226,7 +226,25 @@ type
   TReadMatFileVariableString = function(const AHandle: s32; const AVarName: PAnsiChar; AValue: PPAnsiChar; const ACapacity: s32): s32; stdcall;
   TReadMatFileVariableDouble = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: PDouble; const AStartIdx: s32; const ACount: s32): s32; stdcall;
   TReadMatFileEnd = function(const AHandle: s32): s32; stdcall;
-  // TS_APP_PROTO_END
+  // ini file
+  TIniCreate = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
+  TIniWriteInt32 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s32): s32; stdcall;
+  TIniWriteInt64 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s64): s32; stdcall;
+  TIniWriteBool = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Boolean): s32; stdcall;
+  TIniWriteFloat = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Double): s32; stdcall;
+  TIniWriteString = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TIniReadInt32 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps32; const ADefault: s32): s32; stdcall;
+  TIniReadInt64 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps64; const ADefault: s64): s32; stdcall;
+  TIniReadBool = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PBoolean; const ADefault: boolean): s32; stdcall;
+  TIniReadFloat = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PDouble; const ADefault: double): s32; stdcall;
+  TIniReadString = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PAnsiChar; ACapacity: ps32; const ADefault: pansichar): s32; stdcall;
+  TIniSectionExists = function(const AHandle: s32; const ASection: PAnsiChar): s32; stdcall;
+  TIniKeyExists = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
+  TIniDeleteKey = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
+  TIniDeleteSection = function(const AHandle: s32; const ASection: PAnsiChar): s32; stdcall;
+  TIniClose = function(const AHandle: s32): s32; stdcall;
+  TMakeToastUntil = function(const AString: PAnsiChar; const ALevel: Integer; const ACloseCriteria: pboolean; const AUserCanBreak: boolean): s32; stdcall;
+  // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
   TTSConfigureBaudrateCANFD = function(const AIdxChn: integer; const ABaudrateKbpsArb, ABaudrateKbpsData: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -540,8 +558,25 @@ type
     read_mat_file_end                   : TReadMatFileEnd                  ;
     prmopt_user_input_value             : TPromptUserInputValue           ;
     prmopt_user_input_string            : TPromptUserInputString          ;
+    ini_create                          : TIniCreate                      ;
+    ini_write_int32   :  TIniWriteInt32     ;
+    ini_write_int64   :  TIniWriteInt64     ;
+    ini_write_bool    :  TIniWriteBool      ;
+    ini_write_float   :  TIniWriteFloat     ;
+    ini_write_string  :  TIniWriteString    ;
+    ini_read_int32    :  TIniReadInt32      ;
+    ini_read_int64    :  TIniReadInt64      ;
+    ini_read_bool     :  TIniReadBool       ;
+    ini_read_float    :  TIniReadFloat      ;
+    ini_read_string   :  TIniReadString     ;
+    ini_section_exists:  TIniSectionExists  ;
+    ini_key_exists    :  TIniKeyExists      ;
+    ini_delete_key    :  TIniDeleteKey      ;
+    ini_delete_section:  TIniDeleteSection  ;
+    ini_close         :  TIniClose          ;
+    make_toast_until  :  TMakeToastUntil    ;
     // place holders
-    FDummy                              : array [0..944-1] of s32          ;
+    FDummy                     : array [0.. 927 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
