@@ -334,6 +334,7 @@ type
 
   //LIN APIs
   TLINNodeType = ({0:}T_MasterNode,{1:}T_SlaveNode,{;2:}T_MonitorNode);
+  TLINProtocol = ({0:}LIN_PROTOCL_13,{1:}LIN_PROTOCL_20,{;2:}LIN_PROTOCL_21,{;3:}LIN_PROTOCL_J2602);
 
 const
   BUS_TOOL_DEVICE_TYPE_COUNT = 9;
@@ -685,7 +686,7 @@ function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
                                       ): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_vendor_detect_preferences(const AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
+function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single; const AProtocol:Integer): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
 function tsapp_configure_baudrate_can(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_canfd(const AIdxChn: integer; const AArbRateKbps, ADataRateKbps: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication async functions
