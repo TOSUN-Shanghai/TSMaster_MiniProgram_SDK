@@ -163,6 +163,7 @@ type
   TLIBWriteAPIDocumentFunc = procedure (const AObj: Pointer; const AName: pansichar; const AGroup: pansichar; const ADesc: pansichar; const AExample: pansichar; const AParaCount: integer); stdcall;
   TLIBWriteAPIParaFunc = procedure (const AObj: Pointer; const AIdx: integer; const AAPIName: pansichar; const AParaName: pansichar; const AIsConst: boolean; const AParaType: pansichar; const ADesc: pansichar); stdcall;
   TLIBWriteAPIDocument = procedure (const AObj: Pointer; const AWriteDoc: TLIBWriteAPIDocumentFunc; const AWritePara: TLIBWriteAPIParaFunc); stdcall;
+  TLIBCheckResult = function: Boolean; stdcall;
 
 {$Z4}
   // for c type

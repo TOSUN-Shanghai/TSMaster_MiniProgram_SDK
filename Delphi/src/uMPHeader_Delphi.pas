@@ -244,6 +244,8 @@ type
   TIniDeleteSection = function(const AHandle: s32; const ASection: PAnsiChar): s32; stdcall;
   TIniClose = function(const AHandle: s32): s32; stdcall;
   TMakeToastUntil = function(const AString: PAnsiChar; const ALevel: Integer; const ACloseCriteria: pboolean; const AUserCanBreak: boolean): s32; stdcall;
+  TMakeToastWithCallback = function(const AString: PAnsiChar; const ALevel: Integer; const ACallback: TLIBCheckResult; const AUserCanBreak: boolean): s32; stdcall;
+  TTSAppGetDocPath = function(AFilePath: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -575,8 +577,10 @@ type
     ini_delete_section:  TIniDeleteSection  ;
     ini_close         :  TIniClose          ;
     make_toast_until  :  TMakeToastUntil    ;
+    make_toast_with_callback            : TMakeToastWithCallback          ;
+    get_doc_path                        : TTSAppGetDocPath                ;
     // place holders
-    FDummy                     : array [0.. 927 -1] of s32;
+    FDummy                     : array [0.. 925 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
