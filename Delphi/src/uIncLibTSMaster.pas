@@ -163,6 +163,7 @@ type
   TLIBWriteAPIDocumentFunc = procedure (const AObj: Pointer; const AName: pansichar; const AGroup: pansichar; const ADesc: pansichar; const AExample: pansichar; const AParaCount: integer); stdcall;
   TLIBWriteAPIParaFunc = procedure (const AObj: Pointer; const AIdx: integer; const AAPIName: pansichar; const AParaName: pansichar; const AIsConst: boolean; const AParaType: pansichar; const ADesc: pansichar); stdcall;
   TLIBWriteAPIDocument = procedure (const AObj: Pointer; const AWriteDoc: TLIBWriteAPIDocumentFunc; const AWritePara: TLIBWriteAPIParaFunc); stdcall;
+  TLIBCheckResult = function: Boolean; stdcall;
 
 {$Z4}
   // for c type
@@ -333,6 +334,7 @@ type
 
   //LIN APIs
   TLINNodeType = ({0:}T_MasterNode,{1:}T_SlaveNode,{;2:}T_MonitorNode);
+  TLINProtocol = ({0:}LIN_PROTOCL_13,{1:}LIN_PROTOCL_20,{;2:}LIN_PROTOCL_21,{;3:}LIN_PROTOCL_J2602);
 
 const
   BUS_TOOL_DEVICE_TYPE_COUNT = 9;
@@ -684,7 +686,7 @@ function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
                                       ): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_vendor_detect_preferences(const AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
+function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single; const AProtocol:Integer): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
 function tsapp_configure_baudrate_can(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_canfd(const AIdxChn: integer; const AArbRateKbps, ADataRateKbps: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication async functions
@@ -804,6 +806,9 @@ function tsapp_set_system_var_string(const ACompleteName: PAnsiChar; AValue: PAn
 function tsapp_log_system_var(const ACompleteName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_system_var_generic(const ACompleteName: PAnsiChar; const ACapacity: integer; AValue: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_system_var_generic(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_hardware_id_string(AString: PPAnsiChar): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_hardware_id_array(AArray8B: pu8): s32; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 // database parser
 function tsdb_reload_settings(out ALoadedDBCount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_load_can_db(const ADBC: PAnsiChar; const ASupportedChannelsBased0: PAnsiChar; out AId: Cardinal): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
