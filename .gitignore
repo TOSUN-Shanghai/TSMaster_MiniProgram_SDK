@@ -33,3 +33,4 @@
 *.db
 *.stat
 *.opendb
+*.orig
