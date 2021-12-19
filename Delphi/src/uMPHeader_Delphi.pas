@@ -87,8 +87,12 @@ type
   TSimFunctionParameterType = (
     fptS8 = 0, fptU8, fptS16, fptU16, fptS32, fptU32, fptSingle, fptDouble,
     fptpS8, fptpU8, fptpS16, fptpU16, fptpS32, fptpU32, fptpSingle, fptpDouble,
-    fptBoolean, fptString, fptpBoolean, fptpString,
-    fptPCAN, fptPCANFD, fptPLIN, fptMapping, fptCANFDControllerType, fptCANFDControllerMode
+    fptBoolean, fptString, fptpBoolean, fptpString, fptppDouble,
+    fptPCAN, fptPCANFD, fptPLIN, fptMapping, fptCANFDControllerType, fptCANFDControllerMode,
+    fptS64, fptU64, fptpS64, fptpU64, fptpLIBSystemVarDef, fptpVoid, fptppVoid,
+    fptOnIoIPData, fptpDouble1, fptpSingle1, fptpS321, fptpS322, fptpU321, fptpU322,
+    fptRealtimeComment, fptpLogLevel, fptCheckResult, fptDoublexx, fptPChar,
+    fptPCANSignal, fptSystemVar
   );
   TMPCANSignal = packed record
     FCANSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
@@ -197,6 +201,8 @@ type
   TTSAppMiniDelayCPU = function(): s32; stdcall;
   TPromptUserInputValue = function(const APrompt: PAnsiChar; AValue: PDouble): s32; stdcall;
   TPromptUserInputString = function(const APrompt: PAnsiChar; AValue: PAnsiChar; const ACapacity: s32): s32; stdcall;
+  TTSAppCreateSystemVar = function(const ACompleteName: PAnsiChar; const AType: TLIBSystemVarType; const ADefaultValue: PAnsiChar; const AComment: PAnsiChar): s32; stdcall;
+  TTSAppDeleteSystemVar = function(const ACompleteName: PAnsiChar): s32; stdcall;
   // text file
   TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
@@ -583,8 +589,10 @@ type
     get_doc_path                        : TTSAppGetDocPath                ;
     get_hardware_id_string              : TTSAppGetHWIDString             ;
     get_hardware_id_array               : TTSAppGetHWIDArray              ;
+    create_system_var                   : TTSAppCreateSystemVar           ;
+    delete_system_var                   : TTSAppDeleteSystemVar           ;
     // place holders
-    FDummy                     : array [0.. 923 -1] of s32;
+    FDummy                     : array [0.. 921 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
