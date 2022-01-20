@@ -203,6 +203,8 @@ type
   TPromptUserInputString = function(const APrompt: PAnsiChar; AValue: PAnsiChar; const ACapacity: s32): s32; stdcall;
   TTSAppCreateSystemVar = function(const ACompleteName: PAnsiChar; const AType: TLIBSystemVarType; const ADefaultValue: PAnsiChar; const AComment: PAnsiChar): s32; stdcall;
   TTSAppDeleteSystemVar = function(const ACompleteName: PAnsiChar): s32; stdcall;
+  TTSAppRunForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
+  TTSAppStopForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
   // text file
   TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
@@ -591,8 +593,10 @@ type
     get_hardware_id_array               : TTSAppGetHWIDArray              ;
     create_system_var                   : TTSAppCreateSystemVar           ;
     delete_system_var                   : TTSAppDeleteSystemVar           ;
+    run_form                            : TTSAppRunForm                   ;
+    stop_form                           : TTSAppstopform                  ;
     // place holders
-    FDummy                     : array [0.. 921 -1] of s32;
+    FDummy                     : array [0.. 919 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
