@@ -211,6 +211,9 @@ type
   TWriteTextFileLineWithDoubleArray = function(const AHandle: s32; const AArray: PDouble; const ACount: s32): s32; stdcall;
   TWriteTextFileLineWithStringArray = function(const AHandle: s32; const AArray: PPAnsiChar; const ACount: s32): s32; stdcall;
   TWriteTextFileEnd = function(const AHandle: s32): s32; stdcall;
+  TReadTextFileStart = function(const AFileName: pansichar; AHandle: ps32): s32; stdcall;
+  TReadTextFileLine = function(const AHandle: s32; const ACapacity: s32; AReadCharCount: ps32; ALine: pansichar): s32; stdcall;
+  TReadTextFileEnd = function(const AHandle: s32): s32; stdcall;
   // excel functions
   Texcel_load = function(const AFileName: PAnsiChar; const AObj: PPointer): s32; stdcall;
   Texcel_get_sheet_count = function(const AObj: Pointer; out ACount: s32): s32; stdcall;
@@ -371,6 +374,15 @@ type
   TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: s32; const ASize: s32): s32; stdcall;
   TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
   TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  // signal server functions
+  TSgnSrvRegisterCANSignalByMsgId = function(const AIdxChn: integer; const AMsgId: integer; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
+  TSgnSrvRegisterLINSignalByMsgId = function(const AIdxChn: integer; const AMsgId: integer; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
+  TSgnSrvRegisterCANSignalByMsgName = function(const AIdxChn: integer; const ANetworkName: pansichar; const AMsgName: pansichar; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
+  TSgnSrvRegisterLINSignalByMsgName = function(const AIdxChn: integer; const ANetworkName: pansichar; const AMsgName: pansichar; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
+  TSgnSrvGetCANSignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
+  TSgnSrvGetLINSignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
+  TSgnSrvGetCANSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: plibcanfd; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
+  TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
@@ -595,8 +607,11 @@ type
     delete_system_var                   : TTSAppDeleteSystemVar           ;
     run_form                            : TTSAppRunForm                   ;
     stop_form                           : TTSAppstopform                  ;
+    read_text_file_start                : TReadTextFileStart              ;
+    read_text_file_line                 : TReadTextFileLine               ;
+    read_text_file_end                  : TReadTextFileEnd                ;
     // place holders
-    FDummy                     : array [0.. 919 -1] of s32;
+    FDummy                     : array [0.. 916 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
@@ -723,8 +738,17 @@ type
     tslog_blf_write_start_w_timestamp         : TTSLog_blf_write_start_w_timestamp;
     tslog_blf_write_set_max_count             : TTSLog_blf_write_set_max_count;
     can_rbs_set_message_cycle_by_name         : TCANRBSSetMessageCycleByName;
+    // signal server functions
+    sgnsrv_register_can_signal_by_msg_identifier: TSgnSrvRegisterCANSignalByMsgId;
+    sgnsrv_register_lin_signal_by_msg_identifier: TSgnSrvRegisterLINSignalByMsgId;
+    sgnsrv_register_can_signal_by_msg_name:       TSgnSrvRegisterCANSignalByMsgName;
+    sgnsrv_register_lin_signal_by_msg_name:       TSgnSrvRegisterLINSignalByMsgName;
+    sgnsrv_get_can_signal_phy_value_latest:       TSgnSrvGetCANSignalPhyValueLatest;
+    sgnsrv_get_lin_signal_phy_value_latest:       TSgnSrvGetLINSignalPhyValueLatest;
+    sgnsrv_get_can_signal_phy_value_in_msg:       TSgnSrvGetCANSignalPhyValueInMsg;
+    sgnsrv_get_lin_signal_phy_value_in_msg:       TSgnSrvGetLINSignalPhyValueInMsg;
     // place holders
-    FDummy                                    : array [0.. 933 - 1] of s32;
+    FDummy               : array [0..925 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
