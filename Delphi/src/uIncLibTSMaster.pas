@@ -634,7 +634,7 @@ procedure finalize_lib_tsmaster; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DL
 function tsapp_set_logger(const ALogger: TLIBTSMasterLogger): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 // application management
-procedure tsapp_log(const AStr: pansichar; const ALevel: Integer); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_log(const AStr: pansichar; const ALevel: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_current_application(const AAppName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_current_application(const AAppName: pPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_del_application(const AAppName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
