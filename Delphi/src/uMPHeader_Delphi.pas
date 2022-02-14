@@ -134,11 +134,11 @@ type
   TTSAppDeleteMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppConnectApplication = function: integer; stdcall;
   TTSAppDisconnectApplication = function: integer; stdcall;
-  TTSAppLogger = procedure(const AStr: pansichar; const ALevel: Integer); stdcall;
+  TTSAppLogger = function(const AStr: pansichar; const ALevel: Integer): integer; stdcall;
   TTSSetTurboMode = function (const AEnable: Boolean): integer; stdcall;
   TTSGetTurboMode = function (out AEnable: Boolean): integer; stdcall;
   TTSGetErrorDescription = function (const ACode: Integer; ADesc: PPAnsiChar): Integer; stdcall;
-  TTSTerminate = procedure(const AObj: Pointer); stdcall;
+  TTSTerminate = function (const AObj: Pointer): integer; stdcall;
   TTSWait = function(const AObj: Pointer; const ATimeMs: s32; const AMsg: PAnsiChar): s32; stdcall;
   TTSCheckError = function(const AObj: Pointer; const AErrorCode: s32): s32; stdcall;
   TTSStartLog = function(const AObj: Pointer): s32; stdcall;
@@ -385,13 +385,13 @@ type
   TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
-  TTestSetVerdictOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
-  TTestSetVerdictNOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
-  TTestSetVerdictCOK = procedure(const AObj: Pointer; const AStr: pansichar); stdcall;
-  TTestLogger = procedure(const AObj: Pointer; const AStr: pansichar; const ALevel: Integer); stdcall;
-  TTestWriteResultString = procedure(const AObj: Pointer; const AName: pansichar; const AValue: PAnsiChar; const ALevel: Integer); stdcall;
-  TTestWriteResultValue = procedure(const AObj: Pointer; const AName: pansichar; const AValue: Double; const ALevel: Integer); stdcall;
-  TTestCheckErrorBegin = procedure; stdcall;
+  TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
+  TTestSetVerdictNOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
+  TTestSetVerdictCOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
+  TTestLogger = function(const AObj: Pointer; const AStr: pansichar; const ALevel: Integer): integer; stdcall;
+  TTestWriteResultString = function(const AObj: Pointer; const AName: pansichar; const AValue: PAnsiChar; const ALevel: Integer): integer; stdcall;
+  TTestWriteResultValue = function(const AObj: Pointer; const AName: pansichar; const AValue: Double; const ALevel: Integer): integer; stdcall;
+  TTestCheckErrorBegin = function: integer; stdcall;
   TTestCheckErrorEnd = function(const ACount: PInteger): integer; stdcall;
   TTestWriteResultImage = function(const AObj: Pointer; const AName: pansichar; const AImageFilePath: PAnsiChar): Integer; stdcall;
   TTestRetrieveCurrentResultFolder = function(const AObj: Pointer; AFolder: PPAnsiChar): Integer; stdcall;
