@@ -92,7 +92,7 @@ type
     fptS64, fptU64, fptpS64, fptpU64, fptpLIBSystemVarDef, fptpVoid, fptppVoid,
     fptOnIoIPData, fptpDouble1, fptpSingle1, fptpS321, fptpS322, fptpU321, fptpU322,
     fptRealtimeComment, fptpLogLevel, fptCheckResult, fptDoublexx, fptPChar,
-    fptPCANSignal, fptSystemVar
+    fptPCANSignal, fptSystemVar, fptPPSingle, fptPPS32, fptpBool
   );
   TMPCANSignal = packed record
     FCANSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
@@ -259,6 +259,7 @@ type
   TTSAppGetDocPath = function(AFilePath: PPAnsiChar): s32; stdcall;
   TTSAppGetHWIDString = function(AString: PPAnsiChar): s32; stdcall;
   TTSAppGetHWIDArray = function(AArray8B: pu8): s32; stdcall;
+  TPlaySound = function(const AIsSync: boolean; const AWaveFileName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -610,8 +611,9 @@ type
     read_text_file_start                : TReadTextFileStart              ;
     read_text_file_line                 : TReadTextFileLine               ;
     read_text_file_end                  : TReadTextFileEnd                ;
+    play_sound                          : TPlaySound                      ;
     // place holders
-    FDummy                     : array [0.. 916 -1] of s32;
+    FDummy                     : array [0.. 915 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
