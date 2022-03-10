@@ -24,6 +24,30 @@ const
   );
 
 type
+  CAN_ISO_TP_RESAULT = (
+      N_OK = 0
+      , IDX_ERR_TP_TIMEOUT_AS= 139   //Maximum time for the sender to transmit data to the receiver, default 1000
+      , IDX_ERR_TP_TIMEOUT_AR= 140   //Maximum time for the receiver to transmit flow control to the sender, default 1000
+      , IDX_ERR_TP_TIMEOUT_BS= 141   //
+      , IDX_ERR_TP_TIMEOUT_CR= 142
+      , IDX_ERR_TP_WRONG_SN  = 143
+      , IDX_ERR_TP_INVALID_FS= 144
+      , IDX_ERR_TP_UNEXP_PDU = 145
+      , IDX_ERR_TP_WFT_OVRN  = 146
+      , IDX_ERR_TP_BUFFER_OVFLW          = 147
+      , IDX_ERR_TP_NOT_IDLE              = 148
+      , IDX_ERR_TP_ERROR_FROM_CAN_DRIVER = 149
+  );
+  N_USData_TranslateCompleted_Recall_Obj = procedure(const ATpModuleIndex:Integer;const AChn:Integer;
+                                       const AIdentifier:Integer;
+                                       const ATimeStamp:UInt64;
+                                       const APayLoad:PByte; const ASize:UInt32;
+                                       const AError:CAN_ISO_TP_RESAULT) of object;stdcall;//Reporting Received TP Data to Upper layer
+
+  N_USData_TranslateCompleted_Recall = procedure(const ATpModuleIndex:Integer;const AChn:Integer;const ATimeStamp:UInt64;
+                                       const APayLoad:PByte; const ASize:UInt32;
+                                       const AError:CAN_ISO_TP_RESAULT);stdcall;//Reporting Received TP Data to Upper layer
+
   // CAN frame definition = 24 B
   PLIBCAN = ^TLIBCAN;
   TLIBCAN = packed record
@@ -914,6 +938,43 @@ function tsdiag_lin_fault_memory_read(const AChnIdx: Integer;
 function tsdiag_lin_fault_memory_clear(const AChnIdx: Integer;
                                              const ANAD:Byte;
                                              const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+//CAN Diagnostic Layer
+function tsdiag_can_create(pDiagModuleIndex: PInteger;
+                      AChnIndex: UInt32;
+                      ASupportFDCAN:Byte;
+                      AMaxDLC:Byte;
+                      ARequestID: UInt32;
+                      ARequestIDIsStd: Boolean;
+                      AResponseID: UInt32;
+                      AResponseIDIsStd: Boolean;
+                      AFunctionID: UInt32;
+                      AFunctionIDIsStd: Boolean): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_can_delete(ADiagModuleIndex: Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+procedure tsdiag_can_delete_all; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+//function tsdiag_get_tp_handle(ADiagModuleIndex: Integer;AHandle:PInteger):Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+{Parameter setting}
+function tsdiag_set_channel(ADiagModuleIndex: Integer; AChnIndex:Integer): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_fdmode(ADiagModuleIndex: Integer; AFDMode:boolean; AMaxLength:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_request_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_response_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_function_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_stmin(ADiagModuleIndex: Integer; ASTMin:Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_blocksize(ADiagModuleIndex: Integer; ABlockSize:Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_maxlength(ADiagModuleIndex: Integer; AMaxLength:Integer): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_fcdelay(ADiagModuleIndex: Integer; AFCDelay:Integer): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_Set_filled_byte(ADiagModuleIndex: Integer; AFilledByte:Byte):Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+{TP Raw Function}
+function tstp_can_send_functional(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer;ATimeOutMs:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_send_request(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer;ATimeOutMs:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_request_and_get_response(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer;AResponseDataArray:PByte; AResponseDataSize:PInteger; ATimeOutMs:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_register_tx_completed_recall(ADiagModuleIndex: Integer; ATxcompleted: N_USData_TranslateCompleted_Recall): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_register_rx_completed_recall(ADiagModuleIndex: Integer; ARxcompleted: N_USData_TranslateCompleted_Recall): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+{Internal for delphi dev}
+function tstp_can_register_tx_completed_recall_internal(ADiagModuleIndex:Integer;
+           ATxcompleted:N_USData_TranslateCompleted_Recall_Obj):Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_register_rx_completed_recall_internal(ADiagModuleIndex:Integer;
+           ARxcompleted:N_USData_TranslateCompleted_Recall_Obj):Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 // mini program library
 function tsmp_reload_settings(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsmp_load(const AMPFileName: PAnsiChar; const ARunAfterLoad: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
