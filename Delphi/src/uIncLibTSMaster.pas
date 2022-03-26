@@ -713,6 +713,20 @@ function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanP
 function tsapp_configure_baudrate_lin(const AIdxChn: Integer;const ABaudrateKbps: Single; const AProtocol:Integer): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}{Bps:such as 19200 bps}
 function tsapp_configure_baudrate_can(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_canfd(const AIdxChn: integer; const AArbRateKbps, ADataRateKbps: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_can_regs(
+      const AIdxChn: Integer;
+      const ABaudrateKbps: Single;
+      const ASEG1, ASEG2, APrescaler, ASJW: Integer;
+      const A120OhmConnected: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_canfd_regs(
+      const AIdxChn:Integer;
+      const AArbBaudrate:Single;
+      const AArbSEG1, AArbSEG2, AArbPrescaler, AArbSJW:Integer;
+      const ADataBaudrate:Single;
+      const ADataSEG1, ADataSEG2, ADataPrescaler, ADataSJW:Integer;
+      const AControllerType: TLIBCANFDControllerType;
+      const AControllerMode: TLIBCANFDControllerMode;
+      const A120OhmConnected: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication async functions
 function tsapp_transmit_can_async(const ACAN: PLIBCAN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_canfd_async(const ACANFD: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -871,6 +885,10 @@ function tslog_blf_write_lin(const AHandle: integer; const ALIN: PlibLIN): integ
 function tslog_blf_write_realtime_comment(const AHandle: Integer; const ATimeUs: int64; const AComment: PAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_end(const AHandle: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_start(const AFileName: PAnsiChar; AHandle: pinteger; AObjCount: pinteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsLog_blf_read_start_verbose(const AFileName: PAnsiChar; AHandle: pinteger; AObjCount: pinteger;
+                                         AYear:PWord;AMonth: PWord; ADayOfWeek: PWord;
+                                         ADay: PWord; AHour: PWord; AMinute: PWord;
+                                         ASecond: PWord;AMilliseconds: PWord): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_status(const AHandle: integer; AObjReadCount: pinteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_object(const AHandle: integer; AProgressedCnt: pinteger; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_read_object_w_comment(const AHandle: Integer; AProgressedCnt: pinteger; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD; AComment: Prealtime_comment_t): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
