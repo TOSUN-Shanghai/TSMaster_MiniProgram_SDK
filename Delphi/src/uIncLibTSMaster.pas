@@ -717,6 +717,7 @@ function tsapp_configure_can_regs(
       const AIdxChn: Integer;
       const ABaudrateKbps: Single;
       const ASEG1, ASEG2, APrescaler, ASJW: Integer;
+      const AOnlyListen:integer;
       const A120OhmConnected: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_canfd_regs(
       const AIdxChn:Integer;
