@@ -353,6 +353,7 @@ type
     FIsReadOnly: Boolean;
     FValueMin: Double;
     FValueMax: double;
+    FUnit: array [0..31] of ansichar;
   end;
   PLIBSystemVarDef = ^TLIBSystemVarDef;
 

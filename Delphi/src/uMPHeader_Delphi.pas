@@ -260,6 +260,8 @@ type
   TTSAppGetHWIDString = function(AString: PPAnsiChar): s32; stdcall;
   TTSAppGetHWIDArray = function(AArray8B: pu8): s32; stdcall;
   TPlaySound = function(const AIsSync: boolean; const AWaveFileName: pansichar): s32; stdcall;
+  TTSAppSetSystemVarUnit = function(const ACompleteName: pansichar; const AUnit: pansichar): s32; stdcall;
+  TTSAppSetSystemVarValueTable = function(const ACompleteName: pansichar; const ATable: pansichar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -384,6 +386,7 @@ type
   TSgnSrvGetLINSignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetCANSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: plibcanfd; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
+  TCANRBSEnable = function(const AEnable: boolean): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -612,8 +615,10 @@ type
     read_text_file_line                 : TReadTextFileLine               ;
     read_text_file_end                  : TReadTextFileEnd                ;
     play_sound                          : TPlaySound                      ;
+    set_system_var_unit                 : TTSAppSetSystemVarUnit          ;
+    set_system_var_value_table          : TTSAppSetSystemVarValueTable    ;
     // place holders
-    FDummy                     : array [0.. 915 -1] of s32;
+    FDummy                     : array [0.. 913 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
@@ -749,8 +754,9 @@ type
     sgnsrv_get_lin_signal_phy_value_latest:       TSgnSrvGetLINSignalPhyValueLatest;
     sgnsrv_get_can_signal_phy_value_in_msg:       TSgnSrvGetCANSignalPhyValueInMsg;
     sgnsrv_get_lin_signal_phy_value_in_msg:       TSgnSrvGetLINSignalPhyValueInMsg;
+    can_rbs_enable                        :       TCANRBSEnable;
     // place holders
-    FDummy               : array [0..925 - 1] of s32;
+    FDummy               : array [0..924 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
