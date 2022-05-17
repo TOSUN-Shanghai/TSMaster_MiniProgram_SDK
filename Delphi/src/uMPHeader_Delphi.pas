@@ -262,6 +262,8 @@ type
   TPlaySound = function(const AIsSync: boolean; const AWaveFileName: pansichar): s32; stdcall;
   TTSAppSetSystemVarUnit = function(const ACompleteName: pansichar; const AUnit: pansichar): s32; stdcall;
   TTSAppSetSystemVarValueTable = function(const ACompleteName: pansichar; const ATable: pansichar): s32; stdcall;
+  TTSAppLoadPlugin = function(const APluginName: PAnsiChar): s32; stdcall;
+  TTSAppUnloadPlugin = function(const APluginName: PAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -617,8 +619,10 @@ type
     play_sound                          : TPlaySound                      ;
     set_system_var_unit                 : TTSAppSetSystemVarUnit          ;
     set_system_var_value_table          : TTSAppSetSystemVarValueTable    ;
+    load_plugin                         : TTSAppLoadPlugin                ;
+    unload_plugin                       : TTSAppUnloadPlugin              ;
     // place holders
-    FDummy                     : array [0.. 913 -1] of s32;
+    FDummy                     : array [0.. 911 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
