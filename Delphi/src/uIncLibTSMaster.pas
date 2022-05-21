@@ -252,7 +252,9 @@ type
     TC1014              = 8,  // TSCAN_LIN_DIO_AIO          = 8,  // TSCANLIN
     TSCANFD2517         = 9,   // TSCAN_FD_MINI_1_CHs_2517   = 9
     TC1026              = 10,   //FD_1_LIN_6
-    TC1016              = 11   //FD_4_LIN_2
+    TC1016              = 11,   //FD_4_LIN_2
+    TC1012              = 12,   //FD_1_LIN_1
+    TC1013              = 13    //FD_2
   );
   // Vector XL device type
   TLIB_XL_Device_Sub_Type = (
