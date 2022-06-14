@@ -264,6 +264,17 @@ type
   TTSAppSetSystemVarValueTable = function(const ACompleteName: pansichar; const ATable: pansichar): s32; stdcall;
   TTSAppLoadPlugin = function(const APluginName: PAnsiChar): s32; stdcall;
   TTSAppUnloadPlugin = function(const APluginName: PAnsiChar): s32; stdcall;
+  TTSAppSetSystemVarDoubleAsync = function(const ACompleteName: PAnsiChar; const AValue: Double): s32; stdcall;
+  TTSAppSetSystemVarInt32Async = function(const ACompleteName: PAnsiChar; const AValue: s32): s32; stdcall;
+  TTSAppSetSystemVarUInt32Async = function(const ACompleteName: PAnsiChar; const AValue: u32): s32; stdcall;
+  TTSAppSetSystemVarInt64Async = function(const ACompleteName: PAnsiChar; const AValue: s64): s32; stdcall;
+  TTSAppSetSystemVarUInt64Async = function(const ACompleteName: PAnsiChar; const AValue: u64): s32; stdcall;
+  TTSAppSetSystemVarUInt8ArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: pu8): s32; stdcall;
+  TTSAppSetSystemVarInt32ArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: ps32): s32; stdcall;
+  TTSAppSetSystemVarInt64ArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: ps64): s32; stdcall;
+  TTSAppSetSystemVarDoubleArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PDouble): s32; stdcall;
+  TTSAppSetSystemVarStringAsync = function(const ACompleteName: PAnsiChar; AValue: PAnsiChar): s32; stdcall;
+  TTSAppSetSystemVarGenericAsync = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -621,8 +632,19 @@ type
     set_system_var_value_table          : TTSAppSetSystemVarValueTable    ;
     load_plugin                         : TTSAppLoadPlugin                ;
     unload_plugin                       : TTSAppUnloadPlugin              ;
+    set_system_var_double_async      :   TTSAppSetSystemVarDoubleAsync     ;
+    set_system_var_int32_async       :   TTSAppSetSystemVarInt32Async      ;
+    set_system_var_uint32_async      :   TTSAppSetSystemVarUInt32Async     ;
+    set_system_var_int64_async       :   TTSAppSetSystemVarInt64Async      ;
+    set_system_var_uint64_async      :   TTSAppSetSystemVarUInt64Async     ;
+    set_system_var_uint8_array_async :   TTSAppSetSystemVarUInt8ArrayAsync ;
+    set_system_var_int32_array_async :   TTSAppSetSystemVarInt32ArrayAsync ;
+    set_system_var_int64_array_async :   TTSAppSetSystemVarInt64ArrayAsync ;
+    set_system_var_double_array_async:   TTSAppSetSystemVarDoubleArrayAsync;
+    set_system_var_string_async      :   TTSAppSetSystemVarStringAsync     ;
+    set_system_var_generic_async     :   TTSAppSetSystemVarGenericAsync    ;
     // place holders
-    FDummy                     : array [0.. 911 -1] of s32;
+    FDummy                     : array [0.. 900 -1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
