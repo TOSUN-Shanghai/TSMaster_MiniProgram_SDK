@@ -275,6 +275,10 @@ type
   TTSAppSetSystemVarDoubleArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PDouble): s32; stdcall;
   TTSAppSetSystemVarStringAsync = function(const ACompleteName: PAnsiChar; AValue: PAnsiChar): s32; stdcall;
   TTSAppSetSystemVarGenericAsync = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TAMGetRunningState = function(const AModuleName: pansichar; AState: PLIBAutomationModuleRunningState; ASubModuleName: ppansichar; ACurrentParameterGroupName: ppansichar): s32; stdcall;
+  TAMRun = function(const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar; const AIsSync: bool): s32; stdcall;
+  TAMStop = function(const AModuleName: pansichar; const AIsSync: bool): s32; stdcall;
+  TAMSelectSubModule = function(const AIsSelect: bool; const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -643,8 +647,12 @@ type
     set_system_var_double_array_async:   TTSAppSetSystemVarDoubleArrayAsync;
     set_system_var_string_async      :   TTSAppSetSystemVarStringAsync     ;
     set_system_var_generic_async     :   TTSAppSetSystemVarGenericAsync    ;
+    am_get_running_state             :   TAMGetRunningState                ;
+    am_run                           :   TAMRun                            ;
+    am_stop                          :   TAMStop                           ;
+    am_select_sub_module             :   TAMSelectSubModule                ;
     // place holders
-    FDummy                     : array [0.. 900 -1] of s32;
+    FDummy                     : array [0.. 896-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;

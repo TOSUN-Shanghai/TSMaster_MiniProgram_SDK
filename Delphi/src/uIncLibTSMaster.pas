@@ -270,6 +270,9 @@ type
   end;
   Prealtime_comment_t = ^Trealtime_comment_t;
   TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
+  // Automation module
+  TLIBAutomationModuleRunningState = (amrsNotRun, amrsPrepareRun, amrsRunning, amrsPaused, amrsStepping, amrsFinished);
+  PLIBAutomationModuleRunningState = ^TLIBAutomationModuleRunningState;
   // TS device type
   TLIBCANFDControllerType = (lfdtCAN = 0, lfdtISOCAN = 1, lfdtNonISOCAN = 2);
   TLIBCANFDControllerMode = (lfdmNormal = 0, lfdmACKOff = 1, lfdmRestricted = 2, lfdmInternalLoopback = 3, lfdmExternalLoopback = 4);
