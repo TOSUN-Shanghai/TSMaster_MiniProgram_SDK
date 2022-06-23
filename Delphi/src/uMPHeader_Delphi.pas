@@ -275,10 +275,32 @@ type
   TTSAppSetSystemVarDoubleArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PDouble): s32; stdcall;
   TTSAppSetSystemVarStringAsync = function(const ACompleteName: PAnsiChar; AValue: PAnsiChar): s32; stdcall;
   TTSAppSetSystemVarGenericAsync = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  // automation module apis
   TAMGetRunningState = function(const AModuleName: pansichar; AState: PLIBAutomationModuleRunningState; ASubModuleName: ppansichar; ACurrentParameterGroupName: ppansichar): s32; stdcall;
   TAMRun = function(const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar; const AIsSync: bool): s32; stdcall;
   TAMStop = function(const AModuleName: pansichar; const AIsSync: bool): s32; stdcall;
   TAMSelectSubModule = function(const AIsSelect: bool; const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
+  // panel set apis
+  TPanelSetEnable = function(const APanelName: pansichar; const AControlName: pansichar; const AEnable: bool): s32; stdcall;
+  TPanelSetPositionX = function(const APanelName: pansichar; const AControlName: pansichar; const AX: single): s32; stdcall;
+  TPanelSetPositionY = function(const APanelName: pansichar; const AControlName: pansichar; const AY: single): s32; stdcall;
+  TPanelSetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; const AX: single; const AY: single): s32; stdcall;
+  TPanelSetOpacity = function(const APanelName: pansichar; const AControlName: pansichar; const AOpacity: single): s32; stdcall;
+  TPanelSetWidth = function(const APanelName: pansichar; const AControlName: pansichar; const AWidth: single): s32; stdcall;
+  TPanelSetHeight = function(const APanelName: pansichar; const AControlName: pansichar; const AHeight: single): s32; stdcall;
+  TPanelSetWidthHeight = function(const APanelName: pansichar; const AControlName: pansichar; const AWidth: single; const AHeight: single): s32; stdcall;
+  TPanelSetRotationAngle = function(const APanelName: pansichar; const AControlName: pansichar; const AAngleDegree: single): s32; stdcall;
+  TPanelSetRotationCenter = function(const APanelName: pansichar; const AControlName: pansichar; const ARatioX: single; const ARatioY: single): s32; stdcall;
+  TPanelSetScaleX = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleX: single): s32; stdcall;
+  TPanelSetScaleY = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleY: single): s32; stdcall;
+  // panel get apis
+  TPanelGetEnable = function(const APanelName: pansichar; const AControlName: pansichar; var AEnable: bool): s32; stdcall;
+  TPanelGetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; var Ax: single; var Ay: single): s32; stdcall;
+  TPanelGetOpacity = function(const APanelName: pansichar; const AControlName: pansichar; var AOpacity: single): s32; stdcall;
+  TPanelGetWidthHeight = function(const APanelName: pansichar; const AControlName: pansichar; var AWidth: single; var AHeight: single): s32; stdcall;
+  TPanelGetRotationAngle = function(const APanelName: pansichar; const AControlName: pansichar; var AAngleDegree: single): s32; stdcall;
+  TPanelGetRotationCenter = function(const APanelName: pansichar; const AControlName: pansichar; var ARatioX: single; var ARatioY: single): s32; stdcall;
+  TPanelGetScaleXY = function(const APanelName: pansichar; const AControlName: pansichar; var AScaleX: single; var AScaleY: single): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -288,6 +310,8 @@ type
   TTransmitCANFDAsync = function (const ACANFD: PLIBCANFD): integer; stdcall;
   TTransmitLINAsync = function (const ALIN: PLIBLIN): integer; stdcall;
   TTransmitFastLINAsync = function (const ALIN: PLIBLIN): integer; stdcall;
+  TInjectCANMessage = function (const ACANFD: PLIBCANFD): integer; stdcall;
+  TInjectLINMessage = function (const ALIN: PLIBLIN): integer; stdcall;
   // database functions
   TMPGetCANSignalValue = function(const ASignal: PMPCANSignal; const AData: pu8): double; stdcall;
   TMPSetCANSignalValue = procedure(const ASignal: PMPCANSignal; const AData: pu8; const AValue: Double); stdcall;
@@ -404,6 +428,8 @@ type
   TSgnSrvGetCANSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: plibcanfd; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TCANRBSEnable = function(const AEnable: boolean): s32; stdcall;
+  TCANRBSBatchSetStart = function: s32; stdcall;
+  TCANRBSBatchSetEnd = function: s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -651,8 +677,27 @@ type
     am_run                           :   TAMRun                            ;
     am_stop                          :   TAMStop                           ;
     am_select_sub_module             :   TAMSelectSubModule                ;
+    panel_set_enable                 :   TPanelSetEnable                   ;
+    panel_set_position_x             :   TPanelSetPositionX                ;
+    panel_set_position_y             :   TPanelSetPositionY                ;
+    panel_set_position_xy            :   TPanelSetPositionXY               ;
+    panel_set_opacity                :   TPanelSetOpacity                  ;
+    panel_set_width                  :   TPanelSetWidth                    ;
+    panel_set_height                 :   TPanelSetHeight                   ;
+    panel_set_width_height           :   TPanelSetWidthHeight              ;
+    panel_set_rotation_angle         :   TPanelSetRotationAngle            ;
+    panel_set_rotation_center        :   TPanelSetRotationCenter           ;
+    panel_set_scale_x                :   TPanelSetScaleX                   ;
+    panel_set_scale_y                :   TPanelSetScaleY                   ;
+    panel_get_enable                 :   TPanelGetEnable                   ;
+    panel_get_position_xy            :   TPanelGetPositionXY               ;
+    panel_get_opacity                :   TPanelGetOpacity                  ;
+    panel_get_width_height           :   TPanelGetWidthHeight              ;
+    panel_get_rotation_angle         :   TPanelGetRotationAngle            ;
+    panel_get_rotation_center        :   TPanelGetRotationCenter           ;
+    panel_get_scale_xy               :   TPanelGetScaleXY                  ;
     // place holders
-    FDummy                     : array [0.. 896-1] of s32;
+    FDummy                     : array [0.. 877-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
@@ -789,8 +834,12 @@ type
     sgnsrv_get_can_signal_phy_value_in_msg:       TSgnSrvGetCANSignalPhyValueInMsg;
     sgnsrv_get_lin_signal_phy_value_in_msg:       TSgnSrvGetLINSignalPhyValueInMsg;
     can_rbs_enable                        :       TCANRBSEnable;
+    can_rbs_batch_set_start               :       TCANRBSBatchSetStart;
+    can_rbs_batch_set_end                 :       TCANRBSBatchSetEnd;
+    inject_can_message                    :       TInjectCANMessage;
+    inject_lin_message                    :       TInjectLINMessage;
     // place holders
-    FDummy               : array [0..924 - 1] of s32;
+    FDummy               : array [0..920 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
