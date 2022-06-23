@@ -57,30 +57,6 @@ const
   CH32 = 31;
 
 type
-  CAN_ISO_TP_RESAULT = (
-      N_OK = 0
-      , IDX_ERR_TP_TIMEOUT_AS= 139   //Maximum time for the sender to transmit data to the receiver, default 1000
-      , IDX_ERR_TP_TIMEOUT_AR= 140   //Maximum time for the receiver to transmit flow control to the sender, default 1000
-      , IDX_ERR_TP_TIMEOUT_BS= 141   //
-      , IDX_ERR_TP_TIMEOUT_CR= 142
-      , IDX_ERR_TP_WRONG_SN  = 143
-      , IDX_ERR_TP_INVALID_FS= 144
-      , IDX_ERR_TP_UNEXP_PDU = 145
-      , IDX_ERR_TP_WFT_OVRN  = 146
-      , IDX_ERR_TP_BUFFER_OVFLW          = 147
-      , IDX_ERR_TP_NOT_IDLE              = 148
-      , IDX_ERR_TP_ERROR_FROM_CAN_DRIVER = 149
-  );
-  N_USData_TranslateCompleted_Recall_Obj = procedure(const ATpModuleIndex:Integer;const AChn:Integer;
-                                       const AIdentifier:Integer;
-                                       const ATimeStamp:UInt64;
-                                       const APayLoad:PByte; const ASize:UInt32;
-                                       const AError:CAN_ISO_TP_RESAULT) of object;stdcall;//Reporting Received TP Data to Upper layer
-
-  N_USData_TranslateCompleted_Recall = procedure(const ATpModuleIndex:Integer;const AChn:Integer;const ATimeStamp:UInt64;
-                                       const APayLoad:PByte; const ASize:UInt32;
-                                       const AError:CAN_ISO_TP_RESAULT);stdcall;//Reporting Received TP Data to Upper layer
-
   // CAN frame definition = 24 B
   PLIBCAN = ^TLIBCAN;
   TLIBCAN = packed record
@@ -273,6 +249,9 @@ type
   // Automation module
   TLIBAutomationModuleRunningState = (amrsNotRun, amrsPrepareRun, amrsRunning, amrsPaused, amrsStepping, amrsFinished);
   PLIBAutomationModuleRunningState = ^TLIBAutomationModuleRunningState;
+  // STIM
+  TSTIMSignalStatus = (sssStopped, sssRunning, sssPaused);
+  PSTIMSignalStatus = ^TSTIMSignalStatus;
   // TS device type
   TLIBCANFDControllerType = (lfdtCAN = 0, lfdtISOCAN = 1, lfdtNonISOCAN = 2);
   TLIBCANFDControllerMode = (lfdmNormal = 0, lfdmACKOff = 1, lfdmRestricted = 2, lfdmInternalLoopback = 3, lfdmExternalLoopback = 4);
@@ -398,6 +377,30 @@ type
   //LIN APIs
   TLINNodeType = ({0:}T_MasterNode,{1:}T_SlaveNode,{;2:}T_MonitorNode);
   TLINProtocol = ({0:}LIN_PROTOCL_13,{1:}LIN_PROTOCL_20,{;2:}LIN_PROTOCL_21,{;3:}LIN_PROTOCL_J2602);
+
+  CAN_ISO_TP_RESAULT = (
+      N_OK = 0
+      , IDX_ERR_TP_TIMEOUT_AS= 139   //Maximum time for the sender to transmit data to the receiver, default 1000
+      , IDX_ERR_TP_TIMEOUT_AR= 140   //Maximum time for the receiver to transmit flow control to the sender, default 1000
+      , IDX_ERR_TP_TIMEOUT_BS= 141   //
+      , IDX_ERR_TP_TIMEOUT_CR= 142
+      , IDX_ERR_TP_WRONG_SN  = 143
+      , IDX_ERR_TP_INVALID_FS= 144
+      , IDX_ERR_TP_UNEXP_PDU = 145
+      , IDX_ERR_TP_WFT_OVRN  = 146
+      , IDX_ERR_TP_BUFFER_OVFLW          = 147
+      , IDX_ERR_TP_NOT_IDLE              = 148
+      , IDX_ERR_TP_ERROR_FROM_CAN_DRIVER = 149
+  );
+  N_USData_TranslateCompleted_Recall_Obj = procedure(const ATpModuleIndex:Integer;const AChn:Integer;
+                                       const AIdentifier:Integer;
+                                       const ATimeStamp:UInt64;
+                                       const APayLoad:PByte; const ASize:UInt32;
+                                       const AError:CAN_ISO_TP_RESAULT) of object;stdcall;//Reporting Received TP Data to Upper layer
+
+  N_USData_TranslateCompleted_Recall = procedure(const ATpModuleIndex:Integer;const AChn:Integer;const ATimeStamp:UInt64;
+                                       const APayLoad:PByte; const ASize:UInt32;
+                                       const AError:CAN_ISO_TP_RESAULT);stdcall;//Reporting Received TP Data to Upper layer
 
 const
   BUS_TOOL_DEVICE_TYPE_COUNT = 9;
