@@ -92,7 +92,8 @@ type
     fptS64, fptU64, fptpS64, fptpU64, fptpLIBSystemVarDef, fptpVoid, fptppVoid,
     fptOnIoIPData, fptpDouble1, fptpSingle1, fptpS321, fptpS322, fptpU321, fptpU322,
     fptRealtimeComment, fptpLogLevel, fptCheckResult, fptDoublexx, fptPChar,
-    fptPCANSignal, fptSystemVar, fptPPSingle, fptPPS32, fptpBool
+    fptPCANSignal, fptSystemVar, fptPPSingle, fptPPS32, fptpBool, fptpAutomationModuleRunningState,
+    fptTSTIMSignalStatus, fptpSTIMSignalStatus
   );
   TMPCANSignal = packed record
     FCANSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
@@ -301,6 +302,9 @@ type
   TPanelGetRotationAngle = function(const APanelName: pansichar; const AControlName: pansichar; var AAngleDegree: single): s32; stdcall;
   TPanelGetRotationCenter = function(const APanelName: pansichar; const AControlName: pansichar; var ARatioX: single; var ARatioY: single): s32; stdcall;
   TPanelGetScaleXY = function(const APanelName: pansichar; const AControlName: pansichar; var AScaleX: single; var AScaleY: single): s32; stdcall;
+  // stim
+  TSTIMSetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: TSTIMSignalStatus): s32; stdcall;
+  TSTIMGetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: PSTIMSignalStatus): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -430,6 +434,7 @@ type
   TCANRBSEnable = function(const AEnable: boolean): s32; stdcall;
   TCANRBSBatchSetStart = function: s32; stdcall;
   TCANRBSBatchSetEnd = function: s32; stdcall;
+  TCANRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -696,8 +701,10 @@ type
     panel_get_rotation_angle         :   TPanelGetRotationAngle            ;
     panel_get_rotation_center        :   TPanelGetRotationCenter           ;
     panel_get_scale_xy               :   TPanelGetScaleXY                  ;
+    stim_set_signal_status           :   TSTIMSetSignalStatus              ;
+    stim_get_signal_status           :   TSTIMGetSignalStatus              ;
     // place holders
-    FDummy                     : array [0.. 877-1] of s32;
+    FDummy                     : array [0.. 875-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
@@ -838,8 +845,9 @@ type
     can_rbs_batch_set_end                 :       TCANRBSBatchSetEnd;
     inject_can_message                    :       TInjectCANMessage;
     inject_lin_message                    :       TInjectLINMessage;
+    can_rbs_batch_set_signal              :       TCANRBSBatchSetSignal;
     // place holders
-    FDummy               : array [0..920 - 1] of s32;
+    FDummy               : array [0..919 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
