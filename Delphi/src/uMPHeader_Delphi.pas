@@ -389,6 +389,11 @@ type
   TCANRBSGetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; out AValue: Double): integer; stdcall;
   TCANRBSSetSignalValueByElement = function (const AIdxChn: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall;
   TCANRBSSetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall;
+  TCANRBSEnable = function(const AEnable: boolean): s32; stdcall;
+  TCANRBSBatchSetStart = function: s32; stdcall;
+  TCANRBSBatchSetEnd = function: s32; stdcall;
+  TCANRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
+  TCANRBSSetMessageDirection = function (const AIdxChn: integer; const AIsTx: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
   // blf functions
   TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: ps32; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
@@ -431,10 +436,6 @@ type
   TSgnSrvGetLINSignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetCANSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: plibcanfd; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
-  TCANRBSEnable = function(const AEnable: boolean): s32; stdcall;
-  TCANRBSBatchSetStart = function: s32; stdcall;
-  TCANRBSBatchSetEnd = function: s32; stdcall;
-  TCANRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -846,8 +847,9 @@ type
     inject_can_message                    :       TInjectCANMessage;
     inject_lin_message                    :       TInjectLINMessage;
     can_rbs_batch_set_signal              :       TCANRBSBatchSetSignal;
+    can_rbs_set_message_direction         :       TCANRBSSetMessageDirection;
     // place holders
-    FDummy               : array [0..919 - 1] of s32;
+    FDummy               : array [0..918 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
