@@ -269,7 +269,8 @@ type
     TC1026              = 10,   //FD_1_LIN_6
     TC1016              = 11,   //FD_4_LIN_2
     TC1012              = 12,   //FD_1_LIN_1
-    TC1013              = 13    //FD_2
+    TC1013              = 13,   //FD_2
+    TC7012              = 14    //FD_2_LIN_2
   );
   // Vector XL device type
   TLIB_XL_Device_Sub_Type = (
@@ -415,18 +416,23 @@ const
     'IntrepidCS',
     'TOSUN TC1005'
   );
-  TS_HWTYPE_MAX_CNT = 10;
+  TS_HWTYPE_MAX_CNT = 15;
   TS_HWTYPE_NAMES: array [0..TS_HWTYPE_MAX_CNT-1] of string = (
     'Unknown',
     'TS.CAN Pro',
     'TS.CAN Lite1',
-    'TC1001', //"TS.CAN Mini",
-    'TL1001', //"TS.LIN Mini",
-    'TC1011', //"TS.CAN FD Mini",
-    'TSInterface', //"TSCANLIN+Interface"
-    'TC1002', //"TS.CAN Lite2",
-    'TC1014',  //"TS.CANFD.LIN"
-    'TS.CAN FD 2517'
+    'TC1001',       //3"TS.CAN Mini",
+    'TL1001',       //4"TS.LIN Mini",
+    'TC1011',       //5"TS.CAN FD Mini",
+    'TSInterface',  //6"TSCANLIN+Interface"
+    'TC1002',       //7"TS.CAN Lite2",
+    'TC1014',       //8"TS.CANFD.LIN"
+    'TS.CAN FD 2517',  //9
+    'TC1026',             //10,   //FD_1_LIN_6
+    'TC1016',             //11,   //FD_4_LIN_2
+    'TC1012',             //12,   //FD_1_LIN_1
+    'TC1013',             //13,   //FD_2
+    'TC7012'              //14    //FD_2_LIN_2
   );
   XL_HWTYPE_MAX_CNT = 114;
   XL_HWTYPE_NAMES: array [0..XL_HWTYPE_MAX_CNT-1] of string = (
