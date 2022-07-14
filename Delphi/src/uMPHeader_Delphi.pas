@@ -332,6 +332,8 @@ type
   TDeleteCyclicMsgCAN = function (const ACAN: PLIBCAN): integer; stdcall;
   TDeleteCyclicMsgCANFD = function (const ACANFD: PLIBCANfd): integer; stdcall;
   TDeleteCyclicMsgs = function : Integer; stdcall;
+  Tadd_precise_cyclic_message = function (const AIdentifier:integer; const AChn:byte; const AIsExt:byte; const APeriodMS: Single; const ATimeoutMS:Integer): Integer; stdcall;
+  Tdelete_precise_cyclic_message = function (const AIdentifier:integer; const AChn:byte; const AIsExt:byte; const ATimeoutMS:Integer): Integer; stdcall;
   // bus statistics
   TEnableBusStatistics = function (const AEnable: Boolean): Integer; stdcall;
   TClearBusStatistics = function: Integer; stdcall;
@@ -848,8 +850,10 @@ type
     inject_lin_message                    :       TInjectLINMessage;
     can_rbs_batch_set_signal              :       TCANRBSBatchSetSignal;
     can_rbs_set_message_direction         :       TCANRBSSetMessageDirection;
+    add_precise_cyclic_message            :       Tadd_precise_cyclic_message;
+    delete_precise_cyclic_message         :       Tdelete_precise_cyclic_message;
     // place holders
-    FDummy               : array [0..918 - 1] of s32;
+    FDummy               : array [0..916 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
