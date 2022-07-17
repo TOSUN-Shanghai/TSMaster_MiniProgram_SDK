@@ -438,7 +438,14 @@ type
   TSgnSrvGetLINSignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetCANSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: plibcanfd; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
   TSgnSrvGetLINSignalPhyValueInMsg = function(const AIdxChn: integer; const AClientId: integer; const AMsg: PlibLIN; AValue: pdouble; ATimeUs: pint64): s32; stdcall;
-  // TS_COM_PROTO_END
+  // pdu container
+  TPDUContainerSetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; const ACount: integer): integer; stdcall;
+  TPDUContainerSetCycleByIndex = function(const AIdxChn: integer; const AMsgId: integer; const AIdxCycle: integer; const ASignalGroupIdList: pansichar): integer; stdcall;
+  TPDUContainerGetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; ACount: integer): integer; stdcall;
+  TPDUContainerGetCycleByIndex = function(const AIdxChn: integer; const AMsgId: integer; const AIdxCycle: integer; ASignalGroupIdList: ppansichar): integer; stdcall;
+  TPDUContainerRefresh = function(const AIdxChn: integer; const AMsgId: integer): integer; stdcall;
+  // TS_COM_PROTO_END ==========================================================
+
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
   TTestSetVerdictNOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -852,8 +859,14 @@ type
     can_rbs_set_message_direction         :       TCANRBSSetMessageDirection;
     add_precise_cyclic_message            :       Tadd_precise_cyclic_message;
     delete_precise_cyclic_message         :       Tdelete_precise_cyclic_message;
+    // pdu container
+    pdu_container_set_cycle_count         :       TPDUContainerSetCycleCount;
+    pdu_container_set_cycle_by_index      :       TPDUContainerSetCycleByIndex;
+    pdu_container_get_cycle_count         :       TPDUContainerGetCycleCount;
+    pdu_container_get_cycle_by_index      :       TPDUContainerGetCycleByIndex;
+    pdu_container_refresh                 :       TPDUContainerRefresh;
     // place holders
-    FDummy               : array [0..916 - 1] of s32;
+    FDummy               : array [0..911 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
