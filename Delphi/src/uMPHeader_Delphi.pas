@@ -396,6 +396,9 @@ type
   TCANRBSBatchSetEnd = function: s32; stdcall;
   TCANRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
   TCANRBSSetMessageDirection = function (const AIdxChn: integer; const AIsTx: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
+  TCANRBSFaultInjectionClear = function: s32; stdcall;
+  TCANRBSFaultInjectionMessageLost = function(const AEnable: bool; const AIdxChn: s32; const AIdentifier: s32): s32; stdcall;
+  TCANRBSFaultInjectionSignalAlter = function(const AEnable: bool; const ASymbolAddress: pansichar; const AAlterValue: double): s32; stdcall;
   // blf functions
   TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: ps32; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
@@ -865,8 +868,12 @@ type
     pdu_container_get_cycle_count         :       TPDUContainerGetCycleCount;
     pdu_container_get_cycle_by_index      :       TPDUContainerGetCycleByIndex;
     pdu_container_refresh                 :       TPDUContainerRefresh;
+    // rbs fault injection
+    can_rbs_fault_injection_clear         :       TCANRBSFaultInjectionClear;
+    can_rbs_fault_injection_message_lost  :       TCANRBSFaultInjectionMessageLost;
+    can_rbs_fault_injection_signal_alter  :       TCANRBSFaultInjectionSignalAlter;
     // place holders
-    FDummy               : array [0..911 - 1] of s32;
+    FDummy               : array [0..908 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
