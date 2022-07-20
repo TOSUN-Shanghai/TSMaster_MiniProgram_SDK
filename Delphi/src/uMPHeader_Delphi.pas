@@ -206,6 +206,7 @@ type
   TTSAppDeleteSystemVar = function(const ACompleteName: PAnsiChar): s32; stdcall;
   TTSAppRunForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
   TTSAppStopForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
+  TTSAppClearMeasurementForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
   // text file
   TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
@@ -294,6 +295,7 @@ type
   TPanelSetRotationCenter = function(const APanelName: pansichar; const AControlName: pansichar; const ARatioX: single; const ARatioY: single): s32; stdcall;
   TPanelSetScaleX = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleX: single): s32; stdcall;
   TPanelSetScaleY = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleY: single): s32; stdcall;
+  TPanelSetBkgdColor = function(const APanelName: pansichar; const AControlName: pansichar; const AAlphaColor: u32): s32; stdcall;
   // panel get apis
   TPanelGetEnable = function(const APanelName: pansichar; const AControlName: pansichar; var AEnable: bool): s32; stdcall;
   TPanelGetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; var Ax: single; var Ay: single): s32; stdcall;
@@ -302,6 +304,7 @@ type
   TPanelGetRotationAngle = function(const APanelName: pansichar; const AControlName: pansichar; var AAngleDegree: single): s32; stdcall;
   TPanelGetRotationCenter = function(const APanelName: pansichar; const AControlName: pansichar; var ARatioX: single; var ARatioY: single): s32; stdcall;
   TPanelGetScaleXY = function(const APanelName: pansichar; const AControlName: pansichar; var AScaleX: single; var AScaleY: single): s32; stdcall;
+  TPanelGetBkgdColor = function(const APanelName: pansichar; const AControlName: pansichar; var AAlphaColor: u32): s32; stdcall;
   // stim
   TSTIMSetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: TSTIMSignalStatus): s32; stdcall;
   TSTIMGetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: PSTIMSignalStatus): s32; stdcall;
@@ -716,8 +719,11 @@ type
     panel_get_scale_xy               :   TPanelGetScaleXY                  ;
     stim_set_signal_status           :   TSTIMSetSignalStatus              ;
     stim_get_signal_status           :   TSTIMGetSignalStatus              ;
+    panel_set_bkgd_color             :   TPanelSetBkgdColor                ;
+    panel_get_bkgd_color             :   TPanelGetBkgdColor                ;
+    clear_measurement_form           :   TTSAppClearMeasurementForm        ;
     // place holders
-    FDummy                     : array [0.. 875-1] of s32;
+    FDummy                     : array [0.. 872-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
