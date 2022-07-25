@@ -216,6 +216,9 @@ type
     APP_CAN = 0,
     APP_LIN = 1
   );
+  TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar);
+  TSignalCheckKind = (sckAlways = 0, sckAppear, sckNever);
+  TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
   // CAN bus statistics
   TLIBCANBusStatistics = (
     cbsBusLoad = 0, cbsPeakLoad, cbsFpsStdData, cbsAllStdData,
