@@ -456,6 +456,7 @@ type
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
   TTestSetVerdictNOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
   TTestSetVerdictCOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
+  TTestCheckVerdict = function(const AObj: Pointer; const AName: pansichar; const AValue: double; const AMin: double; const AMax: double): s32; stdcall;
   TTestLogger = function(const AObj: Pointer; const AStr: pansichar; const ALevel: Integer): integer; stdcall;
   TTestWriteResultString = function(const AObj: Pointer; const AName: pansichar; const AValue: PAnsiChar; const ALevel: Integer): integer; stdcall;
   TTestWriteResultValue = function(const AObj: Pointer; const AName: pansichar; const AValue: Double; const ALevel: Integer): integer; stdcall;
@@ -464,6 +465,13 @@ type
   TTestWriteResultImage = function(const AObj: Pointer; const AName: pansichar; const AImageFilePath: PAnsiChar): Integer; stdcall;
   TTestRetrieveCurrentResultFolder = function(const AObj: Pointer; AFolder: PPAnsiChar): Integer; stdcall;
   TTestCheckTerminate = function: integer; stdcall;
+  TTestSignalCheckerClear = function: integer; stdcall;
+  TTestSignalCheckerAddCheckWithTime = function(const ASignalType: TSignalType; const ACheckKind: TSignalCheckKind; const ASgnName: pansichar; const ASgnMin: double; const ASgnMax: double; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddCheckWithTrigger = function(const ASignalType: TSignalType; const ACheckKind: TSignalCheckKind; const ASgnName: pansichar; const ASgnMin: double; const ASgnMax: double; const ATriggerType: TSignalType; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddStatisticsWithTime = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddStatisticsWithTrigger = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerGetResult = function(const ACheckId: integer; var APass: bool; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
+  TTestSignalCheckerEnable = function(const ACheckId: integer; const AEnable: bool): integer; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -935,8 +943,16 @@ type
     internal_write_result_image             : TTestWriteResultImage;
     internal_retrieve_current_result_folder : TTestRetrieveCurrentResultFolder;
     check_test_terminate                    : TTestCheckTerminate;
+    FCheckVerdict                           : TTestCheckVerdict;
+    signal_checker_clear: TTestSignalCheckerClear;
+    signal_checker_add_check_with_time: TTestSignalCheckerAddCheckWithTime;
+    signal_checker_add_check_with_trigger: TTestSignalCheckerAddCheckWithTrigger;
+    signal_checker_add_statistics_with_time: TTestSignalCheckerAddStatisticsWithTime;
+    signal_checker_add_statistics_with_trigger: TTestSignalCheckerAddStatisticsWithTrigger;
+    signal_checker_get_result: TTestSignalCheckerGetResult;
+    signal_checker_enable: TTestSignalCheckerEnable;
     // place holders
-    FDummy                                  : array [0..995-1] of s32;
+    FDummy           : array [0..987-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
