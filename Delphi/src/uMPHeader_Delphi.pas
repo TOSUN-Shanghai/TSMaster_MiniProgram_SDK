@@ -450,6 +450,29 @@ type
   TPDUContainerGetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; ACount: integer): integer; stdcall;
   TPDUContainerGetCycleByIndex = function(const AIdxChn: integer; const AMsgId: integer; const AIdxCycle: integer; ASignalGroupIdList: ppansichar): integer; stdcall;
   TPDUContainerRefresh = function(const AIdxChn: integer; const AMsgId: integer): integer; stdcall;
+  // j1939
+  TJ1939MakeId = function(const APGN: integer; const ASource: byte; const ADestination: byte; const APriority: byte; var AIdentifier: integer): integer; stdcall;
+  TJ1939ExtractId = function(const AIdentifier: integer; var APGN: integer; var ASource: byte; var ADestination: byte; var APriority: byte): integer; stdcall;
+  TJ1939GetPGN = function(const AIdentifier: integer; var APGN: integer): integer; stdcall;
+  TJ1939GetSource = function(const AIdentifier: integer; var ASource: byte): integer; stdcall;
+  TJ1939GetDestination = function(const AIdentifier: integer; var ADestination: byte): integer; stdcall;
+  TJ1939GetPriority = function(const AIdentifier: integer; var APriority: byte): integer; stdcall;
+  TJ1939GetR = function(const AIdentifier: integer; var AR: byte): integer; stdcall;
+  TJ1939GetDP = function(const AIdentifier: integer; var ADP: byte): integer; stdcall;
+  TJ1939GetEDP = function(const AIdentifier: integer; var AEDP: byte): integer; stdcall;
+  TJ1939SetPGN = function(var AIdentifier: integer; const APGN: integer): integer; stdcall;
+  TJ1939SetSource = function(var AIdentifier: integer; const ASource: u8): integer; stdcall;
+  TJ1939SetDestination = function(var AIdentifier: integer; const ADestination: u8): integer; stdcall;
+  TJ1939SetPriority = function(var AIdentifier: integer; const APriority: u8): integer; stdcall;
+  TJ1939SetR = function(var AIdentifier: integer; const AR: u8): integer; stdcall;
+  TJ1939SetDP = function(var AIdentifier: integer; const ADP: u8): integer; stdcall;
+  TJ1939SetEDP = function(var AIdentifier: integer; const AEDP: u8): integer; stdcall;
+  TJ1939GetLastPDU = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; const APDUBufferSize: integer; APDUBuffer: pbyte; var APDUActualSize: integer): integer; stdcall;
+  TJ1939GetLastPDUAsString = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; APDUData: ppansichar; var APDUActualSize: integer): integer; stdcall;
+  TJ1939TransmitPDUAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer): integer; stdcall;
+  TJ1939TransmitPDUSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer; const ATimeoutMs: integer): integer; stdcall;
+  TJ1939TransmitPDUAsStringAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar): integer; stdcall;
+  TJ1939TransmitPDUAsStringSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar; const ATimeoutMs: integer): integer; stdcall;
   // TS_COM_PROTO_END ==========================================================
 
   // Test features
@@ -886,8 +909,31 @@ type
     can_rbs_fault_injection_clear         :       TCANRBSFaultInjectionClear;
     can_rbs_fault_injection_message_lost  :       TCANRBSFaultInjectionMessageLost;
     can_rbs_fault_injection_signal_alter  :       TCANRBSFaultInjectionSignalAlter;
+    // j1939
+    j1939_make_id:                         TJ1939MakeId                  ;
+    j1939_extract_id:                      TJ1939ExtractId               ;
+    j1939_get_pgn:                         TJ1939GetPGN                  ;
+    j1939_get_source:                      TJ1939GetSource               ;
+    j1939_get_destination:                 TJ1939GetDestination          ;
+    j1939_get_priority:                    TJ1939GetPriority             ;
+    j1939_get_r:                           TJ1939GetR                    ;
+    j1939_get_dp:                          TJ1939GetDP                   ;
+    j1939_get_edp:                         TJ1939GetEDP                  ;
+    j1939_set_pgn:                         TJ1939SetPGN                  ;
+    j1939_set_source:                      TJ1939SetSource               ;
+    j1939_set_destination:                 TJ1939SetDestination          ;
+    j1939_set_priority:                    TJ1939SetPriority             ;
+    j1939_set_r:                           TJ1939SetR                    ;
+    j1939_set_dp:                          TJ1939SetDP                   ;
+    j1939_set_edp:                         TJ1939SetEDP                  ;
+    j1939_get_last_pdu:                    TJ1939GetLastPDU              ;
+    j1939_get_last_pdu_as_string:          TJ1939GetLastPDUAsString      ;
+    j1939_transmit_pdu_async:              TJ1939TransmitPDUAsync        ;
+    j1939_transmit_pdu_sync:               TJ1939TransmitPDUSync         ;
+    j1939_transmit_pdu_as_string_async:    TJ1939TransmitPDUAsStringAsync;
+    j1939_transmit_pdu_as_string_sync:     TJ1939TransmitPDUAsStringSync ;
     // place holders
-    FDummy               : array [0..908 - 1] of s32;
+    FDummy               : array [0..886 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
