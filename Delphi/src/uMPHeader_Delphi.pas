@@ -467,8 +467,8 @@ type
   TJ1939SetR = function(var AIdentifier: integer; const AR: u8): integer; stdcall;
   TJ1939SetDP = function(var AIdentifier: integer; const ADP: u8): integer; stdcall;
   TJ1939SetEDP = function(var AIdentifier: integer; const AEDP: u8): integer; stdcall;
-  TJ1939GetLastPDU = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; const APDUBufferSize: integer; APDUBuffer: pbyte; var APDUActualSize: integer): integer; stdcall;
-  TJ1939GetLastPDUAsString = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; APDUData: ppansichar; var APDUActualSize: integer): integer; stdcall;
+  TJ1939GetLastPDU = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; const APDUBufferSize: integer; APDUBuffer: pbyte; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
+  TJ1939GetLastPDUAsString = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; APDUData: ppansichar; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
   TJ1939TransmitPDUAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer): integer; stdcall;
   TJ1939TransmitPDUSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer; const ATimeoutMs: integer): integer; stdcall;
   TJ1939TransmitPDUAsStringAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar): integer; stdcall;
