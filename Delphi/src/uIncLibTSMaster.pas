@@ -217,7 +217,7 @@ type
     APP_LIN = 1
   );
   TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar);
-  TSignalCheckKind = (sckAlways = 0, sckAppear, sckNever);
+  TSignalCheckKind = (sckAlways = 0, sckAppear, sckStatistics);
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
   // CAN bus statistics
   TLIBCANBusStatistics = (
