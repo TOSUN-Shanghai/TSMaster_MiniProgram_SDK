@@ -493,7 +493,7 @@ type
   TTestSignalCheckerAddCheckWithTrigger = function(const ASignalType: TSignalType; const ACheckKind: TSignalCheckKind; const ASgnName: pansichar; const ASgnMin: double; const ASgnMax: double; const ATriggerType: TSignalType; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddStatisticsWithTime = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddStatisticsWithTrigger = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
-  TTestSignalCheckerGetResult = function(const ACheckId: integer; var APass: bool; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
+  TTestSignalCheckerGetResult = function(const AObj: Pointer; const ACheckId: integer; var APass: bool; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
   TTestSignalCheckerEnable = function(const ACheckId: integer; const AEnable: bool): integer; stdcall;
   // TS_TEST_PROTO_END
 
