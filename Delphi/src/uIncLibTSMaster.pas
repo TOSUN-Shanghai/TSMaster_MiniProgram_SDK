@@ -56,6 +56,9 @@ const
   CH31 = 30;
   CH32 = 31;
 
+  //Data Logger
+  MAX_SUPPORT_LOGGER_FILE_NUM  = 32;
+
 type
   // CAN frame definition = 24 B
   PLIBCAN = ^TLIBCAN;
@@ -185,6 +188,22 @@ type
     property IsData: boolean read GetData;
     property IsErrorFrame: boolean read GetIsErrorFrame;
   end;
+
+  //TSLogger
+  PEMMC_RECORD_DATA = ^TEMMC_RECORD_DATA;
+  TEMMC_RECORD_DATA = packed record
+    FGlobalTimeSecond:UInt32;     //GlobalTimeSecond
+    FStartSector:UInt32;          //Start Sector
+    FSize:UInt32;                 //FSize: u32
+    FReserved:UInt32;
+  end;   //8bytes, means max support
+  PPEMMC_RECORD_NODE = ^PEMMC_RECORD_NODE;
+  PEMMC_RECORD_NODE = ^TEMMC_RECORD_NODE;
+  TEMMC_RECORD_NODE = packed record
+    FIndex:UInt32;                //FIndex
+    FRecordData:TEMMC_RECORD_DATA;
+    FNext:PEMMC_RECORD_NODE;
+  end;   //8bytes, means max support
 
   TCANQueueEvent_API = procedure(const AData: PlibCAN) of object; stdcall;
   TCANQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCAN); stdcall;
