@@ -402,6 +402,9 @@ type
   TCANRBSFaultInjectionClear = function: s32; stdcall;
   TCANRBSFaultInjectionMessageLost = function(const AEnable: bool; const AIdxChn: s32; const AIdentifier: s32): s32; stdcall;
   TCANRBSFaultInjectionSignalAlter = function(const AEnable: bool; const ASymbolAddress: pansichar; const AAlterValue: double): s32; stdcall;
+  TCANRBSSetNormalSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
+  TCANRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
+  TCANRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
   // blf functions
   TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
   TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: ps32; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
@@ -932,8 +935,12 @@ type
     j1939_transmit_pdu_sync:               TJ1939TransmitPDUSync         ;
     j1939_transmit_pdu_as_string_async:    TJ1939TransmitPDUAsStringAsync;
     j1939_transmit_pdu_as_string_sync:     TJ1939TransmitPDUAsStringSync ;
+    // rbs signal type
+    can_rbs_set_normal_signal:             TCANRBSSetNormalSignal        ;
+    can_rbs_set_rc_signal:                 TCANRBSSetRCSignal            ;
+    can_rbs_set_crc_signal:                TCANRBSSetCRCSignal           ;
     // place holders
-    FDummy               : array [0..886 - 1] of s32;
+    FDummy               : array [0..883 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
