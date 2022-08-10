@@ -404,6 +404,7 @@ type
   TCANRBSFaultInjectionSignalAlter = function(const AEnable: bool; const ASymbolAddress: pansichar; const AAlterValue: double): s32; stdcall;
   TCANRBSSetNormalSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
   TCANRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
+  TCANRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
   TCANRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
   // blf functions
   TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
@@ -939,8 +940,9 @@ type
     can_rbs_set_normal_signal:             TCANRBSSetNormalSignal        ;
     can_rbs_set_rc_signal:                 TCANRBSSetRCSignal            ;
     can_rbs_set_crc_signal:                TCANRBSSetCRCSignal           ;
+    can_rbs_set_rc_signal_with_limit:      TCANRBSSetRCSignalWithLimit   ;
     // place holders
-    FDummy               : array [0..883 - 1] of s32;
+    FDummy               : array [0..882 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
