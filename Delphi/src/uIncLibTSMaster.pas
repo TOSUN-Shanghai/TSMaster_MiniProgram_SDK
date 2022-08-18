@@ -57,7 +57,8 @@ const
   CH32 = 31;
 
   //Data Logger
-  MAX_SUPPORT_LOGGER_FILE_NUM  = 32;
+  MAX_SUPPORT_LOGGER_FILE_NUM  = 128;
+  READ_LOGGER_FILE_NUM_ONCE_TIME = 30;
 
 type
   // CAN frame definition = 24 B
@@ -189,6 +190,22 @@ type
     property IsErrorFrame: boolean read GetIsErrorFrame;
   end;
 
+  PLibGPSData = ^TLibGPSData;
+  TLibGPSData = record
+     FTimeUS: Uint64;          // timestamp in us
+     UTCTime: UInt32;
+     UTCDate: UInt32;
+     Latitude:Single;
+     Longitude:Single;
+     Speed:Single;
+     Direct:Single;
+     Altitude:Single;
+     N_S:Byte;
+     E_W:Byte;
+     Satellite:Byte;
+     FIdxChn:Byte;
+  end;
+
   //TSLogger
   PEMMC_RECORD_DATA = ^TEMMC_RECORD_DATA;
   TEMMC_RECORD_DATA = packed record
@@ -249,6 +266,8 @@ type
     lsvtInt32 = 0, lsvtUInt32, lsvtInt64, lsvtUInt64, lsvtUInt8Array,
     lsvtInt32Array, lsvtInt64Array, lsvtDouble, lsvtDoubleArray, lsvtString
   );
+  // Offline replay
+  TReplayPhase = (rppInit = 0, rppReplaying, rppEnded);
   // Online replay
   TLIBOnlineReplayTimingMode = (ortImmediately = 0, ortAsLog, ortDelayed);
   PLIBOnlineReplayTimingMode = ^TLIBOnlineReplayTimingMode;
@@ -1084,6 +1103,21 @@ function tsdiag_can_write_data_by_identifier(ADiagModuleIndex:Integer;ADataIdent
      AWriteDataSize:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_can_read_data_by_identifier(ADiagModuleIndex:Integer;ADataIdentifier:UInt16;AReturnArray:PByte;
      AReturnArraySize:PInteger):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+
+//Logger
+{Data Log}
+function tslog_logger_get_file_catelog(const AChnIdx:Integer; const ACategory:PPEMMC_RECORD_NODE; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_delete_file(const AChnIdx:Integer; const AFileIndex:Integer; ATimeoutMS:Integer): Integer; stdcall;  {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_start_export_blf_file(const AChnIdx:Integer; const AFileIndex:Integer; const ABlfFileName:PAnsiChar; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_abort_export_blf_file(const AChnIdx:Integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_start_online_replay(const AChnIdx:Integer; const AFileIndex:Integer; const AStartTimeUs:UInt64; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_stop_online_replay(const AChnIdx:Integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+//GPS Module
+function tsapp_get_gps_data_async(const AChnIdx:Integer; const AGPSData:PLibGPSData): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+
 // mini program library
 function tsmp_reload_settings(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsmp_load(const AMPFileName: PAnsiChar; const ARunAfterLoad: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
