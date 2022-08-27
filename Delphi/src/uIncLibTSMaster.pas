@@ -209,10 +209,13 @@ type
   //TSLogger
   PEMMC_RECORD_DATA = ^TEMMC_RECORD_DATA;
   TEMMC_RECORD_DATA = packed record
-    FGlobalTimeSecond:UInt32;     //GlobalTimeSecond
+    FUTCDate:UInt32;     //GlobalTimeSecond
+    FUTCTime:UInt32;
     FStartSector:UInt32;          //Start Sector
-    FSize:UInt32;                 //FSize: u32
-    FReserved:UInt32;
+    FSectorSize:UInt32;                 //FSize: u32
+    FOffSetMiniSecond:UInt32;
+    function FDateTimeString(ATimeZone:Integer):string;
+    function FDateTime(ATimeZone:Integer):TDateTime;
   end;   //8bytes, means max support
   PPEMMC_RECORD_NODE = ^PEMMC_RECORD_NODE;
   PEMMC_RECORD_NODE = ^TEMMC_RECORD_NODE;
@@ -281,12 +284,22 @@ type
   TSupportedObjType = (sotCAN = 0, sotLIN = 1, sotCANFD = 2, sotRealtimeComment = 3, sotUnknown = $FFFFFFF);
   Trealtime_comment_t = packed record
     FTimeUs: int64;
-    FEventType: integer;     // 0
+    FEventType: integer;
     FCapacity: cardinal;
     FComment: pansichar;
   end;
   Prealtime_comment_t = ^Trealtime_comment_t;
+  TLibSystemVar = packed record
+    FTimeUs: int64;
+    FType: TLIBSystemVarType;
+    FNameCapacity: cardinal;
+    FDataCapacity: cardinal;
+    FName: pansichar;
+    FData: pbyte;
+  end;
+  PLibSystemVar = ^TLibSystemVar;
   TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
+  TReadBLFSystemVarCallback = procedure (const AObj: pointer; const ASysVar: PLibSystemVar; const AToTerminate: pboolean); stdcall;
   // Automation module
   TLIBAutomationModuleRunningState = (amrsNotRun, amrsPrepareRun, amrsRunning, amrsPaused, amrsStepping, amrsFinished);
   PLIBAutomationModuleRunningState = ^TLIBAutomationModuleRunningState;
@@ -1144,7 +1157,8 @@ uses
   System.Math,
   System.AnsiStrings,
   System.SysUtils,
-  System.StrUtils;
+  System.StrUtils,
+  system.DateUtils;
 
 const
   // CAN message properties
@@ -1177,6 +1191,56 @@ begin
   result := min(ADLC, 15);
   result := Max(result, 0);
   Result := DLC_DATA_BYTE_CNT[result];
+
+end;
+
+function TEMMC_RECORD_DATA.FDateTime(ATimeZone:Integer):TDateTime;
+var
+  tmp:UInt32;
+  tmpUTCDate:UInt32;
+  tmpUTCTime:UInt32;
+  FSetting : TFormatSettings;
+  tmpDateTimeString:string;
+begin
+{$warnings off}
+  FSetting := TFormatSettings.Create(LOCALE_USER_DEFAULT);
+{$warnings on}
+  FSetting.ShortDateFormat:='yyyy-MM-dd';
+  FSetting.DateSeparator:='-';
+  //FSetting.TimeSeparator:=':';
+  FSetting.LongTimeFormat:='hh:mm:ss.zzz';
+  tmpDateTimeString := '';
+  //FUTCDate:200822:DayMonthYear
+  tmpUTCDate := FUTCDate;
+  tmp := UInt32(tmpUTCDate div 10000);
+  tmpUTCDate := tmpUTCDate - UInt32(tmp * 10000); //Day
+  tmpDateTimeString := Format('-%.2d', [tmp]);
+  tmp := tmpUTCDate div 100;
+  tmpUTCDate := tmpUTCDate - UInt32(tmp * 100); //Month
+  tmpDateTimeString := Format('-%.2d', [tmp]) + tmpDateTimeString;
+  tmpDateTimeString := '20' + Format('%.2d', [tmpUTCDate]) + tmpDateTimeString + ' ';  //Year
+  //FUTCTime:153053:HourMinuteSecond
+  tmpUTCTime := FUTCTime;
+  tmp := tmpUTCTime div 10000;
+  tmpUTCTime := tmpUTCTime - UInt32(tmp * 10000); //Hour
+  tmpDateTimeString := tmpDateTimeString +  Format('%.2d:', [tmp]);
+  tmp := tmpUTCTime div 100;
+  tmpUTCTime := tmpUTCTime - UInt32(tmp * 100);    //Minute
+  tmpDateTimeString := tmpDateTimeString +  Format('%.2d:', [tmp]);
+  tmpDateTimeString := tmpDateTimeString +  Format('%.2d:', [tmpUTCTime]) + '000'; //Second
+  try
+    Result := StrToDateTime(tmpDateTimeString, FSetting);
+    Result.AddHour(ATimeZone);
+    Result.AddMilliSecond(FOffSetMiniSecond);
+  except
+    Result := now;
+  end;
+
+end;
+
+function TEMMC_RECORD_DATA.FDateTimeString(ATimeZone:Integer):string;
+begin
+  result := FormatdateTime('YYYY-MM-DD hh:nn:ss:zzz',FDateTime(ATimeZone));
 
 end;
 
