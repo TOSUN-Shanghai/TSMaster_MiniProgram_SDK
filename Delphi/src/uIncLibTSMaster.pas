@@ -281,7 +281,7 @@ type
   // BLF
   TProgressCallback = procedure(const AProgress100: Double); stdcall;
   PSupportedObjType = ^TSupportedObjType; // TSupportedObjType must be 4 bytes aligned
-  TSupportedObjType = (sotCAN = 0, sotLIN = 1, sotCANFD = 2, sotRealtimeComment = 3, sotUnknown = $FFFFFFF);
+  TSupportedObjType = (sotCAN = 0, sotLIN, sotCANFD, sotRealtimeComment, sotSystemVar, sotUnknown = $FFFFFFF);
   Trealtime_comment_t = packed record
     FTimeUs: int64;
     FEventType: integer;
@@ -296,6 +296,7 @@ type
     FDataCapacity: cardinal;
     FName: pansichar;
     FData: pbyte;
+    function ToDataString: string;
   end;
   PLibSystemVar = ^TLibSystemVar;
   TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
@@ -1882,6 +1883,72 @@ begin
               sChannelType +
               // APP channel index
               (FAppChannelIndex + 1).ToString;
+  end;
+
+end;
+
+{ TLibSystemVar }
+
+function TLibSystemVar.ToDataString: string;
+begin
+  var i, n: integer;
+  result := '';
+  n := FDataCapacity-1;
+  case FType of
+    TLIBSystemVarType.lsvtInt32: begin
+      result := pinteger(FData)^.tostring;
+    end;
+    TLIBSystemVarType.lsvtUInt32: begin
+      result := pcardinal(FData)^.tostring;
+    end;
+    TLIBSystemVarType.lsvtInt64: begin
+      result := pint64(FData)^.tostring;
+    end;
+    TLIBSystemVarType.lsvtUInt64: begin
+      result := puint64(FData)^.tostring;
+    end;
+    TLIBSystemVarType.lsvtUInt8Array: begin
+      var p: pbyte;
+      p := FData;
+      for i:=0 to n do begin
+        result := result + p^.ToString;
+        if i < n then result := result + ',';
+        inc(p);
+      end;
+    end;
+    TLIBSystemVarType.lsvtInt32Array: begin
+      var p: pinteger;
+      p := pinteger(FData);
+      for i:=0 to n do begin
+        result := result + p^.ToString;
+        if i < n then result := result + ',';
+        inc(p);
+      end;
+    end;
+    TLIBSystemVarType.lsvtInt64Array: begin
+      var p: pint64;
+      p := pint64(FData);
+      for i:=0 to n do begin
+        result := result + p^.ToString;
+        if i < n then result := result + ',';
+        inc(p);
+      end;
+    end;
+    TLIBSystemVarType.lsvtDouble: begin
+      result := pdouble(FData)^.tostring;
+    end;
+    TLIBSystemVarType.lsvtDoubleArray: begin
+      var p: pdouble;
+      p := pdouble(FData);
+      for i:=0 to n do begin
+        result := result + p^.ToString;
+        if i < n then result := result + ',';
+        inc(p);
+      end;
+    end;
+    TLIBSystemVarType.lsvtString: begin
+      result := string(ansistring(FName));
+    end;
   end;
 
 end;
