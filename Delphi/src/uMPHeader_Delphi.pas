@@ -308,6 +308,19 @@ type
   // stim
   TSTIMSetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: TSTIMSignalStatus): s32; stdcall;
   TSTIMGetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: PSTIMSignalStatus): s32; stdcall;
+  // 2022-09-02
+  TTSAppGetSystemVarAddress = function(const ACompleteName: pansichar; AAddress: ps32): s32; stdcall;
+  TTSAppSetSystemVarLogging = function(const ACompleteName: pansichar; const AIsLogging: bool): s32; stdcall;
+  TTSAppGetSystemVarLogging = function(const ACompleteName: pansichar; AIsLogging: pbool): s32; stdcall;
+  TTSAppLogSystemVarValue = function(const AObj: pointer; const ACompleteName: pansichar): s32; stdcall;
+  TUIGetMainWindowHandle = function(AHandle: ps32): s32; stdcall;
+  TPrintDeltaTime = function(const AInfo: pansichar): s32; stdcall;
+  TAtomicIncrement32 = function(const AAddr: ps32; const AValue: s32; const AResult: ps32): s32; stdcall;
+  TAtomicIncrement64 = function(const AAddr: ps64; const AValue: s64; const AResult: ps64): s32; stdcall;
+  TAtomicSet32 = function(const AAddr: ps32; const AValue: s32): s32; stdcall;
+  TAtomicSet64 = function(const AAddr: ps64; const AValue: s64): s32; stdcall;
+  // 2022-09-09
+  TGetConstantDouble = function(const AName: pansichar; var AValue: double): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -757,8 +770,19 @@ type
     panel_set_bkgd_color             :   TPanelSetBkgdColor                ;
     panel_get_bkgd_color             :   TPanelGetBkgdColor                ;
     clear_measurement_form           :   TTSAppClearMeasurementForm        ;
+    get_system_var_address           :   TTSAppGetSystemVarAddress         ;
+    set_system_var_logging           :   TTSAppSetSystemVarLogging         ;
+    get_system_var_logging           :   TTSAppGetSystemVarLogging         ;
+    log_system_var_value             :   TTSAppLogSystemVarValue           ;
+    get_main_window_handle           :   TUIGetMainWindowHandle            ;
+    print_delta_time                 :   TPrintDeltaTime                   ;
+    atomic_increment_32              :   TAtomicIncrement32                ;
+    atomic_increment_64              :   TAtomicIncrement64                ;
+    atmoic_set_32                    :   TAtomicSet32                      ;
+    atomic_set_64                    :   TAtomicSet64                      ;
+    get_consant_double               :   TGetConstantDouble                ;
     // place holders
-    FDummy                     : array [0.. 872-1] of s32;
+    FDummy                           : array [0.. 861-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
