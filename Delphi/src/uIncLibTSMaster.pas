@@ -269,6 +269,7 @@ type
     lsvtInt32 = 0, lsvtUInt32, lsvtInt64, lsvtUInt64, lsvtUInt8Array,
     lsvtInt32Array, lsvtInt64Array, lsvtDouble, lsvtDoubleArray, lsvtString
   );
+  TSymbolMappingDirection = (smdBiDirection, smdSgnToSysVar, smdSysVarToSgn);
   // Offline replay
   TReplayPhase = (rppInit = 0, rppReplaying, rppEnded);
   // Online replay

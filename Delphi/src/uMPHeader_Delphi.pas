@@ -322,7 +322,7 @@ type
   // 2022-09-09
   TGetConstantDouble = function(const AName: pansichar; var AValue: double): s32; stdcall;
   // 2022-09-16
-  TAddDirectMappingCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar): s32; stdcall;
+  TAddDirectMappingCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar; const ADirection: TSymbolMappingDirection): s32; stdcall;
   TAddExpressionMapping = function(const ADestinationVarName: pansichar; const AExpression: pansichar; const AArguments: pansichar): s32; stdcall;
   TDeleteSymbolMappingItem = function(const ADestinationVarName: pansichar): s32; stdcall;
   TEnableSymbolMappingItem = function(const ADestinationVarName: pansichar; const AEnable: boolean): s32; stdcall;
