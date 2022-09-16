@@ -321,6 +321,12 @@ type
   TAtomicSet64 = function(const AAddr: ps64; const AValue: s64): s32; stdcall;
   // 2022-09-09
   TGetConstantDouble = function(const AName: pansichar; var AValue: double): s32; stdcall;
+  // 2022-09-16
+  TAddDirectMappingCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar): s32; stdcall;
+  TAddExpressionMapping = function(const ADestinationVarName: pansichar; const AExpression: pansichar; const AArguments: pansichar): s32; stdcall;
+  TDeleteSymbolMappingItem = function(const ADestinationVarName: pansichar): s32; stdcall;
+  TEnableSymbolMappingItem = function(const ADestinationVarName: pansichar; const AEnable: boolean): s32; stdcall;
+  TEnableSymbolMappingEngine = function(const AEnable: boolean): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -781,8 +787,13 @@ type
     atmoic_set_32                    :   TAtomicSet32                      ;
     atomic_set_64                    :   TAtomicSet64                      ;
     get_consant_double               :   TGetConstantDouble                ;
+    add_direct_mapping_can           :   TAddDirectMappingCAN              ;
+    add_expression_mapping           :   TAddExpressionMapping             ;
+    delete_symbol_mapping_item       :   TDeleteSymbolMappingItem          ;
+    enable_symbol_mapping_item       :   TEnableSymbolMappingItem          ;
+    enable_symbol_mapping_engine     :   TEnableSymbolMappingEngine        ;
     // place holders
-    FDummy                           : array [0.. 861-1] of s32;
+    FDummy                           : array [0.. 856-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;

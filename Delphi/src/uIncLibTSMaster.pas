@@ -1017,7 +1017,7 @@ function tscom_can_rbs_set_signal_value_by_element(const AIdxChn: Integer; const
 function tscom_can_rbs_set_signal_value_by_address(const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 // LIN apis
-//function tslin_apply_download_new_ldf(const AChnIdx: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslin_clear_schedule_tables(const AChnIdx: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tslin_download_frames(const AChnIdx: Integer; const ACnt: Integer; const ALINFrames: PConfig_LINFrameStruct): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tslin_download_schedule_tables(const AChnIdx: Integer; const ACnt: Integer; const ALINSchedule: Plin_schedule_struct): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tslin_download_runtime_schedule_table(const AChnIdx: Integer; const ALINSchedule: Plin_schedule_struct): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -1028,9 +1028,13 @@ function tslin_start_lin_channel(const AChnIdx: Integer): Integer;stdcall; {$IFN
 function tslin_set_node_funtiontype(const AChnIdx: Integer; const AFunctionType: TLINNodeType): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //LIN_Diag_Tp_Layer
 function tstp_lin_master_request(const AChnIdx: Integer; const ANAD:Byte; const AData: PByte; const ADataNum: Integer; const ATimeoutMs: Integer): Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tstp_lin_master_request_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_master_request_intervalms(const AChnIdx: Integer; const AData: UInt16): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_lin_reset(const AChnIdx: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tstp_lin_slave_response_intervalms(const AChnIdx: Integer; const AData: Byte): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_slave_response_intervalms(const AChnIdx: Integer; const AData: UInt16): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_tp_para_default(const AChnIdx: Integer;const AReqIntervalMs: UInt16; const AResIntervalMs: UInt16;
+    const AResRetryTime: UInt16): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_lin_tp_para_special(const AChnIdx: Integer;const AReqIntervalMs: UInt16; const AResIntervalMs: UInt16;
+    const AResRetryTime: UInt16): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //LIN_Diag_Service_Layer
 //ServiceID:0x22
 function tsdiag_lin_read_data_by_identifier(const AChnIdx: Integer;const ANAD:Byte;const AId:uint16;
