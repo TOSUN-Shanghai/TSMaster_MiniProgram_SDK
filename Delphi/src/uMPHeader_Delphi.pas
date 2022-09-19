@@ -327,6 +327,12 @@ type
   TDeleteSymbolMappingItem = function(const ADestinationVarName: pansichar): s32; stdcall;
   TEnableSymbolMappingItem = function(const ADestinationVarName: pansichar; const AEnable: boolean): s32; stdcall;
   TEnableSymbolMappingEngine = function(const AEnable: boolean): s32; stdcall;
+  // 2022-09-17
+  TDeleteSymbolMappingItems = function(): s32; stdcall;
+  TSaveSymbolMappingSettings = function(const AFileName: pansichar): s32; stdcall;
+  TLoadSymbolMappingSettings = function(const AFileName: pansichar): s32; stdcall;
+  // 2022-09-18
+  TAddDirectMappingWithFactorOffsetCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar; const ADirection: TSymbolMappingDirection; const AFactor: double; const AOffset: double): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -792,8 +798,12 @@ type
     delete_symbol_mapping_item       :   TDeleteSymbolMappingItem          ;
     enable_symbol_mapping_item       :   TEnableSymbolMappingItem          ;
     enable_symbol_mapping_engine     :   TEnableSymbolMappingEngine        ;
+    delete_symbol_mapping_items      :   TDeleteSymbolMappingItems         ;
+    save_symbol_mapping_settings     :   TSaveSymbolMappingSettings        ;
+    load_symbol_mapping_settings     :   TLoadSymbolMappingSettings        ;
+    add_direct_mapping_with_factor_offset_can:   TAddDirectMappingWithFactorOffsetCAN;
     // place holders
-    FDummy                           : array [0.. 856-1] of s32;
+    FDummy                           : array [0.. 852-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function start_log: s32; cdecl;
