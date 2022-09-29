@@ -1062,7 +1062,7 @@ type
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
-    procedure log(const AStr: PAnsiChar; const ALevel: s32); cdecl;
+    function  log(const AStr: PAnsiChar; const ALevel: s32): s32; cdecl;
     function  debug_log_info(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): s32; cdecl;
     procedure write_result_string(const AName: PAnsiChar; const AValue: PAnsiChar; const ALevel: s32); cdecl;
     procedure write_result_value(const AName: PAnsiChar; const AValue: Double; const ALevel: s32); cdecl;
@@ -1609,15 +1609,15 @@ end;
 function TTSTest.debug_log_info(const AFile, AFunc: pansichar; const ALine: s32;
   const AStr: pansichar; const ALevel: Integer): s32;
 begin
-  if not Assigned(FObj) then exit;
-  internal_debug_log_info(FObj, afile, afunc, aline, astr, ALevel);
+  if not Assigned(FObj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_debug_log_info(FObj, afile, afunc, aline, astr, ALevel);
 
 end;
 
-procedure TTSTest.log(const AStr: PAnsiChar; const ALevel: s32);
+function TTSTest.log(const AStr: PAnsiChar; const ALevel: s32): s32;
 begin
-  if not Assigned(FObj) then exit;
-  internal_log(FObj, astr, ALevel);
+  if not Assigned(FObj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_log(FObj, astr, ALevel);
 
 end;
 
