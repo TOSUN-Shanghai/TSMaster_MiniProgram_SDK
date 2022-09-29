@@ -333,6 +333,8 @@ type
   TLoadSymbolMappingSettings = function(const AFileName: pansichar): s32; stdcall;
   // 2022-09-18
   TAddDirectMappingWithFactorOffsetCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar; const ADirection: TSymbolMappingDirection; const AFactor: double; const AOffset: double): s32; stdcall;
+  // 2022-09-29
+  TTSAppDebugLog = function(const AObj: Pointer; const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -510,6 +512,7 @@ type
   TTestSetVerdictCOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
   TTestCheckVerdict = function(const AObj: Pointer; const AName: pansichar; const AValue: double; const AMin: double; const AMax: double): s32; stdcall;
   TTestLogger = function(const AObj: Pointer; const AStr: pansichar; const ALevel: Integer): integer; stdcall;
+  TTestDebugLog = function(const AObj: Pointer; const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): s32; stdcall;
   TTestWriteResultString = function(const AObj: Pointer; const AName: pansichar; const AValue: PAnsiChar; const ALevel: Integer): integer; stdcall;
   TTestWriteResultValue = function(const AObj: Pointer; const AName: pansichar; const AValue: Double; const ALevel: Integer): integer; stdcall;
   TTestCheckErrorBegin = function: integer; stdcall;
@@ -802,10 +805,12 @@ type
     save_symbol_mapping_settings     :   TSaveSymbolMappingSettings        ;
     load_symbol_mapping_settings     :   TLoadSymbolMappingSettings        ;
     add_direct_mapping_with_factor_offset_can:   TAddDirectMappingWithFactorOffsetCAN;
+    internal_debug_log               :   TTSAppDebugLog                    ;
     // place holders
-    FDummy                           : array [0.. 852-1] of s32;
+    FDummy                           : array [0.. 851-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
+    function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
     function start_log: s32; cdecl;
     function end_log: s32; cdecl;
     function check_terminate: s32; cdecl;
@@ -1051,12 +1056,14 @@ type
     signal_checker_add_statistics_with_trigger: TTestSignalCheckerAddStatisticsWithTrigger;
     signal_checker_get_result: TTestSignalCheckerGetResult;
     signal_checker_enable: TTestSignalCheckerEnable;
+    internal_debug_log_info: TTestDebugLog;
     // place holders
-    FDummy           : array [0..987-1] of s32;
+    FDummy           : array [0..986-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
     procedure log(const AStr: PAnsiChar; const ALevel: s32); cdecl;
+    function  debug_log_info(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): s32; cdecl;
     procedure write_result_string(const AName: PAnsiChar; const AValue: PAnsiChar; const ALevel: s32); cdecl;
     procedure write_result_value(const AName: PAnsiChar; const AValue: Double; const ALevel: s32); cdecl;
     function  write_result_image(const AName: PAnsiChar; const AImageFileFullPath: PAnsiChar): s32; cdecl;
@@ -1258,6 +1265,14 @@ function TTSApp.check_terminate: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   Result := internal_check_terminate(FObj);
+
+end;
+
+function TTSApp.debug_log(const AFile, AFunc: pansichar; const ALine: s32;
+  const AStr: pansichar; const ALevel: Integer): integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_debug_log(FObj, afile, afunc, aline, astr, alevel);
 
 end;
 
@@ -1590,6 +1605,14 @@ begin
 end;
 
 { TTSTest }
+
+function TTSTest.debug_log_info(const AFile, AFunc: pansichar; const ALine: s32;
+  const AStr: pansichar; const ALevel: Integer): s32;
+begin
+  if not Assigned(FObj) then exit;
+  internal_debug_log_info(FObj, afile, afunc, aline, astr, ALevel);
+
+end;
 
 procedure TTSTest.log(const AStr: PAnsiChar; const ALevel: s32);
 begin

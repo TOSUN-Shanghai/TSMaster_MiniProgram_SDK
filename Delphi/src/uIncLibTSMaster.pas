@@ -190,6 +190,71 @@ type
     property IsErrorFrame: boolean read GetIsErrorFrame;
   end;
 
+  // FlexRay Frame 300 B
+  TLIBFlexRay = packed record
+	  FIdxChn: byte;               // channel index starting from 0
+	  FChannelMask: byte;          // 0: reserved, 1: A, 2: B, 3: AB
+	  FDir: byte;                  // 0: Rx, 1: Tx, 2: Tx Request
+	  FPayloadLength: byte;        // payload length in bytes
+	  FActualPayloadLength: byte;  // actual data bytes
+	  FCycleNumber: byte;          // cycle number: 0~63
+	  FCCType: byte;               // 0 = Architecture independent, 1 = Invalid CC type, 2 = Cyclone I, 3 = BUSDOCTOR, 4 = Cyclone II, 5 = Vector VN interface, 6 = VN - Sync - Pulse(only in Status Event, for debugging purposes only)
+	  FReserved0: byte;            // 1 reserved byte
+	  FHeaderCRCA: word;           // header crc A
+	  FHeaderCRCB: word;           // header crc B
+	  FFrameStateInfo: word;       // bit 0~15, error flags
+	  FFrameFlags: word;           // bit 0~22
+                                 // 0 1 = Null frame.
+                                 // 1 1 = Data segment contains valid data
+                                 // 2 1 = Sync bit
+                                 // 3 1 = Startup flag
+                                 // 4 1 = Payload preamble bit
+                                 // 5 1 = Reserved bit
+                                 // 6 1 = Error flag(error frame or invalid frame)
+                                 // 7 Reserved
+                                 // 8 Internally used in CANoe / CANalyzer
+                                 // 9 Internally used in CANoe / CANalyzer
+                                 // 10 Internally used in CANoe / CANalyzer
+                                 // 11 Internally used in CANoe / CANalyzer
+                                 // 12 Internally used in CANoe / CANalyzer
+                                 // 13 Internally used in CANoe / CANalyzer
+                                 // 14 Internally used in CANoe / CANalyzer
+                                 // 15 1 = Async.monitoring has generated this event
+                                 // 16 1 = Event is a PDU
+                                 // 17 Valid for PDUs only.The bit is set if the PDU is valid(either if the PDU has no  // update bit, or the update bit for the PDU was set in the received frame).
+                                 // 18 Reserved
+                                 // 19 1 = Raw frame(only valid if PDUs are used in the configuration).A raw frame may  // contain PDUs in its payload
+                                 // 20 1 = Dynamic segment	0 = Static segment
+                                 // 21 This flag is only valid for frames and not for PDUs.	1 = The PDUs in the payload of  // this frame are logged in separate logging entries. 0 = The PDUs in the payload of this  // frame must be extracted out of this frame.The logging file does not contain separate  // PDU - entries.
+                                 // 22 Valid for PDUs only.The bit is set if the PDU has an update bit
+	  FSlotId: word;               // static seg: 0~1023
+	  FFrameCRC: uint32;           // frame crc
+	  FReserved1: uint64;          // 8 reserved bytes
+	  FReserved2: uint64;          // 8 reserved bytes
+	  FTimeUs: int64;              // timestamp in us
+	  FData: array[0..253] of byte;// 254 data bytes
+  end;
+  PLIBFlexRay = ^TLIBFlexRay;
+
+  // Ethernet Frame 38 B
+  TLIBEthernet = packed record
+    FIdxChn: byte;                             // app channel index starting from 0
+	  FDir: byte;                                // 0 = Rx, 1 = Tx, 2 = TxRq
+	  FType: byte;                               // Ethernet type field which indicates protocol for ethernet payload data
+	  FReserved0: byte;                          // 1 padding byte
+	  FSourceAddress: array[0..5] of byte;       // Source MAC Address
+	  FDestinationAddress: array[0..5] of byte;  // Destination MAC Address
+	  FTPID: word;                               // TPID when VLAN tag valid, zero when no VLAN
+	  FTCI: word;                                // TCI when VLAN tag valid, zero when no VLAN
+	  FTimeUs: int64;                            // timestamp in us
+	  FPayloadLength: word;                      // Length of Ethernet payload data in bytes. Max. 1582 Byte(without Ethernet header)
+	  FPayload: pbyte;                           // Ethernet payload data (without Ethernet header)
+{$IFDEF WIN32}
+    FPadding: Cardinal;                        // to be compatible with x64
+{$ENDIF}
+  end;
+  PLIBEthernet = ^TLIBEthernet;
+
   PLibGPSData = ^TLibGPSData;
   TLibGPSData = packed record
      FTimeUS: Uint64;          // timestamp in us
@@ -223,6 +288,8 @@ type
     FIndex:UInt32;                //FIndex
     FRecordData:TEMMC_RECORD_DATA;
     FNext:PEMMC_RECORD_NODE;
+    function RecordString:string;
+    function GetSlibingNode(AIndex:Integer):PEMMC_RECORD_NODE;
   end;   //8bytes, means max support
 
   TCANQueueEvent_API = procedure(const AData: PlibCAN) of object; stdcall;
@@ -288,6 +355,9 @@ type
     FEventType: integer;
     FCapacity: cardinal;
     FComment: pansichar;
+{$IFDEF WIN32}
+    FPadding: Cardinal;                   // to be compatible with x64
+{$ENDIF}
   end;
   Prealtime_comment_t = ^Trealtime_comment_t;
   TLibSystemVar = packed record
@@ -297,6 +367,9 @@ type
     FDataCapacity: cardinal;
     FName: pansichar;
     FData: pbyte;
+{$IFDEF WIN32}
+    FPadding: Int64;                      // to be compatible with x64
+{$ENDIF}
     function ToDataString: string;
   end;
   PLibSystemVar = ^TLibSystemVar;
@@ -326,7 +399,7 @@ type
     TC1016              = 11,   //FD_4_LIN_2
     TC1012              = 12,   //FD_1_LIN_1
     TC1013              = 13,   //FD_2
-    TC7012              = 14    //FD_2_LIN_2
+    TLog1002            = 14    //FD_2_LIN_2
   );
   // Vector XL device type
   TLIB_XL_Device_Sub_Type = (
@@ -488,7 +561,7 @@ const
     'TC1016',             //11,   //FD_4_LIN_2
     'TC1012',             //12,   //FD_1_LIN_1
     'TC1013',             //13,   //FD_2
-    'TC7012'              //14    //FD_2_LIN_2
+    'TLog1002'            //14    //FD_2_LIN_2
   );
   XL_HWTYPE_MAX_CNT = 114;
   XL_HWTYPE_NAMES: array [0..XL_HWTYPE_MAX_CNT-1] of string = (
@@ -1238,9 +1311,16 @@ begin
   tmpDateTimeString := tmpDateTimeString +  Format('%.2d:', [tmp]);
   tmpDateTimeString := tmpDateTimeString +  Format('%.2d:', [tmpUTCTime]) + '000'; //Second
   try
-    Result := StrToDateTime(tmpDateTimeString, FSetting);
-    Result.AddHour(ATimeZone);
-    Result.AddMilliSecond(FOffSetMiniSecond);
+    if TryStrToDateTime(tmpDateTimeString, Result) then
+    begin
+      Result := StrToDateTime(tmpDateTimeString, FSetting);
+      Result.AddHour(ATimeZone);
+      Result.AddMilliSecond(FOffSetMiniSecond);
+    end
+    else
+    begin
+      result := now;
+    end;
   except
     Result := now;
   end;
@@ -1961,7 +2041,37 @@ begin
 
 end;
 
+function TEMMC_RECORD_NODE.RecordString:string;
+begin
+  Result := FIndex.toString + ':' + FRecordData.FDateTimeString(8);
+  //FRecordData:TEMMC_RECORD_DATA;
+  Result := Result + ':Size[' + FRecordData.FSectorSize.ToString;
+  Result := Result + '][' + FRecordData.FStartSector.ToString  + ',' +
+     (FRecordData.FStartSector + FRecordData.FSectorSize - 1).toString + ']';
+
+end;
+
+function TEMMC_RECORD_NODE.GetSlibingNode(AIndex:Integer):PEMMC_RECORD_NODE;
+var
+  i:integer;
+begin
+  Result := @Self;
+  for i := 0 to AIndex - 1 do   //0
+  begin
+    if Assigned(Result) = false then
+      Break;
+    Result := Result.FNext;
+  end;
+
+end;
+
 initialization
   Assert(sizeof(TLIBCAN) = 24, 'TLIBCAN.size = 24');
+  Assert(sizeof(TLIBLIN) = 23, 'TLIBLIN.size = 23');
+  Assert(sizeof(TLIBCANFD) = 80, 'TLIBCANFD.size = 80');
+  Assert(sizeof(TLIBFlexRay) = 300, 'TFlexRay.size = 300');
+  Assert(sizeof(TLIBEthernet) = 38, 'TEthernet.size = 38');
+  Assert(sizeof(Trealtime_comment_t) = 24, 'Trealtime_comment_t.size = 24');
+  Assert(sizeof(TLibSystemVar) = 36, 'TLibSystemVar.size = 36');
 
 end.
