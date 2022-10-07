@@ -448,8 +448,8 @@ type
   TTSLog_blf_read_object_w_comment = function (const AHandle: s32; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD; AComment: Prealtime_comment_t): s32; stdcall;
   TTSLog_blf_read_end = function (const AHandle: s32): s32; stdcall;
   TTSLog_blf_seek_object_time = function (const AHandle: s32; const AProg100: Double; var ATime: s64; var AProgressedCnt: s32): s32; stdcall;
-  TTSLog_blf_to_asc = function (const ABLFFileName: PAnsiChar; const AASCFileName: pansichar; const AProgressCallback: TProgressCallback): s32; stdcall;
-  TTSLog_asc_to_blf = function (const AASCFileName: PAnsiChar; const ABLFFileName: pansichar; const AProgressCallback: TProgressCallback): s32; stdcall;
+  TTSLog_blf_to_asc = function (const AObj: pointer; const ABLFFileName: PAnsiChar; const AASCFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
+  TTSLog_asc_to_blf = function (const AObj: pointer; const AASCFileName: PAnsiChar; const ABLFFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   // IP functions
   TIoIPCreate = function(const AObj: Pointer; const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32; stdcall;
   TIoIPDelete = function(const AObj: Pointer; const AHandle: s32): s32; stdcall;

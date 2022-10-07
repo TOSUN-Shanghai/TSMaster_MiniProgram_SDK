@@ -2,6 +2,9 @@
 
 interface
 
+uses
+  Winapi.Windows;
+
 const
   // DLL
   DLL_LIB_TSMASTER = 'TSMaster.dll';
@@ -347,9 +350,10 @@ type
   // RBS
   TLIBRBSInitValueOptions = (rivUseDB = 0, rivUseLast, rivUse0);
   // BLF
-  TProgressCallback = procedure(const AProgress100: Double); stdcall;
+  TReadTimeCallback = procedure(const AObj: pointer; const ATime: PSystemTime{SystemTimeToDateTime}); stdcall;
+  TReadProgressCallback = procedure(const AObj: pointer; const AProgress100: Double); stdcall;
   PSupportedObjType = ^TSupportedObjType; // TSupportedObjType must be 4 bytes aligned
-  TSupportedObjType = (sotCAN = 0, sotLIN, sotCANFD, sotRealtimeComment, sotSystemVar, sotUnknown = $FFFFFFF);
+  TSupportedObjType = (sotCAN = 0, sotLIN, sotCANFD, sotRealtimeComment, sotSystemVar, sotFlexRay, sotEthernet, sotUnknown = $FFFFFFF);
   Trealtime_comment_t = packed record
     FTimeUs: int64;
     FEventType: integer;
@@ -375,6 +379,7 @@ type
   PLibSystemVar = ^TLibSystemVar;
   TReadBLFRealtimeCommentCallback = procedure (const AObj: pointer; const AComment: Prealtime_comment_t; const AToTerminate: pboolean); stdcall;
   TReadBLFSystemVarCallback = procedure (const AObj: pointer; const ASysVar: PLibSystemVar; const AToTerminate: pboolean); stdcall;
+  TReadUnsupportedCallback = procedure (const AObj: pointer); stdcall;
   // Automation module
   TLIBAutomationModuleRunningState = (amrsNotRun, amrsPrepareRun, amrsRunning, amrsPaused, amrsStepping, amrsFinished);
   PLIBAutomationModuleRunningState = ^TLIBAutomationModuleRunningState;
@@ -508,7 +513,7 @@ type
   TLINNodeType = ({0:}T_MasterNode,{1:}T_SlaveNode,{;2:}T_MonitorNode);
   TLINProtocol = ({0:}LIN_PROTOCL_13,{1:}LIN_PROTOCL_20,{;2:}LIN_PROTOCL_21,{;3:}LIN_PROTOCL_J2602);
 
-  CAN_ISO_TP_RESAULT = (
+  ISO_TP_RESAULT = (
       N_OK = 0
       , IDX_ERR_TP_TIMEOUT_AS= 139   //Maximum time for the sender to transmit data to the receiver, default 1000
       , IDX_ERR_TP_TIMEOUT_AR= 140   //Maximum time for the receiver to transmit flow control to the sender, default 1000
@@ -521,16 +526,34 @@ type
       , IDX_ERR_TP_BUFFER_OVFLW          = 147
       , IDX_ERR_TP_NOT_IDLE              = 148
       , IDX_ERR_TP_ERROR_FROM_CAN_DRIVER = 149
+      , IDX_ERR_LIN_MASTER_TRANSMIT_N_AS_TIMEOUT   = 202
+      , IDX_ERR_LIN_MASTER_TRANSMIT_TRANSMIT_ERROR = 203
+      , IDX_ERR_LIN_MASTER_REV_N_CR_TIMEOUT        = 204
+      , IDX_ERR_LIN_MASTER_REV_ERROR               = 205
+      , IDX_ERR_LIN_MASTER_REV_INTERLLEAVE_TIMEOUT = 206
+      , IDX_ERR_LIN_MASTER_REV_NO_RESPONSE         = 207
+      , IDX_ERR_LIN_MASTER_REV_SN_ERROR            = 208
+      , IDX_ERR_LIN_SLAVE_TRANSMIT_N_CR_TIMEOUT    = 209
+      , IDX_ERR_LIN_SLAVE_REV_N_CR_TIMEOUT         = 210
+      , IDX_ERR_LIN_SLAVE_TRANSMIT_ERROR           = 211
+      , IDX_ERR_LIN_SLAVE_REV_ERROR                = 212
   );
-  N_USData_TranslateCompleted_Recall_Obj = procedure(const ATpModuleIndex:Integer;const AChn:Integer;
-                                       const AIdentifier:Integer;
-                                       const ATimeStamp:UInt64;
-                                       const APayLoad:PByte; const ASize:UInt32;
-                                       const AError:CAN_ISO_TP_RESAULT) of object;stdcall;//Reporting Received TP Data to Upper layer
 
-  N_USData_TranslateCompleted_Recall = procedure(const ATpModuleIndex:Integer;const AChn:Integer;const ATimeStamp:UInt64;
+  N_USData_TranslateCompleted_Recall_Obj = procedure(const ATpModuleIndex:Integer;
+                                       const AChn:Integer;
+                                       const ABusType: byte;
+                                       const ANAD: byte;
+                                       const AIdentifier: Integer;
+                                       const ATimeStamp: UInt64;
                                        const APayLoad:PByte; const ASize:UInt32;
-                                       const AError:CAN_ISO_TP_RESAULT);stdcall;//Reporting Received TP Data to Upper layer
+                                       const AError: ISO_TP_RESAULT) of object; stdcall;//Reporting Received TP Data to Upper layer
+
+  N_USData_TranslateCompleted_Recall = procedure(const ATpModuleIndex:Integer;
+                                       const AChn:Integer;
+                                       const ATimeStamp:UInt64;
+                                       const APayLoad:PByte;
+                                       const ASize:UInt32;
+                                       const AError:ISO_TP_RESAULT);stdcall;//Reporting Received TP Data to Upper layer
 
 const
   BUS_TOOL_DEVICE_TYPE_COUNT = 9;
@@ -1234,7 +1257,6 @@ function tsmp_get_mp_list(const AList: ppansichar): integer; stdcall; {$IFNDEF L
 implementation
 
 uses
-  Winapi.Windows,
   System.Types,
   System.Math,
   System.AnsiStrings,
