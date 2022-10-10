@@ -618,7 +618,7 @@ type
     del_mapping                         : TTSAppDeleteMapping              ;
     connect                             : TTSAppConnectApplication         ;
     disconnect                          : TTSAppDisconnectApplication      ;
-    Log                                 : TTSAppLogger                     ;
+    Log_text                            : TTSAppLogger                     ;
     configure_baudrate_can              : TTSConfigureBaudrateCAN          ;
     configure_baudrate_canfd            : TTSConfigureBaudrateCANFD        ;
     set_turbo_mode                      : TTSSetTurboMode                  ;
@@ -1702,13 +1702,13 @@ end;
 
 procedure LogInfo(const AApp: TTSApp; const AString: string);
 begin
-  aapp.Log(GetCStringFromString_OnlyOneParameter(astring), LVL_INFO);
+  aapp.Log_text(GetCStringFromString_OnlyOneParameter(astring), LVL_INFO);
 
 end;
 
 procedure LogError(const AApp: TTSApp; const AString: string);
 begin
-  AApp.Log(GetCStringFromString_OnlyOneParameter(astring), LVL_ERROR);
+  aapp.Log_text(GetCStringFromString_OnlyOneParameter(astring), LVL_ERROR);
 
 end;
 
