@@ -280,7 +280,7 @@ type
     FUTCDate:UInt32;     //GlobalTimeSecond
     FUTCTime:UInt32;
     FStartSector:UInt32;          //Start Sector
-    FSectorSize:UInt32;                 //FSize: u32
+    FSectorSize:UInt32;                 //FSize
     FOffSetMiniSecond:UInt32;
     function FDateTimeString(ATimeZone:Integer):string;
     function FDateTime(ATimeZone:Integer):TDateTime;
@@ -1225,14 +1225,17 @@ function tsdiag_can_read_data_by_identifier(ADiagModuleIndex:Integer;ADataIdenti
 function tslog_logger_get_file_catelog(const AChnIdx:Integer; const ACategory:PPEMMC_RECORD_NODE; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_delete_file(const AChnIdx:Integer; const AFileIndex:Integer; ATimeoutMS:Integer): Integer; stdcall;  {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_start_export_blf_file(const AChnIdx:Integer; const AFileIndex:Integer; const ABlfFileName:PAnsiChar;
-                                            const AStartTimeUs:UInt64; const AMaxSize:Integer; const AProgress:PDouble; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                                            const AStartTimeUs:UInt64; const AMaxSize:Integer; const AProgress:PDouble;
+                                            const AYear, AMonth, ADay, AHour, AMinute, ASecond, AMinisecond: UInt16;
+                                            const ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_abort_export_blf_file(const AChnIdx:Integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_start_online_replay(const AChnIdx:Integer; const AFileIndex:Integer; const AStartTimeUs:UInt64; const AMaxSize:integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_start_offline_replay(const AChnIdx:Integer; const AFileIndex:Integer; const AStartTimeUs:UInt64; const AMaxSize:integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_stop_replay(const AChnIdx:Integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_set_logger_mode(const AChnIdx:Integer; AMode:Byte; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-
+function tslog_logger_update_online_trigger(const AChnIdx: Integer; const AAddOrDelete:boolean; const AData:PLibCANFD; const AIntervalMs:UInt32; const ATimeOutMs: integer):integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //GPS Module
+function tsapp_logger_enable_gps_module(const AChnIdx: Integer; const AEnable: integer; const ATimeoutMS:Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_reset_gps_module(const AChnIdx:Integer; const AInitBaudrate:Integer; const ATargetBaudrate:Integer; const ATimeoutMS:Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_gps_data_async(const AChnIdx:Integer; const AGPSData:PLibGPSData): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
