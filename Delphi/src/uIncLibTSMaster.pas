@@ -203,41 +203,146 @@ type
 	  FCycleNumber: byte;          // cycle number: 0~63
 	  FCCType: byte;               // 0 = Architecture independent, 1 = Invalid CC type, 2 = Cyclone I, 3 = BUSDOCTOR, 4 = Cyclone II, 5 = Vector VN interface, 6 = VN - Sync - Pulse(only in Status Event, for debugging purposes only)
 	  FReserved0: byte;            // 1 reserved byte
-	  FHeaderCRCA: word;           // header crc A
-	  FHeaderCRCB: word;           // header crc B
-	  FFrameStateInfo: word;       // bit 0~15, error flags
-	  FFrameFlags: word;           // bit 0~22
-                                 // 0 1 = Null frame.
-                                 // 1 1 = Data segment contains valid data
-                                 // 2 1 = Sync bit
-                                 // 3 1 = Startup flag
-                                 // 4 1 = Payload preamble bit
-                                 // 5 1 = Reserved bit
-                                 // 6 1 = Error flag(error frame or invalid frame)
-                                 // 7 Reserved
-                                 // 8 Internally used in CANoe / CANalyzer
-                                 // 9 Internally used in CANoe / CANalyzer
-                                 // 10 Internally used in CANoe / CANalyzer
-                                 // 11 Internally used in CANoe / CANalyzer
-                                 // 12 Internally used in CANoe / CANalyzer
-                                 // 13 Internally used in CANoe / CANalyzer
-                                 // 14 Internally used in CANoe / CANalyzer
-                                 // 15 1 = Async.monitoring has generated this event
-                                 // 16 1 = Event is a PDU
-                                 // 17 Valid for PDUs only.The bit is set if the PDU is valid(either if the PDU has no  // update bit, or the update bit for the PDU was set in the received frame).
-                                 // 18 Reserved
-                                 // 19 1 = Raw frame(only valid if PDUs are used in the configuration).A raw frame may  // contain PDUs in its payload
-                                 // 20 1 = Dynamic segment	0 = Static segment
-                                 // 21 This flag is only valid for frames and not for PDUs.	1 = The PDUs in the payload of  // this frame are logged in separate logging entries. 0 = The PDUs in the payload of this  // frame must be extracted out of this frame.The logging file does not contain separate  // PDU - entries.
-                                 // 22 Valid for PDUs only.The bit is set if the PDU has an update bit
-	  FSlotId: word;               // static seg: 0~1023
-	  FFrameCRC: uint32;           // frame crc
-	  FReserved1: uint64;          // 8 reserved bytes
-	  FReserved2: uint64;          // 8 reserved bytes
-	  FTimeUs: int64;              // timestamp in us
-	  FData: array[0..253] of byte;// 254 data bytes
+	  FHeaderCRCA: UInt16;          // header crc A
+	  FHeaderCRCB: UInt16;          // header crc B
+	  FFrameStateInfo: UInt16;      // bit 0~15, error flags
+	  FSlotId: UInt16;              // static seg: 0~1023
+    FFrameFlags: UInt32;          // bit 0~22
+                               // 0 1 = Null frame.
+                               // 1 1 = Data segment contains valid data
+                               // 2 1 = Sync bit
+                               // 3 1 = Startup flag
+                               // 4 1 = Payload preamble bit
+                               // 5 1 = Reserved bit
+                               // 6 1 = Error flag(error frame or invalid frame)
+                               // 7 Reserved
+                               // 8 Internally used in CANoe / CANalyzer
+                               // 9 Internally used in CANoe / CANalyzer
+                               // 10 Internally used in CANoe / CANalyzer
+                               // 11 Internally used in CANoe / CANalyzer
+                               // 12 Internally used in CANoe / CANalyzer
+                               // 13 Internally used in CANoe / CANalyzer
+                               // 14 Internally used in CANoe / CANalyzer
+                               // 15 1 = Async.monitoring has generated this event
+                               // 16 1 = Event is a PDU
+                               // 17 Valid for PDUs only.The bit is set if the PDU is valid(either if the PDU has no  // update bit, or the update bit for the PDU was set in the received frame).
+                               // 18 Reserved
+                               // 19 1 = Raw frame(only valid if PDUs are used in the configuration).A raw frame may  // contain PDUs in its payload
+                               // 20 1 = Dynamic segment	0 = Static segment
+                               // 21 This flag is only valid for frames and not for PDUs.	1 = The PDUs in the payload of  // this frame are logged in separate logging entries. 0 = The PDUs in the payload of this  // frame must be extracted out of this frame.The logging file does not contain separate  // PDU - entries.
+                               // 22 Valid for PDUs only.The bit is set if the PDU has an update bit
+	  FFrameCRC: UInt32;            // frame crc
+	  FReserved1: UInt64;           // 8 reserved bytes
+	  FReserved2: UInt64;           // 8 reserved bytes
+	  FTimeUs: UInt64;              // timestamp in us
+	  FData: array[0..253] of Byte;// 254 data bytes
   end;
   PLIBFlexRay = ^TLIBFlexRay;
+
+    //Flexray
+  PLibFlexray_controller_config = ^TLibFlexray_controller_config;
+  TLibFlexray_controller_config = packed record
+     NETWORK_MANAGEMENT_VECTOR_LENGTH: UInt8;
+     PAYLOAD_LENGTH_STATIC: UInt8;
+     FReserved: UInt16;
+     LATEST_TX: UInt16;
+    // __ prtc1Control
+     T_S_S_TRANSMITTER: UInt16;
+     CAS_RX_LOW_MAX: UInt8;
+     SPEED: UInt8;      //0 for 10m, 1 for 5m, 2 for 2.5m, convert from Database
+     WAKE_UP_SYMBOL_RX_WINDOW: UInt16;
+     WAKE_UP_PATTERN: UInt8;
+    // __ prtc2Control
+     WAKE_UP_SYMBOL_RX_IDLE: UInt8;
+     WAKE_UP_SYMBOL_RX_LOW: UInt8;
+     WAKE_UP_SYMBOL_TX_IDLE: UInt8;
+     WAKE_UP_SYMBOL_TX_LOW: UInt8;
+    // __ succ1Config
+     channelAConnectedNode: UInt8;      // Enable ChannelA: 0: Disable 1: Enable
+     channelBConnectedNode: UInt8;      // Enable ChannelB: 0: Disable 1: Enable
+     channelASymbolTransmitted: UInt8 ; // Enable Symble Transmit function of Channel A: 0: Disable 1: Enable
+     channelBSymbolTransmitted: UInt8 ; // Enable Symble Transmit function of Channel B: 0: Disable 1: Enable
+     ALLOW_HALT_DUE_TO_CLOCK: UInt8;
+     SINGLE_SLOT_ENABLED: UInt8;        // FALSE_0, TRUE_1
+     wake_up_idx: UInt8;                // Wake up channe: 0:ChannelA， 1:ChannelB
+     ALLOW_PASSIVE_TO_ACTIVE: UInt8;
+     COLD_START_ATTEMPTS: UInt8;
+     synchFrameTransmitted: UInt8;      // Need to transmit sync frame
+     startupFrameTransmitted: UInt8;    // Need to transmit startup frame
+    // __ succ2Config
+     LISTEN_TIMEOUT: UInt32;
+     LISTEN_NOISE: UInt8;               //2_16
+    // __ succ3Config
+     MAX_WITHOUT_CLOCK_CORRECTION_PASSIVE: UInt8;
+     MAX_WITHOUT_CLOCK_CORRECTION_FATAL: UInt8;
+     REVERS0: UInt8;                    //Memory Align
+    // __ gtuConfig
+    // __ gtu01Config
+     MICRO_PER_CYCLE: UInt32;
+    // __ gtu02Config
+     Macro_Per_Cycle: UInt16;
+     SYNC_NODE_MAX: UInt8;
+     REVERS1: UInt8;  //Memory Align
+    // __ gtu03Config
+     MICRO_INITIAL_OFFSET_A: UInt8;
+     MICRO_INITIAL_OFFSET_B: UInt8;
+     MACRO_INITIAL_OFFSET_A: UInt8;
+     MACRO_INITIAL_OFFSET_B: UInt8;
+    // __ gtu04Config
+     N_I_T: UInt16;
+     OFFSET_CORRECTION_START: UInt16;
+    // __ gtu05Config
+     DELAY_COMPENSATION_A: UInt8;
+     DELAY_COMPENSATION_B: UInt8;
+     CLUSTER_DRIFT_DAMPING: UInt8;
+     DECODING_CORRECTION: UInt8;
+    // __ gtu06Config
+     ACCEPTED_STARTUP_RANGE: UInt16;
+     MAX_DRIFT: UInt16;
+    // __ gtu07Config
+     STATIC_SLOT: UInt16;
+     NUMBER_OF_STATIC_SLOTS: UInt16;
+    // __ gtu08Config
+     MINISLOT: UInt8;
+     REVERS2: UInt8;  //Memory Align
+     NUMBER_OF_MINISLOTS: UInt16;
+    // __ gtu09Config
+     DYNAMIC_SLOT_IDLE_PHASE: UInt8;
+     ACTION_POINT_OFFSET: UInt8;
+     MINISLOT_ACTION_POINT_OFFSET: UInt8;
+     REVERS3: UInt8;  //Memory Align
+    // __ gtu10Config
+     OFFSET_CORRECTION_OUT: UInt16;
+     RATE_CORRECTION_OUT: UInt16;
+    // __ gtu11Config
+     EXTERN_OFFSET_CORRECTION: UInt8;
+     EXTERN_RATE_CORRECTION: UInt8;
+    //
+     REVERS4: UInt8;  //Memory Align
+     config_byte: UInt8;  //Memory Align
+     //bit0: 1：启用cha上终端电阻  0：不启用
+     //bit1: 1：启用chb上终端电阻  0：不启用
+     //bit2: 1：启用接收FIFO    0：不启用
+
+     //bit4: 1：cha桥接使能             0：不使能
+     //bit5: 1：chb桥接使能             0：不使能
+  end;
+
+  PLibTrigger_def = ^TLibTrigger_def;
+  TLibTrigger_def = packed record
+     frame_idx: UInt8;
+     slot_id: UInt8;
+     cycle_code: UInt8;//BASE-CYCLE + CYCLE-REPETITION
+     config_byte: UInt8;
+    //bit 0:是否使能通道A
+    //bit 1:是否使能通道B
+    //bit 2:是否网络管理报文
+    //bit 3:传输模式，0表示连续传输，1表示单次触发
+    //bit 4:是否为冷启动报文，只有缓冲区0可以置1
+    //bit 5:是否为同步报文，只有缓冲区0/1可以置1
+    //bit 6:
+    //bit 7:帧类型：0-静态，1-动态
+   end;
 
   // Ethernet Frame 38 B
   TLIBEthernet = packed record
@@ -2094,7 +2199,7 @@ initialization
   Assert(sizeof(TLIBCAN) = 24, 'TLIBCAN.size = 24');
   Assert(sizeof(TLIBLIN) = 23, 'TLIBLIN.size = 23');
   Assert(sizeof(TLIBCANFD) = 80, 'TLIBCANFD.size = 80');
-  Assert(sizeof(TLIBFlexRay) = 300, 'TFlexRay.size = 300');
+  Assert(sizeof(TLIBFlexRay) = 302, 'TFlexRay.size = 302');
   Assert(sizeof(TLIBEthernet) = 38, 'TEthernet.size = 38');
   Assert(sizeof(Trealtime_comment_t) = 24, 'Trealtime_comment_t.size = 24');
   Assert(sizeof(TLibSystemVar) = 36, 'TLibSystemVar.size = 36');
