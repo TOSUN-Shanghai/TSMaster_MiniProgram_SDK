@@ -279,11 +279,11 @@ type
   TTSAppSetSystemVarGenericAsync = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
   // automation module apis
   TAMGetRunningState = function(const AModuleName: pansichar; AState: PLIBAutomationModuleRunningState; ASubModuleName: ppansichar; ACurrentParameterGroupName: ppansichar): s32; stdcall;
-  TAMRun = function(const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar; const AIsSync: bool): s32; stdcall;
-  TAMStop = function(const AModuleName: pansichar; const AIsSync: bool): s32; stdcall;
-  TAMSelectSubModule = function(const AIsSelect: bool; const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
+  TAMRun = function(const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar; const AIsSync: boolean): s32; stdcall;
+  TAMStop = function(const AModuleName: pansichar; const AIsSync: boolean): s32; stdcall;
+  TAMSelectSubModule = function(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
   // panel set apis
-  TPanelSetEnable = function(const APanelName: pansichar; const AControlName: pansichar; const AEnable: bool): s32; stdcall;
+  TPanelSetEnable = function(const APanelName: pansichar; const AControlName: pansichar; const AEnable: boolean): s32; stdcall;
   TPanelSetPositionX = function(const APanelName: pansichar; const AControlName: pansichar; const AX: single): s32; stdcall;
   TPanelSetPositionY = function(const APanelName: pansichar; const AControlName: pansichar; const AY: single): s32; stdcall;
   TPanelSetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; const AX: single; const AY: single): s32; stdcall;
@@ -297,7 +297,7 @@ type
   TPanelSetScaleY = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleY: single): s32; stdcall;
   TPanelSetBkgdColor = function(const APanelName: pansichar; const AControlName: pansichar; const AAlphaColor: u32): s32; stdcall;
   // panel get apis
-  TPanelGetEnable = function(const APanelName: pansichar; const AControlName: pansichar; var AEnable: bool): s32; stdcall;
+  TPanelGetEnable = function(const APanelName: pansichar; const AControlName: pansichar; var AEnable: boolean): s32; stdcall;
   TPanelGetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; var Ax: single; var Ay: single): s32; stdcall;
   TPanelGetOpacity = function(const APanelName: pansichar; const AControlName: pansichar; var AOpacity: single): s32; stdcall;
   TPanelGetWidthHeight = function(const APanelName: pansichar; const AControlName: pansichar; var AWidth: single; var AHeight: single): s32; stdcall;
@@ -310,7 +310,7 @@ type
   TSTIMGetSignalStatus = function(const ASTIMName: pansichar; const ASignalLabel: pansichar; const AStatus: PSTIMSignalStatus): s32; stdcall;
   // 2022-09-02
   TTSAppGetSystemVarAddress = function(const ACompleteName: pansichar; AAddress: ps32): s32; stdcall;
-  TTSAppSetSystemVarLogging = function(const ACompleteName: pansichar; const AIsLogging: bool): s32; stdcall;
+  TTSAppSetSystemVarLogging = function(const ACompleteName: pansichar; const AIsLogging: boolean): s32; stdcall;
   TTSAppGetSystemVarLogging = function(const ACompleteName: pansichar; AIsLogging: pbool): s32; stdcall;
   TTSAppLogSystemVarValue = function(const AObj: pointer; const ACompleteName: pansichar): s32; stdcall;
   TUIGetMainWindowHandle = function(AHandle: ps32): s32; stdcall;
@@ -427,8 +427,8 @@ type
   TCANRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
   TCANRBSSetMessageDirection = function (const AIdxChn: integer; const AIsTx: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
   TCANRBSFaultInjectionClear = function: s32; stdcall;
-  TCANRBSFaultInjectionMessageLost = function(const AEnable: bool; const AIdxChn: s32; const AIdentifier: s32): s32; stdcall;
-  TCANRBSFaultInjectionSignalAlter = function(const AEnable: bool; const ASymbolAddress: pansichar; const AAlterValue: double): s32; stdcall;
+  TCANRBSFaultInjectionMessageLost = function(const AEnable: boolean; const AIdxChn: s32; const AIdentifier: s32): s32; stdcall;
+  TCANRBSFaultInjectionSignalAlter = function(const AEnable: boolean; const ASymbolAddress: pansichar; const AAlterValue: double): s32; stdcall;
   TCANRBSSetNormalSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
   TCANRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
   TCANRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
@@ -498,8 +498,8 @@ type
   TJ1939SetR = function(var AIdentifier: integer; const AR: u8): integer; stdcall;
   TJ1939SetDP = function(var AIdentifier: integer; const ADP: u8): integer; stdcall;
   TJ1939SetEDP = function(var AIdentifier: integer; const AEDP: u8): integer; stdcall;
-  TJ1939GetLastPDU = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; const APDUBufferSize: integer; APDUBuffer: pbyte; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
-  TJ1939GetLastPDUAsString = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: bool; APDUData: ppansichar; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
+  TJ1939GetLastPDU = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: boolean; const APDUBufferSize: integer; APDUBuffer: pbyte; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
+  TJ1939GetLastPDUAsString = function(const AIdxChn: byte; const AIdentifier: integer; const AIsTx: boolean; APDUData: ppansichar; var APDUActualSize: integer; var ATimeUs: int64): integer; stdcall;
   TJ1939TransmitPDUAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer): integer; stdcall;
   TJ1939TransmitPDUSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer; const ATimeoutMs: integer): integer; stdcall;
   TJ1939TransmitPDUAsStringAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar): integer; stdcall;
@@ -525,8 +525,8 @@ type
   TTestSignalCheckerAddCheckWithTrigger = function(const ASignalType: TSignalType; const ACheckKind: TSignalCheckKind; const ASgnName: pansichar; const ASgnMin: double; const ASgnMax: double; const ATriggerType: TSignalType; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddStatisticsWithTime = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddStatisticsWithTrigger = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
-  TTestSignalCheckerGetResult = function(const AObj: Pointer; const ACheckId: integer; var APass: bool; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
-  TTestSignalCheckerEnable = function(const ACheckId: integer; const AEnable: bool): integer; stdcall;
+  TTestSignalCheckerGetResult = function(const AObj: Pointer; const ACheckId: integer; var APass: boolean; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
+  TTestSignalCheckerEnable = function(const ACheckId: integer; const AEnable: boolean): integer; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
