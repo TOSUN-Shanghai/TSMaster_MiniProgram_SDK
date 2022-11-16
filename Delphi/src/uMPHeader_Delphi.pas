@@ -335,6 +335,10 @@ type
   TAddDirectMappingWithFactorOffsetCAN = function(const ADestinationVarName: pansichar; const ASignalAddress: pansichar; const ADirection: TSymbolMappingDirection; const AFactor: double; const AOffset: double): s32; stdcall;
   // 2022-09-29
   TTSAppDebugLog = function(const AObj: Pointer; const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; stdcall;
+  // 2022-10-26
+  TTSWaitWithDialog = function(const AObj: Pointer; const ATitle: pansichar; const AMessage: pansichar; const ApResult: pboolean; const ApProgress100: psingle): s32; stdcall;
+  // 2022-11-16
+  TTSAppIsConnected = function: s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -349,6 +353,8 @@ type
   // database functions
   TMPGetCANSignalValue = function(const ASignal: PMPCANSignal; const AData: pu8): double; stdcall;
   TMPSetCANSignalValue = procedure(const ASignal: PMPCANSignal; const AData: pu8; const AValue: Double); stdcall;
+  TGetCANSignalDefinitionVerbose = function(const AIdxChn: integer; const ANetworkName: pansichar; const AMsgName: pansichar; const ASignalName: pansichar; AMsgIdentifier: pinteger; ASignalDef: PMPCANSignal): integer; stdcall;
+  TGetCANSignalDefinition = function(const ASignalAddress: pansichar; AMsgIdentifier: pinteger; ASignalDef: PMPCANSignal): integer; stdcall;
   // communication sync functions
   TTransmitCANSync = function (const ACAN: PLIBCAN; const ATimeoutMS: Integer): integer; stdcall;
   TTransmitCANFDSync = function (const ACANFD: PLIBCANFD; const ATimeoutMS: Integer): integer; stdcall;
@@ -356,7 +362,6 @@ type
   // bus functions
   TWaitCANMessage = function (const AObj: Pointer; const ATxCAN: PLIBCAN; const ARxCAN: PLIBCAN; const ATimeoutMS: s32): integer; stdcall;
   TWaitCANFDMessage = function (const AObj: Pointer; const ATxCANFD: PLIBCANFD; const ARxCANFD: PLIBCANFD; const ATimeoutMS: s32): integer; stdcall;
-  TGetCANSignalDefinition = function(const AIdxChn: integer; const ANetworkName: pansichar; const AMsgName: pansichar; const ASignalName: pansichar; AMsgIdentifier: pinteger; ASignalDef: PMPCANSignal): integer; stdcall;
   // periodic
   TAddCyclicMsgCAN = function (const ACAN: PLIBCAN; const APeriodMS: Single): integer; stdcall;
   TAddCyclicMsgCANFD = function (const ACANFD: PLIBCANFD; const APeriodMS: Single): integer; stdcall;
@@ -807,8 +812,10 @@ type
     load_symbol_mapping_settings     :   TLoadSymbolMappingSettings        ;
     add_direct_mapping_with_factor_offset_can:   TAddDirectMappingWithFactorOffsetCAN;
     internal_debug_log               :   TTSAppDebugLog                    ;
+    internal_wait_with_dialog        :   TTSWaitWithDialog                 ;
+    is_connected                     :   TTSAppIsConnected                 ;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0.. 851-1] of s32;
+    FDummy                           : array [0.. 849-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -818,6 +825,7 @@ type
     function check(const AErrorCode: s32): s32; cdecl;
     function set_check_failed_terminate(const AToTerminate: Boolean): s32; cdecl;
     function set_thread_priority(const APriorty: s32): s32; cdecl;
+    function wait_with_dialog(const ATitle: pansichar; const AMessage: pansichar; const ApResult: pboolean; const ApProgress100: psingle): s32; cdecl;
   end;
   PTSApp = ^TTSApp;
 
@@ -993,9 +1001,10 @@ type
     can_rbs_set_crc_signal:                TCANRBSSetCRCSignal           ;
     can_rbs_set_rc_signal_with_limit:      TCANRBSSetRCSignalWithLimit   ;
     // 2022-11-15
+    get_can_signal_definition_verbose:     TGetCANSignalDefinitionVerbose;
     get_can_signal_definition:             TGetCANSignalDefinition       ;
     // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..881 - 1] of s32;
+    FDummy               : array [0..880 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -1318,6 +1327,14 @@ function TTSApp.wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_wait(fobj, ATimeMs, AMessage);
+
+end;
+
+function TTSApp.wait_with_dialog(const ATitle, AMessage: pansichar;
+  const ApResult: pboolean; const ApProgress100: psingle): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_wait_with_dialog(fobj, atitle, amessage, apresult, approgress100);
 
 end;
 
