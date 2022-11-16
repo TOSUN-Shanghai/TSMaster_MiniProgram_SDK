@@ -1339,6 +1339,11 @@ function tslog_logger_start_offline_replay(const AChnIdx:Integer; const AFileInd
 function tslog_logger_stop_replay(const AChnIdx:Integer; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_set_logger_mode(const AChnIdx:Integer; AMode:Byte; ATimeoutMS:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_logger_update_online_trigger(const AChnIdx: Integer; const AAddOrDelete:boolean; const AData:PLibCANFD; const AIntervalMs:UInt32; const ATimeOutMs: integer):integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_clear_online_trigger(const AChnIdx: Integer; const ATimeOutMs: integer):integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_logger_get_online_triggers(const AChnIdx: Integer;
+                                           var ACANFDMsgList: TArray<TLibCANFD>;
+                                           var APeriodList: TArray<integer>;
+                                           const ATimeoutMS:Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //GPS Module
 function tsapp_logger_enable_gps_module(const AChnIdx: Integer; const AEnable: integer; const ATimeoutMS:Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_reset_gps_module(const AChnIdx:Integer; const AInitBaudrate:Integer; const ATargetBaudrate:Integer; const ATimeoutMS:Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
