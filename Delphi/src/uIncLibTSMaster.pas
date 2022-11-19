@@ -403,6 +403,7 @@ type
   TCANQueueEvent_API = procedure(const AData: PlibCAN) of object; stdcall;
   TCANQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCAN); stdcall;
   TCANFDQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCANFD); stdcall;
+  TFlexRayQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: Plibflexray); stdcall;
   TLINQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibLIN); stdcall;
   TLIBTSMasterLogger = procedure(const AStr: PAnsiChar; const ALevel: Integer); stdcall;
   TFirmwareUpdateCallback = procedure(const AOpaque: TObject; const AStatus: UInt32; const APercentage100: Single); stdcall;
@@ -424,13 +425,16 @@ type
     KVASER_USB_DEVICE          = 5,
     ZLG_USB_DEVICE             = 6,
     ICS_USB_DEVICE             = 7,
-    TS_TC1005_DEVICE           = 8
+    TS_TC1005_DEVICE           = 8,
+    CANABLE_USB_DEVICE         = 9
   );
   TLIBApplicationChannelType = (
     APP_CAN = 0,
-    APP_LIN = 1
+    APP_LIN = 1,
+    APP_FlexRay = 2,
+    APP_Ethernet = 3
   );
-  TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar);
+  TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar, stFlexRay);
   TSignalCheckKind = (sckAlways = 0, sckAppear, sckStatistics);
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
   // CAN bus statistics
@@ -461,19 +465,19 @@ type
   TSupportedObjType = (sotCAN = 0, sotLIN, sotCANFD, sotRealtimeComment, sotSystemVar, sotFlexRay, sotEthernet, sotUnknown = $FFFFFFF);
   Trealtime_comment_t = packed record
     FTimeUs: int64;
-    FEventType: integer;
-    FCapacity: cardinal;
+    FEventType: int32;
+    FCapacity: uint32;
     FComment: pansichar;
 {$IFDEF WIN32}
-    FPadding: Cardinal;                   // to be compatible with x64
+    FPadding: uint32;                     // to be compatible with x64
 {$ENDIF}
   end;
   Prealtime_comment_t = ^Trealtime_comment_t;
   TLibSystemVar = packed record
     FTimeUs: int64;
     FType: TLIBSystemVarType;
-    FNameCapacity: cardinal;
-    FDataCapacity: cardinal;
+    FNameCapacity: uint32;
+    FDataCapacity: uint32;
     FName: pansichar;
     FData: pbyte;
 {$IFDEF WIN32}

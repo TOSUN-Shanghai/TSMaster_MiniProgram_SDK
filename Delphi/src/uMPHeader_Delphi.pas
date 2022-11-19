@@ -339,6 +339,9 @@ type
   TTSWaitWithDialog = function(const AObj: Pointer; const ATitle: pansichar; const AMessage: pansichar; const ApResult: pboolean; const ApProgress100: psingle): s32; stdcall;
   // 2022-11-16
   TTSAppIsConnected = function: s32; stdcall;
+  // 2022-11-17
+  TTSAppGetFlexRayChannelCount = function(out ACount: Integer): s32; stdcall;
+  TTSAppSetFlexRayChannelCount = function(const ACount: Integer): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -510,6 +513,25 @@ type
   TJ1939TransmitPDUSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pbyte; const APDUSize: integer; const ATimeoutMs: integer): integer; stdcall;
   TJ1939TransmitPDUAsStringAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar): integer; stdcall;
   TJ1939TransmitPDUAsStringSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar; const ATimeoutMs: integer): integer; stdcall;
+  // 2022-11-18
+  TTransmitFlexRayASync = function(const AFlexRay: pflexray): integer; stdcall;
+  TTransmitFlexRaySync = function(const AFlexRay: pflexray; const ATimeoutMs: integer): integer; stdcall;
+  TGetFlexRaySignalValue = function(const AFlexRaySignal: pmpflexraysignal; const AData: pu8): double; stdcall;
+  TSetFlexRaySignalValue = function(const AFlexRaySignal: pmpflexraysignal; const AData: pu8; const AValue: double): integer; stdcall;
+  TRegisterFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
+  TUnregisterFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
+  TInjectFlexRayFrame = function(const AFlexRay: pflexray): integer; stdcall;
+  TGetFlexRaySignalDefinition = function(const ASignalAddress: pansichar; ASignalDef: PmpFlexRaySignal): integer; stdcall;
+  Ttslog_blf_write_flexray = function(const AHandle: integer; const AFlexRay: PFlexRay): integer; stdcall;
+  TSgnSrvRegisterFlexRaySignalByFrame = function(const AIdxChn: integer; const AShnMask: byte; const ACycleNumber: byte; const ASlotId: integer; const ASgnName: pansichar; AClientId: pinteger): integer; stdcall;
+  TSgnSrvRegisterFlexRaySignalByFrameName = function(const AIdxChn: integer; const ANetworkName: pansichar; const AFrameName: pansichar; const ASgnName: pansichar; out AClientId: integer): integer; stdcall;
+  TSgnSrvGetFlexRaySignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; out AValue: double; out ATimeUs: int64): integer; stdcall;
+  TSgnSrvGetFlexRaySignalPhyValueInFrame = function(const AIdxChn: integer; const AClientId: integer; const AFrame: PFlexRay; AValue: pdouble; ATimeUs: pint64): integer; stdcall;
+  // 2022-11-19
+  TUnregisterFlexRayEvents = function(const AObj: pointer): integer; stdcall;
+  TRegisterPreTxFlexRayEvent = function(const AObj: Pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
+  TUnregisterPreTxFlexRayEvents = function(const AObj: pointer): integer; stdcall;
   // TS_COM_PROTO_END ==========================================================
 
   // Test features
@@ -814,8 +836,10 @@ type
     internal_debug_log               :   TTSAppDebugLog                    ;
     internal_wait_with_dialog        :   TTSWaitWithDialog                 ;
     is_connected                     :   TTSAppIsConnected                 ;
+    get_flexray_channel_count        :   TTSAppGetFlexRayChannelCount      ;
+    set_flexray_channel_count        :   TTSAppSetFlexRayChannelCount      ;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0.. 849-1] of s32;
+    FDummy                           : array [0..847-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1003,28 +1027,53 @@ type
     // 2022-11-15
     get_can_signal_definition_verbose:     TGetCANSignalDefinitionVerbose;
     get_can_signal_definition:             TGetCANSignalDefinition       ;
+    // 2022-11-18
+    transmit_flexray_async:                        TTransmitFlexRayASync;
+    transmit_flexray_sync:                         TTransmitFlexRaySync;
+    get_flexray_signal_value:                      TGetFlexRaySignalValue;
+    set_flexray_signal_value:                      TSetFlexRaySignalValue;
+    internal_register_event_flexray:               TRegisterFlexRayEvent;
+    internal_unregister_event_flexray:             TUnregisterFlexRayEvent;
+    inject_flexray_frame:                          TInjectFlexRayFrame;
+    get_flexray_signal_definition:                 TGetFlexRaySignalDefinition;
+    tslog_blf_write_flexray:                       Ttslog_blf_write_flexray;
+    sgnsrv_register_flexray_signal_by_frame:       TSgnSrvRegisterFlexRaySignalByFrame;
+    sgnsrv_register_flexray_signal_by_frame_name:  TSgnSrvRegisterFlexRaySignalByFrameName;
+    sgnsrv_get_flexray_signal_phy_value_latest:    TSgnSrvGetFlexRaySignalPhyValueLatest;
+    sgnsrv_get_flexray_signal_phy_value_in_frame:  TSgnSrvGetFlexRaySignalPhyValueInFrame;
+    // 2022-11-19
+    internal_unregister_events_flexray:            TUnregisterFlexRayEvents;
+    internal_register_pretx_event_flexray:         TRegisterPreTxFlexRayEvent;
+    internal_unregister_pretx_event_flexray:       TUnregisterPreTxFlexRayEvent;
+    internal_unregister_pretx_events_flexray:      TUnregisterPreTxFlexRayEvents;
     // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..880 - 1] of s32;
+    FDummy               : array [0..863 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
     function register_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function register_event_flexray(const AEvent: TflexrayQueueEvent_Win32): integer; cdecl;
     function unregister_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function unregister_event_flexray(const AEvent: TflexrayQueueEvent_Win32): integer; cdecl;
     function register_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
     function unregister_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
     function register_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
     function unregister_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
     function unregister_events_can(): integer; cdecl;
+    function unregister_events_flexray(): integer; cdecl;
     function unregister_events_lin(): integer; cdecl;
     function unregister_events_canfd(): integer; cdecl;
     function unregister_events_all(): integer; cdecl;
     function register_pretx_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
     function unregister_pretx_event_can(const AEvent: TCANQueueEvent_Win32): integer; cdecl;
+    function register_pretx_event_flexray(const AEvent: TflexrayQueueEvent_Win32): integer; cdecl;
+    function unregister_pretx_event_flexray(const AEvent: TflexrayQueueEvent_Win32): integer; cdecl;
     function register_pretx_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
     function unregister_pretx_event_canfd(const AEvent: TCANfdQueueEvent_Win32): integer; cdecl;
     function register_pretx_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
     function unregister_pretx_event_lin(const AEvent: TliNQueueEvent_Win32): integer; cdecl;
     function unregister_pretx_events_can(): integer; cdecl;
+    function unregister_pretx_events_flexray(): integer; cdecl;
     function unregister_pretx_events_lin(): integer; cdecl;
     function unregister_pretx_events_canfd(): integer; cdecl;
     function unregister_pretx_events_all(): integer; cdecl;
@@ -1475,6 +1524,14 @@ begin
 
 end;
 
+function TTSCOM.register_event_flexray(
+  const AEvent: TflexrayQueueEvent_Win32): integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_register_event_flexray(FObj, AEvent);
+
+end;
+
 function TTSCOM.register_event_lin(const AEvent: TliNQueueEvent_Win32): integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -1495,6 +1552,14 @@ function TTSCOM.register_pretx_event_canfd(
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_register_pretx_event_canfd(fobj, AEvent);
+
+end;
+
+function TTSCOM.register_pretx_event_flexray(
+  const AEvent: TflexrayQueueEvent_Win32): integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_register_pretx_event_flexray(FObj, AEvent);
 
 end;
 
@@ -1542,10 +1607,25 @@ begin
 
 end;
 
+function TTSCOM.unregister_event_flexray(
+  const AEvent: TflexrayQueueEvent_Win32): integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_unregister_event_flexray(FObj, AEvent);
+
+end;
+
 function TTSCOM.unregister_events_canfd: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   Result := internal_unregister_events_canfd(FObj);
+
+end;
+
+function TTSCOM.unregister_events_flexray: integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_unregister_events_flexray(FObj);
 
 end;
 
@@ -1586,10 +1666,25 @@ begin
 
 end;
 
+function TTSCOM.unregister_pretx_event_flexray(
+  const AEvent: TflexrayQueueEvent_Win32): integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_unregister_pretx_event_flexray(FObj, AEvent);
+
+end;
+
 function TTSCOM.unregister_pretx_events_canfd: integer;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   Result := internal_unregister_pretx_events_canfd(FObj);
+
+end;
+
+function TTSCOM.unregister_pretx_events_flexray: integer;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_unregister_pretx_events_flexray(FObj);
 
 end;
 
