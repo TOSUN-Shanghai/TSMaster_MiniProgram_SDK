@@ -104,6 +104,18 @@ type
 	  FOffset: Double;
   end;
   PMPCANSignal = ^TMPCANSignal;
+  TMPFlexRaySignal = packed record
+    FFRSgnType: u8;    // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+    FCompuMethod: u8;  // 0 - Identical, 1 - Linear, 2 - Scale Linear, 3 - TextTable, 4 - TABNoIntp, 5 - Formula
+    FReserved: u8;
+	  FIsIntel: Boolean;
+	  FStartBit: s32;
+    FUpdateBit: s32;
+	  FLength: s32;
+	  FFactor: Double;
+	  FOffset: Double;
+  end;
+  PMPFlexRaySignal = ^TMPFlexRaySignal;
 
 // TSMiniProgram C type definition =======================================================
   // generic defintions in header
@@ -514,19 +526,19 @@ type
   TJ1939TransmitPDUAsStringAsync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar): integer; stdcall;
   TJ1939TransmitPDUAsStringSync = function(const AIdxChn: byte; const APGN: integer; const APriority: byte; const ASource: byte; const ADestination: byte; const APDUData: pansichar; const ATimeoutMs: integer): integer; stdcall;
   // 2022-11-18
-  TTransmitFlexRayASync = function(const AFlexRay: pflexray): integer; stdcall;
-  TTransmitFlexRaySync = function(const AFlexRay: pflexray; const ATimeoutMs: integer): integer; stdcall;
+  TTransmitFlexRayASync = function(const AFlexRay: plibflexray): integer; stdcall;
+  TTransmitFlexRaySync = function(const AFlexRay: plibflexray; const ATimeoutMs: integer): integer; stdcall;
   TGetFlexRaySignalValue = function(const AFlexRaySignal: pmpflexraysignal; const AData: pu8): double; stdcall;
   TSetFlexRaySignalValue = function(const AFlexRaySignal: pmpflexraysignal; const AData: pu8; const AValue: double): integer; stdcall;
   TRegisterFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
   TUnregisterFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
-  TInjectFlexRayFrame = function(const AFlexRay: pflexray): integer; stdcall;
+  TInjectFlexRayFrame = function(const AFlexRay: plibflexray): integer; stdcall;
   TGetFlexRaySignalDefinition = function(const ASignalAddress: pansichar; ASignalDef: PmpFlexRaySignal): integer; stdcall;
-  Ttslog_blf_write_flexray = function(const AHandle: integer; const AFlexRay: PFlexRay): integer; stdcall;
+  Ttslog_blf_write_flexray = function(const AHandle: integer; const AFlexRay: plibflexray): integer; stdcall;
   TSgnSrvRegisterFlexRaySignalByFrame = function(const AIdxChn: integer; const AShnMask: byte; const ACycleNumber: byte; const ASlotId: integer; const ASgnName: pansichar; AClientId: pinteger): integer; stdcall;
   TSgnSrvRegisterFlexRaySignalByFrameName = function(const AIdxChn: integer; const ANetworkName: pansichar; const AFrameName: pansichar; const ASgnName: pansichar; out AClientId: integer): integer; stdcall;
   TSgnSrvGetFlexRaySignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; out AValue: double; out ATimeUs: int64): integer; stdcall;
-  TSgnSrvGetFlexRaySignalPhyValueInFrame = function(const AIdxChn: integer; const AClientId: integer; const AFrame: PFlexRay; AValue: pdouble; ATimeUs: pint64): integer; stdcall;
+  TSgnSrvGetFlexRaySignalPhyValueInFrame = function(const AIdxChn: integer; const AClientId: integer; const AFrame: plibflexray; AValue: pdouble; ATimeUs: pint64): integer; stdcall;
   // 2022-11-19
   TUnregisterFlexRayEvents = function(const AObj: pointer): integer; stdcall;
   TRegisterPreTxFlexRayEvent = function(const AObj: Pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
