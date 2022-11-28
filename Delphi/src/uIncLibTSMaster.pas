@@ -435,7 +435,10 @@ type
     APP_Ethernet = 3
   );
   TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar, stFlexRay);
-  TSignalCheckKind = (sckAlways = 0, sckAppear, sckStatistics);
+  TSignalCheckKind = (
+    sckAlways = 0, sckAppear, sckStatistics, sckRisingEdge, sckFallingEdge,
+    sckMonotonyRising, sckMonotonyFalling, sckFollow
+  );
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
   // CAN bus statistics
   TLIBCANBusStatistics = (
