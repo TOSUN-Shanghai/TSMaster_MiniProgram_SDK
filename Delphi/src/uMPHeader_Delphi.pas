@@ -544,6 +544,28 @@ type
   TRegisterPreTxFlexRayEvent = function(const AObj: Pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
   TUnregisterPreTxFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
   TUnregisterPreTxFlexRayEvents = function(const AObj: pointer): integer; stdcall;
+  // 2022-11-29 flexray rbs
+  TFlexRayRBSStart = function (): integer; stdcall;
+  TFlexRayRBSStop = function (): integer; stdcall;
+  TFlexRayRBSIsRunning = function (out AIsRunning: Boolean): integer; stdcall;
+  TFlexRayRBSConfigure = function (const AAutoStart: boolean; const AAutoSendOnModification: boolean; const AActivateECUSimulation: boolean; const AInitValueOptions: TLIBRBSInitValueOptions): integer; stdcall;
+  TFlexRayRBSActivateAllClusters = function (const AEnable: boolean; const AIncludingChildren: Boolean): integer; stdcall;
+  TFlexRayRBSActivateClusterByName = function (const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AIncludingChildren: Boolean): integer; stdcall;
+  TFlexRayRBSActivateECUByName = function (const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AIncludingChildren: Boolean): integer; stdcall;
+  TFlexRayRBSActivateFrameByName = function (const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar): integer; stdcall;
+  TFlexRayRBSGetSignalValueByElement = function (const AIdxChn: s32; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar; const ASignalName: PAnsiChar; out AValue: Double): integer; stdcall;
+  TFlexRayRBSGetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; out AValue: Double): integer; stdcall;
+  TFlexRayRBSSetSignalValueByElement = function (const AIdxChn: s32; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall;
+  TFlexRayRBSSetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall;
+  TFlexRayRBSEnable = function(const AEnable: boolean): s32; stdcall;
+  TFlexRayRBSBatchSetStart = function: s32; stdcall;
+  TFlexRayRBSBatchSetEnd = function: s32; stdcall;
+  TFlexRayRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
+  TFlexRayRBSSetFrameDirection = function (const AIdxChn: integer; const AIsTx: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar): integer; stdcall;
+  TFlexRayRBSSetNormalSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
+  TFlexRayRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
+  TFlexRayRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
+  TFlexRayRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
   // TS_COM_PROTO_END ==========================================================
 
   // Test features
@@ -1058,8 +1080,30 @@ type
     internal_register_pretx_event_flexray:         TRegisterPreTxFlexRayEvent;
     internal_unregister_pretx_event_flexray:       TUnregisterPreTxFlexRayEvent;
     internal_unregister_pretx_events_flexray:      TUnregisterPreTxFlexRayEvents;
+    // 2022-11-29 flexray rbs
+    flexray_rbs_start                       :       TFlexRayRBSStart;
+    flexray_rbs_stop                        :       TFlexRayRBSStop;
+    flexray_rbs_is_running                  :       TFlexRayRBSIsRunning;
+    flexray_rbs_configure                   :       TFlexRayRBSConfigure;
+    flexray_rbs_activate_all_clusters       :       TFlexRayRBSActivateAllClusters;
+    flexray_rbs_activate_cluster_by_name    :       TFlexRayRBSActivateClusterByName;
+    flexray_rbs_activate_ecu_by_name        :       TFlexRayRBSActivateECUByName;
+    flexray_rbs_activate_frame_by_name      :       TFlexRayRBSActivateFrameByName;
+    flexray_rbs_get_signal_value_by_element :       TFlexRayRBSGetSignalValueByElement;
+    flexray_rbs_get_signal_value_by_address :       TFlexRayRBSGetSignalValueByAddress;
+    flexray_rbs_set_signal_value_by_element :       TFlexRayRBSSetSignalValueByElement;
+    flexray_rbs_set_signal_value_by_address :       TFlexRayRBSSetSignalValueByAddress;
+    flexray_rbs_enable                      :       TFlexRayRBSEnable;
+    flexray_rbs_batch_set_start             :       TFlexRayRBSBatchSetStart;
+    flexray_rbs_batch_set_end               :       TFlexRayRBSBatchSetEnd;
+    flexray_rbs_batch_set_signal            :       TFlexRayRBSBatchSetSignal;
+    flexray_rbs_set_frame_direction         :       TFlexRayRBSSetFrameDirection;
+    flexray_rbs_set_normal_signal           :       TFlexRayRBSSetNormalSignal;
+    flexray_rbs_set_rc_signal               :       TFlexRayRBSSetRCSignal;
+    flexray_rbs_set_rc_signal_with_limit    :       TFlexRayRBSSetRCSignalWithLimit;
+    flexray_rbs_set_crc_signal              :       TFlexRayRBSSetCRCSignal;
     // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..863 - 1] of s32;
+    FDummy               : array [0..842 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
