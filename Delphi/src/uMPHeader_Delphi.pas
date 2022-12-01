@@ -589,6 +589,17 @@ type
   TTestSignalCheckerAddStatisticsWithTrigger = function(const ASignalType: TSignalType; const AStatisticsKind: TSignalStatisticsKind; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerGetResult = function(const AObj: Pointer; const ACheckId: integer; var APass: boolean; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
   TTestSignalCheckerEnable = function(const ACheckId: integer; const AEnable: boolean): integer; stdcall;
+  // 2022-11-29 signal checker apis
+  TTestSignalCheckerAddRisingEdgeWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddRisingEdgeWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddFallingEdgeWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddFallingEdgeWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddMonotonyRisingWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ASampleIntervalMs: integer; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddMonotonyRisingWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ASampleIntervalMs: integer; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddMonotonyFallingWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ASampleIntervalMs: integer; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddMonotonyFallingWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ASampleIntervalMs: integer; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddFollowWithTime = function (const ASignalType, AFollowSignalType: TSignalType; const ASgnName, AFollowSgnName: pansichar; const AErrorRange: double; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddFollowWithTrigger = function (const ASignalType, AFollowSignalType: TSignalType; const ASgnName, AFollowSgnName: pansichar; const AErrorRange: double; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -1174,8 +1185,18 @@ type
     signal_checker_get_result: TTestSignalCheckerGetResult;
     signal_checker_enable: TTestSignalCheckerEnable;
     internal_debug_log_info: TTestDebugLog;
+    signal_checker_add_rising_edge_with_time: TTestSignalCheckerAddRisingEdgeWithTime;
+    signal_checker_add_rising_edge_with_trigger: TTestSignalCheckerAddRisingEdgeWithTrigger;
+    signal_checker_add_falling_edge_with_time: TTestSignalCheckerAddFallingEdgeWithTime;
+    signal_checker_add_falling_edge_with_trigger: TTestSignalCheckerAddFallingEdgeWithTrigger;
+    signal_checker_add_monotony_rising_with_time: TTestSignalCheckerAddMonotonyRisingWithTime;
+    signal_checker_add_monotony_rising_with_trigger: TTestSignalCheckerAddMonotonyRisingWithTrigger;
+    signal_checker_add_monotony_falling_with_time: TTestSignalCheckerAddMonotonyFallingWithTime;
+    signal_checker_add_monotony_falling_with_trigger: TTestSignalCheckerAddMonotonyFallingWithTrigger;
+    signal_checker_add_follow_with_time: TTestSignalCheckerAddFollowWithTime;
+    signal_checker_add_follow_with_trigger: TTestSignalCheckerAddFollowWithTrigger;
     // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..986-1] of s32;
+    FDummy           : array [0..976-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
