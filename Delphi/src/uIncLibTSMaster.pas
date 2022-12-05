@@ -437,7 +437,7 @@ type
   TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar, stFlexRay);
   TSignalCheckKind = (
     sckAlways = 0, sckAppear, sckStatistics, sckRisingEdge, sckFallingEdge,
-    sckMonotonyRising, sckMonotonyFalling, sckFollow
+    sckMonotonyRising, sckMonotonyFalling, sckFollow, sckJump, sckNoChange
   );
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
   // CAN bus statistics
