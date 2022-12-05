@@ -45,6 +45,7 @@ const
     227, // info
     169  // clGray
   );
+  MP_DATABASE_STR_LEN = 512;
 
 type
   u8 = UInt8;
@@ -104,6 +105,16 @@ type
 	  FOffset: Double;
   end;
   PMPCANSignal = ^TMPCANSignal;
+  // mp lin signal
+  TMPLINSignal = packed record
+    FLINSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+	  FIsIntel: Boolean;
+	  FStartBit: s32;
+	  FLength: s32;
+	  FFactor: Double;
+	  FOffset: Double;
+  end;
+  PMPLINSignal = ^TMPLINSignal;
   TMPFlexRaySignal = packed record
     FFRSgnType: u8;    // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
     FCompuMethod: u8;  // 0 - Identical, 1 - Linear, 2 - Scale Linear, 3 - TextTable, 4 - TABNoIntp, 5 - Formula
@@ -116,6 +127,81 @@ type
 	  FOffset: Double;
   end;
   PMPFlexRaySignal = ^TMPFlexRaySignal;
+
+  // TMPDBProperties for database properties, size = 1048
+  TMPDBProperties = packed record
+    FDBIndex: s32;
+    FSignalCount: s32;
+    FFrameCount: s32;
+    FECUCount: s32;
+    FSupportedChannelMask: u64;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBProperties = ^TMPDBProperties;
+  // TMPDBECUProperties for database ECU properties, size = 1040
+  TMPDBECUProperties = packed record
+    FDBIndex: s32;
+    FECUIndex: s32;
+    FTxFrameCount: s32;
+    FRxFrameCount: s32;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBECUProperties = ^TMPDBECUProperties;
+  // TMPDBFrameProperties for database Frame properties, size = 1088
+  TMPDBFrameProperties = packed record
+    FDBIndex: s32;
+    FECUIndex: s32;
+    FFrameIndex: s32;
+    FIsTx: u8;
+    FReserved1: u8;
+    FReserved2: u8;
+    FReserved3: u8;
+    FFrameType: TSignalType;
+    // CAN
+    FCANIsDataFrame: u8;
+    FCANIsStdFrame: u8;
+    FCANIsEdl: u8;
+    FCANIsBrs: u8;
+    FCANIdentifier: s32;
+    FCANDLC: s32;
+    FCANDataBytes: s32;
+    // LIN
+    FLINIdentifier: s32;
+    FLINDLC: s32;
+    // FlexRay
+    FFRChannelMask: u8;
+    FFRBaseCycle: u8;
+    FFRCycleRepetition: u8;
+    FFRIsStartupFrame: u8;
+    FFRSlotId: u16;
+    FFRReserved: u16;
+    FFRCycleMask: u64;
+    FSignalCount: s32;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBFrameProperties = ^TMPDBFrameProperties;
+  // TMPDBSignalProperties for database signal properties, size = 1140
+  TMPDBSignalProperties = packed record
+    FDBIndex: s32;
+    FECUIndex: s32;
+    FFrameIndex: s32;
+    FSignalIndex: s32;
+    FIsTx: u8;
+    FReserved1: u8;
+    FReserved2: u8;
+    FReserved3: u8;
+    FSignalType: TSignalType;
+    FCANSignal: TMPCANSignal;
+    FLINSignal: TMPLINSignal;
+    FFlexRaySignal: TMPFlexRaySignal;
+    FInitValue: double;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBSignalProperties = ^TMPDBSignalProperties;
 
 // TSMiniProgram C type definition =======================================================
   // generic defintions in header
@@ -354,6 +440,34 @@ type
   // 2022-11-17
   TTSAppGetFlexRayChannelCount = function(out ACount: Integer): s32; stdcall;
   TTSAppSetFlexRayChannelCount = function(const ACount: Integer): s32; stdcall;
+  // 2022-12-03 database apis
+  TDBGetCANDBCount = function(out ACount: s32): s32; stdcall;
+  TDBGetLINDBCount = function(out ACount: s32): s32; stdcall;
+  TDBGetFlexRayDBCount = function(out ACount: s32): s32; stdcall;
+  TDBGetCANDBPropertiesByIndex = function(const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetLINDBPropertiesByIndex = function(const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetFlexRayDBPropertiesByIndex = function(const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetCANDBECUPropertiesByIndex = function(const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetLINDBECUPropertiesByIndex = function(const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetFlexRayDBECUPropertiesByIndex = function(const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetCANDBFramePropertiesByIndex = function(const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetLINDBFramePropertiesByIndex = function(const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetFlexRayDBFramePropertiesByIndex = function(const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetCANDBSignalPropertiesByIndex = function(const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetLINDBSignalPropertiesByIndex = function(const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetFlexRayDBSignalPropertiesByIndex = function(const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetCANDBPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetLINDBPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetFlexRayDBPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBProperties): s32; stdcall;
+  TDBGetCANDBECUPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetLINDBECUPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetFlexRayDBECUPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBECUProperties): s32; stdcall;
+  TDBGetCANDBFramePropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetLINDBFramePropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetFlexRayDBFramePropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetCANDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetLINDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetFlexRayDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -883,8 +997,35 @@ type
     is_connected                     :   TTSAppIsConnected                 ;
     get_flexray_channel_count        :   TTSAppGetFlexRayChannelCount      ;
     set_flexray_channel_count        :   TTSAppSetFlexRayChannelCount      ;
+    db_get_can_database_count         : TDBGetCANDBCount;
+    db_get_lin_database_count         : TDBGetLINDBCount;
+    db_get_flexray_database_count     : TDBGetFlexRayDBCount;
+    db_get_can_database_properties_by_index       : TDBGetCANDBPropertiesByIndex;
+    db_get_lin_database_properties_by_index       : TDBGetLINDBPropertiesByIndex;
+    db_get_flexray_database_properties_by_index   : TDBGetFlexRayDBPropertiesByIndex;
+    db_get_can_ecu_properties_by_index            : TDBGetCANDBECUPropertiesByIndex;
+    db_get_lin_ecu_properties_by_index            : TDBGetLINDBECUPropertiesByIndex;
+    db_get_flexray_ecu_properties_by_index        : TDBGetFlexRayDBECUPropertiesByIndex;
+    db_get_can_frame_properties_by_index          : TDBGetCANDBFramePropertiesByIndex;
+    db_get_lin_frame_properties_by_index          : TDBGetLINDBFramePropertiesByIndex;
+    db_get_flexray_frame_properties_by_index      : TDBGetFlexRayDBFramePropertiesByIndex;
+    db_get_can_signal_properties_by_index         : TDBGetCANDBSignalPropertiesByIndex;
+    db_get_lin_signal_properties_by_index         : TDBGetLINDBSignalPropertiesByIndex;
+    db_get_flexray_signal_properties_by_index     : TDBGetFlexRayDBSignalPropertiesByIndex;
+    db_get_can_database_properties_by_address     : TDBGetCANDBPropertiesByAddress;
+    db_get_lin_database_properties_by_address     : TDBGetLINDBPropertiesByAddress;
+    db_get_flexray_database_properties_by_address : TDBGetFlexRayDBPropertiesByAddress;
+    db_get_can_ecu_properties_by_address          : TDBGetCANDBECUPropertiesByAddress;
+    db_get_lin_ecu_properties_by_address          : TDBGetLINDBECUPropertiesByAddress;
+    db_get_flexray_ecu_properties_by_address      : TDBGetFlexRayDBECUPropertiesByAddress;
+    db_get_can_frame_properties_by_address        : TDBGetCANDBFramePropertiesByAddress;
+    db_get_lin_frame_properties_by_address        : TDBGetLINDBFramePropertiesByAddress;
+    db_get_flexray_frame_properties_by_address    : TDBGetFlexRayDBFramePropertiesByAddress;
+    db_get_can_signal_properties_by_address       : TDBGetCANDBSignalPropertiesByAddress;
+    db_get_lin_signal_properties_by_address       : TDBGetLINDBSignalPropertiesByAddress;
+    db_get_flexray_signal_properties_by_address   : TDBGetFlexRayDBSignalPropertiesByAddress;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..847-1] of s32;
+    FDummy                           : array [0..820-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
