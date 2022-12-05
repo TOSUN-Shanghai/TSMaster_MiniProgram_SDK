@@ -714,6 +714,10 @@ type
   TTestSignalCheckerAddMonotonyFallingWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ASampleIntervalMs: integer; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddFollowWithTime = function (const ASignalType, AFollowSignalType: TSignalType; const ASgnName, AFollowSgnName: pansichar; const AErrorRange: double; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddFollowWithTrigger = function (const ASignalType, AFollowSignalType: TSignalType; const ASgnName, AFollowSgnName: pansichar; const AErrorRange: double; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddJumpWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const AIgnoreFrom: boolean; const AFrom: double; const ATo: double; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddJumpWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const AIgnoreFrom: boolean; const AFrom: double; const ATo: double; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddUnChangeWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
+  TTestSignalCheckerAddUnchangeWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -1336,8 +1340,12 @@ type
     signal_checker_add_monotony_falling_with_trigger: TTestSignalCheckerAddMonotonyFallingWithTrigger;
     signal_checker_add_follow_with_time: TTestSignalCheckerAddFollowWithTime;
     signal_checker_add_follow_with_trigger: TTestSignalCheckerAddFollowWithTrigger;
+    signal_checker_add_jump_with_time: TTestSignalCheckerAddJumpWithTime;
+    signal_checker_add_jump_with_trigger: TTestSignalCheckerAddJumpWithTrigger;
+    signal_checker_add_unchange_with_time: TTestSignalCheckerAddUnChangeWithTime;
+    signal_checker_add_unchange_with_trigger: TTestSignalCheckerAddUnchangeWithTrigger;
     // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..976-1] of s32;
+    FDummy           : array [0..972-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
