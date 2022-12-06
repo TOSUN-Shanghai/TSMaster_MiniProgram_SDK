@@ -1400,8 +1400,10 @@ const
   MASK_LINProp_DIR_TX          = $01;
   MASK_LINProp_SEND_BREAK      = $02;
   MASK_LINProp_RECEIVED_BREAK  = $04;
+  MASK_LINProp_RECEIVED_SYNC   = $08;
+  MASK_LINProp_HW_TYPE         = $30;
+  MASK_LINProp_LOGGED          = $40;
   MASK_LINProp_SEND_SYNC       = $80;
-  MASK_LINProp_RECEIVED_SYNC   = $10;
   // CAN error frame
   CAN_ID_ERROR: Integer   = integer($FFFFFFFF);
   // CAN FD DLC Data Count mapping
