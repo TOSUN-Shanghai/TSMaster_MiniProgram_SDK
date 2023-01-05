@@ -1192,6 +1192,7 @@ function tslog_stop_online_replays(): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMP
 function tslog_get_online_replay_status(const AIndex: Integer; out AStatus: TLIBOnlineReplayStatus; out AProgressPercent100:Single): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // blf
 function tslog_blf_write_start(const AFileName: PAnsiChar; AHandle: pinteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tslog_blf_write_set_max_count(const AHandle: integer; const ACount: UInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_can(const AHandle: integer; const ACAN: PlibCAN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_can_fd(const AHandle: integer; const ACANFD: PlibCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tslog_blf_write_lin(const AHandle: integer; const ALIN: PlibLIN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
