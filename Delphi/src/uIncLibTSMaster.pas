@@ -440,6 +440,7 @@ type
     sckMonotonyRising, sckMonotonyFalling, sckFollow, sckJump, sckNoChange
   );
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage);
+  TFlexRayCompuMethod = (fcmIdentical = 0, fcmLinear, fcmScaleLinear, fcmTextTable, fcmTABNoIntp, fcmFormula);
   // CAN bus statistics
   TLIBCANBusStatistics = (
     cbsBusLoad = 0, cbsPeakLoad, cbsFpsStdData, cbsAllStdData,
@@ -1170,6 +1171,81 @@ function tsdb_unload_can_dbs(): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} ext
 function tsdb_get_can_db_count(out ACount: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_can_db_id(const AIndex: integer; out AId: Cardinal): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_can_db_info(const ADatabaseId: Cardinal; const AType: integer; const AIndex: integer; const ASubIndex: Integer; AValue: PPAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_load_flexray_db(const AFRFile: pansichar; const ASupportedChannels: pansichar; out AId: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_unload_flexray_db(const AId: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_unload_flexray_dbs: integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_db_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_db_properties_by_address_verbose(const AAddr: pansichar; out ADBIndex: Integer;
+                                                out ASignalCount: Integer;
+                                                out AFrameCount: Integer;
+                                                out AECUCount: Integer;
+                                                out ASupportedChannelMask: Int64;
+                                                out AName: ppansichar; out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_db_properties_by_index_verbose(ADBIndex: Integer; out ASignalCount: Integer;
+                                                out AFrameCount: Integer; out AECUCount: Integer;
+                                                out ASupportedChannelMask: Int64;
+                                                out AName: ppansichar; out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_ecu_properties_by_address_verbose(const AAddr: pansichar; out ADBIndex: Integer;
+                                                out AECUIndex: Integer;
+                                                out ATxFrameCount: Integer;
+                                                out ARxFrameCount: Integer;
+                                                out AName: ppansichar; out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_ecu_properties_by_index_verbose(ADBIndex: Integer; AECUIndex: Integer;
+                                                out ATxFrameCount: Integer;
+                                                out ARxFrameCount: Integer;
+                                                out AName: ppansichar; out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_frame_properties_by_address_verbose(const AAddr: pansichar;
+                                                    out ADBIndex: Integer;
+                                                    out AECUIndex: Integer;
+                                                    out AFrameIndex: Integer;
+                                                    out AIsTx: WordBool;
+                                                    out AFRChannelMask: Integer;
+                                                    out AFRBaseCycle: Integer;
+                                                    out AFRCycleRepetition: Integer;
+                                                    out AFRIsStartupFrame: WordBool;
+                                                    out AFRSlotId: Integer;
+                                                    out AFRCycleMask: Int64;
+                                                    out ASignalCount: Integer;
+                                                    out AName: ppansichar;
+                                                    out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_frame_properties_by_index_verbose(ADBIndex: Integer; AECUIndex: Integer;
+                                                AFrameIndex: Integer; AIsTx: WordBool;
+                                                out AFRChannelMask: Integer;
+                                                out AFRBaseCycle: Integer;
+                                                out AFRCycleRepetition: Integer;
+                                                out AFRIsStartupFrame: WordBool;
+                                                out AFRSlotId: Integer;
+                                                out AFRCycleMask: Int64;
+                                                out ASignalCount: Integer;
+                                                out AName: ppansichar; out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_signal_properties_by_address_verbose(const AAddr: pansichar;
+                                                    out ADBIndex: Integer;
+                                                    out AECUIndex: Integer;
+                                                    out AFrameIndex: Integer;
+                                                    out ASignalIndex: Integer;
+                                                    out AIsTx: WordBool;
+                                                    out ASignalType: TSignalType;
+                                                    out ACompuMethod: TFlexRayCompuMethod;
+                                                    out AIsIntel: WordBool;
+                                                    out AStartBit: Integer;
+                                                    out AUpdateBit: Integer;
+                                                    out ALength: Integer; out AFactor: Double;
+                                                    out AOffset: Double; out AInitValue: Double;
+                                                    out AName: ppansichar;
+                                                    out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_signal_properties_by_index_verbose(ADBIndex: Integer; AECUIndex: Integer;
+                                                    AFrameIndex: Integer; ASignalIndex: Integer;
+                                                    AIsTx: WordBool;
+                                                    out ASignalType: TSignalType;
+                                                    out ACompuMethod: TFlexRayCompuMethod;
+                                                    out AIsIntel: WordBool;
+                                                    out AStartBit: Integer;
+                                                    out AUpdateBit: Integer; out ALength: Integer;
+                                                    out AFactor: Double; out AOffset: Double;
+                                                    out AInitValue: Double; out AName: ppansichar;
+                                                    out AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_flexray_db_id(const AIndex: Integer; out AId: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 // database signal
 function tsdb_set_signal_value_can(const ACAN: PLIBCAN; const AMsgName: PAnsiChar; const ASgnName: PAnsiChar; const AValue: Double): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_signal_value_can(const ACAN: PLIBCAN; const AMsgName: PAnsiChar; const ASgnName: PAnsiChar; out AValue: Double): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
