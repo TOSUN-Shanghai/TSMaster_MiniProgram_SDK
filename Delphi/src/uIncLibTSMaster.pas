@@ -1301,6 +1301,29 @@ function tscom_can_rbs_get_signal_value_by_address(const ASymbolAddress: PAnsiCh
 function tscom_can_rbs_set_signal_value_by_element(const AIdxChn: Integer; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_can_rbs_set_signal_value_by_address(const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
+//Flexray RBS
+function tscom_flexray_rbs_start(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_stop(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_is_running(out AIsRunning: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_configure(const AAutoStart: boolean; const AAutoSendOnModification: boolean; const AActivateECUSimulation: boolean; const AInitValueOptions: TLIBRBSInitValueOptions): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_activate_all_clusters(const AEnable: boolean; const AIncludingChildren: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_activate_cluster_by_name(const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AIncludingChildren: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_activate_ecu_by_name(const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AIncludingChildren: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_activate_frame_by_name(const AIdxChn: integer; const AEnable: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_get_signal_value_by_element(const AIdxChn: integer; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar; const ASignalName: PAnsiChar; out AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_get_signal_value_by_address(const ASymbolAddress: PAnsiChar; out AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_signal_value_by_element(const AIdxChn: integer; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_signal_value_by_address(const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_enable(const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_batch_set_start: integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_batch_set_end: integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_batch_set_signal(const AAddr: pansichar; const AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_frame_direction(const AIdxChn: integer; const AIsTx: boolean; const AClusterName: PAnsiChar; const AECUName: pansichar; const AFrameName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_normal_signal(const ASymbolAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_rc_signal(const ASymbolAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_rc_signal_with_limit(const ASymbolAddress: pansichar; const ALowerLimit: integer; const AUpperLimit: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_rbs_set_crc_signal(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: integer; const AByteCount: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 // LIN apis
 function tslin_clear_schedule_tables(const AChnIdx: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tslin_download_frames(const AChnIdx: Integer; const ACnt: Integer; const ALINFrames: PConfig_LINFrameStruct): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
