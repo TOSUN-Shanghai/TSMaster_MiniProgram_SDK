@@ -718,6 +718,8 @@ type
   TTestSignalCheckerAddJumpWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const AIgnoreFrom: boolean; const AFrom: double; const ATo: double; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddUnChangeWithTime = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATimeStartS: double; const ATimeEndS: double; var ACheckId: integer): integer; stdcall;
   TTestSignalCheckerAddUnchangeWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
+  // 2023-02-08 signal checker check statistics
+  TTestSignalCheckerCheckStatistics = function(const AObj: Pointer; const ACheckId: integer; const AMin: double; const AMax: double; var APass: boolean; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -1344,8 +1346,9 @@ type
     signal_checker_add_jump_with_trigger: TTestSignalCheckerAddJumpWithTrigger;
     signal_checker_add_unchange_with_time: TTestSignalCheckerAddUnChangeWithTime;
     signal_checker_add_unchange_with_trigger: TTestSignalCheckerAddUnchangeWithTrigger;
+    signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
     // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..972-1] of s32;
+    FDummy           : array [0..971-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
