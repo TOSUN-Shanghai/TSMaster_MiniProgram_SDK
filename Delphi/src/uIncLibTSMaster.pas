@@ -393,9 +393,9 @@ type
   PPEMMC_RECORD_NODE = ^PEMMC_RECORD_NODE;
   PEMMC_RECORD_NODE = ^TEMMC_RECORD_NODE;
   TEMMC_RECORD_NODE = packed record
-    FIndex:UInt32;                //FIndex
-    FRecordData:TEMMC_RECORD_DATA;
-    FNext:PEMMC_RECORD_NODE;
+    FIndex: UInt32;                //FIndex
+    FRecordData: TEMMC_RECORD_DATA;
+    FNext: PEMMC_RECORD_NODE;
     function RecordString:string;
     function GetSlibingNode(AIndex:Integer):PEMMC_RECORD_NODE;
   end;   //8bytes, means max support
@@ -1031,7 +1031,7 @@ function tsapp_configure_can_regs(
       const ABaudrateKbps: Single;
       const ASEG1, ASEG2, APrescaler, ASJW: Integer;
       const AOnlyListen:integer;
-      const A120OhmConnected: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+      const A120OhmConnected: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_canfd_regs(
       const AIdxChn:Integer;
       const AArbBaudrate:Single;
@@ -1040,7 +1040,7 @@ function tsapp_configure_canfd_regs(
       const ADataSEG1, ADataSEG2, ADataPrescaler, ADataSJW:Integer;
       const AControllerType: TLIBCANFDControllerType;
       const AControllerMode: TLIBCANFDControllerMode;
-      const A120OhmConnected: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+      const A120OhmConnected: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication async functions
 function tsapp_transmit_can_async(const ACAN: PLIBCAN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_canfd_async(const ACANFD: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -1323,7 +1323,25 @@ function tscom_flexray_rbs_set_normal_signal(const ASymbolAddress: pansichar): i
 function tscom_flexray_rbs_set_rc_signal(const ASymbolAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_flexray_rbs_set_rc_signal_with_limit(const ASymbolAddress: pansichar; const ALowerLimit: integer; const AUpperLimit: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_flexray_rbs_set_crc_signal(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: integer; const AByteCount: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-
+//Flexray API
+function tsflexray_set_controller_frametrigger(const AIdxChn: Integer;
+                          const AControllerConfig: PLibFlexray_controller_config;
+                          const AFrameLengthArray: PInteger; const AFrameNum: Integer;
+                          const AFrameTrigger: PLibTrigger_def; const AFrameTriggerNum:Integer; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_set_controller(const AIdxChn: Integer;
+                          const AControllerConfig: PLibFlexray_controller_config;
+                          const ATimeoutMs: integer): integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_set_frametrigger(const AIdxChn: Integer;
+                          const AFrameLengthArray: PInteger; const AFrameNum: Integer;
+                          const AFrameTrigger: PLibTrigger_def; const AFrameTriggerNum:Integer; const ATimeoutMs: integer): integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_cmdreq(const AChnIdx: Integer; const AAction: integer;
+                          const AWriteBuffer: PByte; const AWriteBufferSize: integer;
+                          const AReadBuffer: PByte; const AReadBufferSize: PInteger; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_transmit_sync(const AIdxChn: Integer; const AData: PLibFlexRay; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_transmit_async(const AIdxChn: Integer; const AData: PLibFlexRay): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_start_net(const AIdxChn: Integer; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_stop_net(const AIdxChn: Integer; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsflexray_wakeup_pattern(const AIdxChn: Integer; const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // LIN apis
 function tslin_clear_schedule_tables(const AChnIdx: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tslin_download_frames(const AChnIdx: Integer; const ACnt: Integer; const ALINFrames: PConfig_LINFrameStruct): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -1347,34 +1365,34 @@ function tstp_lin_tp_para_special(const AChnIdx: Integer;const AReqIntervalMs: U
 //ServiceID:0x22
 function tsdiag_lin_read_data_by_identifier(const AChnIdx: Integer;const ANAD:Byte;const AId:uint16;
                              const AResNAD:PByte;const AResData:PByte;const AResDataNum:PNativeInt;
-                             const ATimeoutMS:UInt32):Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                             const ATimeoutMS: Integer): Integer;stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 //ServiceID:0x2E
 function tsdiag_lin_write_data_by_identifier(const AChnIdx: Integer;
-                             const AReqNAD:Byte;
-                             const AID:UInt16;
-                             const AReqData:PByte;
-                             const AReqDataNum:NativeInt;
-                             const AResNAD:PByte;
-                             const AResData:PByte;
-                             const AResDataNum:PNativeInt;
-                             const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                             const AReqNAD: Byte;
+                             const AID: UInt16;
+                             const AReqData: PByte;
+                             const AReqDataNum: NativeInt;
+                             const AResNAD: PByte;
+                             const AResData: PByte;
+                             const AResDataNum: PNativeInt;
+                             const ATimeoutMS: Integer):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //Session Control: 0x10
 function tsdiag_lin_session_control(const AChnIdx: Integer;
                                           const ANAD:Byte;
                                           const ANewSession:Byte;
-                                          const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                                          const ATimeoutMS: Integer): NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //Service ID 0x19
 function tsdiag_lin_fault_memory_read(const AChnIdx: Integer;
                                             const ANAD:Byte;
-                                            const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                                            const ATimeoutMS: Integer): NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //ServiceID 0x14
 function tsdiag_lin_fault_memory_clear(const AChnIdx: Integer;
-                                             const ANAD:Byte;
-                                             const ATimeoutMS:UInt32):NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+                                             const ANAD: Byte;
+                                             const ATimeoutMS: Integer): NativeInt;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //CAN Diagnostic Layer
 function tsdiag_can_create(pDiagModuleIndex: PInteger;
-                      AChnIndex: UInt32;
+                      AChnIndex: Integer;
                       ASupportFDCAN:Byte;
                       AMaxDLC:Byte;
                       ARequestID: UInt32;
