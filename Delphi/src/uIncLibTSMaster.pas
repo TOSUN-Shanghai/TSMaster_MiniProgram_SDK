@@ -681,7 +681,7 @@ const
     'IntrepidCS',
     'TOSUN TC1005'
   );
-  TS_HWTYPE_MAX_CNT = 15;
+  TS_HWTYPE_MAX_CNT = 17;
   TS_HWTYPE_NAMES: array [0..TS_HWTYPE_MAX_CNT-1] of string = (
     'Unknown',
     'TS.CAN Pro',
@@ -697,7 +697,9 @@ const
     'TC1016',             //11,   //FD_4_LIN_2
     'TC1012',             //12,   //FD_1_LIN_1
     'TC1013',             //13,   //FD_2
-    'TLog1002'            //14    //FD_2_LIN_2
+    'TLog1002',           //14    //FD_2_LIN_2
+    'TC1034',
+    'TC1018'
   );
   XL_HWTYPE_MAX_CNT = 114;
   XL_HWTYPE_NAMES: array [0..XL_HWTYPE_MAX_CNT-1] of string = (
