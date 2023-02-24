@@ -59,6 +59,8 @@ const
   CH31 = 30;
   CH32 = 31;
 
+  MP_DATABASE_STR_LEN = 512;
+
   //Data Logger
   MAX_SUPPORT_LOGGER_FILE_NUM  = 128;
   READ_LOGGER_FILE_NUM_ONCE_TIME = 30;
@@ -575,6 +577,115 @@ type
     XL_VN1531                    =   113
   );
 {$Z1}
+  // mp can signal
+  TMPCANSignal = packed record
+    FCANSgnType: uint8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+	  FIsIntel: Boolean;
+	  FStartBit: int32;
+	  FLength: int32;
+	  FFactor: Double;
+	  FOffset: Double;
+  end;
+  PMPCANSignal = ^TMPCANSignal;
+  // mp lin signal
+  TMPLINSignal = packed record
+    FLINSgnType: uint8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+	  FIsIntel: Boolean;
+	  FStartBit: int32;
+	  FLength: int32;
+	  FFactor: Double;
+	  FOffset: Double;
+  end;
+  PMPLINSignal = ^TMPLINSignal;
+  // mp flexray signal
+  TMPFlexRaySignal = packed record
+    FFRSgnType: uint8;    // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+    FCompuMethod: uint8;  // 0 - Identical, 1 - Linear, 2 - Scale Linear, 3 - TextTable, 4 - TABNoIntp, 5 - Formula
+    FReserved: uint8;
+	  FIsIntel: Boolean;
+	  FStartBit: int32;
+    FUpdateBit: int32;
+	  FLength: int32;
+	  FFactor: Double;
+	  FOffset: Double;
+  end;
+  PMPFlexRaySignal = ^TMPFlexRaySignal;
+  // TMPDBProperties for database properties, size = 1048
+  TMPDBProperties = packed record
+    FDBIndex: int32;
+    FSignalCount: int32;
+    FFrameCount: int32;
+    FECUCount: int32;
+    FSupportedChannelMask: uint64;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBProperties = ^TMPDBProperties;
+  // TMPDBECUProperties for database ECU properties, size = 1040
+  TMPDBECUProperties = packed record
+    FDBIndex: int32;
+    FECUIndex: int32;
+    FTxFrameCount: int32;
+    FRxFrameCount: int32;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBECUProperties = ^TMPDBECUProperties;
+  // TMPDBFrameProperties for database Frame properties, size = 1088
+  TMPDBFrameProperties = packed record
+    FDBIndex: int32;
+    FECUIndex: int32;
+    FFrameIndex: int32;
+    FIsTx: uint8;
+    FReserved1: uint8;
+    FReserved2: uint8;
+    FReserved3: uint8;
+    FFrameType: TSignalType;
+    // CAN
+    FCANIsDataFrame: uint8;
+    FCANIsStdFrame: uint8;
+    FCANIsEdl: uint8;
+    FCANIsBrs: uint8;
+    FCANIdentifier: int32;
+    FCANDLC: int32;
+    FCANDataBytes: int32;
+    // LIN
+    FLINIdentifier: int32;
+    FLINDLC: int32;
+    // FlexRay
+    FFRChannelMask: uint8;
+    FFRBaseCycle: uint8;
+    FFRCycleRepetition: uint8;
+    FFRIsStartupFrame: uint8;
+    FFRSlotId: uint16;
+    FFRDLC: uint16;
+    FFRCycleMask: uint64;
+    FSignalCount: int32;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBFrameProperties = ^TMPDBFrameProperties;
+  // TMPDBSignalProperties for database signal properties, size = 1144
+  TMPDBSignalProperties = packed record
+    FDBIndex: int32;
+    FECUIndex: int32;
+    FFrameIndex: int32;
+    FSignalIndex: int32;
+    FIsTx: uint8;
+    FReserved1: uint8;
+    FReserved2: uint8;
+    FReserved3: uint8;
+    FSignalType: TSignalType;
+    FCANSignal: TMPCANSignal;
+    FLINSignal: TMPLINSignal;
+    FFlexRaySignal: TMPFlexRaySignal;
+    FParentFrameId: int32;
+    FInitValue: double;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBSignalProperties = ^TMPDBSignalProperties;
+
   // Hardware Info definition
   PLIBHWInfo = ^TLIBHWInfo;
   TLIBHWInfo = packed record
@@ -1219,6 +1330,7 @@ function tsdb_get_flexray_frame_properties_by_address_verbose(const AAddr: pansi
                                                     out AFRSlotId: Integer;
                                                     out AFRCycleMask: Int64;
                                                     out ASignalCount: Integer;
+                                                    out AFRDLC: integer;
                                                     AName: ppansichar;
                                                     AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_flexray_frame_properties_by_index_verbose(ADBIndex: Integer; AECUIndex: Integer;
@@ -1230,6 +1342,7 @@ function tsdb_get_flexray_frame_properties_by_index_verbose(ADBIndex: Integer; A
                                                 out AFRSlotId: Integer;
                                                 out AFRCycleMask: Int64;
                                                 out ASignalCount: Integer;
+                                                out AFRDLC: integer;
                                                 AName: ppansichar; AComment: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_flexray_signal_properties_by_address_verbose(const AAddr: pansichar;
                                                     out ADBIndex: Integer;
@@ -1336,6 +1449,10 @@ function tscom_flexray_rbs_set_normal_signal(const ASymbolAddress: pansichar): i
 function tscom_flexray_rbs_set_rc_signal(const ASymbolAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_flexray_rbs_set_rc_signal_with_limit(const ASymbolAddress: pansichar; const ALowerLimit: integer; const AUpperLimit: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_flexray_rbs_set_crc_signal(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: integer; const AByteCount: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_set_signal_value_in_raw_frame(const AFlexRaySignal: pmpflexraysignal; const AData: pbyte; const AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_get_signal_value_in_raw_frame(const AFlexRaySignal: pmpflexraysignal; const AData: pbyte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_flexray_get_signal_definition(const ASignalAddress: pansichar; ASignalDef: PmpFlexRaySignal): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 //Flexray API
 function tsflexray_set_controller_frametrigger(const AIdxChn: Integer;
                           const AControllerConfig: PLibFlexray_controller_config;
