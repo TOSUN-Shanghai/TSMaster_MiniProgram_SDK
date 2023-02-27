@@ -394,6 +394,8 @@ type
   TPanelSetScaleX = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleX: single): s32; stdcall;
   TPanelSetScaleY = function(const APanelName: pansichar; const AControlName: pansichar; const AScaleY: single): s32; stdcall;
   TPanelSetBkgdColor = function(const APanelName: pansichar; const AControlName: pansichar; const AAlphaColor: u32): s32; stdcall;
+  TPanelSetSelectorItems = function(const APanelName: pansichar; const AControlName: pansichar; const AItems: pansichar): s32; stdcall;
+  TPanelGetSelectorItems = function(const APanelName: pansichar; const AControlName: pansichar; AItems: pPansichar): s32; stdcall;
   // panel get apis
   TPanelGetEnable = function(const APanelName: pansichar; const AControlName: pansichar; var AEnable: boolean): s32; stdcall;
   TPanelGetPositionXY = function(const APanelName: pansichar; const AControlName: pansichar; var Ax: single; var Ay: single): s32; stdcall;
@@ -468,6 +470,9 @@ type
   TDBGetCANDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
   TDBGetLINDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
   TDBGetFlexRayDBSignalPropertiesByAddress = function(const AAddr: pansichar; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TRunPythonFunction = function(const AObj: Pointer; const AModuleName: pansichar; const AFunctionName: pansichar; const AArgFormat: pansichar{...}): s32; cdecl;
+  TRunPythonFunctionInDelphi = function(const AObj: Pointer; const AModuleName: pansichar; const AFunctionName: pansichar; const AArgFormat: pansichar; const AArgAddr: pinteger): s32; stdcall;
+  TGetCurrentMpName = function(const AObj: Pointer): pansichar; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -720,6 +725,8 @@ type
   TTestSignalCheckerAddUnchangeWithTrigger = function (const ASignalType: TSignalType; const ASgnName: pansichar; const ATriggerType: tsignaltype; const ATriggerName: pansichar; const ATriggerMin: double; const ATriggerMax: double; var ACheckId: integer): integer; stdcall;
   // 2023-02-08 signal checker check statistics
   TTestSignalCheckerCheckStatistics = function(const AObj: Pointer; const ACheckId: integer; const AMin: double; const AMax: double; var APass: boolean; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
+  // 2023-02-28 log name=value in test system
+  TTestLogValue = function(const AObj: Pointer; const AStr: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -1030,8 +1037,12 @@ type
     db_get_can_signal_properties_by_address       : TDBGetCANDBSignalPropertiesByAddress;
     db_get_lin_signal_properties_by_address       : TDBGetLINDBSignalPropertiesByAddress;
     db_get_flexray_signal_properties_by_address   : TDBGetFlexRayDBSignalPropertiesByAddress;
+    run_python_function                           : TRunPythonFunction;
+    get_current_mp_name                           : TGetCurrentMpName;
+    panel_set_selector_items                      : TPanelSetSelectorItems;
+    panel_get_selector_items                      : TPanelGetSelectorItems;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..820-1] of s32;
+    FDummy                           : array [0..816-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1347,8 +1358,9 @@ type
     signal_checker_add_unchange_with_time: TTestSignalCheckerAddUnChangeWithTime;
     signal_checker_add_unchange_with_trigger: TTestSignalCheckerAddUnchangeWithTrigger;
     signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
+    log_value: TTestLogValue;
     // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..971-1] of s32;
+    FDummy           : array [0..970-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
