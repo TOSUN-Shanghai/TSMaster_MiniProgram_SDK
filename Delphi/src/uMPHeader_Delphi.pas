@@ -473,6 +473,8 @@ type
   TRunPythonFunction = function(const AObj: Pointer; const AModuleName: pansichar; const AFunctionName: pansichar; const AArgFormat: pansichar{...}): s32; cdecl;
   TRunPythonFunctionInDelphi = function(const AObj: Pointer; const AModuleName: pansichar; const AFunctionName: pansichar; const AArgFormat: pansichar; const AArgAddr: pinteger): s32; stdcall;
   TGetCurrentMpName = function(const AObj: Pointer): pansichar; stdcall;
+  TGetSystemConstantCount = function(const AIdxType: s32; ACount: ps32): s32; stdcall;
+  TGetSystemConstantValueByIndex = function(const AIdxType: s32; const AIdxValue: s32; AName: ppansichar; AValue: pdouble; ADesc: ppansichar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1041,8 +1043,10 @@ type
     get_current_mp_name                           : TGetCurrentMpName;
     panel_set_selector_items                      : TPanelSetSelectorItems;
     panel_get_selector_items                      : TPanelGetSelectorItems;
+    get_system_constant_count                     : TGetSystemConstantCount;
+    get_system_constant_value_by_index            : TGetSystemConstantValueByIndex;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..816-1] of s32;
+    FDummy                           : array [0..814-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
