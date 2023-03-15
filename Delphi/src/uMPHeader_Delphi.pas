@@ -375,7 +375,7 @@ type
   TTSAppSetSystemVarDoubleArrayAsync = function(const ACompleteName: PAnsiChar; const ACapacity: s32; AValue: PDouble): s32; stdcall;
   TTSAppSetSystemVarStringAsync = function(const ACompleteName: PAnsiChar; AValue: PAnsiChar): s32; stdcall;
   TTSAppSetSystemVarGenericAsync = function(const ACompleteName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
-  // automation module apis
+  // Graphic Program apis
   TAMGetRunningState = function(const AModuleName: pansichar; AState: PLIBAutomationModuleRunningState; ASubModuleName: ppansichar; ACurrentParameterGroupName: ppansichar): s32; stdcall;
   TAMRun = function(const AModuleName: pansichar; const ASubModuleName: pansichar; const AParameterGroupName: pansichar; const AIsSync: boolean): s32; stdcall;
   TAMStop = function(const AModuleName: pansichar; const AIsSync: boolean): s32; stdcall;
