@@ -489,6 +489,8 @@ type
   // database functions
   TMPGetCANSignalValue = function(const ASignal: PMPCANSignal; const AData: pu8): double; stdcall;
   TMPSetCANSignalValue = procedure(const ASignal: PMPCANSignal; const AData: pu8; const AValue: Double); stdcall;
+  TMPGetLINSignalValue = function(const ASignal: PMPLINSignal; const AData: pu8): double; stdcall;
+  TMPSetLINSignalValue = procedure(const ASignal: PMPLINSignal; const AData: pu8; const AValue: Double); stdcall;
   TGetCANSignalDefinitionVerbose = function(const AIdxChn: integer; const ANetworkName: pansichar; const AMsgName: pansichar; const ASignalName: pansichar; AMsgIdentifier: pinteger; ASignalDef: PMPCANSignal): integer; stdcall;
   TGetCANSignalDefinition = function(const ASignalAddress: pansichar; AMsgIdentifier: pinteger; ASignalDef: PMPCANSignal): integer; stdcall;
   // communication sync functions
@@ -1275,8 +1277,10 @@ type
     flexray_rbs_set_rc_signal               :       TFlexRayRBSSetRCSignal;
     flexray_rbs_set_rc_signal_with_limit    :       TFlexRayRBSSetRCSignalWithLimit;
     flexray_rbs_set_crc_signal              :       TFlexRayRBSSetCRCSignal;
+    get_lin_signal_value                    :       TMPGetLINSignalValue  ;
+    set_lin_signal_value                    :       TMPSetLINSignalValue  ;
     // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..842 - 1] of s32;
+    FDummy               : array [0..840 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
