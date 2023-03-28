@@ -475,6 +475,13 @@ type
   TGetCurrentMpName = function(const AObj: Pointer): pansichar; stdcall;
   TGetSystemConstantCount = function(const AIdxType: s32; ACount: ps32): s32; stdcall;
   TGetSystemConstantValueByIndex = function(const AIdxType: s32; const AIdxValue: s32; AName: ppansichar; AValue: pdouble; ADesc: ppansichar): s32; stdcall;
+  // 2023-03-28 database apis for direct signal and frame access in db
+  TDBGetCANDBFramePropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetLINDBFramePropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetFlexRayDBFramePropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBFrameProperties): s32; stdcall;
+  TDBGetCANDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetLINDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetFlexRayDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1047,8 +1054,14 @@ type
     panel_get_selector_items                      : TPanelGetSelectorItems;
     get_system_constant_count                     : TGetSystemConstantCount;
     get_system_constant_value_by_index            : TGetSystemConstantValueByIndex;
+    db_get_can_frame_properties_by_db_index       : TDBGetCANDBFramePropertiesByDBIndex     ;
+    db_get_lin_frame_properties_by_db_index       : TDBGetLINDBFramePropertiesByDBIndex     ;
+    db_get_flexray_frame_properties_by_db_index   : TDBGetFlexRayDBFramePropertiesByDBIndex ;
+    db_get_can_signal_properties_by_db_index      : TDBGetCANDBSignalPropertiesByDBIndex    ;
+    db_get_lin_signal_properties_by_db_index      : TDBGetLINDBSignalPropertiesByDBIndex    ;
+    db_get_flexray_signal_properties_by_db_index  : TDBGetFlexRayDBSignalPropertiesByDBIndex;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..814-1] of s32;
+    FDummy                           : array [0..808-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
