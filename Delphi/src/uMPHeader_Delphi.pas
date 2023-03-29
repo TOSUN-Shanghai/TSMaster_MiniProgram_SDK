@@ -85,6 +85,7 @@ type
   TSimFunctionAPIType = (
     fatFunctionGroup = 0, fatFunction, fatDatabaseGroup, fatDatabaseSymbol
   );
+  // sync. with vSimFunctionParameterTypeNames
   TSimFunctionParameterType = (
     fptS8 = 0, fptU8, fptS16, fptU16, fptS32, fptU32, fptSingle, fptDouble,
     fptpS8, fptpU8, fptpS16, fptpU16, fptpS32, fptpU32, fptpSingle, fptpDouble,
@@ -92,9 +93,12 @@ type
     fptPCAN, fptPCANFD, fptPLIN, fptMapping, fptCANFDControllerType, fptCANFDControllerMode,
     fptS64, fptU64, fptpS64, fptpU64, fptpLIBSystemVarDef, fptpVoid, fptppVoid,
     fptOnIoIPData, fptpDouble1, fptpSingle1, fptpS321, fptpS322, fptpU321, fptpU322,
-    fptRealtimeComment, fptpLogLevel, fptCheckResult, fptDoublexx, fptPChar,
+    fptRealtimeComment, fptLogLevel, fptCheckResult, fptDoublexx, fptPChar,
     fptPCANSignal, fptSystemVar, fptPPSingle, fptPPS32, fptpBool, fptpAutomationModuleRunningState,
-    fptTSTIMSignalStatus, fptpSTIMSignalStatus
+    fptTSTIMSignalStatus, fptpSTIMSignalStatus, fptSignalType, fptSignalCheckKind,
+    fptSignalStatisticsKind, fptReplayPhase, fptSymbolMappingDirection, fptPFlexRaySignal,
+    fptPFlexRay, fptPLINSignal, fptPDBProperties, fptPDBECUProperties, fptPDBFrameProperties,
+    fptPDBSignalProperties, fptTReadProgressCallback
   );
   TMPCANSignal = packed record
     FCANSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
@@ -1431,6 +1435,23 @@ function GetCStringFromString_OnlyOneParameter(const AStr: string): PAnsiChar;
 function CheckVariantEmptyOrNull(const Value: Variant): Boolean;
 procedure LogInfo(const AApp: TTSApp; const AString: string);
 procedure LogError(const AApp: TTSApp; const AString: string);
+
+const
+  // sync. with TSimFunctionParameterType
+  vSimFunctionParameterTypeNames: array [0..integer(high(TSimFunctionParameterType))] of string = (
+    's8', 'u8', 's16', 'u16', 's32', 'u32', 'float', 'double',
+    'ps8', 'pu8', 'ps16', 'pu16', 'ps32', 'pu32', 'pfloat', 'pdouble',
+    'bool', 'char*', 'pbool', 'char**', 'ppdouble',
+    'PCAN', 'PCANFD', 'PLIN', 'PLIBTSMapping', 'TCANFDControllerType', 'TCANFDControllerMode',
+    's64', 'u64', 'ps64', 'pu64', 'PLIBSystemVarDef', 'pvoid', 'ppvoid',
+    'TOnIoIPData', 'double*', 'float*', 'int*', 's32*', 'uint*', 'u32*',
+    'Prealtime_comment_t', 'TLogLevel', 'TCheckResultCallback', 'double**', 'pchar',
+    'PCANSignal', 'TSystemVar', 'float**', 'pps32', 'bool*', 'PAutomationModuleRunningState',
+    'TSTIMSignalStatus', 'PSTIMSignalStatus', 'TSignalType', 'TSignalCheckKind',
+    'TSignalStatisticsKind', 'TReplayPhase', 'TSymbolMappingDirection', 'PFlexRaySignal',
+    'PFlexRay', 'PLINSignal', 'PDBProperties', 'PDBECUProperties', 'PDBFrameProperties',
+    'PDBSignalProperties', 'TReadProgressCallback'
+  );
 
 implementation
 
