@@ -1296,8 +1296,13 @@ type
     flexray_rbs_set_crc_signal              :       TFlexRayRBSSetCRCSignal;
     get_lin_signal_value                    :       TMPGetLINSignalValue  ;
     set_lin_signal_value                    :       TMPSetLINSignalValue  ;
+    // 2023-04-08 tx without pretx
+    transmit_can_async_wo_pretx:      TTransmitCANAsync     ;
+    transmit_canfd_async_wo_pretx:    TTransmitCANFDAsync   ;
+    transmit_lin_async_wo_pretx:      TTransmitLINAsync     ;
+    transmit_flexray_async_wo_pretx:  TTransmitFlexRayASync ;
     // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..840 - 1] of s32;
+    FDummy               : array [0..836 - 1] of s32;
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
