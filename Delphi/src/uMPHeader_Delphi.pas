@@ -633,7 +633,7 @@ type
   // pdu container
   TPDUContainerSetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; const ACount: integer): integer; stdcall;
   TPDUContainerSetCycleByIndex = function(const AIdxChn: integer; const AMsgId: integer; const AIdxCycle: integer; const ASignalGroupIdList: pansichar): integer; stdcall;
-  TPDUContainerGetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; ACount: integer): integer; stdcall;
+  TPDUContainerGetCycleCount = function(const AIdxChn: integer; const AMsgId: integer; out ACount: integer): integer; stdcall;
   TPDUContainerGetCycleByIndex = function(const AIdxChn: integer; const AMsgId: integer; const AIdxCycle: integer; ASignalGroupIdList: ppansichar): integer; stdcall;
   TPDUContainerRefresh = function(const AIdxChn: integer; const AMsgId: integer): integer; stdcall;
   // j1939
