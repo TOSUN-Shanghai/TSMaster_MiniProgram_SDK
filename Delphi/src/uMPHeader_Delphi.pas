@@ -486,6 +486,11 @@ type
   TDBGetCANDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   TDBGetLINDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   TDBGetFlexRayDBSignalPropertiesByDBIndex = function(const AIdxDB: s32; const AIndex: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetCANDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetLINDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TDBGetFlexRayDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
+  TAddSystemConstant = function(const AName: PAnsiChar; const AValue: double; const ADesc: pansichar): s32; stdcall;
+  TDeleteSystemConstant = function(const AName: PAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END ==========================================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -742,6 +747,7 @@ type
   TTestSignalCheckerCheckStatistics = function(const AObj: Pointer; const ACheckId: integer; const AMin: double; const AMax: double; var APass: boolean; var AResult: double; AResultRepr: ppansichar): integer; stdcall;
   // 2023-02-28 log name=value in test system
   TTestLogValue = function(const AObj: Pointer; const AStr: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
+  TTestLogString = function(const AObj: Pointer; const AStr: pansichar; const AValue: pansichar; const ALevel: Integer): s32; stdcall;
   // TS_TEST_PROTO_END
 
   // TSMaster variables ========================================================
@@ -1064,8 +1070,13 @@ type
     db_get_can_signal_properties_by_db_index      : TDBGetCANDBSignalPropertiesByDBIndex    ;
     db_get_lin_signal_properties_by_db_index      : TDBGetLINDBSignalPropertiesByDBIndex    ;
     db_get_flexray_signal_properties_by_db_index  : TDBGetFlexRayDBSignalPropertiesByDBIndex;
+    db_get_can_signal_properties_by_frame_index      : TDBGetCANDBSignalPropertiesByFrameIndex    ;
+    db_get_lin_signal_properties_by_frame_index      : TDBGetLINDBSignalPropertiesByFrameIndex    ;
+    db_get_flexray_signal_properties_by_frame_index  : TDBGetFlexRayDBSignalPropertiesByFrameIndex;
+    add_system_constant                              : TAddSystemConstant;
+    delete_system_constant                           : TDeleteSystemConstant;
     // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..808-1] of s32;
+    FDummy                           : array [0..803-1] of s32;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1389,8 +1400,9 @@ type
     signal_checker_add_unchange_with_trigger: TTestSignalCheckerAddUnchangeWithTrigger;
     signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
     log_value: TTestLogValue;
+    log_string: TTestLogString;
     // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..970-1] of s32;
+    FDummy           : array [0..969-1] of s32;
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
