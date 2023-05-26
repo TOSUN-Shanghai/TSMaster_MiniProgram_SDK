@@ -491,7 +491,7 @@ type
   TDBGetFlexRayDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   TAddSystemConstant = function(const AName: PAnsiChar; const AValue: double; const ADesc: pansichar): s32; stdcall;
   TDeleteSystemConstant = function(const AName: PAnsiChar): s32; stdcall;
-  // TS_APP_PROTO_END ==========================================================
+  // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
   TTSConfigureBaudrateCANFD = function(const AIdxChn: integer; const ABaudrateKbpsArb, ABaudrateKbpsData: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -705,7 +705,7 @@ type
   TFlexRayRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
   TFlexRayRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
   TFlexRayRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
-  // TS_COM_PROTO_END ==========================================================
+  // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
   TTestSetVerdictOK = function(const AObj: Pointer; const AStr: pansichar): integer; stdcall;
@@ -748,7 +748,7 @@ type
   // 2023-02-28 log name=value in test system
   TTestLogValue = function(const AObj: Pointer; const AStr: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   TTestLogString = function(const AObj: Pointer; const AStr: pansichar; const AValue: pansichar; const ALevel: Integer): s32; stdcall;
-  // TS_TEST_PROTO_END
+  // TS_TEST_PROTO_END (do not modify this line) ===============================
 
   // TSMaster variables ========================================================
   TEventInC = procedure; cdecl;
