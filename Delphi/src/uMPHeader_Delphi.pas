@@ -1074,9 +1074,8 @@ type
     db_get_lin_signal_properties_by_frame_index      : TDBGetLINDBSignalPropertiesByFrameIndex    ;
     db_get_flexray_signal_properties_by_frame_index  : TDBGetFlexRayDBSignalPropertiesByFrameIndex;
     add_system_constant                              : TAddSystemConstant;
-    delete_system_constant                           : TDeleteSystemConstant;
-    // place holders, TS_APP_PROTO_END
-    FDummy                           : array [0..803-1] of s32;
+    delete_system_constant                           : TDeleteSystemConstant;    
+    FDummy: array [0..803-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1311,9 +1310,8 @@ type
     transmit_can_async_wo_pretx:      TTransmitCANAsync     ;
     transmit_canfd_async_wo_pretx:    TTransmitCANFDAsync   ;
     transmit_lin_async_wo_pretx:      TTransmitLINAsync     ;
-    transmit_flexray_async_wo_pretx:  TTransmitFlexRayASync ;
-    // place holders, TS_COM_PROTO_END
-    FDummy               : array [0..836 - 1] of s32;
+    transmit_flexray_async_wo_pretx:  TTransmitFlexRayASync ;    
+    FDummy: array [0..836 - 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -1400,9 +1398,8 @@ type
     signal_checker_add_unchange_with_trigger: TTestSignalCheckerAddUnchangeWithTrigger;
     signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
     log_value: TTestLogValue;
-    log_string: TTestLogString;
-    // place holders, TS_TEST_PROTO_END
-    FDummy           : array [0..969-1] of s32;
+    log_string: TTestLogString;    
+    FDummy: array [0..969-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
