@@ -491,6 +491,11 @@ type
   TDBGetFlexRayDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   TAddSystemConstant = function(const AName: PAnsiChar; const AValue: double; const ADesc: pansichar): s32; stdcall;
   TDeleteSystemConstant = function(const AName: PAnsiChar): s32; stdcall;
+  TDBGetFlexRayClusterParameters = function(const AClusterName: PAnsiChar; AValue: PLibFlexRayClusterParameters): s32; stdcall;
+  TDBGetFlexRayControllerParameters = function(const AClusterName: PAnsiChar; const AECUName: PAnsiChar; AValue: PLibFlexRayControllerParameters): s32; stdcall;
+  TSetSystemVarEventSupport = function(const ACompleteName: PAnsiChar; const ASupport: boolean): s32; stdcall;
+  TGetSystemVarEventSupport = function(const ACompleteName: PAnsiChar; ASupport: PBoolean): s32; stdcall;
+  TGetDateTime = function(AYear: pInt32; AMonth: pInt32; ADay: pInt32; AHour: pInt32; AMinute: pInt32; ASecond: pInt32; AMilliseconds: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -705,6 +710,8 @@ type
   TFlexRayRBSSetRCSignal = function(const ASymbolAddress: pansichar): s32; stdcall;
   TFlexRayRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
   TFlexRayRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
+  TDisableOnlineReplayFilter = function(const AIndex: int32): s32; stdcall;
+  TSetOnlineReplayFilter = function(const AIndex: Int32; const AIsPassFilter: Boolean; const ACount: Int32; const AIdxChannels: pInt32; const AIdentifiers: pInt32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1075,7 +1082,12 @@ type
     db_get_flexray_signal_properties_by_frame_index  : TDBGetFlexRayDBSignalPropertiesByFrameIndex;
     add_system_constant                              : TAddSystemConstant;
     delete_system_constant                           : TDeleteSystemConstant;    
-    FDummy: array [0..803-1] of s32; // place holders, TS_APP_PROTO_END
+    db_get_flexray_cluster_parameters: TDBGetFlexRayClusterParameters;
+    db_get_flexray_controller_parameters: TDBGetFlexRayControllerParameters;
+    set_system_var_event_support: TSetSystemVarEventSupport;
+    get_system_var_event_support: TGetSystemVarEventSupport;
+    get_date_time: TGetDateTime;
+    FDummy: array [0..798-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1311,7 +1323,9 @@ type
     transmit_canfd_async_wo_pretx:    TTransmitCANFDAsync   ;
     transmit_lin_async_wo_pretx:      TTransmitLINAsync     ;
     transmit_flexray_async_wo_pretx:  TTransmitFlexRayASync ;    
-    FDummy: array [0..836 - 1] of s32; // place holders, TS_COM_PROTO_END
+    tslog_disable_online_replay_filter: TDisableOnlineReplayFilter;
+    tslog_set_online_replay_filter: TSetOnlineReplayFilter;
+    FDummy: array [0..834- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
