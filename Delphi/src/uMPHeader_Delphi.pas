@@ -491,8 +491,8 @@ type
   TDBGetFlexRayDBSignalPropertiesByFrameIndex = function(const AIdxDB: s32; const AIdxFrame: s32; const ASgnIndexInFrame: s32; const AValue: PMPDBSignalProperties): s32; stdcall;
   TAddSystemConstant = function(const AName: PAnsiChar; const AValue: double; const ADesc: pansichar): s32; stdcall;
   TDeleteSystemConstant = function(const AName: PAnsiChar): s32; stdcall;
-  TDBGetFlexRayClusterParameters = function(const AClusterName: PAnsiChar; AValue: PLibFlexRayClusterParameters): s32; stdcall;
-  TDBGetFlexRayControllerParameters = function(const AClusterName: PAnsiChar; const AECUName: PAnsiChar; AValue: PLibFlexRayControllerParameters): s32; stdcall;
+  TDBGetFlexRayClusterParameters = function(const AIdxChn: integer; const AClusterName: PAnsiChar; AValue: PLibFlexRayClusterParameters): s32; stdcall;
+  TDBGetFlexRayControllerParameters = function(const AIdxChn: integer; const AClusterName: PAnsiChar; const AECUName: PAnsiChar; AValue: PLibFlexRayControllerParameters): s32; stdcall;
   TSetSystemVarEventSupport = function(const ACompleteName: PAnsiChar; const ASupport: boolean): s32; stdcall;
   TGetSystemVarEventSupport = function(const ACompleteName: PAnsiChar; ASupport: PBoolean): s32; stdcall;
   TGetDateTime = function(AYear: pInt32; AMonth: pInt32; ADay: pInt32; AHour: pInt32; AMinute: pInt32; ASecond: pInt32; AMilliseconds: pInt32): s32; stdcall;
