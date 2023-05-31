@@ -712,6 +712,12 @@ type
   TFlexRayRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
   TDisableOnlineReplayFilter = function(const AIndex: int32): s32; stdcall;
   TSetOnlineReplayFilter = function(const AIndex: Int32; const AIsPassFilter: Boolean; const ACount: Int32; const AIdxChannels: pInt32; const AIdentifiers: pInt32): s32; stdcall;
+  TSetCANSignalRawValue = function(const ACANSignal: PMPCANSignal; const AData: pbyte; const AValue: UInt64): s32; stdcall;
+  TGetCANSignalRawValue = function(const ACANSignal: PMPCANSignal; const AData: pbyte): u64; stdcall;
+  TSetLINSignalRawValue = function(const ALINSignal: PMPLINSignal; const AData: pbyte; const AValue: UInt64): s32; stdcall;
+  TGetLINSignalRawValue = function(const ALINSignal: PMPLINSignal; const AData: pbyte): u64; stdcall;
+  TSetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte; const AValue: UInt64): s32; stdcall;
+  TGetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte): u64; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1325,7 +1331,13 @@ type
     transmit_flexray_async_wo_pretx:  TTransmitFlexRayASync ;    
     tslog_disable_online_replay_filter: TDisableOnlineReplayFilter;
     tslog_set_online_replay_filter: TSetOnlineReplayFilter;
-    FDummy: array [0..834- 1] of s32; // place holders, TS_COM_PROTO_END
+    set_can_signal_raw_value: TSetCANSignalRawValue;
+    get_can_signal_raw_value: TGetCANSignalRawValue;
+    set_lin_signal_raw_value: TSetLINSignalRawValue;
+    get_lin_signal_raw_value: TGetLINSignalRawValue;
+    set_flexray_signal_raw_value: TSetFlexRaySignalRawValue;
+    get_flexray_signal_raw_value: TGetFlexRaySignalRawValue;
+    FDummy: array [0..828- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
