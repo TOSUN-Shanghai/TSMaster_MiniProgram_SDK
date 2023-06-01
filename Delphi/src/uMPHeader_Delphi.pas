@@ -527,6 +527,7 @@ type
   TGPGDeleteLocalVar = function(const AModuleId: int64; const AItemIndex: int32): s32; stdcall;
   TGPGDeleteAllLoalVars = function(const AModuleId: int64): s32; stdcall;
   TGPGDeleteGroupItems = function(const AModuleId: int64; const AGroupId: int64): s32; stdcall;
+  TGPGConfigureSignalReadWriteListDelete = function(const AModuleId: int64; const AActionId: int64; const AItemIndex: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1155,7 +1156,8 @@ type
     gpg_delete_local_var: TGPGDeleteLocalVar;
     gpg_delete_all_local_vars: TGPGDeleteAllLoalVars;
     gpg_delete_group_items: TGPGDeleteGroupItems;
-    FDummy: array [0..767-1] of s32; // place holders, TS_APP_PROTO_END
+    gpg_configure_signal_read_write_list_delete: TGPGConfigureSignalReadWriteListDelete;
+    FDummy: array [0..766-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
