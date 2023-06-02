@@ -750,6 +750,7 @@ type
   TGetLINSignalRawValue = function(const ALINSignal: PMPLINSignal; const AData: pbyte): u64; stdcall;
   TSetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte; const AValue: UInt64): s32; stdcall;
   TGetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte): u64; stdcall;
+  TFlexRayRBSUpdateFrameByHeader = function(const AFlexRay: PLIBFlexRay): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1401,7 +1402,8 @@ type
     get_lin_signal_raw_value: TGetLINSignalRawValue;
     set_flexray_signal_raw_value: TSetFlexRaySignalRawValue;
     get_flexray_signal_raw_value: TGetFlexRaySignalRawValue;
-    FDummy: array [0..828- 1] of s32; // place holders, TS_COM_PROTO_END
+    flexray_rbs_update_frame_by_header: TFlexRayRBSUpdateFrameByHeader;
+    FDummy: array [0..827- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
