@@ -529,6 +529,10 @@ type
   TGPGDeleteGroupItems = function(const AModuleId: int64; const AGroupId: int64): s32; stdcall;
   TGPGConfigureSignalReadWriteListDelete = function(const AModuleId: int64; const AActionId: int64; const AItemIndex: int32): s32; stdcall;
   TGPGConfigureModule = function(const AModuleId: int64; const AProgramName: PAnsichar; const ADisplayName: PAnsichar; const ARepeatCount: int32; const ASelected: boolean): s32; stdcall;
+  TUIShowWindow = function(const AWindowTitle: PAnsichar; const AIsShow: boolean): s32; stdcall;
+  TUIGraphicsLoadConfiguration = function(const AWindowTitle: PAnsichar; const AConfigurationName: PAnsichar): s32; stdcall;
+  TUIWatchdogEnable = function(const AEnable: boolean): s32; stdcall;
+  TUIWatchdogFeed = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1160,7 +1164,11 @@ type
     gpg_delete_group_items: TGPGDeleteGroupItems;
     gpg_configure_signal_read_write_list_delete: TGPGConfigureSignalReadWriteListDelete;
     gpg_configure_module: TGPGConfigureModule;
-    FDummy: array [0..765-1] of s32; // place holders, TS_APP_PROTO_END
+    ui_show_window: TUIShowWindow;
+    ui_graphics_load_configuration: TUIGraphicsLoadConfiguration;
+    ui_watchdog_enable: TUIWatchdogEnable;
+    ui_watchdog_feed: TUIWatchdogFeed;
+    FDummy: array [0..761-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
