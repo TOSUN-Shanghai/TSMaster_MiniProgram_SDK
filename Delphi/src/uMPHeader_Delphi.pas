@@ -756,6 +756,23 @@ type
   TSetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte; const AValue: UInt64): s32; stdcall;
   TGetFlexRaySignalRawValue = function(const AFlexRaySignal: PMPFlexRaySignal; const AData: pbyte): u64; stdcall;
   TFlexRayRBSUpdateFrameByHeader = function(const AFlexRay: PLIBFlexRay): s32; stdcall;
+  TLINRBSStart = function: integer; stdcall;
+  TLINRBSStop = function: integer; stdcall;
+  TLINRBSIsRunning = function (out AIsRunning: Boolean): integer; stdcall;
+  TLINRBSConfigure = function (const AAutoStart: boolean; const AAutoSendOnModification: boolean; const AActivateNodeSimulation: boolean; const AInitValueOptions: TLIBRBSInitValueOptions): integer; stdcall;
+  TLINRBSActivateAllNetworks = function (const AEnable: boolean; const AIncludingChildren: Boolean): integer; stdcall;
+  TLINRBSActivateNetworkByName = function (const AIdxChn: integer; const AEnable: boolean; const ANetworkName: PAnsiChar; const AIncludingChildren: Boolean): integer; stdcall;
+  TLINRBSActivateNodeByName = function (const AIdxChn: integer; const AEnable: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AIncludingChildren: Boolean): integer; stdcall;
+  TLINRBSActivateMessageByName = function (const AIdxChn: integer; const AEnable: boolean; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
+  TLINBSSetMessageDelayTimeByName = function (const AIdxChn: integer; const AIntervalMs: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar): integer; stdcall;
+  TLINRBSGetSignalValueByElement = function (const AIdxChn: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; out AValue: Double): integer; stdcall;
+  TLINRBSGetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; out AValue: Double): integer; stdcall;
+  TLINRBSSetSignalValueByElement = function (const AIdxChn: s32; const ANetworkName: PAnsiChar; const ANodeName: pansichar; const AMsgName: PAnsiChar; const ASignalName: PAnsiChar; const AValue: Double): integer; stdcall;
+  TLINRBSSetSignalValueByAddress = function (const ASymbolAddress: PAnsiChar; const AValue: Double): integer; stdcall;
+  TLINRBSEnable = function(const AEnable: boolean): s32; stdcall;
+  TLINRBSBatchSetStart = function: s32; stdcall;
+  TLINRBSBatchSetEnd = function: s32; stdcall;
+  TLINRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1413,7 +1430,25 @@ type
     set_flexray_signal_raw_value: TSetFlexRaySignalRawValue;
     get_flexray_signal_raw_value: TGetFlexRaySignalRawValue;
     flexray_rbs_update_frame_by_header: TFlexRayRBSUpdateFrameByHeader;
-    FDummy: array [0..827- 1] of s32; // place holders, TS_COM_PROTO_END
+    {lin rbs}
+    lin_rbs_start                      : TLINRBSStart;
+    lin_rbs_stop                       : TLINRBSStop;
+    lin_rbs_is_running                 : TLINRBSIsRunning;
+    lin_rbs_configure                  : TLINRBSConfigure;
+    lin_rbs_activate_all_networks      : TLINRBSActivateAllNetworks;
+    lin_rbs_activate_network_by_name   : TLINRBSActivateNetworkByName;
+    lin_rbs_activate_node_by_name      : TLINRBSActivateNodeByName;
+    lin_rbs_activate_message_by_name   : TLINRBSActivateMessageByName;
+    lin_rbs_set_message_delay_time_by_name  : TLINBSSetMessageDelayTimeByName;
+    lin_rbs_get_signal_value_by_element: TLINRBSGetSignalValueByElement;
+    lin_rbs_get_signal_value_by_address: TLINRBSGetSignalValueByAddress;
+    lin_rbs_set_signal_value_by_element: TLINRBSSetSignalValueByElement;
+    lin_rbs_set_signal_value_by_address: TLINRBSSetSignalValueByAddress;
+    lin_rbs_enable                     : TLINRBSEnable;
+    lin_rbs_batch_set_start            : TLINRBSBatchSetStart;
+    lin_rbs_batch_set_end              : TLINRBSBatchSetEnd;
+    lin_rbs_batch_set_signal           : TLINRBSBatchSetSignal;
+    FDummy: array [0..810- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
