@@ -533,6 +533,8 @@ type
   TUIGraphicsLoadConfiguration = function(const AWindowTitle: PAnsichar; const AConfigurationName: PAnsichar): s32; stdcall;
   TUIWatchdogEnable = function(const AEnable: boolean): s32; stdcall;
   TUIWatchdogFeed = function(): s32; stdcall;
+  TAddPathToEnvironment = function(const APath: pansichar): s32; stdcall;
+  TDeletePathFromEnvironment = function(const APath: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1185,7 +1187,9 @@ type
     ui_graphics_load_configuration: TUIGraphicsLoadConfiguration;
     ui_watchdog_enable: TUIWatchdogEnable;
     ui_watchdog_feed: TUIWatchdogFeed;
-    FDummy: array [0..761-1] of s32; // place holders, TS_APP_PROTO_END
+    add_path_to_environment: TAddPathToEnvironment;
+    delete_path_from_environment: TDeletePathFromEnvironment;
+    FDummy: array [0..759-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
