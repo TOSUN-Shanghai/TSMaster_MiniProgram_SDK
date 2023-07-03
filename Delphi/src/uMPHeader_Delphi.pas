@@ -535,6 +535,27 @@ type
   TUIWatchdogFeed = function(): s32; stdcall;
   TAddPathToEnvironment = function(const APath: pansichar): s32; stdcall;
   TDeletePathFromEnvironment = function(const APath: pansichar): s32; stdcall;
+  TTSAppSetSystemVarDoubleWTime = function(const ACompleteName: pansichar; const AValue: double; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt32WTime = function(const ACompleteName: pansichar; const AValue: int32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt32WTime = function(const ACompleteName: pansichar; const AValue: uint32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt64WTime = function(const ACompleteName: pansichar; const AValue: int64; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt64WTime = function(const ACompleteName: pansichar; const AValue: uint64; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt8ArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pbyte; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt32ArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pInt32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarDoubleArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pdouble; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarStringWTime = function(const ACompleteName: pansichar; const AValue: pansichar; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarGenericWTime = function(const ACompleteName: pansichar; const AValue: pansichar; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarDoubleAsyncWTime = function(const ACompleteName: pansichar; const AValue: double; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt32AsyncWTime = function(const ACompleteName: pansichar; const AValue: int32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt32AsyncWTime = function(const ACompleteName: pansichar; const AValue: uint32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt64AsyncWTime = function(const ACompleteName: pansichar; const AValue: int64; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt64AsyncWTime = function(const ACompleteName: pansichar; const AValue: uint64; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarUInt8ArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pbyte; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt32ArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pInt32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt64ArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pint64; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarDoubleArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pdouble; const ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarStringAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarGenericAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1189,7 +1210,28 @@ type
     ui_watchdog_feed: TUIWatchdogFeed;
     add_path_to_environment: TAddPathToEnvironment;
     delete_path_from_environment: TDeletePathFromEnvironment;
-    FDummy: array [0..759-1] of s32; // place holders, TS_APP_PROTO_END
+    set_system_var_double_w_time: TTSAppSetSystemVarDoubleWTime;
+    set_system_var_int32_w_time: TTSAppSetSystemVarInt32WTime;
+    set_system_var_uint32_w_time: TTSAppSetSystemVarInt32WTime;
+    set_system_var_int64_w_time: TTSAppSetSystemVarInt64WTime;
+    set_system_var_uint64_w_time: TTSAppSetSystemVarUInt64WTime;
+    set_system_var_uint8_array_w_time: TTSAppSetSystemVarUInt8ArrayWTime;
+    set_system_var_int32_array_w_time: TTSAppSetSystemVarInt32ArrayWTime;
+    set_system_var_double_array_w_time: TTSAppSetSystemVarDoubleArrayWTime;
+    set_system_var_string_w_time: TTSAppSetSystemVarStringWTime;
+    set_system_var_generic_w_time: TTSAppSetSystemVarGenericWTime;
+    set_system_var_double_async_w_time: TTSAppSetSystemVarDoubleAsyncWTime;
+    set_system_var_int32_async_w_time: TTSAppSetSystemVarInt32AsyncWTime;
+    set_system_var_uint32_async_w_time: TTSAppSetSystemVarUInt32AsyncWTime;
+    set_system_var_int64_async_w_time: TTSAppSetSystemVarInt64AsyncWTime;
+    set_system_var_uint64_async_w_time: TTSAppSetSystemVarUInt64AsyncWTime;
+    set_system_var_uint8_array_async_w_time: TTSAppSetSystemVarUInt8ArrayAsyncWTime;
+    set_system_var_int32_array_async_w_time: TTSAppSetSystemVarInt32ArrayAsyncWTime;
+    set_system_var_int64_array_async_w_time: TTSAppSetSystemVarInt64ArrayAsyncWTime;
+    set_system_var_double_array_async_w_time: TTSAppSetSystemVarDoubleArrayAsyncWTime;
+    set_system_var_string_async_w_time: TTSAppSetSystemVarStringAsyncWTime;
+    set_system_var_generic_async_w_time: TTSAppSetSystemVarGenericAsyncWTime;
+    FDummy: array [0..738-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
