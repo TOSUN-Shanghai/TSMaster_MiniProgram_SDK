@@ -556,6 +556,7 @@ type
   TTSAppSetSystemVarDoubleArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pdouble; const ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarStringAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarGenericAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
+  TDBGetSignalStartBitByPDUOffset = function(const AStartBitInPDU: int32; const AIsPDUIntel: boolean; const APDUStartBit: int32; const APDUBitLength: int32; AActualStartBit: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1231,7 +1232,8 @@ type
     set_system_var_double_array_async_w_time: TTSAppSetSystemVarDoubleArrayAsyncWTime;
     set_system_var_string_async_w_time: TTSAppSetSystemVarStringAsyncWTime;
     set_system_var_generic_async_w_time: TTSAppSetSystemVarGenericAsyncWTime;
-    FDummy: array [0..738-1] of s32; // place holders, TS_APP_PROTO_END
+    db_get_signal_startbit_by_pdu_offset: TDBGetSignalStartBitByPDUOffset;
+    FDummy: array [0..737-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
