@@ -556,7 +556,10 @@ type
   TTSAppSetSystemVarDoubleArrayAsyncWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pdouble; const ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarStringAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarGenericAsyncWTime = function(const ACompleteName: pansichar; const AValue: pansichar; const ATimeUs: int64): s32; stdcall;
-  TDBGetSignalStartBitByPDUOffset = function(const AStartBitInPDU: int32; const AIsPDUIntel: boolean; const APDUStartBit: int32; const APDUBitLength: int32; AActualStartBit: pInt32): s32; stdcall;
+  TDBGetSignalStartBitByPDUOffset = function(const ASignalStartBitInPDU: int32; const ASignalBitLength: int32; const AIsSignalIntel: boolean; const AIsPDUIntel: boolean; const APDUStartBit: int32; const APDUBitLength: int32; AActualStartBit: pInt32): s32; stdcall;
+  TUIShowSaveFileDialog = function(const ATitle: pansichar; const AFileTypeDesc: pansichar; const AFilter: pansichar; const ASuggestFileName: pansichar; ADestinationFileName: PPAnsiChar): s32; stdcall;
+  TUIShowOpenFileDialog = function(const ATitle: pansichar; const AFileTypeDesc: pansichar; const AFilter: pansichar; const ASuggestFileName: pansichar; ADestinationFileName: PPAnsiChar): s32; stdcall;
+  TUIShowSelectDirectoryDialog = function(ADestinationDirectory: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1233,7 +1236,10 @@ type
     set_system_var_string_async_w_time: TTSAppSetSystemVarStringAsyncWTime;
     set_system_var_generic_async_w_time: TTSAppSetSystemVarGenericAsyncWTime;
     db_get_signal_startbit_by_pdu_offset: TDBGetSignalStartBitByPDUOffset;
-    FDummy: array [0..737-1] of s32; // place holders, TS_APP_PROTO_END
+    ui_show_save_file_dialog: TUIShowSaveFileDialog;
+    ui_show_open_file_dialog: TUIShowOpenFileDialog;
+    ui_show_select_directory_dialog: TUIShowSelectDirectoryDialog;
+    FDummy: array [0..734-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
