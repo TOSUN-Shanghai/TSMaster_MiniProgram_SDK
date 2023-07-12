@@ -560,6 +560,11 @@ type
   TUIShowSaveFileDialog = function(const ATitle: pansichar; const AFileTypeDesc: pansichar; const AFilter: pansichar; const ASuggestFileName: pansichar; ADestinationFileName: PPAnsiChar): s32; stdcall;
   TUIShowOpenFileDialog = function(const ATitle: pansichar; const AFileTypeDesc: pansichar; const AFilter: pansichar; const ASuggestFileName: pansichar; ADestinationFileName: PPAnsiChar): s32; stdcall;
   TUIShowSelectDirectoryDialog = function(ADestinationDirectory: PPAnsiChar): s32; stdcall;
+  TSetEthernetChannelCount = function(const ACount: int32): s32; stdcall;
+  TGetEthernetChannelCount = function(ACount: pInt32): s32; stdcall;
+  TDBGetCANDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
+  TDBGetLINDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
+  TDBGetFlexRayDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -800,6 +805,11 @@ type
   TLINRBSBatchSetStart = function: s32; stdcall;
   TLINRBSBatchSetEnd = function: s32; stdcall;
   TLINRBSBatchSetSignal = function(const AAddr: pansichar; const AValue: double): s32; stdcall;
+  TTransmitEthernetASync = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
+  TTransmitEthernetSync = function(const AEthernetHeader: PLIBEthernetHeader; const ATimeoutMs: int32): s32; stdcall;
+  TInjectEthernetFrame = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
+  TTSLogBlfWriteEthernet = function(const AHandle: int32; const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
+  TTransmitEthernetAsyncWoPretx = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1239,7 +1249,12 @@ type
     ui_show_save_file_dialog: TUIShowSaveFileDialog;
     ui_show_open_file_dialog: TUIShowOpenFileDialog;
     ui_show_select_directory_dialog: TUIShowSelectDirectoryDialog;
-    FDummy: array [0..734-1] of s32; // place holders, TS_APP_PROTO_END
+    set_ethernet_channel_count: TSetEthernetChannelCount;
+    get_ethernet_channel_count: TGetEthernetChannelCount;
+    db_get_can_db_index_by_id: TDBGetCANDBIndexById;
+    db_get_lin_db_index_by_id: TDBGetLINDBIndexById;
+    db_get_flexray_db_index_by_id: TDBGetFlexRayDBIndexById;
+    FDummy: array [0..729-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1502,7 +1517,12 @@ type
     lin_rbs_batch_set_start            : TLINRBSBatchSetStart;
     lin_rbs_batch_set_end              : TLINRBSBatchSetEnd;
     lin_rbs_batch_set_signal           : TLINRBSBatchSetSignal;
-    FDummy: array [0..810- 1] of s32; // place holders, TS_COM_PROTO_END
+    transmit_ethernet_async: TTransmitEthernetASync;
+    transmit_ethernet_sync: TTransmitEthernetSync;
+    inject_ethernet_frame: TInjectEthernetFrame;
+    tslog_blf_write_ethernet: TTSLogBlfWriteEthernet;
+    transmit_ethernet_async_wo_pretx: TTransmitEthernetAsyncWoPretx;
+    FDummy: array [0..805- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
