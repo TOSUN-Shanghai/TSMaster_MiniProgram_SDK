@@ -810,6 +810,7 @@ type
   TInjectEthernetFrame = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TTSLogBlfWriteEthernet = function(const AHandle: int32; const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TTransmitEthernetAsyncWoPretx = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
+  TIoIpSetOnConnectionCallback = function(const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1522,7 +1523,8 @@ type
     inject_ethernet_frame: TInjectEthernetFrame;
     tslog_blf_write_ethernet: TTSLogBlfWriteEthernet;
     transmit_ethernet_async_wo_pretx: TTransmitEthernetAsyncWoPretx;
-    FDummy: array [0..805- 1] of s32; // place holders, TS_COM_PROTO_END
+    ioip_set_tcp_server_connection_callback: TIoIpSetOnConnectionCallback;
+    FDummy: array [0..804- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
