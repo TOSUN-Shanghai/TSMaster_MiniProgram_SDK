@@ -811,6 +811,7 @@ type
   TTSLogBlfWriteEthernet = function(const AHandle: int32; const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TTransmitEthernetAsyncWoPretx = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TIoIpSetOnConnectionCallback = function(const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
+  TEthBuildIPv4UDPPacket = function(const AHeader: PLIBEthernetHeader; const ASrcIp: pbyte; const ADstIp: pbyte; const ASrcPort: word; const ADstPort: word; const APayload: pbyte; const APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1524,7 +1525,8 @@ type
     tslog_blf_write_ethernet: TTSLogBlfWriteEthernet;
     transmit_ethernet_async_wo_pretx: TTransmitEthernetAsyncWoPretx;
     ioip_set_tcp_server_connection_callback: TIoIpSetOnConnectionCallback;
-    FDummy: array [0..804- 1] of s32; // place holders, TS_COM_PROTO_END
+    eth_build_ipv4_udp_packet: TEthBuildIPv4UDPPacket;
+    FDummy: array [0..803- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
