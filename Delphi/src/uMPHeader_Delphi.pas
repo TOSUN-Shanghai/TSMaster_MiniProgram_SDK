@@ -565,9 +565,9 @@ type
   TDBGetCANDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
   TDBGetLINDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
   TDBGetFlexRayDBIndexById = function(const AId: int32; AIndex: pInt32): s32; stdcall;
-  TRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TOnSysVarChange): s32; stdcall;
-  TUnRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TOnSysVarChange): s32; stdcall;
-  TUnRegisterSystemVarChangeEvents = function(const AEvent: TOnSysVarChange): s32; stdcall;
+  TRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TlibOnSysVarChange): s32; stdcall;
+  TUnRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TlibOnSysVarChange): s32; stdcall;
+  TUnRegisterSystemVarChangeEvents = function(const AEvent: TlibOnSysVarChange): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
