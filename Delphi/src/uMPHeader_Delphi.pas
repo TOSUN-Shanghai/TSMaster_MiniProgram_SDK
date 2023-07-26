@@ -568,6 +568,8 @@ type
   TRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TlibOnSysVarChange): s32; stdcall;
   TUnRegisterSystemVarChangeEvent = function(const ACompleteName: pansichar; const AEvent: TlibOnSysVarChange): s32; stdcall;
   TUnRegisterSystemVarChangeEvents = function(const AEvent: TlibOnSysVarChange): s32; stdcall;
+  TCallSystemAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
+  TCallLibraryAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1263,7 +1265,9 @@ type
     register_system_var_change_event: TRegisterSystemVarChangeEvent;
     unregister_system_var_change_event: TUnRegisterSystemVarChangeEvent;
     unregister_system_var_change_events: TUnRegisterSystemVarChangeEvents;
-    FDummy: array [0..726-1] of s32; // place holders, TS_APP_PROTO_END
+    call_system_api: TCallSystemAPI;
+    call_library_api: TCallLibraryAPI;
+    FDummy: array [0..724-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
