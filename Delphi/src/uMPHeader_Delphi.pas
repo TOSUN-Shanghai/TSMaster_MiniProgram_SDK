@@ -818,7 +818,7 @@ type
   TIoIpSetOnConnectionCallback = function(const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
   TEthBuildIPv4UDPPacket = function(const AHeader: PLIBEthernetHeader; const ASrcIp: pbyte; const ADstIp: pbyte; const ASrcPort: word; const ADstPort: word; const APayload: pbyte; const APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
   TBlockCurrentPreTx = function(const AObj: Pointer): s32; stdcall;
-  TEthernetIsUDPPacket = function(const AHeader: PLIBEthernetHeader; AIdentification: pInt32; AUDPPacketLength: pInt32; AUDPDataOffset: pInt32): s32; stdcall;
+  TEthernetIsUDPPacket = function(const AHeader: PLIBEthernetHeader; var AIdentification: u16; var AUDPPacketLength: u16; var AUDPDataOffset: u16; var AIsPacketEnded: boolean): s32; stdcall;
   TEthernetIPCalcHeaderChecksum = function(const AHeader: PLIBEthernetHeader; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthernetUDPCalcChecksum = function(const AHeader: PLIBEthernetHeader; const AUDPPayloadAddr: pbyte; const AUDPPayloadLength: word; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
@@ -1541,9 +1541,9 @@ type
     ioip_set_tcp_server_connection_callback: TIoIpSetOnConnectionCallback;
     eth_build_ipv4_udp_packet: TEthBuildIPv4UDPPacket;
     block_current_pretx: TBlockCurrentPreTx;
-    ethernet_is_udp_packet: TEthernetIsUDPPacket;
-    ethernet_ip_calc_header_checksum: TEthernetIPCalcHeaderChecksum;
-    ethernet_udp_calc_checksum: TEthernetUDPCalcChecksum;
+    eth_is_udp_packet: TEthernetIsUDPPacket;
+    eth_ip_calc_header_checksum: TEthernetIPCalcHeaderChecksum;
+    eth_udp_calc_checksum: TEthernetUDPCalcChecksum;
     FDummy: array [0..799- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
