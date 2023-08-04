@@ -821,6 +821,8 @@ type
   TEthernetIsUDPPacket = function(const AHeader: PLIBEthernetHeader; var AIdentification: u16; var AUDPPacketLength: u16; var AUDPDataOffset: u16; var AIsPacketEnded: boolean): s32; stdcall;
   TEthernetIPCalcHeaderChecksum = function(const AHeader: PLIBEthernetHeader; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthernetUDPCalcChecksum = function(const AHeader: PLIBEthernetHeader; const AUDPPayloadAddr: pbyte; const AUDPPayloadLength: word; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
+  TEthernetUDPCalcChecksumOnFrame = function(const AHeader: PLIBEthernetHeader; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
+  TEthLogEthernetFrameData = function(const AHeader: PLIBEthernetHeader): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1544,7 +1546,9 @@ type
     eth_is_udp_packet: TEthernetIsUDPPacket;
     eth_ip_calc_header_checksum: TEthernetIPCalcHeaderChecksum;
     eth_udp_calc_checksum: TEthernetUDPCalcChecksum;
-    FDummy: array [0..799- 1] of s32; // place holders, TS_COM_PROTO_END
+    ethernet_udp_calc_checksum_on_frame: TEthernetUDPCalcChecksumOnFrame;
+    eth_log_ethernet_frame_data: TEthLogEthernetFrameData;
+    FDummy: array [0..797- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
