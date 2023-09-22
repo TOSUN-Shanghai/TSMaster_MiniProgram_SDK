@@ -866,20 +866,9 @@ type
   // 2023-02-28 log name=value in test system
   TTestLogValue = function(const AObj: Pointer; const AStr: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   TTestLogString = function(const AObj: Pointer; const AStr: pansichar; const AValue: pansichar; const ALevel: Integer): s32; stdcall;
-  TSignalTesterClearAll = function(): s32; stdcall;
-  TSignalTesterLoadConfiguration = function(const AFilePath: pansichar): s32; stdcall;
-  TSignalTesterSaveConfiguration = function(const AFilePath: pansichar): s32; stdcall;
-  TSignalTesterRunItemByName = function(const AName: pansichar): s32; stdcall;
-  TSignalTesterStopItemByName = function(const AName: pansichar): s32; stdcall;
-  TSignalTesterRunItemByIndex = function(const AIndex: int32): s32; stdcall;
-  TSignalTesterStopItemByIndex = function(const AIndex: int32): s32; stdcall;
-  TSignalTesterGetItemVerdictByIndex = function(const AIndex: int32; AIsPass: PBoolean): s32; stdcall;
-  TSignalTesterGetItemResultByName = function(const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
-  TSignalTesterGetItemResultByIndex = function(const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
-  TSignalTesterGetItemVerdictByName = function(const AName: pansichar; AIsPass: PBoolean): s32; stdcall;
-  // TS_TEST_PROTO_END (do not modify this line) ================================
+  // TS_TEST_PROTO_END (do not modify this line) ===============================
 
-  // TSMaster variables =========================================================
+  // TSMaster variables ========================================================
   TEventInC = procedure; cdecl;
   // integer
   TMPVarInt = packed record // C type
@@ -1647,18 +1636,7 @@ type
     signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
     log_value: TTestLogValue;
     log_string: TTestLogString;    
-    signal_tester_clear_all: TSignalTesterClearAll;
-    signal_tester_load_configuration: TSignalTesterLoadConfiguration;
-    signal_tester_save_configuration: TSignalTesterSaveConfiguration;
-    signal_tester_run_item_by_name: TSignalTesterRunItemByName;
-    signal_tester_stop_item_by_name: TSignalTesterStopItemByName;
-    signal_tester_run_item_by_index: TSignalTesterRunItemByIndex;
-    signal_tester_stop_item_by_index: TSignalTesterStopItemByIndex;
-    signal_tester_get_item_verdict_by_index: TSignalTesterGetItemVerdictByIndex;
-    signal_tester_get_item_result_by_name: TSignalTesterGetItemResultByName;
-    signal_tester_get_item_result_by_index: TSignalTesterGetItemResultByIndex;
-    signal_tester_get_item_verdict_by_name: TSignalTesterGetItemVerdictByName;
-    FDummy: array [0..958-1] of s32; // place holders, TS_TEST_PROTO_END
+    FDummy: array [0..969-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
