@@ -570,6 +570,9 @@ type
   TUnRegisterSystemVarChangeEvents = function(const AEvent: TlibOnSysVarChange): s32; stdcall;
   TCallSystemAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   TCallLibraryAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
+  TIniReadStringWoQuotes = function(const AHandle: int32; const ASection: pansichar; const AKey: pansichar; const AValue: pansichar; AValueCapacity: pInt32; const ADefault: pansichar): s32; stdcall;
+  TUIGraphicsAddSignal = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASgnType: TSignalType; const ASignalAddress: pansichar): s32; stdcall;
+  TUIGraphicsClearSignals = function(const AWindowCaption: pansichar; const AIdxSplit: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -866,9 +869,20 @@ type
   // 2023-02-28 log name=value in test system
   TTestLogValue = function(const AObj: Pointer; const AStr: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   TTestLogString = function(const AObj: Pointer; const AStr: pansichar; const AValue: pansichar; const ALevel: Integer): s32; stdcall;
-  // TS_TEST_PROTO_END (do not modify this line) ===============================
+  TSignalTesterClearAll = function(): s32; stdcall;
+  TSignalTesterLoadConfiguration = function(const AFilePath: pansichar): s32; stdcall;
+  TSignalTesterSaveConfiguration = function(const AFilePath: pansichar): s32; stdcall;
+  TSignalTesterRunItemByName = function(const AName: pansichar): s32; stdcall;
+  TSignalTesterStopItemByName = function(const AName: pansichar): s32; stdcall;
+  TSignalTesterRunItemByIndex = function(const AIndex: int32): s32; stdcall;
+  TSignalTesterStopItemByIndex = function(const AIndex: int32): s32; stdcall;
+  TSignalTesterGetItemVerdictByIndex = function(const AIndex: int32; AIsPass: PBoolean): s32; stdcall;
+  TSignalTesterGetItemResultByName = function(const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemResultByIndex = function(const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemVerdictByName = function(const AName: pansichar; AIsPass: PBoolean): s32; stdcall;
+  // TS_TEST_PROTO_END (do not modify this line) ================================
 
-  // TSMaster variables ========================================================
+  // TSMaster variables =========================================================
   TEventInC = procedure; cdecl;
   // integer
   TMPVarInt = packed record // C type
@@ -1272,7 +1286,10 @@ type
     unregister_system_var_change_events: TUnRegisterSystemVarChangeEvents;
     call_system_api: TCallSystemAPI;
     call_library_api: TCallLibraryAPI;
-    FDummy: array [0..724-1] of s32; // place holders, TS_APP_PROTO_END
+    ini_read_string_wo_quotes: TIniReadStringWoQuotes;
+    ui_graphics_add_signal: TUIGraphicsAddSignal;
+    ui_graphics_clear_signals: TUIGraphicsClearSignals;
+    FDummy: array [0..721-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1636,7 +1653,18 @@ type
     signal_checker_check_statistics: TTestSignalCheckerCheckStatistics;
     log_value: TTestLogValue;
     log_string: TTestLogString;    
-    FDummy: array [0..969-1] of s32; // place holders, TS_TEST_PROTO_END
+    signal_tester_clear_all: TSignalTesterClearAll;
+    signal_tester_load_configuration: TSignalTesterLoadConfiguration;
+    signal_tester_save_configuration: TSignalTesterSaveConfiguration;
+    signal_tester_run_item_by_name: TSignalTesterRunItemByName;
+    signal_tester_stop_item_by_name: TSignalTesterStopItemByName;
+    signal_tester_run_item_by_index: TSignalTesterRunItemByIndex;
+    signal_tester_stop_item_by_index: TSignalTesterStopItemByIndex;
+    signal_tester_get_item_verdict_by_index: TSignalTesterGetItemVerdictByIndex;
+    signal_tester_get_item_result_by_name: TSignalTesterGetItemResultByName;
+    signal_tester_get_item_result_by_index: TSignalTesterGetItemResultByIndex;
+    signal_tester_get_item_verdict_by_name: TSignalTesterGetItemVerdictByName;
+    FDummy: array [0..958-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
