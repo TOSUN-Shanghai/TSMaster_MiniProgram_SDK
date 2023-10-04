@@ -573,6 +573,7 @@ type
   TIniReadStringWoQuotes = function(const AHandle: int32; const ASection: pansichar; const AKey: pansichar; const AValue: pansichar; AValueCapacity: pInt32; const ADefault: pansichar): s32; stdcall;
   TUIGraphicsAddSignal = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASgnType: TSignalType; const ASignalAddress: pansichar): s32; stdcall;
   TUIGraphicsClearSignals = function(const AWindowCaption: pansichar; const AIdxSplit: int32): s32; stdcall;
+  TGPGLoadExcel = function(const AFileName: pansichar; AGraphicProgramName: PPAnsiChar; ASubModuleName: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1289,7 +1290,8 @@ type
     ini_read_string_wo_quotes: TIniReadStringWoQuotes;
     ui_graphics_add_signal: TUIGraphicsAddSignal;
     ui_graphics_clear_signals: TUIGraphicsClearSignals;
-    FDummy: array [0..721-1] of s32; // place holders, TS_APP_PROTO_END
+    gpg_load_excel: TGPGLoadExcel;
+    FDummy: array [0..720-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
