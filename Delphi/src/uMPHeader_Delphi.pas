@@ -877,10 +877,12 @@ type
   TSignalTesterStopItemByName = function(const AName: pansichar): s32; stdcall;
   TSignalTesterRunItemByIndex = function(const AIndex: int32): s32; stdcall;
   TSignalTesterStopItemByIndex = function(const AIndex: int32): s32; stdcall;
-  TSignalTesterGetItemVerdictByIndex = function(const AIndex: int32; AIsPass: PBoolean): s32; stdcall;
-  TSignalTesterGetItemResultByName = function(const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
-  TSignalTesterGetItemResultByIndex = function(const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
-  TSignalTesterGetItemVerdictByName = function(const AName: pansichar; AIsPass: PBoolean): s32; stdcall;
+  TSignalTesterGetItemVerdictByIndex = function(const AObj: Pointer; const AIndex: int32; AIsPass: PBoolean): s32; stdcall;
+  TSignalTesterGetItemResultByName = function(const AObj: Pointer; const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemResultByIndex = function(const AObj: Pointer; const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemVerdictByName = function(const AObj: Pointer; const AName: pansichar; AIsPass: PBoolean): s32; stdcall;
+  TSignalTesterCheckStatisticsByIndex = function(const AObj: Pointer; const AIndex: int32; const AMin: double; const AMax: double; APass: PBoolean; AResult: pdouble; AResultRepr: PPAnsiChar): s32; stdcall;
+  TSignalTesterCheckStatisticsByName = function(const AObj: Pointer; const AItemName: pansichar; const AMin: double; const AMax: double; APass: PBoolean; AResult: pdouble; AResultRepr: PPAnsiChar): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -1666,7 +1668,9 @@ type
     signal_tester_get_item_result_by_name: TSignalTesterGetItemResultByName;
     signal_tester_get_item_result_by_index: TSignalTesterGetItemResultByIndex;
     signal_tester_get_item_verdict_by_name: TSignalTesterGetItemVerdictByName;
-    FDummy: array [0..958-1] of s32; // place holders, TS_TEST_PROTO_END
+    signal_tester_check_statistics_by_index: TSignalTesterCheckStatisticsByIndex;
+    signal_tester_check_statistics_by_name: TSignalTesterCheckStatisticsByName;
+    FDummy: array [0..956-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
@@ -1676,6 +1680,7 @@ type
     procedure write_result_value(const AName: PAnsiChar; const AValue: Double; const ALevel: s32); cdecl;
     function  write_result_image(const AName: PAnsiChar; const AImageFileFullPath: PAnsiChar): s32; cdecl;
     function  retrieve_current_result_folder(AFolder: PPAnsiChar): s32; cdecl;
+    // TODO: assign fobjs...
   end;
   PTSTest = ^TTSTest;
 
