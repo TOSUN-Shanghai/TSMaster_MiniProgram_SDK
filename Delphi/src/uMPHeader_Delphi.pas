@@ -827,6 +827,16 @@ type
   TEthernetUDPCalcChecksum = function(const AHeader: PLIBEthernetHeader; const AUDPPayloadAddr: pbyte; const AUDPPayloadLength: word; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthernetUDPCalcChecksumOnFrame = function(const AHeader: PLIBEthernetHeader; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthLogEthernetFrameData = function(const AHeader: PLIBEthernetHeader): s32; stdcall;
+  Tlin_clear_schedule_tables = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_stop_lin_channel = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_start_lin_channel = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_switch_runtime_schedule_table = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_switch_idle_schedule_table = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_switch_normal_schedule_table = function(const AChnIdx: int32; const ASchIndex: int32): s32; stdcall;
+  Tlin_batch_set_schedule_start = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_batch_add_schedule_frame = function(const AChnIdx: int32; const ALINData: PLIBLIN; const ADelayMs: int32): s32; stdcall;
+  Tlin_batch_set_schedule_end = function(const AChnIdx: int32): s32; stdcall;
+  Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -887,6 +897,7 @@ type
   TSignalTesterEnableItemByName = function(const AItemName: pansichar; const AEnable: boolean): s32; stdcall;
   TSignalTesterRunAll = function(): s32; stdcall;
   TSignalTesterStopAll = function(): s32; stdcall;
+  TSetClassicTestSystemReportName = function(const AName: pansichar): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -1573,7 +1584,17 @@ type
     eth_udp_calc_checksum: TEthernetUDPCalcChecksum;
     ethernet_udp_calc_checksum_on_frame: TEthernetUDPCalcChecksumOnFrame;
     eth_log_ethernet_frame_data: TEthLogEthernetFrameData;
-    FDummy: array [0..797- 1] of s32; // place holders, TS_COM_PROTO_END
+    lin_clear_schedule_tables: Tlin_clear_schedule_tables;
+    lin_stop_lin_channel: Tlin_stop_lin_channel;
+    lin_start_lin_channel: Tlin_start_lin_channel;
+    lin_switch_runtime_schedule_table: Tlin_switch_runtime_schedule_table;
+    lin_switch_idle_schedule_table: Tlin_switch_idle_schedule_table;
+    lin_switch_normal_schedule_table: Tlin_switch_normal_schedule_table;
+    lin_batch_set_schedule_start: Tlin_batch_set_schedule_start;
+    lin_batch_add_schedule_frame: Tlin_batch_add_schedule_frame;
+    lin_batch_set_schedule_end: Tlin_batch_set_schedule_end;
+    lin_set_node_functiontype: Tlin_set_node_functiontype;
+    FDummy: array [0..787- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -1678,7 +1699,8 @@ type
     signal_tester_enable_item_by_name: TSignalTesterEnableItemByName;
     signal_tester_run_all: TSignalTesterRunAll;
     signal_tester_stop_all: TSignalTesterStopAll;
-    FDummy: array [0..952-1] of s32; // place holders, TS_TEST_PROTO_END
+    set_classic_test_system_report_name: TSetClassicTestSystemReportName;
+    FDummy: array [0..951-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
