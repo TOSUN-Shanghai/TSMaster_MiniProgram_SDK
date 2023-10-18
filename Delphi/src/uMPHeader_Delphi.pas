@@ -574,6 +574,7 @@ type
   TUIGraphicsAddSignal = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASgnType: TSignalType; const ASignalAddress: pansichar): s32; stdcall;
   TUIGraphicsClearSignals = function(const AWindowCaption: pansichar; const AIdxSplit: int32): s32; stdcall;
   TGPGLoadExcel = function(const AFileName: pansichar; AGraphicProgramName: PPAnsiChar; ASubModuleName: PPAnsiChar): s32; stdcall;
+  TRunProcedure = function(const AProcedure: TCProcedure): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -888,11 +889,11 @@ type
   TSignalTesterRunItemByIndex = function(const AIndex: int32): s32; stdcall;
   TSignalTesterStopItemByIndex = function(const AIndex: int32): s32; stdcall;
   TSignalTesterGetItemVerdictByIndex = function(const AObj: Pointer; const AIndex: int32; AIsPass: PBoolean): s32; stdcall;
-  TSignalTesterGetItemResultByName = function(const AObj: Pointer; const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
-  TSignalTesterGetItemResultByIndex = function(const AObj: Pointer; const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemResultByName = function(const AObj: Pointer; const AName: pansichar; AIsPass: PBoolean; AEventTimeUs: pint64; AResults, ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemResultByIndex = function(const AObj: Pointer; const AIndex: int32; AIsPass: PBoolean; AEventTimeUs: pint64; AResults, ADescription: PPAnsiChar): s32; stdcall;
   TSignalTesterGetItemVerdictByName = function(const AObj: Pointer; const AName: pansichar; AIsPass: PBoolean): s32; stdcall;
-  TSignalTesterCheckStatisticsByIndex = function(const AObj: Pointer; const AIndex: int32; const AMin: double; const AMax: double; APass: PBoolean; AResult: pdouble; AResultRepr: PPAnsiChar): s32; stdcall;
-  TSignalTesterCheckStatisticsByName = function(const AObj: Pointer; const AItemName: pansichar; const AMin: double; const AMax: double; APass: PBoolean; AResult: pdouble; AResultRepr: PPAnsiChar): s32; stdcall;
+  TSignalTesterCheckStatisticsByIndex = function(const AObj: Pointer; const AIndex: int32; const AMin: double; const AMax: double; APass: PBoolean; AResults, AResultRepr: PPAnsiChar): s32; stdcall;
+  TSignalTesterCheckStatisticsByName = function(const AObj: Pointer; const AItemName: pansichar; const AMin: double; const AMax: double; APass: PBoolean; AResults, AResultRepr: PPAnsiChar): s32; stdcall;
   TSignalTesterEnableItem = function(const AIndex: int32; const AEnable: boolean): s32; stdcall;
   TSignalTesterEnableItemByName = function(const AItemName: pansichar; const AEnable: boolean): s32; stdcall;
   TSignalTesterRunAll = function(): s32; stdcall;
@@ -1308,7 +1309,8 @@ type
     ui_graphics_add_signal: TUIGraphicsAddSignal;
     ui_graphics_clear_signals: TUIGraphicsClearSignals;
     gpg_load_excel: TGPGLoadExcel;
-    FDummy: array [0..720-1] of s32; // place holders, TS_APP_PROTO_END
+    run_in_main_thread: TRunProcedure;
+    FDummy: array [0..719-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
