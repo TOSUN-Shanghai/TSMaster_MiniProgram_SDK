@@ -838,6 +838,8 @@ type
   Tlin_batch_add_schedule_frame = function(const AChnIdx: int32; const ALINData: PLIBLIN; const ADelayMs: int32): s32; stdcall;
   Tlin_batch_set_schedule_end = function(const AChnIdx: int32): s32; stdcall;
   Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
+  Tflexray_disable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
+  Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1596,7 +1598,9 @@ type
     lin_batch_add_schedule_frame: Tlin_batch_add_schedule_frame;
     lin_batch_set_schedule_end: Tlin_batch_set_schedule_end;
     lin_set_node_functiontype: Tlin_set_node_functiontype;
-    FDummy: array [0..787- 1] of s32; // place holders, TS_COM_PROTO_END
+    flexray_disable_frame: Tflexray_disable_frame;
+    flexray_enable_frame: Tflexray_enable_frame;
+    FDummy: array [0..785- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
