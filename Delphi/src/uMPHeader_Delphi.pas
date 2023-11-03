@@ -576,6 +576,7 @@ type
   TGPGLoadExcel = function(const AFileName: pansichar; AGraphicProgramName: PPAnsiChar; ASubModuleName: PPAnsiChar): s32; stdcall;
   TRunProcedure = function(const AProcedure: TCProcedure): s32; stdcall;
   TOpenHelpDoc = function(const AFileNameWoSuffix: pansichar; const ATitle: pansichar): s32; stdcall;
+  TGetLangString = function(const AEnglishStr: pansichar; const AIniSection: pansichar; ATranslatedStr: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1314,7 +1315,8 @@ type
     gpg_load_excel: TGPGLoadExcel;
     run_in_main_thread: TRunProcedure;
     open_help_doc: TOpenHelpDoc;
-    FDummy: array [0..718-1] of s32; // place holders, TS_APP_PROTO_END
+    get_language_string: TGetLangString;
+    FDummy: array [0..717-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
