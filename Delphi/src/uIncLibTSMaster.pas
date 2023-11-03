@@ -1953,7 +1953,7 @@ procedure tsdiag_can_delete_all; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL
 //function tsdiag_get_tp_handle(ADiagModuleIndex: Integer;AHandle:PInteger):Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 {Parameter setting}
 function tsdiag_set_channel(ADiagModuleIndex: Integer; AChnIndex:Integer): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsdiag_set_fdmode(ADiagModuleIndex: Integer; AFDMode:boolean; AMaxLength:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_fdmode(ADiagModuleIndex: Integer; AFDMode: boolean; ASupportBRS: boolean; AMaxLength:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_request_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer;  stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_response_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_function_id(ADiagModuleIndex: Integer; ARequestID:Integer; AIsStandard:Boolean): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -1970,6 +1970,7 @@ function tsdiag_set_s3_clienttime(ADiagModuleIndex: Integer; ATimeMs:Integer):In
 function tstp_can_send_functional(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_can_send_request(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_can_request_and_get_response(ADiagModuleIndex:Integer;AReqDataArray:PByte;AReqDataSize:Integer;AResponseDataArray:PByte; AResponseDataSize:PInteger):integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tstp_can_request_and_get_response_functional(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer;const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_can_register_tx_completed_recall(ADiagModuleIndex: Integer; ATxcompleted: N_USData_TranslateCompleted_Recall): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_can_register_rx_completed_recall(ADiagModuleIndex: Integer; ARxcompleted: N_USData_TranslateCompleted_Recall): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 {Internal for delphi dev}
