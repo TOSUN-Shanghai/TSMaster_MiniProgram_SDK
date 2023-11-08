@@ -578,6 +578,7 @@ type
   TOpenHelpDoc = function(const AFileNameWoSuffix: pansichar; const ATitle: pansichar): s32; stdcall;
   TGetLangString = function(const AEnglishStr: pansichar; const AIniSection: pansichar; ATranslatedStr: PPAnsiChar): s32; stdcall;
   TConvertBlfToCsv = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertBlfToCsvWFilter = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -843,9 +844,6 @@ type
   Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
   Tflexray_disable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
-  Tflexray_start_net = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
-  Tflexray_stop_net = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
-  Tflexray_wakeup_pattern = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1321,7 +1319,8 @@ type
     open_help_doc: TOpenHelpDoc;
     get_language_string: TGetLangString;
     convert_blf_to_csv: TConvertBlfToCsv;
-    FDummy: array [0..716-1] of s32; // place holders, TS_APP_PROTO_END
+    convert_blf_to_csv_with_filter: TConvertBlfToCsvWFilter;
+    FDummy: array [0..715-1] of s32; // place holders, TS_APP_PROTO_END
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1609,10 +1608,7 @@ type
     lin_set_node_functiontype: Tlin_set_node_functiontype;
     flexray_disable_frame: Tflexray_disable_frame;
     flexray_enable_frame: Tflexray_enable_frame;
-    flexray_start_net: Tflexray_start_net;
-    flexray_stop_net: Tflexray_stop_net;
-    flexray_wakeup_pattern: Tflexray_wakeup_pattern;
-    FDummy: array [0..782- 1] of s32; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..785- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
