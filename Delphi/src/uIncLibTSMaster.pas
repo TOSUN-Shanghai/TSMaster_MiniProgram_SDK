@@ -1948,9 +1948,9 @@ function tsflexray_wakeup_pattern(const AIdxChn: Integer; const ATimeoutMs: inte
 //Ethernet APIs
 function tsapp_config_ethernet_channel(const AIdxChn: Integer;
                                        const AConfig: PLibEth_CMD_config;
-                                       const ATimeoutMs: integer): integer; stdcall;
+                                       const ATimeoutMs: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_ethernet_channel_compress_mode(const AIdxChn: Integer;
-                                       const AOpen: Boolean): integer; stdcall;
+                                       const AOpen: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_ethernet_sync(const AEthernetHeader: PLIBEthernetHeader; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_ethernet_async(const AEthernetHeader: PLIBEthernetHeader): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_ethernet(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
