@@ -844,6 +844,7 @@ type
   Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
   Tflexray_disable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
+  TSetFlexRayAutoUBHandle = function(const AIsAutoHandle: boolean): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1608,7 +1609,8 @@ type
     lin_set_node_functiontype: Tlin_set_node_functiontype;
     flexray_disable_frame: Tflexray_disable_frame;
     flexray_enable_frame: Tflexray_enable_frame;
-    FDummy: array [0..785- 1] of s32; // place holders, TS_COM_PROTO_END
+    set_flexray_ub_bit_auto_handle: TSetFlexRayAutoUBHandle;
+    FDummy: array [0..784- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
