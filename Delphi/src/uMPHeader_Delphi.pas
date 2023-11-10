@@ -906,6 +906,12 @@ type
   TSignalTesterRunAll = function(): s32; stdcall;
   TSignalTesterStopAll = function(): s32; stdcall;
   TSetClassicTestSystemReportName = function(const AName: pansichar): s32; stdcall;
+  TSignalTesterGetItemStatusByIndex = function(const AIdx: int32; AIsRunning: PBoolean; AIsCheckDone: PBoolean; AFailReason: PSignalTesterFailReason): s32; stdcall;
+  TSignalTesterGetItemStatusByName = function(const ATesterName: pansichar; AIsRunning: PBoolean; AIsCheckDone: PBoolean; AFailReason: PSignalTesterFailReason): s32; stdcall;
+  TSignalTesterSetItemTimeRangeByIndex = function(const AIdx: int32; const ATimeBegin: double; const ATimeEnd: double): s32; stdcall;
+  TSignalTesterSetItemTimeRangeByName = function(const AName: pansichar; const ATimeBegin: double; const ATimeEnd: double): s32; stdcall;
+  TSignalTesterSetItemValueRangeByIndex = function(const AIdx: int32; const ALow: double; const AHigh: double): s32; stdcall;
+  TSignalTesterSetItemValueRangeByName = function(const AName: pansichar; const ALow: double; const AHigh: double): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -1716,7 +1722,13 @@ type
     signal_tester_run_all: TSignalTesterRunAll;
     signal_tester_stop_all: TSignalTesterStopAll;
     set_classic_test_system_report_name: TSetClassicTestSystemReportName;
-    FDummy: array [0..951-1] of s32; // place holders, TS_TEST_PROTO_END
+    signal_tester_get_item_status_by_index: TSignalTesterGetItemStatusByIndex;
+    signal_tester_get_item_status_by_name: TSignalTesterGetItemStatusByName;
+    signal_tester_set_item_time_range_by_index: TSignalTesterSetItemTimeRangeByIndex;
+    signal_tester_set_item_time_range_by_name: TSignalTesterSetItemTimeRangeByName;
+    signal_tester_set_item_value_range_by_index: TSignalTesterSetItemValueRangeByIndex;
+    signal_tester_set_item_value_range_by_name: TSignalTesterSetItemValueRangeByName;
+    FDummy: array [0..945-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
