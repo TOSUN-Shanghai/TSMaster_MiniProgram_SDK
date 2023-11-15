@@ -236,7 +236,7 @@ type
   TTSAppGetMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppDeleteMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppConnectApplication = function: integer; stdcall;
-  TTSAppDisconnectApplication = function: integer; stdcall;
+  TTSAppDisconnectApplication = function(const AObj: Pointer): integer; stdcall;
   TTSAppLogger = function(const AStr: pansichar; const ALevel: Integer): integer; stdcall;
   TTSSetTurboMode = function (const AEnable: Boolean): integer; stdcall;
   TTSGetTurboMode = function (out AEnable: Boolean): integer; stdcall;
@@ -1002,7 +1002,7 @@ type
     get_mapping                         : TTSAppGetMapping                 ;
     del_mapping                         : TTSAppDeleteMapping              ;
     connect                             : TTSAppConnectApplication         ;
-    disconnect                          : TTSAppDisconnectApplication      ;
+    internal_disconnect                 : TTSAppDisconnectApplication      ;
     Log_text                            : TTSAppLogger                     ;
     configure_baudrate_can              : TTSConfigureBaudrateCAN          ;
     configure_baudrate_canfd            : TTSConfigureBaudrateCANFD        ;
@@ -1328,6 +1328,7 @@ type
     convert_blf_to_csv: TConvertBlfToCsv;
     convert_blf_to_csv_with_filter: TConvertBlfToCsvWFilter;
     FDummy: array [0..715-1] of s32; // place holders, TS_APP_PROTO_END
+    function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1961,6 +1962,13 @@ function TTSApp.debug_log(const AFile, AFunc: pansichar; const ALine: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_debug_log(FObj, afile, afunc, aline, astr, alevel);
+
+end;
+
+function TTSApp.disconnect: s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_disconnect(fobj);
 
 end;
 
