@@ -579,6 +579,7 @@ type
   TGetLangString = function(const AEnglishStr: pansichar; const AIniSection: pansichar; ATranslatedStr: PPAnsiChar): s32; stdcall;
   TConvertBlfToCsv = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   TConvertBlfToCsvWFilter = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TStartLogWFileName = function(const AObj: Pointer; const AFileName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1327,7 +1328,9 @@ type
     get_language_string: TGetLangString;
     convert_blf_to_csv: TConvertBlfToCsv;
     convert_blf_to_csv_with_filter: TConvertBlfToCsvWFilter;
-    FDummy: array [0..715-1] of s32; // place holders, TS_APP_PROTO_END
+    internal_start_log_w_filename: TStartLogWFileName;
+    FDummy: array [0..714-1] of s32; // place holders, TS_APP_PROTO_END
+    function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
@@ -1997,6 +2000,13 @@ function TTSApp.start_log: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   Result := internal_start_log(FObj);
+
+end;
+
+function TTSApp.start_log_w_filename(const AFileName: string): s32; cdecl;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_start_log_w_filename(FObj, pansichar(ansistring(AFileName)));
 
 end;
 
