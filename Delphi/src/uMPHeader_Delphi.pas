@@ -580,6 +580,9 @@ type
   TConvertBlfToCsv = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   TConvertBlfToCsvWFilter = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   TStartLogWFileName = function(const AObj: Pointer; const AFileName: pansichar): s32; stdcall;
+  TConvertBlfToMatWFilter = function(const ABlfFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertASCToMatWFilter = function(const AASCFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertASCToCSVWFilter = function(const AASCFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1329,7 +1332,10 @@ type
     convert_blf_to_csv: TConvertBlfToCsv;
     convert_blf_to_csv_with_filter: TConvertBlfToCsvWFilter;
     internal_start_log_w_filename: TStartLogWFileName;
-    FDummy: array [0..714-1] of s32; // place holders, TS_APP_PROTO_END
+    convert_blf_to_mat_w_filter: TConvertBlfToMatWFilter;
+    convert_asc_to_mat_w_filter: TConvertASCToMatWFilter;
+    convert_asc_to_csv_w_filter: TConvertASCToCSVWFilter;
+    FDummy: array [0..711-1] of s32; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
