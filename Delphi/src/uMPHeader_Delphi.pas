@@ -583,6 +583,8 @@ type
   TConvertBlfToMatWFilter = function(const ABlfFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   TConvertASCToMatWFilter = function(const AASCFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
   TConvertASCToCSVWFilter = function(const AASCFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TSetDebugLogLevel = function(const ALevel: Integer): s32; stdcall;
+  TGetFormUniqueId = function(const AClassName: pansichar; const AFormIdx: int32; AUniqueId: pInt64): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1335,7 +1337,9 @@ type
     convert_blf_to_mat_w_filter: TConvertBlfToMatWFilter;
     convert_asc_to_mat_w_filter: TConvertASCToMatWFilter;
     convert_asc_to_csv_w_filter: TConvertASCToCSVWFilter;
-    FDummy: array [0..711-1] of s32; // place holders, TS_APP_PROTO_END
+    set_debug_log_level: TSetDebugLogLevel;
+    get_form_unique_id: TGetFormUniqueId;
+    FDummy: array [0..709-1] of s32; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
