@@ -486,6 +486,12 @@ type
      E_W:Byte;
      Satellite:Byte;
      FIdxChn:Byte;
+     function GetLatitudeReal: single;     //纬度
+     function GetLongitudeReal: single;    //经度
+     procedure SetLatitudeReal(const AValue: single);     //纬度
+     procedure SetLongitudeReal(const AValue: single);    //经度
+     property LatitudeReal: Single read GetLatitudeReal write SetLatitudeReal;
+     property LongitudeReal: Single read GetLongitudeReal write SetLongitudeReal;
   end;
 
   //Ethernet
@@ -1908,9 +1914,9 @@ function tsflexray_wakeup_pattern(const AIdxChn: Integer; const ATimeoutMs: inte
 //Ethernet APIs
 function tsapp_config_ethernet_channel(const AIdxChn: Integer;
                                        const AConfig: PLibEth_CMD_config;
-                                       const ATimeoutMs: integer): integer; stdcall;
+                                       const ATimeoutMs: integer): integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_ethernet_channel_compress_mode(const AIdxChn: Integer;
-                                       const AOpen: Boolean): integer; stdcall;
+                                       const AOpen: Boolean): integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_ethernet_sync(const AEthernetHeader: PLIBEthernetHeader; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_ethernet_async(const AEthernetHeader: PLIBEthernetHeader): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_ethernet(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -2299,6 +2305,71 @@ begin
   except
     Result := now;
   end;
+
+end;
+
+{TLibGPSData}
+function TLibGPSData.GetLatitudeReal: single;
+var
+  f: single;
+  d: integer;
+begin
+  f := Latitude / 100;
+  d := Round(f);
+  result := d + ((f - d) * 100/60);
+  if N_S = Ord('S') then
+    result := result * -1;
+
+end;
+
+function TLibGPSData.GetLongitudeReal: single;
+var
+  f: single;
+  d: integer;
+begin
+  f := Longitude / 100;
+  d := Round(f);
+  result := d + ((f - d) * 100/60);
+  if N_S = Ord('W') then
+    result := result * -1;
+
+end;
+
+procedure TLibGPSData.SetLatitudeReal(const AValue: single);     //纬度
+var
+  f: single;
+  d: integer;
+begin
+  if AValue < 0 then begin
+    f := AValue * -1;
+    N_S := Ord('N');
+  end else begin
+    f := AValue;
+    N_S := Ord('S');
+  end;
+  d := Round(f);
+  f := f - d;
+  f := d + (f * 60 / 100);
+  Latitude := f * 100;
+
+end;
+
+procedure TLibGPSData.SetLongitudeReal(const AValue: single);    //经度
+var
+  f: single;
+  d: integer;
+begin
+  if AValue < 0 then begin
+    f := AValue * -1;
+    N_S := Ord('W');
+  end else begin
+    f := AValue;
+    N_S := Ord('E');
+  end;
+  d := Round(f);
+  f := f - d;
+  f := d + (f * 60 / 100);
+  Longitude := f * 100;
 
 end;
 
