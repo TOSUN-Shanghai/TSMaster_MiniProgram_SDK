@@ -236,7 +236,7 @@ type
   TTSAppGetMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppDeleteMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppConnectApplication = function: integer; stdcall;
-  TTSAppDisconnectApplication = function: integer; stdcall;
+  TTSAppDisconnectApplication = function(const AObj: Pointer): integer; stdcall;
   TTSAppLogger = function(const AStr: pansichar; const ALevel: Integer): integer; stdcall;
   TTSSetTurboMode = function (const AEnable: Boolean): integer; stdcall;
   TTSGetTurboMode = function (out AEnable: Boolean): integer; stdcall;
@@ -577,6 +577,14 @@ type
   TRunProcedure = function(const AProcedure: TCProcedure): s32; stdcall;
   TOpenHelpDoc = function(const AFileNameWoSuffix: pansichar; const ATitle: pansichar): s32; stdcall;
   TGetLangString = function(const AEnglishStr: pansichar; const AIniSection: pansichar; ATranslatedStr: PPAnsiChar): s32; stdcall;
+  TConvertBlfToCsv = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertBlfToCsvWFilter = function(const ABlfFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TStartLogWFileName = function(const AObj: Pointer; const AFileName: pansichar): s32; stdcall;
+  TConvertBlfToMatWFilter = function(const ABlfFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertASCToMatWFilter = function(const AASCFile: pansichar; const AMatFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TConvertASCToCSVWFilter = function(const AASCFile: pansichar; const ACSVFile: pansichar; const AFilterConf: pansichar; const AToTerminate: PBoolean): s32; stdcall;
+  TSetDebugLogLevel = function(const ALevel: Integer): s32; stdcall;
+  TGetFormUniqueId = function(const AClassName: pansichar; const AFormIdx: int32; AUniqueId: pInt64): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -842,6 +850,7 @@ type
   Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
   Tflexray_disable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
+  TSetFlexRayAutoUBHandle = function(const AIsAutoHandle: boolean): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -903,6 +912,12 @@ type
   TSignalTesterRunAll = function(): s32; stdcall;
   TSignalTesterStopAll = function(): s32; stdcall;
   TSetClassicTestSystemReportName = function(const AName: pansichar): s32; stdcall;
+  TSignalTesterGetItemStatusByIndex = function(const AIdx: int32; AIsRunning: PBoolean; AIsCheckDone: PBoolean; AFailReason: PSignalTesterFailReason): s32; stdcall;
+  TSignalTesterGetItemStatusByName = function(const ATesterName: pansichar; AIsRunning: PBoolean; AIsCheckDone: PBoolean; AFailReason: PSignalTesterFailReason): s32; stdcall;
+  TSignalTesterSetItemTimeRangeByIndex = function(const AIdx: int32; const ATimeBegin: double; const ATimeEnd: double): s32; stdcall;
+  TSignalTesterSetItemTimeRangeByName = function(const AName: pansichar; const ATimeBegin: double; const ATimeEnd: double): s32; stdcall;
+  TSignalTesterSetItemValueRangeByIndex = function(const AIdx: int32; const ALow: double; const AHigh: double): s32; stdcall;
+  TSignalTesterSetItemValueRangeByName = function(const AName: pansichar; const ALow: double; const AHigh: double): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -993,7 +1008,7 @@ type
     get_mapping                         : TTSAppGetMapping                 ;
     del_mapping                         : TTSAppDeleteMapping              ;
     connect                             : TTSAppConnectApplication         ;
-    disconnect                          : TTSAppDisconnectApplication      ;
+    internal_disconnect                 : TTSAppDisconnectApplication      ;
     Log_text                            : TTSAppLogger                     ;
     configure_baudrate_can              : TTSConfigureBaudrateCAN          ;
     configure_baudrate_canfd            : TTSConfigureBaudrateCANFD        ;
@@ -1316,7 +1331,17 @@ type
     run_in_main_thread: TRunProcedure;
     open_help_doc: TOpenHelpDoc;
     get_language_string: TGetLangString;
-    FDummy: array [0..717-1] of s32; // place holders, TS_APP_PROTO_END
+    convert_blf_to_csv: TConvertBlfToCsv;
+    convert_blf_to_csv_with_filter: TConvertBlfToCsvWFilter;
+    internal_start_log_w_filename: TStartLogWFileName;
+    convert_blf_to_mat_w_filter: TConvertBlfToMatWFilter;
+    convert_asc_to_mat_w_filter: TConvertASCToMatWFilter;
+    convert_asc_to_csv_w_filter: TConvertASCToCSVWFilter;
+    set_debug_log_level: TSetDebugLogLevel;
+    get_form_unique_id: TGetFormUniqueId;
+    FDummy: array [0..709-1] of s32; // place holders, TS_APP_PROTO_END
+    function start_log_w_filename(const AFileName: string): s32; cdecl;
+    function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
     function wait(const ATimeMs: s32; const AMessage: PAnsiChar): s32; cdecl;
     function debug_log(const AFile: pansichar; const AFunc: pansichar; const ALine: s32; const AStr: pansichar; const ALevel: Integer): integer; cdecl;
@@ -1604,7 +1629,8 @@ type
     lin_set_node_functiontype: Tlin_set_node_functiontype;
     flexray_disable_frame: Tflexray_disable_frame;
     flexray_enable_frame: Tflexray_enable_frame;
-    FDummy: array [0..785- 1] of s32; // place holders, TS_COM_PROTO_END
+    set_flexray_ub_bit_auto_handle: TSetFlexRayAutoUBHandle;
+    FDummy: array [0..784- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -1710,7 +1736,13 @@ type
     signal_tester_run_all: TSignalTesterRunAll;
     signal_tester_stop_all: TSignalTesterStopAll;
     set_classic_test_system_report_name: TSetClassicTestSystemReportName;
-    FDummy: array [0..951-1] of s32; // place holders, TS_TEST_PROTO_END
+    signal_tester_get_item_status_by_index: TSignalTesterGetItemStatusByIndex;
+    signal_tester_get_item_status_by_name: TSignalTesterGetItemStatusByName;
+    signal_tester_set_item_time_range_by_index: TSignalTesterSetItemTimeRangeByIndex;
+    signal_tester_set_item_time_range_by_name: TSignalTesterSetItemTimeRangeByName;
+    signal_tester_set_item_value_range_by_index: TSignalTesterSetItemValueRangeByIndex;
+    signal_tester_set_item_value_range_by_name: TSignalTesterSetItemValueRangeByName;
+    FDummy: array [0..945-1] of s32; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
@@ -1946,6 +1978,13 @@ begin
 
 end;
 
+function TTSApp.disconnect: s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_disconnect(fobj);
+
+end;
+
 function TTSApp.end_log: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -1971,6 +2010,13 @@ function TTSApp.start_log: s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   Result := internal_start_log(FObj);
+
+end;
+
+function TTSApp.start_log_w_filename(const AFileName: string): s32; cdecl;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_start_log_w_filename(FObj, pansichar(ansistring(AFileName)));
 
 end;
 
