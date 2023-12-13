@@ -2642,6 +2642,12 @@ begin
 
 end;
 
+function TEMMC_RECORD_DATA.FDateTimeString(ATimeZone:Integer):string;
+begin
+  result := FormatdateTime('YYYY-MM-DD hh:nn:ss:zzz',FDateTime(ATimeZone));
+
+end;
+
 {TLibGPSData}
 function TLibGPSData.GetLatitudeReal: single;
 var
@@ -2704,12 +2710,6 @@ begin
   f := f - d;
   f := d + (f * 60 / 100);
   Longitude := f * 100;
-
-end;
-
-function TEMMC_RECORD_DATA.FDateTimeString(ATimeZone:Integer):string;
-begin
-  result := FormatdateTime('YYYY-MM-DD hh:nn:ss:zzz',FDateTime(ATimeZone));
 
 end;
 
