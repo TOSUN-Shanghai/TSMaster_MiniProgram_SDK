@@ -856,8 +856,8 @@ type
   Teth_frame_append_vlans = function(AHeader: PLIBEthernetHeader; const AVLANIds: pword; const ACount: int32; const APriority: byte; const ACFI: Byte): s32; stdcall;
   Teth_frame_remove_vlan = function(AHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_build_ipv4_udp_packet_on_frame = function(AInputHeader: PLIBEthernetHeader; APayload: pbyte; APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
-  Teth_udp_fragment_processor_clear = function(): s32; stdcall;
-  Teth_udp_fragment_processor_parse = function(const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword): s32; stdcall;
+  Teth_udp_fragment_processor_clear = function(const AObj: Pointer): s32; stdcall;
+  Teth_udp_fragment_processor_parse = function(const AObj: Pointer; const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword): s32; stdcall;
   Teth_frame_insert_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
@@ -1643,8 +1643,8 @@ type
     eth_frame_append_vlans: Teth_frame_append_vlans;
     eth_frame_remove_vlan: Teth_frame_remove_vlan;
     eth_build_ipv4_udp_packet_on_frame: Teth_build_ipv4_udp_packet_on_frame;
-    eth_udp_fragment_processor_clear: Teth_udp_fragment_processor_clear;
-    eth_udp_fragment_processor_parse: Teth_udp_fragment_processor_parse;
+    internal_eth_udp_fragment_processor_clear: Teth_udp_fragment_processor_clear;
+    internal_eth_udp_fragment_processor_parse: Teth_udp_fragment_processor_parse;
     eth_frame_insert_vlan: Teth_frame_insert_vlan;
     FDummy: array [0..776- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
@@ -1691,6 +1691,8 @@ type
     function ioip_set_udp_server_buffer_size(const AHandle: s32; const ASize: s32): s32; cdecl;
     function ioip_receive_udp_client_response(const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
     function ioip_send_udp_server_response(const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function eth_udp_fragment_processor_clear(): s32; cdecl;
+    function eth_udp_fragment_processor_parse(const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword): s32; cdecl;
   end;
   PTSCOM = ^TTSCOM;
 
@@ -2059,6 +2061,22 @@ begin
 end;
 
 { TTSCOM }
+
+function TTSCOM.eth_udp_fragment_processor_clear: s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  result := internal_eth_udp_fragment_processor_clear(FObj);
+
+end;
+
+function TTSCOM.eth_udp_fragment_processor_parse(
+  const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus;
+  APayload: ppByte; APayloadLength: pword): s32;
+begin
+  if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
+  Result := internal_eth_udp_fragment_processor_parse(FObj, AHeader, AStatus, APayload, APayloadLength);
+
+end;
 
 function TTSCOM.ioip_connect_tcp_server(const AHandle: s32;
   const AIpAddress: PAnsiChar; const APort: u16): s32;
