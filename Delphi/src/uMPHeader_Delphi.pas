@@ -852,12 +852,13 @@ type
   Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   TSetFlexRayAutoUBHandle = function(const AIsAutoHandle: boolean): s32; stdcall;
   Teth_frame_clear_vlans = function(const AHeader: PLIBEthernetHeader): s32; stdcall;
-  Teth_frame_append_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word): s32; stdcall;
-  Teth_frame_append_vlans = function(AHeader: PLIBEthernetHeader; const AVLANIds: pword; const ACount: int32): s32; stdcall;
+  Teth_frame_append_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: Byte): s32; stdcall;
+  Teth_frame_append_vlans = function(AHeader: PLIBEthernetHeader; const AVLANIds: pword; const ACount: int32; const APriority: byte; const ACFI: Byte): s32; stdcall;
   Teth_frame_remove_vlan = function(AHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_build_ipv4_udp_packet_on_frame = function(AInputHeader: PLIBEthernetHeader; APayload: pbyte; APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
   Teth_udp_fragment_processor_clear = function(): s32; stdcall;
   Teth_udp_fragment_processor_parse = function(const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword): s32; stdcall;
+  Teth_frame_insert_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1644,7 +1645,8 @@ type
     eth_build_ipv4_udp_packet_on_frame: Teth_build_ipv4_udp_packet_on_frame;
     eth_udp_fragment_processor_clear: Teth_udp_fragment_processor_clear;
     eth_udp_fragment_processor_parse: Teth_udp_fragment_processor_parse;
-    FDummy: array [0..777- 1] of s32; // place holders, TS_COM_PROTO_END
+    eth_frame_insert_vlan: Teth_frame_insert_vlan;
+    FDummy: array [0..776- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
