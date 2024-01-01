@@ -857,7 +857,7 @@ type
   Teth_frame_remove_vlan = function(AHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_build_ipv4_udp_packet_on_frame = function(AInputHeader: PLIBEthernetHeader; APayload: pbyte; APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
   Teth_udp_fragment_processor_clear = function(const AObj: Pointer): s32; stdcall;
-  Teth_udp_fragment_processor_parse = function(const AObj: Pointer; const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword): s32; stdcall;
+  Teth_udp_fragment_processor_parse = function(const AObj: Pointer; const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword; ACompleteHeader: PEthernetHeader): s32; stdcall;
   Teth_frame_insert_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
