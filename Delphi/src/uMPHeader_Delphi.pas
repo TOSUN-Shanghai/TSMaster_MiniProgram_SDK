@@ -160,8 +160,7 @@ type
     FFrameIndex: s32;
     FIsTx: u8;
     FReserved1: u8;
-    FReserved2: u8;
-    FReserved3: u8;
+    FCycleTimeMs: u16;
     FFrameType: TSignalType;
     // CAN
     FCANIsDataFrame: u8;
