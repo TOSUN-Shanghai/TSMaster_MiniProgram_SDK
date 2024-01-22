@@ -585,11 +585,14 @@ type
   TSetDebugLogLevel = function(const ALevel: Integer): s32; stdcall;
   TGetFormUniqueId = function(const AClassName: pansichar; const AFormIdx: int32; AUniqueId: pInt64): s32; stdcall;
   Tpanel_clear_control = function(const APanelName: pansichar; const AControlName: pansichar): s32; stdcall;
+<<<<<<< HEAD
   Tset_form_unique_id = function(const AOldId: int64; const ANewId: int64): s32; stdcall;
   Tshow_form = function(const AFormCaption: pansichar; const AShow: boolean): s32; stdcall;
   Tkill_form = function(const AFormCaption: pansichar): s32; stdcall;
   Tplace_form = function(const AFormCaption: pansichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   Ttoggle_mdi_form = function(const AFormCaption: pansichar; const AIsMDI: boolean): s32; stdcall;
+=======
+>>>>>>> LinkHome/Link
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
