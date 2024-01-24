@@ -590,6 +590,7 @@ type
   Tkill_form = function(const AFormCaption: pansichar): s32; stdcall;
   Tplace_form = function(const AFormCaption: pansichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   Ttoggle_mdi_form = function(const AFormCaption: pansichar; const AIsMDI: boolean): s32; stdcall;
+  Tget_language_id = function(AId: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1358,7 +1359,8 @@ type
     kill_form: Tkill_form;
     place_form: Tplace_form;
     toggle_mdi_form: Ttoggle_mdi_form;
-    FDummy: array [0..703-1] of s32; // place holders, TS_APP_PROTO_END
+    get_language_id: Tget_language_id;
+    FDummy: array [0..702-1] of s32; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
