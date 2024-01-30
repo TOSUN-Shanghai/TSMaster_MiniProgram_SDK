@@ -867,6 +867,12 @@ type
   Teth_udp_fragment_processor_clear = function(const AObj: Pointer): s32; stdcall;
   Teth_udp_fragment_processor_parse = function(const AObj: Pointer; const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword; ACompleteHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_frame_insert_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: byte): s32; stdcall;
+  Ttelnet_create = function(const AObj: Pointer; const AHost: pansichar; const APort: word; ADataEvent: TOnIoIPData; AHandle: pInt32): s32; stdcall;
+  Ttelnet_delete = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
+  Ttelnet_send_string = function(const AObj: Pointer; const AHandle: int32; const AStr: pansichar): s32; stdcall;
+  Ttelnet_connect = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
+  Ttelnet_disconnect = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
+  Ttelnet_set_connection_callback = function(const AObj: Pointer; const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1663,7 +1669,13 @@ type
     internal_eth_udp_fragment_processor_clear: Teth_udp_fragment_processor_clear;
     internal_eth_udp_fragment_processor_parse: Teth_udp_fragment_processor_parse;
     eth_frame_insert_vlan: Teth_frame_insert_vlan;
-    FDummy: array [0..776- 1] of s32; // place holders, TS_COM_PROTO_END
+    telnet_create: Ttelnet_create;
+    telnet_delete: Ttelnet_delete;
+    telnet_send_string: Ttelnet_send_string;
+    telnet_connect: Ttelnet_connect;
+    telnet_disconnect: Ttelnet_disconnect;
+    telnet_set_connection_callback: Ttelnet_set_connection_callback;
+    FDummy: array [0..770- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
