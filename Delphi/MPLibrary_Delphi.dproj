@@ -143,7 +143,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\TSMaster\bin\Configuration\TOSUN\TSMaster\bin\MPLibrary_Delphi.dll" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\TSMaster\Configuration\TOSUN\TSMaster\bin\MPLibrary_Delphi.dll" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>MPLibrary_Delphi.dll</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -1060,7 +1060,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy /B &quot;$(OutputPath)&quot; &quot;$(OutputDir)\$(OutputName).mp&quot;</PostBuildEvent>
+        <PostBuildEvent>copy /B &quot;$(OutputPath)&quot; &quot;$(OutputDir)\$(OutputName).mp&quot;
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
@@ -1068,7 +1069,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy /B &quot;$(OutputPath)&quot; &quot;$(OutputDir)\$(OutputName).mp&quot;</PostBuildEvent>
+        <PostBuildEvent>copy /B &quot;$(OutputPath)&quot; &quot;$(OutputDir)\$(OutputName).mp&quot;
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
