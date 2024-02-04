@@ -874,6 +874,8 @@ type
   Ttelnet_disconnect = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
   Ttelnet_set_connection_callback = function(const AObj: Pointer; const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
   Ttelnet_enable_debug_print = function(const AObj: Pointer; const AHandle: int32; const AEnable: boolean): s32; stdcall;
+  Ttslog_blf_to_pcap = function(const AObj: Pointer; const ABlfFileName: pansichar; const APcapFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
+  Ttslog_pcap_to_blf = function(const AObj: Pointer; const APcapFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1677,7 +1679,9 @@ type
     telnet_disconnect: Ttelnet_disconnect;
     telnet_set_connection_callback: Ttelnet_set_connection_callback;
     telnet_enable_debug_print: Ttelnet_enable_debug_print;
-    FDummy: array [0..769- 1] of s32; // place holders, TS_COM_PROTO_END
+    tslog_blf_to_pcap: Ttslog_blf_to_pcap;
+    tslog_pcap_to_blf: Ttslog_pcap_to_blf;
+    FDummy: array [0..767- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
