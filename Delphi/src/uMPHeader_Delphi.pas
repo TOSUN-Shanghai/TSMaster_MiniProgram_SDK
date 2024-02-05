@@ -876,6 +876,8 @@ type
   Ttelnet_enable_debug_print = function(const AObj: Pointer; const AHandle: int32; const AEnable: boolean): s32; stdcall;
   Ttslog_blf_to_pcap = function(const AObj: Pointer; const ABlfFileName: pansichar; const APcapFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   Ttslog_pcap_to_blf = function(const AObj: Pointer; const APcapFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
+  Ttslog_pcapng_to_blf = function(const AObj: Pointer; const APcapngFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
+  Ttslog_blf_to_pcapng = function(const AObj: Pointer; const ABlfFileName: pansichar; const APcapngFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1681,7 +1683,9 @@ type
     telnet_enable_debug_print: Ttelnet_enable_debug_print;
     tslog_blf_to_pcap: Ttslog_blf_to_pcap;
     tslog_pcap_to_blf: Ttslog_pcap_to_blf;
-    FDummy: array [0..767- 1] of s32; // place holders, TS_COM_PROTO_END
+    tslog_pcapng_to_blf: Ttslog_pcapng_to_blf;
+    tslog_blf_to_pcapng: Ttslog_blf_to_pcapng;
+    FDummy: array [0..765- 1] of s32; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
