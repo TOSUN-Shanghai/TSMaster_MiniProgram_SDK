@@ -120,27 +120,31 @@ type
   end;
   PMPLINSignal = ^TMPLINSignal;
   TMPFlexRaySignal = packed record
-    FFRSgnType: u8;    // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
-    FCompuMethod: u8;  // 0 - Identical, 1 - Linear, 2 - Scale Linear, 3 - TextTable, 4 - TABNoIntp, 5 - Formula
-    FReserved: u8;
-	  FIsIntel: Boolean;
-	  FStartBit: s32;
-    FUpdateBit: s32;
-	  FLength: s32;
-	  FFactor: Double;
-	  FOffset: Double;
+    FFRSgnType: uint8;    // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
+    FCompuMethod: uint8;  // 0 - Identical, 1 - Linear, 2 - Scale Linear, 3 - TextTable, 4 - TABNoIntp, 5 - Formula
+    FReserved: uint8;
+    FIsIntel: Boolean;
+    FStartBit: int32;
+    FUpdateBit: int32;
+    FLength: int32;
+    FFactor: Double;
+    FOffset: Double;
+    FActualStartBit: Int32;  // added 2023-07-18
+    FActualUpdateBit: Int32; // added 2023-07-18
   end;
   PMPFlexRaySignal = ^TMPFlexRaySignal;
 
   // TMPDBProperties for database properties, size = 1048
   TMPDBProperties = packed record
-    FDBIndex: s32;
-    FSignalCount: s32;
-    FFrameCount: s32;
-    FECUCount: s32;
-    FSupportedChannelMask: u64;
+    FDBIndex: int32;
+    FSignalCount: int32;
+    FFrameCount: int32;
+    FECUCount: int32;
+    FSupportedChannelMask: uint64;
     FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
     FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FFlags: UInt32;                                        // Bit 0: whether generate mp header
+    FDBId: uint32;                                         // database id for legacy support
   end;
   PMPDBProperties = ^TMPDBProperties;
   // TMPDBECUProperties for database ECU properties, size = 1040
@@ -188,18 +192,19 @@ type
   PMPDBFrameProperties = ^TMPDBFrameProperties;
   // TMPDBSignalProperties for database signal properties, size = 1140
   TMPDBSignalProperties = packed record
-    FDBIndex: s32;
-    FECUIndex: s32;
-    FFrameIndex: s32;
-    FSignalIndex: s32;
-    FIsTx: u8;
-    FReserved1: u8;
-    FReserved2: u8;
-    FReserved3: u8;
+    FDBIndex: int32;
+    FECUIndex: int32;
+    FFrameIndex: int32;
+    FSignalIndex: int32;
+    FIsTx: uint8;
+    FReserved1: uint8;
+    FReserved2: uint8;
+    FReserved3: uint8;
     FSignalType: TSignalType;
     FCANSignal: TMPCANSignal;
     FLINSignal: TMPLINSignal;
     FFlexRaySignal: TMPFlexRaySignal;
+    FParentFrameId: int32;
     FInitValue: double;
     FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
     FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
@@ -2569,30 +2574,29 @@ const
   SIZE_TSMASTERCONFIGURATION = 48744;
 {$ENDIF}
 begin
-  if visdebugmode then begin
-    OutputDebugString(PChar('TTSApp size = ' + IntToStr(SizeOf(ttsapp))));
-    OutputDebugString(PChar('TTSCOM size = ' + IntToStr(SizeOf(TTSCOM))));
-    OutputDebugString(PChar('TTSTest size = ' + IntToStr(SizeOf(ttstest))));
-    OutputDebugString(PChar('TTSMasterConfiguration size = ' + IntToStr(SizeOf(TTSMasterConfiguration))));
-    // check size
-    Assert(SizeOf(ttsapp) = SIZE_TSAPP, 'TTSApp size should be ' + SIZE_TSAPP.tostring);
-    Assert(SizeOf(TTSCOM) = SIZE_TSCOM, 'TTSApp size should be ' + SIZE_TSCOM.tostring);
-    Assert(SizeOf(ttstest) = SIZE_TSTEST, 'TTSApp size should be ' + SIZE_TSTEST.tostring);
-    Assert(SizeOf(TTSMasterConfiguration) = SIZE_TSMASTERCONFIGURATION, 'TTSApp size should be ' + SIZE_TSMASTERCONFIGURATION.tostring);
-    // 2022-12-03 check record types
-    Assert(SizeOf(TMPCANSignal) = 26, 'TMPCANSignal size should be 26');
-    Assert(SizeOf(TMPLINSignal) = 26, 'TMPLINSignal size should be 26');
-    Assert(SizeOf(TMPFlexRaySignal) = 40, 'TMPFlexRaySignal size should be 40');
-    Assert(SizeOf(TMPDBProperties) = 1056, 'TMPDBProperties size should be 1056');
-    Assert(SizeOf(TMPDBECUProperties) = 1040, 'TMPDBECUProperties size should be 1040');
-    Assert(SizeOf(TMPDBFrameProperties) = 1088, 'TMPDBFrameProperties size should be 1088');
-    Assert(SizeOf(TMPDBSignalProperties) = 1152, 'TMPDBSignalProperties size should be 1152');
-  end;
-
+{$ifdef debug}
+  OutputDebugString(PChar('TTSApp size = ' + IntToStr(SizeOf(ttsapp))));
+  OutputDebugString(PChar('TTSCOM size = ' + IntToStr(SizeOf(TTSCOM))));
+  OutputDebugString(PChar('TTSTest size = ' + IntToStr(SizeOf(ttstest))));
+  OutputDebugString(PChar('TTSMasterConfiguration size = ' + IntToStr(SizeOf(TTSMasterConfiguration))));
+  // check size
+  Assert(SizeOf(ttsapp) = SIZE_TSAPP, 'TTSApp size should be ' + SIZE_TSAPP.tostring);
+  Assert(SizeOf(TTSCOM) = SIZE_TSCOM, 'TTSApp size should be ' + SIZE_TSCOM.tostring);
+  Assert(SizeOf(ttstest) = SIZE_TSTEST, 'TTSApp size should be ' + SIZE_TSTEST.tostring);
+  Assert(SizeOf(TTSMasterConfiguration) = SIZE_TSMASTERCONFIGURATION, 'TTSApp size should be ' + SIZE_TSMASTERCONFIGURATION.tostring);
+  // 2022-12-03 check record types
+  Assert(SizeOf(TMPCANSignal) = 26, 'TMPCANSignal size should be 26');
+  Assert(SizeOf(TMPLINSignal) = 26, 'TMPLINSignal size should be 26');
+  Assert(SizeOf(TMPFlexRaySignal) = 40, 'TMPFlexRaySignal size should be 40');
+  Assert(SizeOf(TMPDBProperties) = 1056, 'TMPDBProperties size should be 1056');
+  Assert(SizeOf(TMPDBECUProperties) = 1040, 'TMPDBECUProperties size should be 1040');
+  Assert(SizeOf(TMPDBFrameProperties) = 1088, 'TMPDBFrameProperties size should be 1088');
+  Assert(SizeOf(TMPDBSignalProperties) = 1152, 'TMPDBSignalProperties size should be 1152');
+{$endif}
 end;
 
 initialization
   CheckMPRecordSize;
-
+  
 end.
 
