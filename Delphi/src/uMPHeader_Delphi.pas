@@ -1375,7 +1375,7 @@ type
     get_language_id: Tget_language_id;
     create_form: Tcreate_form;
     set_form_caption: Tset_form_caption;
-    FDummy: array [0..700-1] of s32; // place holders, TS_APP_PROTO_END
+    FDummy: array [0..700-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -1685,7 +1685,7 @@ type
     tslog_pcap_to_blf: Ttslog_pcap_to_blf;
     tslog_pcapng_to_blf: Ttslog_pcapng_to_blf;
     tslog_blf_to_pcapng: Ttslog_blf_to_pcapng;
-    FDummy: array [0..765- 1] of s32; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..765- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -1799,7 +1799,7 @@ type
     signal_tester_set_item_time_range_by_name: TSignalTesterSetItemTimeRangeByName;
     signal_tester_set_item_value_range_by_index: TSignalTesterSetItemValueRangeByIndex;
     signal_tester_set_item_value_range_by_name: TSignalTesterSetItemValueRangeByName;
-    FDummy: array [0..945-1] of s32; // place holders, TS_TEST_PROTO_END
+    FDummy: array [0..945-1] of NativeInt; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
@@ -1819,7 +1819,7 @@ type
     FTSCOM: TTSCOM;
     FTSTest: TTSTest;
     // place holders
-    FDummy: array [0..3000-1] of s32;
+    FDummy: array [0..3000-1] of NativeInt;
   end;
   PTSMasterConfiguration = ^TTSMasterConfiguration;
 
@@ -2557,23 +2557,37 @@ end;
 
 procedure CheckMPRecordSize;
 const
+{$IFDEF WIN32}
   SIZE_TSAPP = 4216;
   SIZE_TSCOM = 4128;
   SIZE_TSTEST = 4028;
   SIZE_TSMASTERCONFIGURATION = 24372;
-begin
-{$IFDEF DEBUG}
-  OutputDebugString(PChar('TTSApp size = ' + IntToStr(SizeOf(ttsapp))));
-  OutputDebugString(PChar('TTSCOM size = ' + IntToStr(SizeOf(TTSCOM))));
-  OutputDebugString(PChar('TTSTest size = ' + IntToStr(SizeOf(ttstest))));
-  OutputDebugString(PChar('TTSMasterConfiguration size = ' + IntToStr(SizeOf(TTSMasterConfiguration))));
-  // check size
-  Assert(SizeOf(ttsapp) = SIZE_TSAPP, 'TTSApp size should be ' + SIZE_TSAPP.tostring);
-  Assert(SizeOf(TTSCOM) = SIZE_TSCOM, 'TTSApp size should be ' + SIZE_TSCOM.tostring);
-  Assert(SizeOf(ttstest) = SIZE_TSTEST, 'TTSApp size should be ' + SIZE_TSTEST.tostring);
-  Assert(SizeOf(TTSMasterConfiguration) = SIZE_TSMASTERCONFIGURATION, 'TTSApp size should be ' + SIZE_TSMASTERCONFIGURATION.tostring);
-
+{$ELSE}
+  SIZE_TSAPP = 8432;
+  SIZE_TSCOM = 8256;
+  SIZE_TSTEST = 8056;
+  SIZE_TSMASTERCONFIGURATION = 48744;
 {$ENDIF}
+begin
+  if visdebugmode then begin
+    OutputDebugString(PChar('TTSApp size = ' + IntToStr(SizeOf(ttsapp))));
+    OutputDebugString(PChar('TTSCOM size = ' + IntToStr(SizeOf(TTSCOM))));
+    OutputDebugString(PChar('TTSTest size = ' + IntToStr(SizeOf(ttstest))));
+    OutputDebugString(PChar('TTSMasterConfiguration size = ' + IntToStr(SizeOf(TTSMasterConfiguration))));
+    // check size
+    Assert(SizeOf(ttsapp) = SIZE_TSAPP, 'TTSApp size should be ' + SIZE_TSAPP.tostring);
+    Assert(SizeOf(TTSCOM) = SIZE_TSCOM, 'TTSApp size should be ' + SIZE_TSCOM.tostring);
+    Assert(SizeOf(ttstest) = SIZE_TSTEST, 'TTSApp size should be ' + SIZE_TSTEST.tostring);
+    Assert(SizeOf(TTSMasterConfiguration) = SIZE_TSMASTERCONFIGURATION, 'TTSApp size should be ' + SIZE_TSMASTERCONFIGURATION.tostring);
+    // 2022-12-03 check record types
+    Assert(SizeOf(TMPCANSignal) = 26, 'TMPCANSignal size should be 26');
+    Assert(SizeOf(TMPLINSignal) = 26, 'TMPLINSignal size should be 26');
+    Assert(SizeOf(TMPFlexRaySignal) = 40, 'TMPFlexRaySignal size should be 40');
+    Assert(SizeOf(TMPDBProperties) = 1056, 'TMPDBProperties size should be 1056');
+    Assert(SizeOf(TMPDBECUProperties) = 1040, 'TMPDBECUProperties size should be 1040');
+    Assert(SizeOf(TMPDBFrameProperties) = 1088, 'TMPDBFrameProperties size should be 1088');
+    Assert(SizeOf(TMPDBSignalProperties) = 1152, 'TMPDBSignalProperties size should be 1152');
+  end;
 
 end;
 
