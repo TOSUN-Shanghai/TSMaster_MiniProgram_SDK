@@ -314,14 +314,14 @@ type
   TTSAppStopForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
   TTSAppClearMeasurementForm = function(const AFormCaption: PAnsiChar): s32; stdcall;
   // text file
-  TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
-  TWriteTextFileLine = function(const AHandle: s32; const ALine: PAnsiChar): s32; stdcall;
-  TWriteTextFileLineWithDoubleArray = function(const AHandle: s32; const AArray: PDouble; const ACount: s32): s32; stdcall;
-  TWriteTextFileLineWithStringArray = function(const AHandle: s32; const AArray: PPAnsiChar; const ACount: s32): s32; stdcall;
-  TWriteTextFileEnd = function(const AHandle: s32): s32; stdcall;
-  TReadTextFileStart = function(const AFileName: pansichar; AHandle: ps32): s32; stdcall;
-  TReadTextFileLine = function(const AHandle: s32; const ACapacity: s32; AReadCharCount: ps32; ALine: pansichar): s32; stdcall;
-  TReadTextFileEnd = function(const AHandle: s32): s32; stdcall;
+  TWriteTextFileStart = function(const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
+  TWriteTextFileLine = function(const AHandle: NativeInt; const ALine: PAnsiChar): s32; stdcall;
+  TWriteTextFileLineWithDoubleArray = function(const AHandle: NativeInt; const AArray: PDouble; const ACount: s32): s32; stdcall;
+  TWriteTextFileLineWithStringArray = function(const AHandle: NativeInt; const AArray: PPAnsiChar; const ACount: s32): s32; stdcall;
+  TWriteTextFileEnd = function(const AHandle: NativeInt): s32; stdcall;
+  TReadTextFileStart = function(const AFileName: pansichar; AHandle: PNativeInt): s32; stdcall;
+  TReadTextFileLine = function(const AHandle: NativeInt; const ACapacity: s32; AReadCharCount: ps32; ALine: pansichar): s32; stdcall;
+  TReadTextFileEnd = function(const AHandle: NativeInt): s32; stdcall;
   // excel functions
   Texcel_load = function(const AFileName: PAnsiChar; const AObj: PPointer): s32; stdcall;
   Texcel_get_sheet_count = function(const AObj: Pointer; out ACount: s32): s32; stdcall;
@@ -335,33 +335,33 @@ type
   Texcel_unload = function(const AObj: Pointer): s32; stdcall;
   Texcel_unload_all = function(): s32; stdcall;
   // mat file
-  TWriteMatFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
-  TWriteMatFileVariableDouble = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: Double): s32; stdcall;
-  TWriteMatFileVariableString = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
-  TWriteMatFileVariableDoubleArray = function(const AHandle: s32; const AVarName: PAnsiChar; const AArray: PDouble; const ACount: s32): s32; stdcall;
-  TWriteMatFileEnd = function(const AHandle: s32): s32; stdcall;
-  TReadMatFileStart = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
-  TReadMatFileVariableCount = function(const AHandle: s32; const AVarName: PAnsiChar; ACount: ps32): s32; stdcall;
-  TReadMatFileVariableString = function(const AHandle: s32; const AVarName: PAnsiChar; AValue: PPAnsiChar; const ACapacity: s32): s32; stdcall;
-  TReadMatFileVariableDouble = function(const AHandle: s32; const AVarName: PAnsiChar; const AValue: PDouble; const AStartIdx: s32; const ACount: s32): s32; stdcall;
-  TReadMatFileEnd = function(const AHandle: s32): s32; stdcall;
+  TWriteMatFileStart = function(const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
+  TWriteMatFileVariableDouble = function(const AHandle: NativeInt; const AVarName: PAnsiChar; const AValue: Double): s32; stdcall;
+  TWriteMatFileVariableString = function(const AHandle: NativeInt; const AVarName: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TWriteMatFileVariableDoubleArray = function(const AHandle: NativeInt; const AVarName: PAnsiChar; const AArray: PDouble; const ACount: s32): s32; stdcall;
+  TWriteMatFileEnd = function(const AHandle: NativeInt): s32; stdcall;
+  TReadMatFileStart = function(const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
+  TReadMatFileVariableCount = function(const AHandle: NativeInt; const AVarName: PAnsiChar; ACount: ps32): s32; stdcall;
+  TReadMatFileVariableString = function(const AHandle: NativeInt; const AVarName: PAnsiChar; AValue: PPAnsiChar; const ACapacity: s32): s32; stdcall;
+  TReadMatFileVariableDouble = function(const AHandle: NativeInt; const AVarName: PAnsiChar; const AValue: PDouble; const AStartIdx: s32; const ACount: s32): s32; stdcall;
+  TReadMatFileEnd = function(const AHandle: NativeInt): s32; stdcall;
   // ini file
-  TIniCreate = function(const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
-  TIniWriteInt32 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s32): s32; stdcall;
-  TIniWriteInt64 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s64): s32; stdcall;
-  TIniWriteBool = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Boolean): s32; stdcall;
-  TIniWriteFloat = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Double): s32; stdcall;
-  TIniWriteString = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
-  TIniReadInt32 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps32; const ADefault: s32): s32; stdcall;
-  TIniReadInt64 = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps64; const ADefault: s64): s32; stdcall;
-  TIniReadBool = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PBoolean; const ADefault: boolean): s32; stdcall;
-  TIniReadFloat = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PDouble; const ADefault: double): s32; stdcall;
-  TIniReadString = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PAnsiChar; ACapacity: ps32; const ADefault: pansichar): s32; stdcall;
-  TIniSectionExists = function(const AHandle: s32; const ASection: PAnsiChar): s32; stdcall;
-  TIniKeyExists = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
-  TIniDeleteKey = function(const AHandle: s32; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
-  TIniDeleteSection = function(const AHandle: s32; const ASection: PAnsiChar): s32; stdcall;
-  TIniClose = function(const AHandle: s32): s32; stdcall;
+  TIniCreate = function(const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
+  TIniWriteInt32 = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s32): s32; stdcall;
+  TIniWriteInt64 = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: s64): s32; stdcall;
+  TIniWriteBool = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Boolean): s32; stdcall;
+  TIniWriteFloat = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: Double): s32; stdcall;
+  TIniWriteString = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; const AValue: PAnsiChar): s32; stdcall;
+  TIniReadInt32 = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps32; const ADefault: s32): s32; stdcall;
+  TIniReadInt64 = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: ps64; const ADefault: s64): s32; stdcall;
+  TIniReadBool = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PBoolean; const ADefault: boolean): s32; stdcall;
+  TIniReadFloat = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PDouble; const ADefault: double): s32; stdcall;
+  TIniReadString = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar; AValue: PAnsiChar; ACapacity: ps32; const ADefault: pansichar): s32; stdcall;
+  TIniSectionExists = function(const AHandle: NativeInt; const ASection: PAnsiChar): s32; stdcall;
+  TIniKeyExists = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
+  TIniDeleteKey = function(const AHandle: NativeInt; const ASection: PAnsiChar; const AKey: PAnsiChar): s32; stdcall;
+  TIniDeleteSection = function(const AHandle: NativeInt; const ASection: PAnsiChar): s32; stdcall;
+  TIniClose = function(const AHandle: NativeInt): s32; stdcall;
   TMakeToastUntil = function(const AString: PAnsiChar; const ALevel: Integer; const ACloseCriteria: pboolean; const AUserCanBreak: boolean): s32; stdcall;
   TMakeToastWithCallback = function(const AString: PAnsiChar; const ALevel: Integer; const ACallback: TLIBCheckResult; const AUserCanBreak: boolean): s32; stdcall;
   TTSAppGetDocPath = function(AFilePath: PPAnsiChar): s32; stdcall;
@@ -421,7 +421,7 @@ type
   TTSAppSetSystemVarLogging = function(const ACompleteName: pansichar; const AIsLogging: boolean): s32; stdcall;
   TTSAppGetSystemVarLogging = function(const ACompleteName: pansichar; AIsLogging: pbool): s32; stdcall;
   TTSAppLogSystemVarValue = function(const AObj: pointer; const ACompleteName: pansichar): s32; stdcall;
-  TUIGetMainWindowHandle = function(AHandle: ps32): s32; stdcall;
+  TUIGetMainWindowHandle = function(AHandle: PNativeInt): s32; stdcall;
   TPrintDeltaTime = function(const AInfo: pansichar): s32; stdcall;
   TAtomicIncrement32 = function(const AAddr: ps32; const AValue: s32; const AResult: ps32): s32; stdcall;
   TAtomicIncrement64 = function(const AAddr: ps64; const AValue: s64; const AResult: ps64): s32; stdcall;
@@ -574,7 +574,7 @@ type
   TUnRegisterSystemVarChangeEvents = function(const AEvent: TlibOnSysVarChange): s32; stdcall;
   TCallSystemAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   TCallLibraryAPI = function(const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
-  TIniReadStringWoQuotes = function(const AHandle: int32; const ASection: pansichar; const AKey: pansichar; const AValue: pansichar; AValueCapacity: pInt32; const ADefault: pansichar): s32; stdcall;
+  TIniReadStringWoQuotes = function(const AHandle: NativeInt; const ASection: pansichar; const AKey: pansichar; const AValue: pansichar; AValueCapacity: pInt32; const ADefault: pansichar): s32; stdcall;
   TUIGraphicsAddSignal = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASgnType: TSignalType; const ASignalAddress: pansichar): s32; stdcall;
   TUIGraphicsClearSignals = function(const AWindowCaption: pansichar; const AIdxSplit: int32): s32; stdcall;
   TGPGLoadExcel = function(const AFileName: pansichar; AGraphicProgramName: PPAnsiChar; ASubModuleName: PPAnsiChar): s32; stdcall;
@@ -701,38 +701,38 @@ type
   TCANRBSSetRCSignalWithLimit = function(const ASymbolAddress: pansichar; const ALowerLimit: s32; const AUpperLimit: s32): s32; stdcall;
   TCANRBSSetCRCSignal = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: s32; const AByteCount: s32): s32; stdcall;
   // blf functions
-  TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: ps32): s32; stdcall;
-  TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: ps32; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
-  TTSLog_blf_write_set_max_count = function (const AHandle: s32; const ACount: u32): s32; stdcall;
-  TTSLog_blf_write_can = function (const AHandle: s32; const ACAN: PlibCAN): s32; stdcall;
-  TTSLog_blf_write_can_fd = function (const AHandle: s32; const ACANFD: PLIBCANFD): s32; stdcall;
-  TTSLog_blf_write_lin = function (const AHandle: s32; const ALIN: PLIBLIN): s32; stdcall;
-  TTSLog_blf_write_realtime_comment = function (const AHandle: s32; const ATimeUs: s64; const AComment: PAnsiChar): s32; stdcall;
-  TTSLog_blf_write_end = function (const AHandle: s32): s32; stdcall;
-  TTSLog_blf_read_start = function (const AFileName: PAnsiChar; AHandle: ps32; AObjCount: ps32): s32; stdcall;
-  TTSLog_blf_read_status = function (const AHandle: s32; AObjReadCount: ps32): s32; stdcall;
-  TTSLog_blf_read_object = function (const AHandle: s32; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PLIBLIN; ACANFD: PLIBCANFD): s32; stdcall;
-  TTSLog_blf_read_object_w_comment = function (const AHandle: s32; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD; AComment: Prealtime_comment_t): s32; stdcall;
-  TTSLog_blf_read_end = function (const AHandle: s32): s32; stdcall;
-  TTSLog_blf_seek_object_time = function (const AHandle: s32; const AProg100: Double; var ATime: s64; var AProgressedCnt: s32): s32; stdcall;
+  TTSLog_blf_write_start = function (const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
+  TTSLog_blf_write_start_w_timestamp = function (const AFileName: PAnsiChar; AHandle: PNativeInt; AYear: ps32; AMonth: ps32; ADay: ps32; AHour: ps32; AMinue: ps32; ASecond: ps32; AMilliSeconds: ps32): s32; stdcall;
+  TTSLog_blf_write_set_max_count = function (const AHandle: NativeInt; const ACount: u32): s32; stdcall;
+  TTSLog_blf_write_can = function (const AHandle: NativeInt; const ACAN: PlibCAN): s32; stdcall;
+  TTSLog_blf_write_can_fd = function (const AHandle: NativeInt; const ACANFD: PLIBCANFD): s32; stdcall;
+  TTSLog_blf_write_lin = function (const AHandle: NativeInt; const ALIN: PLIBLIN): s32; stdcall;
+  TTSLog_blf_write_realtime_comment = function (const AHandle: NativeInt; const ATimeUs: s64; const AComment: PAnsiChar): s32; stdcall;
+  TTSLog_blf_write_end = function (const AHandle: NativeInt): s32; stdcall;
+  TTSLog_blf_read_start = function (const AFileName: PAnsiChar; AHandle: PNativeInt; AObjCount: ps32): s32; stdcall;
+  TTSLog_blf_read_status = function (const AHandle: NativeInt; AObjReadCount: ps32): s32; stdcall;
+  TTSLog_blf_read_object = function (const AHandle: NativeInt; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PLIBLIN; ACANFD: PLIBCANFD): s32; stdcall;
+  TTSLog_blf_read_object_w_comment = function (const AHandle: NativeInt; AProgressedCnt: ps32; AType: PSupportedObjType; ACAN: PlibCAN; ALIN: PlibLIN; ACANFD: PlibCANFD; AComment: Prealtime_comment_t): s32; stdcall;
+  TTSLog_blf_read_end = function (const AHandle: NativeInt): s32; stdcall;
+  TTSLog_blf_seek_object_time = function (const AHandle: NativeInt; const AProg100: Double; var ATime: s64; var AProgressedCnt: s32): s32; stdcall;
   TTSLog_blf_to_asc = function (const AObj: pointer; const ABLFFileName: PAnsiChar; const AASCFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   TTSLog_asc_to_blf = function (const AObj: pointer; const AASCFileName: PAnsiChar; const ABLFFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   // IP functions
-  TIoIPCreate = function(const AObj: Pointer; const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32; stdcall;
-  TIoIPDelete = function(const AObj: Pointer; const AHandle: s32): s32; stdcall;
-  TIoIPEnableTCPServer = function(const AObj: Pointer; const AHandle: s32; const AEnable: Boolean): s32; stdcall;
-  TIoIPEnableUDPServer = function(const AObj: Pointer; const AHandle: s32; const AEnable: Boolean): s32; stdcall;
-  TIoIPConnectTCPServer = function(const AObj: Pointer; const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; stdcall;
-  TIoIPConnectUDPServer = function(const AObj: Pointer; const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; stdcall;
-  TIoIPDisconnectTCPServer = function(const AObj: Pointer; const AHandle: s32): s32; stdcall;
-  TIoIPSendBufferTCP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
-  TIoIPSendBufferUDP = function(const AObj: Pointer; const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; stdcall;
-  TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
-  TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
-  TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
-  TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: s32; const ASize: s32): s32; stdcall;
-  TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
-  TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPCreate = function(const AObj: Pointer; const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: PNativeInt): s32; stdcall;
+  TIoIPDelete = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  TIoIPEnableTCPServer = function(const AObj: Pointer; const AHandle: NativeInt; const AEnable: Boolean): s32; stdcall;
+  TIoIPEnableUDPServer = function(const AObj: Pointer; const AHandle: NativeInt; const AEnable: Boolean): s32; stdcall;
+  TIoIPConnectTCPServer = function(const AObj: Pointer; const AHandle: NativeInt; const AIpAddress: PAnsiChar; const APort: u16): s32; stdcall;
+  TIoIPConnectUDPServer = function(const AObj: Pointer; const AHandle: NativeInt; const AIpAddress: PAnsiChar; const APort: u16): s32; stdcall;
+  TIoIPDisconnectTCPServer = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  TIoIPSendBufferTCP = function(const AObj: Pointer; const AHandle: NativeInt; const APointer: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPSendBufferUDP = function(const AObj: Pointer; const AHandle: NativeInt; const APointer: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPRecvTCPClientResponse = function(const AObj: Pointer; const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
+  TIoIPSendTCPServerResponse = function(const AObj: Pointer; const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPSendUDPBroadcast = function(const AObj: Pointer; const AHandle: NativeInt; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
+  TIoIPSetUDPServerBufferSize = function(const AObj: Pointer; const AHandle: NativeInt; const ASize: s32): s32; stdcall;
+  TIoIPRecvUDPClientResponse = function(const AObj: Pointer; const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; stdcall;
+  TIoIPSendUDPServerResponse = function(const AObj: Pointer; const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; stdcall;
   // signal server functions
   TSgnSrvRegisterCANSignalByMsgId = function(const AIdxChn: integer; const AMsgId: integer; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
   TSgnSrvRegisterLINSignalByMsgId = function(const AIdxChn: integer; const AMsgId: integer; const ASgnName: pansichar; AClientId: pinteger): s32; stdcall;
@@ -780,7 +780,7 @@ type
   TUnregisterFlexRayEvent = function(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall;
   TInjectFlexRayFrame = function(const AFlexRay: plibflexray): integer; stdcall;
   TGetFlexRaySignalDefinition = function(const ASignalAddress: pansichar; ASignalDef: PmpFlexRaySignal): integer; stdcall;
-  Ttslog_blf_write_flexray = function(const AHandle: integer; const AFlexRay: plibflexray): integer; stdcall;
+  Ttslog_blf_write_flexray = function(const AHandle: NativeInt; const AFlexRay: plibflexray): integer; stdcall;
   TSgnSrvRegisterFlexRaySignalByFrame = function(const AIdxChn: integer; const AShnMask: byte; const ACycleNumber: byte; const ASlotId: integer; const ASgnName: pansichar; AClientId: pinteger): integer; stdcall;
   TSgnSrvRegisterFlexRaySignalByFrameName = function(const AIdxChn: integer; const ANetworkName: pansichar; const AFrameName: pansichar; const ASgnName: pansichar; out AClientId: integer): integer; stdcall;
   TSgnSrvGetFlexRaySignalPhyValueLatest = function(const AIdxChn: integer; const AClientId: integer; out AValue: double; out ATimeUs: int64): integer; stdcall;
@@ -841,9 +841,9 @@ type
   TTransmitEthernetASync = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TTransmitEthernetSync = function(const AEthernetHeader: PLIBEthernetHeader; const ATimeoutMs: int32): s32; stdcall;
   TInjectEthernetFrame = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
-  TTSLogBlfWriteEthernet = function(const AHandle: int32; const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
+  TTSLogBlfWriteEthernet = function(const AHandle: NativeInt; const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
   TTransmitEthernetAsyncWoPretx = function(const AEthernetHeader: PLIBEthernetHeader): s32; stdcall;
-  TIoIpSetOnConnectionCallback = function(const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
+  TIoIpSetOnConnectionCallback = function(const AHandle: NativeInt; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
   TEthBuildIPv4UDPPacket = function(const AHeader: PLIBEthernetHeader; const ASrcIp: pbyte; const ADstIp: pbyte; const ASrcPort: word; const ADstPort: word; const APayload: pbyte; const APayloadLength: word; AIdentification: pInt32; AFragmentIndex: pInt32): s32; stdcall;
   TBlockCurrentPreTx = function(const AObj: Pointer): s32; stdcall;
   TEthernetIsUDPPacket = function(const AHeader: PLIBEthernetHeader; var AIdentification: u16; var AUDPPacketLength: u16; var AUDPDataOffset: u16; var AIsPacketEnded: boolean): s32; stdcall;
@@ -872,13 +872,13 @@ type
   Teth_udp_fragment_processor_clear = function(const AObj: Pointer): s32; stdcall;
   Teth_udp_fragment_processor_parse = function(const AObj: Pointer; const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword; ACompleteHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_frame_insert_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: byte): s32; stdcall;
-  Ttelnet_create = function(const AObj: Pointer; const AHost: pansichar; const APort: word; ADataEvent: TOnIoIPData; AHandle: pInt32): s32; stdcall;
-  Ttelnet_delete = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
-  Ttelnet_send_string = function(const AObj: Pointer; const AHandle: int32; const AStr: pansichar): s32; stdcall;
-  Ttelnet_connect = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
-  Ttelnet_disconnect = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
-  Ttelnet_set_connection_callback = function(const AObj: Pointer; const AHandle: int32; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
-  Ttelnet_enable_debug_print = function(const AObj: Pointer; const AHandle: int32; const AEnable: boolean): s32; stdcall;
+  Ttelnet_create = function(const AObj: Pointer; const AHost: pansichar; const APort: word; ADataEvent: TOnIoIPData; AHandle: PNativeInt): s32; stdcall;
+  Ttelnet_delete = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Ttelnet_send_string = function(const AObj: Pointer; const AHandle: NativeInt; const AStr: pansichar): s32; stdcall;
+  Ttelnet_connect = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Ttelnet_disconnect = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Ttelnet_set_connection_callback = function(const AObj: Pointer; const AHandle: NativeInt; const AConnectedCallback: TOnIoIPConnection; const ADisconnectedCallback: TOnIoIPConnection): s32; stdcall;
+  Ttelnet_enable_debug_print = function(const AObj: Pointer; const AHandle: NativeInt; const AEnable: boolean): s32; stdcall;
   Ttslog_blf_to_pcap = function(const AObj: Pointer; const ABlfFileName: pansichar; const APcapFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   Ttslog_pcap_to_blf = function(const AObj: Pointer; const APcapFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   Ttslog_pcapng_to_blf = function(const AObj: Pointer; const APcapngFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
@@ -1720,21 +1720,21 @@ type
     function unregister_pretx_events_lin(): integer; cdecl;
     function unregister_pretx_events_canfd(): integer; cdecl;
     function unregister_pretx_events_all(): integer; cdecl;
-    function ioip_create(const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32; cdecl;
-    function ioip_delete(const AHandle: s32): s32; cdecl;
-    function ioip_enable_tcp_server(const AHandle: s32; const AEnable: Boolean): s32; cdecl;
-    function ioip_enable_udp_server(const AHandle: s32; const AEnable: Boolean): s32; cdecl;
-    function ioip_connect_tcp_server(const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
-    function ioip_connect_udp_server(const AHandle: s32; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
-    function ioip_disconnect_tcp_server(const AHandle: s32): s32; cdecl;
-    function ioip_send_buffer_tcp(const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; cdecl;
-    function ioip_send_buffer_udp(const AHandle: s32; const APointer: Pointer; const ASize: s32): s32; cdecl;
-    function ioip_receive_tcp_client_response(const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
-    function ioip_send_tcp_server_response(const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
-    function ioip_send_udp_broadcast(const AHandle: s32; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
-    function ioip_set_udp_server_buffer_size(const AHandle: s32; const ASize: s32): s32; cdecl;
-    function ioip_receive_udp_client_response(const AHandle: s32; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
-    function ioip_send_udp_server_response(const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_create(const APortTCP, APortUDP: u16; const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: PNativeInt): s32; cdecl;
+    function ioip_delete(const AHandle: NativeInt): s32; cdecl;
+    function ioip_enable_tcp_server(const AHandle: NativeInt; const AEnable: Boolean): s32; cdecl;
+    function ioip_enable_udp_server(const AHandle: NativeInt; const AEnable: Boolean): s32; cdecl;
+    function ioip_connect_tcp_server(const AHandle: NativeInt; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
+    function ioip_connect_udp_server(const AHandle: NativeInt; const AIpAddress: PAnsiChar; const APort: u16): s32; cdecl;
+    function ioip_disconnect_tcp_server(const AHandle: NativeInt): s32; cdecl;
+    function ioip_send_buffer_tcp(const AHandle: NativeInt; const APointer: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_send_buffer_udp(const AHandle: NativeInt; const APointer: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_receive_tcp_client_response(const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
+    function ioip_send_tcp_server_response(const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_send_udp_broadcast(const AHandle: NativeInt; const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
+    function ioip_set_udp_server_buffer_size(const AHandle: NativeInt; const ASize: s32): s32; cdecl;
+    function ioip_receive_udp_client_response(const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32): s32; cdecl;
+    function ioip_send_udp_server_response(const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32; cdecl;
     function eth_udp_fragment_processor_clear(): s32; cdecl;
     function eth_udp_fragment_processor_parse(const AHeader: PLIBEthernetHeader; AStatus: PUDPFragmentProcessStatus; APayload: ppByte; APayloadLength: pword; ACompleteHeader: PLIBEthernetHeader): s32; cdecl;
   end;
@@ -2122,7 +2122,7 @@ begin
 
 end;
 
-function TTSCOM.ioip_connect_tcp_server(const AHandle: s32;
+function TTSCOM.ioip_connect_tcp_server(const AHandle: NativeInt;
   const AIpAddress: PAnsiChar; const APort: u16): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2130,7 +2130,7 @@ begin
 
 end;
 
-function TTSCOM.ioip_connect_udp_server(const AHandle: s32;
+function TTSCOM.ioip_connect_udp_server(const AHandle: NativeInt;
   const AIpAddress: PAnsiChar; const APort: u16): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2139,28 +2139,28 @@ begin
 end;
 
 function TTSCOM.ioip_create(const APortTCP, APortUDP: u16;
-  const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: ps32): s32;
+  const AOnTCPDataEvent, AOnUDPDataEvent: TOnIoIPData; AHandle: PNativeInt): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_create(fObj, APortTCP, APortUDP, AOnTCPDataEvent, AOnUDPDataEvent, AHandle);
 
 end;
 
-function TTSCOM.ioip_delete(const AHandle: s32): s32;
+function TTSCOM.ioip_delete(const AHandle: NativeInt): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_delete(fObj, AHandle);
 
 end;
 
-function TTSCOM.ioip_disconnect_tcp_server(const AHandle: s32): s32;
+function TTSCOM.ioip_disconnect_tcp_server(const AHandle: NativeInt): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_disconnect_tcp_server(fObj, AHandle);
 
 end;
 
-function TTSCOM.ioip_enable_tcp_server(const AHandle: s32;
+function TTSCOM.ioip_enable_tcp_server(const AHandle: NativeInt;
   const AEnable: Boolean): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2168,7 +2168,7 @@ begin
 
 end;
 
-function TTSCOM.ioip_enable_udp_server(const AHandle: s32;
+function TTSCOM.ioip_enable_udp_server(const AHandle: NativeInt;
   const AEnable: Boolean): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2177,8 +2177,8 @@ begin
 end;
 
 function TTSCOM.ioip_receive_tcp_client_response(
-  const AHandle, ATimeoutMs: s32; const ABufferToReadTo: Pointer;
-  const AActualSize: ps32): s32;
+  const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32
+): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_receive_tcp_client_response(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
@@ -2186,15 +2186,15 @@ begin
 end;
 
 function TTSCOM.ioip_receive_udp_client_response(
-  const AHandle, ATimeoutMs: s32; const ABufferToReadTo: Pointer;
-  const AActualSize: ps32): s32;
+  const AHandle: NativeInt; const ATimeoutMs: s32; const ABufferToReadTo: Pointer; const AActualSize: ps32
+): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_receive_udp_client_response(fObj, AHandle, ATimeoutMs, ABufferToReadTo, AActualSize);
 
 end;
 
-function TTSCOM.ioip_send_buffer_tcp(const AHandle: s32;
+function TTSCOM.ioip_send_buffer_tcp(const AHandle: NativeInt;
   const APointer: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2202,7 +2202,7 @@ begin
 
 end;
 
-function TTSCOM.ioip_send_buffer_udp(const AHandle: s32;
+function TTSCOM.ioip_send_buffer_udp(const AHandle: NativeInt;
   const APointer: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2211,14 +2211,14 @@ begin
 end;
 
 function TTSCOM.ioip_send_tcp_server_response(
-  const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
+  const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_send_tcp_server_response(fObj, AHandle, ABufferToWriteFrom, ASize);
 
 end;
 
-function TTSCOM.ioip_send_udp_broadcast(const AHandle: s32;
+function TTSCOM.ioip_send_udp_broadcast(const AHandle: NativeInt;
   const APort: Word; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
@@ -2227,7 +2227,7 @@ begin
 end;
 
 function TTSCOM.ioip_send_udp_server_response(
-  const AHandle: s32; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
+  const AHandle: NativeInt; const ABufferToWriteFrom: Pointer; const ASize: s32): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_send_udp_server_response(fObj, AHandle, ABufferToWriteFrom, ASize);
@@ -2235,7 +2235,8 @@ begin
 end;
 
 function TTSCOM.ioip_set_udp_server_buffer_size(
-  const AHandle, ASize: s32): s32;
+  const AHandle: NativeInt; const ASize: s32
+): s32;
 begin
   if not Assigned(fobj) then exit(API_RETURN_GENERIC_FAIL);
   result := internal_ioip_set_udp_server_buffer_size(fObj, AHandle, ASize);
