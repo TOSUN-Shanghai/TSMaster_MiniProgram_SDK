@@ -598,6 +598,9 @@ type
   Tget_language_id = function(AId: pInt32): s32; stdcall;
   Tcreate_form = function(const AClassName: pansichar; const AForceCreate: boolean; AFormId: pint64): s32; stdcall;
   Tset_form_caption = function(const AOldCaption: pansichar; const ANewCaption: pansichar): s32; stdcall;
+  Tenter_critical_section = function(): s32; stdcall;
+  Tleave_critical_section = function(): s32; stdcall;
+  Ttry_enter_critical_section = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1380,7 +1383,10 @@ type
     get_language_id: Tget_language_id;
     create_form: Tcreate_form;
     set_form_caption: Tset_form_caption;
-    FDummy: array [0..700-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    enter_critical_section: Tenter_critical_section;
+    leave_critical_section: Tleave_critical_section;
+    try_enter_critical_section: Ttry_enter_critical_section;
+    FDummy: array [0..697-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
