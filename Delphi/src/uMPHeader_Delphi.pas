@@ -601,6 +601,15 @@ type
   Tenter_critical_section = function(): s32; stdcall;
   Tleave_critical_section = function(): s32; stdcall;
   Ttry_enter_critical_section = function(): s32; stdcall;
+  Tdb_load_can_db = function(const ADBFileName: pansichar; const ASupportedChannelsBased0: pansichar; AId: pInt32): s32; stdcall;
+  Tdb_load_lin_db = function(const ADBFileName: pansichar; const ASupportedChannelsBased0: pansichar; AId: pInt32): s32; stdcall;
+  Tdb_load_flexray_db = function(const ADBFileName: pansichar; const ASupportedChannelsBased0: pansichar; AId: pInt32): s32; stdcall;
+  Tdb_unload_can_db = function(const AId: int32): s32; stdcall;
+  Tdb_unload_lin_db = function(const AId: int32): s32; stdcall;
+  Tdb_unload_flexray_db = function(const AId: int32): s32; stdcall;
+  Tdb_unload_can_dbs = function(): s32; stdcall;
+  Tdb_unload_lin_dbs = function(): s32; stdcall;
+  Tdb_unload_flexray_dbs = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1386,7 +1395,16 @@ type
     enter_critical_section: Tenter_critical_section;
     leave_critical_section: Tleave_critical_section;
     try_enter_critical_section: Ttry_enter_critical_section;
-    FDummy: array [0..697-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    db_load_can_db: Tdb_load_can_db;
+    db_load_lin_db: Tdb_load_lin_db;
+    db_load_flexray_db: Tdb_load_flexray_db;
+    db_unload_can_db: Tdb_unload_can_db;
+    db_unload_lin_db: Tdb_unload_lin_db;
+    db_unload_flexray_db: Tdb_unload_flexray_db;
+    db_unload_can_dbs: Tdb_unload_can_dbs;
+    db_unload_lin_dbs: Tdb_unload_lin_dbs;
+    db_unload_flexray_dbs: Tdb_unload_flexray_dbs;
+    FDummy: array [0..688-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
