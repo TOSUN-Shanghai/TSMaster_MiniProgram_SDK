@@ -53,7 +53,7 @@ var
 begin
   Result := A1 + A2;
   s := AnsiString('this is add from delphi: ' + result.tostring);
-  app.log(pansichar(s), lvl_ok);
+  app.log_text(pansichar(s), lvl_ok);
 
 end;
 
@@ -63,7 +63,7 @@ var
 begin
   Result := A1 - 1;
   s := AnsiString('this is dec from delphi: ' + result.tostring);
-  app.log(pansichar(s), lvl_ok);
+  app.log_text(pansichar(s), lvl_ok);
 
 end;
 
