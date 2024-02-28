@@ -610,6 +610,16 @@ type
   Tdb_unload_can_dbs = function(): s32; stdcall;
   Tdb_unload_lin_dbs = function(): s32; stdcall;
   Tdb_unload_flexray_dbs = function(): s32; stdcall;
+  TSecurityUpdateNewKeySync = function(const AChnIdx: int32; const AOldKey: pansichar; const AOldKeyLength: byte; const ANewKey: pansichar; const ANewKeyLength: byte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockWriteAuthoritySync = function(const AChnIdx: int32; const AKey: pansichar; const AKeyLength: byte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockWriteAuthorityASync = function(const AChnIdx: int32; const AKey: pansichar; const AKeyLength: byte): s32; stdcall;
+  TSecurityWriteStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMs: int32): s32; stdcall;
+  TSecurityWriteStringASync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
+  TSecurityReadStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockEncChannelSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockEncChannelASync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
+  TSecurityEncryptStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityDecryptStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1404,7 +1414,17 @@ type
     db_unload_can_dbs: Tdb_unload_can_dbs;
     db_unload_lin_dbs: Tdb_unload_lin_dbs;
     db_unload_flexray_dbs: Tdb_unload_flexray_dbs;
-    FDummy: array [0..688-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    security_update_new_key_sync: TSecurityUpdateNewKeySync;
+    security_unlock_write_authority_sync: TSecurityUnlockWriteAuthoritySync;
+    security_unlock_write_authority_async: TSecurityUnlockWriteAuthorityASync;
+    security_write_string_sync: TSecurityWriteStringSync;
+    security_write_string_async: TSecurityWriteStringASync;
+    security_read_string_sync: TSecurityReadStringSync;
+    security_unlock_encrypt_channel_sync: TSecurityUnlockEncChannelSync;
+    security_unlock_encrypt_channel_async: TSecurityUnlockEncChannelASync;
+    security_encrypt_string_sync: TSecurityEncryptStringSync;
+    security_decrypt_string_sync: TSecurityDecryptStringSync;
+    FDummy: array [0..678-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
