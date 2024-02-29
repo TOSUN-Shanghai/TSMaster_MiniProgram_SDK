@@ -613,13 +613,13 @@ type
   TSecurityUpdateNewKeySync = function(const AChnIdx: int32; const AOldKey: pansichar; const AOldKeyLength: byte; const ANewKey: pansichar; const ANewKeyLength: byte; const ATimeoutMS: int32): s32; stdcall;
   TSecurityUnlockWriteAuthoritySync = function(const AChnIdx: int32; const AKey: pansichar; const AKeyLength: byte; const ATimeoutMS: int32): s32; stdcall;
   TSecurityUnlockWriteAuthorityASync = function(const AChnIdx: int32; const AKey: pansichar; const AKeyLength: byte): s32; stdcall;
-  TSecurityWriteStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMs: int32): s32; stdcall;
-  TSecurityWriteStringASync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
-  TSecurityReadStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
-  TSecurityUnlockEncChannelSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMS: int32): s32; stdcall;
-  TSecurityUnlockEncChannelASync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
-  TSecurityEncryptStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
-  TSecurityDecryptStringSync = function(const AChnIdx: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityWriteStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMs: int32): s32; stdcall;
+  TSecurityWriteStringASync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
+  TSecurityReadStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockEncChannelSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: byte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityUnlockEncChannelASync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: byte): s32; stdcall;
+  TSecurityEncryptStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
+  TSecurityDecryptStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
