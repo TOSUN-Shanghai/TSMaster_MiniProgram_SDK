@@ -621,6 +621,8 @@ type
   TSecurityEncryptStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
   TSecurityDecryptStringSync = function(const AChnIdx: int32; const ASlotIndex: int32; const AString: pansichar; const AStringLength: pbyte; const ATimeoutMS: int32): s32; stdcall;
   Tset_channel_timestamp_deviation_factor = function(const ABusType: TLIBApplicationChannelType; const AIdxLogicalChn: int32; const APCTimeUs: int64; const AHwTimeUs: int64): s32; stdcall;
+  Tstart_system_message_log = function(const ADirectory: pansichar): s32; stdcall;
+  Tend_system_message_log = function(ALogFileName: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1426,7 +1428,9 @@ type
     security_encrypt_string_sync: TSecurityEncryptStringSync;
     security_decrypt_string_sync: TSecurityDecryptStringSync;
     set_channel_timestamp_deviation_factor: Tset_channel_timestamp_deviation_factor;
-    FDummy: array [0..677-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    start_system_message_log: Tstart_system_message_log;
+    end_system_message_log: Tend_system_message_log;
+    FDummy: array [0..675-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
