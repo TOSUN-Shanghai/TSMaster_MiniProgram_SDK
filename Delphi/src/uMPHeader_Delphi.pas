@@ -920,6 +920,7 @@ type
   Ttssocket_tcp_sendto_client = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_udp_sendto = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_udp_sendto_v2 = function(const ASocket: int32; const AIPAddress: uint32; const APort: word; const AData: pbyte; const ASize: int32): s32; stdcall;
+  Ttssocket_tcp_close_v2 = function(const ASocket: pInt32; const AForceExitTimeWait: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1764,7 +1765,8 @@ type
     tssocket_tcp_sendto_client: Ttssocket_tcp_sendto_client;
     tssocket_udp_sendto: Ttssocket_udp_sendto;
     tssocket_udp_sendto_v2: Ttssocket_udp_sendto_v2;
-    FDummy: array [0..753- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tssocket_tcp_close_v2: Ttssocket_tcp_close_v2;
+    FDummy: array [0..752- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
