@@ -908,19 +908,6 @@ type
   Ttslog_pcap_to_blf = function(const AObj: Pointer; const APcapFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   Ttslog_pcapng_to_blf = function(const AObj: Pointer; const APcapngFileName: pansichar; const ABlfFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
   Ttslog_blf_to_pcapng = function(const AObj: Pointer; const ABlfFileName: pansichar; const APcapngFileName: pansichar; const AProgressCallback: TReadProgressCallback): s32; stdcall;
-  Ttssocket_tcp = function(const ANetworkIndex: int32; const AIPEndPoint: pansichar; const ASocket: pInt32): s32; stdcall;
-  Ttssocket_udp = function(const ANetworkIndex: int32; const AIPEndPoint: pansichar; const ASocket: pInt32): s32; stdcall;
-  Ttssocket_tcp_start_listen = function(const ASocket: pInt32): s32; stdcall;
-  Ttssocket_tcp_start_receive = function(const ASocket: pInt32): s32; stdcall;
-  Ttssocket_tcp_close = function(const ASocket: pInt32): s32; stdcall;
-  Ttssocket_udp_start_receive = function(const ASocket: pInt32): s32; stdcall;
-  Ttssocket_udp_close = function(const ASocket: pInt32): s32; stdcall;
-  Ttssocket_tcp_connect = function(const ASocket: int32; const AIPEndPoint: pansichar): s32; stdcall;
-  Ttssocket_tcp_send = function(const ASocket: int32; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_tcp_sendto_client = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_udp_sendto = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_udp_sendto_v2 = function(const ASocket: int32; const AIPAddress: uint32; const APort: word; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_tcp_close_v2 = function(const ASocket: pInt32; const AForceExitTimeWait: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1753,20 +1740,7 @@ type
     tslog_pcap_to_blf: Ttslog_pcap_to_blf;
     tslog_pcapng_to_blf: Ttslog_pcapng_to_blf;
     tslog_blf_to_pcapng: Ttslog_blf_to_pcapng;
-    tssocket_tcp: Ttssocket_tcp;
-    tssocket_udp: Ttssocket_udp;
-    tssocket_tcp_start_listen: Ttssocket_tcp_start_listen;
-    tssocket_tcp_start_receive: Ttssocket_tcp_start_receive;
-    tssocket_tcp_close: Ttssocket_tcp_close;
-    tssocket_udp_start_receive: Ttssocket_udp_start_receive;
-    tssocket_udp_close: Ttssocket_udp_close;
-    tssocket_tcp_connect: Ttssocket_tcp_connect;
-    tssocket_tcp_send: Ttssocket_tcp_send;
-    tssocket_tcp_sendto_client: Ttssocket_tcp_sendto_client;
-    tssocket_udp_sendto: Ttssocket_udp_sendto;
-    tssocket_udp_sendto_v2: Ttssocket_udp_sendto_v2;
-    tssocket_tcp_close_v2: Ttssocket_tcp_close_v2;
-    FDummy: array [0..752- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..765- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
