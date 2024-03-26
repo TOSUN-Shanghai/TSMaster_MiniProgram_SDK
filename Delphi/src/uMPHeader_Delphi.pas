@@ -623,6 +623,7 @@ type
   Tset_channel_timestamp_deviation_factor = function(const ABusType: TLIBApplicationChannelType; const AIdxLogicalChn: int32; const APCTimeUs: int64; const AHwTimeUs: int64): s32; stdcall;
   Tstart_system_message_log = function(const ADirectory: pansichar): s32; stdcall;
   Tend_system_message_log = function(ALogFileName: PPAnsiChar): s32; stdcall;
+  Tmask_fpu_exceptions = function(const AMasked: boolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -921,6 +922,15 @@ type
   Ttssocket_udp_sendto = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_udp_sendto_v2 = function(const ASocket: int32; const AIPAddress: uint32; const APort: word; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_tcp_close_v2 = function(const ASocket: pInt32; const AForceExitTimeWait: int32): s32; stdcall;
+  Trpc_create_server = function(const ARpcName: pansichar; const ABufferSizeBytes: NativeInt; const ARxEvent: TOnRpcData; AHandle: PNativeInt): s32; stdcall;
+  Trpc_activate_server = function(const AHandle: NativeInt; const AActivate: boolean): s32; stdcall;
+  Trpc_delete_server = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_server_write_sync = function(const AHandle: NativeInt; const AAddr: pbyte; const ASizeBytes: NativeInt): s32; stdcall;
+  Trpc_create_client = function(const ARpcName: pansichar; const ABufferSizeBytes: NativeInt; AHandle: PNativeInt): s32; stdcall;
+  Trpc_activate_client = function(const AHandle: NativeInt; const AActivate: boolean): s32; stdcall;
+  Trpc_delete_client = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_client_transmit_sync = function(const AHandle: NativeInt; const AAddr: pbyte; const ASizeBytes: NativeInt; const ATimeOutMs: int32): s32; stdcall;
+  Trpc_client_receive_sync = function(const AHandle: NativeInt; ASizeBytes: PNativeInt; AAddr: pbyte; const ATimeOutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1443,7 +1453,8 @@ type
     set_channel_timestamp_deviation_factor: Tset_channel_timestamp_deviation_factor;
     start_system_message_log: Tstart_system_message_log;
     end_system_message_log: Tend_system_message_log;
-    FDummy: array [0..675-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    mask_fpu_exceptions: Tmask_fpu_exceptions;
+    FDummy: array [0..674-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -1766,7 +1777,16 @@ type
     tssocket_udp_sendto: Ttssocket_udp_sendto;
     tssocket_udp_sendto_v2: Ttssocket_udp_sendto_v2;
     tssocket_tcp_close_v2: Ttssocket_tcp_close_v2;
-    FDummy: array [0..752- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_create_server: Trpc_create_server;
+    rpc_activate_server: Trpc_activate_server;
+    rpc_delete_server: Trpc_delete_server;
+    rpc_server_write_sync: Trpc_server_write_sync;
+    rpc_create_client: Trpc_create_client;
+    rpc_activate_client: Trpc_activate_client;
+    rpc_delete_client: Trpc_delete_client;
+    rpc_client_transmit_sync: Trpc_client_transmit_sync;
+    rpc_client_receive_sync: Trpc_client_receive_sync;
+    FDummy: array [0..743- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
