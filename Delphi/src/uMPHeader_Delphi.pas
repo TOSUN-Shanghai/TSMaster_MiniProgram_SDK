@@ -931,6 +931,14 @@ type
   Trpc_delete_client = function(const AHandle: NativeInt): s32; stdcall;
   Trpc_client_transmit_sync = function(const AHandle: NativeInt; const AAddr: pbyte; const ASizeBytes: NativeInt; const ATimeOutMs: int32): s32; stdcall;
   Trpc_client_receive_sync = function(const AHandle: NativeInt; ASizeBytes: PNativeInt; AAddr: pbyte; const ATimeOutMs: int32): s32; stdcall;
+  Trpc_tsmaster_activate_server = function(const AActivate: boolean): s32; stdcall;
+  Trpc_tsmaster_create_client = function(const ATSMasterAppName: pansichar; AHandle: PNativeInt): s32; stdcall;
+  Trpc_tsmaster_activate_client = function(const AHandle: NativeInt; const AActivate: boolean): s32; stdcall;
+  Trpc_tsmaster_delete_client = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_start_simulation = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_stop_simulation = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_write_system_var = function(const AHandle: NativeInt; const ACompleteName: pansichar; const AValue: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_transfer_memory = function(const AHandle: NativeInt; const AAddr: pbyte; const ASizeBytes: NativeInt): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1786,7 +1794,15 @@ type
     rpc_delete_client: Trpc_delete_client;
     rpc_client_transmit_sync: Trpc_client_transmit_sync;
     rpc_client_receive_sync: Trpc_client_receive_sync;
-    FDummy: array [0..743- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_activate_server: Trpc_tsmaster_activate_server;
+    rpc_tsmaster_create_client: Trpc_tsmaster_create_client;
+    rpc_tsmaster_activate_client: Trpc_tsmaster_activate_client;
+    rpc_tsmaster_delete_client: Trpc_tsmaster_delete_client;
+    rpc_tsmaster_cmd_start_simulation: Trpc_tsmaster_cmd_start_simulation;
+    rpc_tsmaster_cmd_stop_simulation: Trpc_tsmaster_cmd_stop_simulation;
+    rpc_tsmaster_cmd_write_system_var: Trpc_tsmaster_cmd_write_system_var;
+    rpc_tsmaster_cmd_transfer_memory: Trpc_tsmaster_cmd_transfer_memory;
+    FDummy: array [0..735- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
