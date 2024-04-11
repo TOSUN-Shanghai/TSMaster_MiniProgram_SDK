@@ -940,6 +940,10 @@ type
   Trpc_tsmaster_cmd_write_system_var = function(const AHandle: NativeInt; const ACompleteName: pansichar; const AValue: pansichar): s32; stdcall;
   Trpc_tsmaster_cmd_transfer_memory = function(const AHandle: NativeInt; const AAddr: pbyte; const ASizeBytes: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_log = function(const AHandle: NativeInt; const AMsg: pansichar; const ALevel: Integer): s32; stdcall;
+  Trpc_tsmaster_cmd_set_mode_sim = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_set_mode_realtime = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_set_mode_free = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_sim_step = function(const AHandle: NativeInt; const ATimeUs: int64): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1804,7 +1808,11 @@ type
     rpc_tsmaster_cmd_write_system_var: Trpc_tsmaster_cmd_write_system_var;
     rpc_tsmaster_cmd_transfer_memory: Trpc_tsmaster_cmd_transfer_memory;
     rpc_tsmaster_cmd_log: Trpc_tsmaster_cmd_log;
-    FDummy: array [0..734- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_set_mode_sim: Trpc_tsmaster_cmd_set_mode_sim;
+    rpc_tsmaster_cmd_set_mode_realtime: Trpc_tsmaster_cmd_set_mode_realtime;
+    rpc_tsmaster_cmd_set_mode_free: Trpc_tsmaster_cmd_set_mode_free;
+    rpc_tsmaster_cmd_sim_step: Trpc_tsmaster_cmd_sim_step;
+    FDummy: array [0..730- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
