@@ -624,6 +624,8 @@ type
   Tstart_system_message_log = function(const ADirectory: pansichar): s32; stdcall;
   Tend_system_message_log = function(ALogFileName: PPAnsiChar): s32; stdcall;
   Tmask_fpu_exceptions = function(const AMasked: boolean): s32; stdcall;
+  Tcreate_process_shared_memory = function(AAddress: ppByte; const ASizeBytes: int32): s32; stdcall;
+  Tget_process_shared_memory = function(AAddress: ppByte; ASizeBytes: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1467,7 +1469,9 @@ type
     start_system_message_log: Tstart_system_message_log;
     end_system_message_log: Tend_system_message_log;
     mask_fpu_exceptions: Tmask_fpu_exceptions;
-    FDummy: array [0..674-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    create_process_shared_memory: Tcreate_process_shared_memory;
+    get_process_shared_memory: Tget_process_shared_memory;
+    FDummy: array [0..672-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
