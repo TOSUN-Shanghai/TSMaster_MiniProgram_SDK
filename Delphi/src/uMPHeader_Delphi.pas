@@ -946,6 +946,8 @@ type
   Trpc_tsmaster_cmd_set_mode_realtime = function(const AHandle: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_set_mode_free = function(const AHandle: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_sim_step = function(const AHandle: NativeInt; const ATimeUs: int64): s32; stdcall;
+  Trpc_tsmaster_cmd_sim_step_batch_start = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_sim_step_batch_end = function(const AHandle: NativeInt; const ATimeUs: int64): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1816,7 +1818,9 @@ type
     rpc_tsmaster_cmd_set_mode_realtime: Trpc_tsmaster_cmd_set_mode_realtime;
     rpc_tsmaster_cmd_set_mode_free: Trpc_tsmaster_cmd_set_mode_free;
     rpc_tsmaster_cmd_sim_step: Trpc_tsmaster_cmd_sim_step;
-    FDummy: array [0..730- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_sim_step_batch_start: Trpc_tsmaster_cmd_sim_step_batch_start;
+    rpc_tsmaster_cmd_sim_step_batch_end: Trpc_tsmaster_cmd_sim_step_batch_end;
+    FDummy: array [0..728- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
