@@ -1541,7 +1541,7 @@ const
   IDX_ERR_CALLBACK_NOT_EXISTS        = 46;
   IDX_ERR_FILE_INVALID               = 47; // database file corrupted or not recognized
   IDX_ERR_DB_ID_NOT_FOUND            = 48; // database unique id not found
-  IDX_ERR_SW_API_PAEAMETER_INVALID   = 49; // software api parameter invalid
+  IDX_ERR_SW_API_PARAMETER_INVALID   = 49; // software api parameter invalid
   IDX_ERR_SW_API_GENERIC_TIMEOUT     = 50; // software api generic timed out
   IDX_ERR_SW_API_SET_CONF_FAILED     = 51; // software api set hw conf failed
   IDX_ERR_SW_API_INDEX_OUT_OF_BOUNDS = 52; // index out of bounds
