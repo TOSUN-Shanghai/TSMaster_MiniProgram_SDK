@@ -948,6 +948,10 @@ type
   Trpc_tsmaster_cmd_sim_step = function(const AHandle: NativeInt; const ATimeUs: int64): s32; stdcall;
   Trpc_tsmaster_cmd_sim_step_batch_start = function(const AHandle: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_sim_step_batch_end = function(const AHandle: NativeInt; const ATimeUs: int64): s32; stdcall;
+  Trpc_tsmaster_cmd_get_project = function(const AHandle: NativeInt; AProjectFullPath: PPAnsiChar): s32; stdcall;
+  Trpc_tsmaster_cmd_read_system_var = function(const AHandle: NativeInt; ASysVarName: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_read_signal = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; AAddr: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_write_signal = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; AAddr: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1820,7 +1824,11 @@ type
     rpc_tsmaster_cmd_sim_step: Trpc_tsmaster_cmd_sim_step;
     rpc_tsmaster_cmd_sim_step_batch_start: Trpc_tsmaster_cmd_sim_step_batch_start;
     rpc_tsmaster_cmd_sim_step_batch_end: Trpc_tsmaster_cmd_sim_step_batch_end;
-    FDummy: array [0..728- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_get_project: Trpc_tsmaster_cmd_get_project;
+    rpc_tsmaster_cmd_read_system_var: Trpc_tsmaster_cmd_read_system_var;
+    rpc_tsmaster_cmd_read_signal: Trpc_tsmaster_cmd_read_signal;
+    rpc_tsmaster_cmd_write_signal: Trpc_tsmaster_cmd_write_signal;
+    FDummy: array [0..724- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
