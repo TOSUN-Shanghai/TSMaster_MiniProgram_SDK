@@ -956,6 +956,41 @@ type
   Trpc_tsmaster_cmd_read_system_var = function(const AHandle: NativeInt; ASysVarName: pansichar; AValue: pdouble): s32; stdcall;
   Trpc_tsmaster_cmd_read_signal = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; AAddr: pansichar; AValue: pdouble): s32; stdcall;
   Trpc_tsmaster_cmd_write_signal = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; AAddr: pansichar; const AValue: double): s32; stdcall;
+  Trawsocket_htons = function(const x: word): u16; stdcall;
+  Trawsocket_htonl = function(const x: uint32): u32; stdcall;
+  Trawsocket_get_errno = function(ANetworkIndex: int32): s32; stdcall;
+  Trawsocket_dhcp_start = function(ANetworkIndex: int32): s32; stdcall;
+  Trawsocket_dhcp_stop = procedure(ANetworkIndex: int32); stdcall;
+  Trawsocket = function(ANetworkIndex: int32; domain: int32; atype: int32; protocol: int32): s32; stdcall;
+  Trawsocket_close = function(s: int32): s32; stdcall;
+  Trawsocket_close_v2 = function(s: int32; AForceExitTimeWait: int32): s32; stdcall;
+  Trawsocket_shutdown = function(s: int32; how: int32): s32; stdcall;
+  Trawsocket_listen = function(s: int32; backlog: int32): s32; stdcall;
+  Trawsocket_recv = function(s: int32; mem: Pointer; len: NativeInt; flags: int32): NativeInt; stdcall;
+  Trawsocket_read = function(s: int32; mem: Pointer; len: NativeInt): NativeInt; stdcall;
+  Trawsocket_aton = function(cp: pansichar; addr: pip4_addr_t): s32; stdcall;
+  Trawsocket_ntoa = function(addr: pip4_addr_t): pansichar; stdcall;
+  Trawsocket_ntoa6 = function(addr: pip6_addr_t): pansichar; stdcall;
+  Trawsocket_aton6 = function(cp: pansichar; addr: pip6_addr_t): s32; stdcall;
+  Ttssocket_ping4 = procedure(ANetworkIndex: int32; ping_addr: pip4_addr_t; repeatcnt: int32; interval_ms: uint32; timeout_ms: uint32); stdcall;
+  Ttssocket_ping6 = procedure(ANetworkIndex: int32; ping_addr: pip6_addr_t; repeatcnt: int32; interval_ms: uint32; timeout_ms: uint32); stdcall;
+  Trawsocket_recvmsg = function(s: int32; amessage: pts_msghdr; flags: int32): NativeInt; stdcall;
+  Trawsocket_recvfrom = function(s: int32; mem: Pointer; len: NativeInt; flags: int32; from: pts_sockaddr; fromlen: pts_socklen_t): NativeInt; stdcall;
+  Trawsocket_readv = function(s: int32; iov: pts_iovec; iovcnt: int32): NativeInt; stdcall;
+  Trawsocket_send = function(s: int32; dataptr: Pointer; size: NativeInt; flags: int32): NativeInt; stdcall;
+  Trawsocket_sendto = function(s: int32; dataptr: Pointer; size: NativeInt; flags: int32; ato: pts_sockaddr; tolen: ts_socklen_t): NativeInt; stdcall;
+  Trawsocket_sendmsg = function(s: int32; amessage: pts_msghdr; flags: int32): NativeInt; stdcall;
+  Trawsocket_write = function(s: int32; dataptr: Pointer; size: NativeInt): NativeInt; stdcall;
+  Trawsocket_writev = function(s: int32; iov: pts_iovec; iovcnt: int32): NativeInt; stdcall;
+  Trawsocket_fcntl = function(s: int32; cmd: int32; val: int32): s32; stdcall;
+  Trawsocket_ioctl = function(s: int32; cmd: int32; argp: Pointer): s32; stdcall;
+  Trawsocket_accept = function(s: int32; addr: pts_sockaddr; addrlen: pts_socklen_t): s32; stdcall;
+  Trawsocket_bind = function(s: int32; name: pts_sockaddr; addrlen: ts_socklen_t): s32; stdcall;
+  Trawsocket_getsockname = function(s: int32; name: pts_sockaddr; namelen: pts_socklen_t): s32; stdcall;
+  Trawsocket_getpeername = function(s: int32; name: pts_sockaddr; namelen: pts_socklen_t): s32; stdcall;
+  Trawsocket_getsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: pts_socklen_t): s32; stdcall;
+  Trawsocket_setsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: tts_socklen_t): s32; stdcall;
+  Trawsocket_poll = function(ANetworkIndex: int32; fds: pts_pollfd; nfds: ts_nfds_t; timeout: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1836,7 +1871,42 @@ type
     rpc_tsmaster_cmd_read_system_var: Trpc_tsmaster_cmd_read_system_var;
     rpc_tsmaster_cmd_read_signal: Trpc_tsmaster_cmd_read_signal;
     rpc_tsmaster_cmd_write_signal: Trpc_tsmaster_cmd_write_signal;
-    FDummy: array [0..724- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rawsocket_htons: Trawsocket_htons;
+    rawsocket_htonl: Trawsocket_htonl;
+    rawsocket_get_errno: Trawsocket_get_errno;
+    rawsocket_dhcp_start: Trawsocket_dhcp_start;
+    rawsocket_dhcp_stop: Trawsocket_dhcp_stop;
+    rawsocket: Trawsocket;
+    rawsocket_close: Trawsocket_close;
+    rawsocket_close_v2: Trawsocket_close_v2;
+    rawsocket_shutdown: Trawsocket_shutdown;
+    rawsocket_listen: Trawsocket_listen;
+    rawsocket_recv: Trawsocket_recv;
+    rawsocket_read: Trawsocket_read;
+    rawsocket_aton: Trawsocket_aton;
+    rawsocket_ntoa: Trawsocket_ntoa;
+    rawsocket_ntoa6: Trawsocket_ntoa6;
+    rawsocket_aton6: Trawsocket_aton6;
+    tssocket_ping4: Ttssocket_ping4;
+    tssocket_ping6: Ttssocket_ping6;
+    rawsocket_recvmsg: Trawsocket_recvmsg;
+    rawsocket_recvfrom: Trawsocket_recvfrom;
+    rawsocket_readv: Trawsocket_readv;
+    rawsocket_send: Trawsocket_send;
+    rawsocket_sendto: Trawsocket_sendto;
+    rawsocket_sendmsg: Trawsocket_sendmsg;
+    rawsocket_write: Trawsocket_write;
+    rawsocket_writev: Trawsocket_writev;
+    rawsocket_fcntl: Trawsocket_fcntl;
+    rawsocket_ioctl: Trawsocket_ioctl;
+    rawsocket_accept: Trawsocket_accept;
+    rawsocket_bind: Trawsocket_bind;
+    rawsocket_getsockname: Trawsocket_getsockname;
+    rawsocket_getpeername: Trawsocket_getpeername;
+    rawsocket_getsockopt: Trawsocket_getsockopt;
+    rawsocket_setsockopt: Trawsocket_setsockopt;
+    rawsocket_poll: Trawsocket_poll;
+    FDummy: array [0..689- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
