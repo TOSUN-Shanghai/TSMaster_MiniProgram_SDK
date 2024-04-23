@@ -978,14 +978,14 @@ type
   Trawsocket_recvfrom = function(s: int32; mem: Pointer; len: NativeInt; flags: int32; from: pts_sockaddr; fromlen: pts_socklen_t): NativeInt; stdcall;
   Trawsocket_readv = function(s: int32; iov: pts_iovec; iovcnt: int32): NativeInt; stdcall;
   Trawsocket_send = function(s: int32; dataptr: Pointer; size: NativeInt; flags: int32): NativeInt; stdcall;
-  Trawsocket_sendto = function(s: int32; dataptr: Pointer; size: NativeInt; flags: int32; ato: pts_sockaddr; tolen: ts_socklen_t): NativeInt; stdcall;
+  Trawsocket_sendto = function(s: int32; dataptr: Pointer; size: NativeInt; flags: int32; ato: pts_sockaddr; tolen: tts_socklen_t): NativeInt; stdcall;
   Trawsocket_sendmsg = function(s: int32; amessage: pts_msghdr; flags: int32): NativeInt; stdcall;
   Trawsocket_write = function(s: int32; dataptr: Pointer; size: NativeInt): NativeInt; stdcall;
   Trawsocket_writev = function(s: int32; iov: pts_iovec; iovcnt: int32): NativeInt; stdcall;
   Trawsocket_fcntl = function(s: int32; cmd: int32; val: int32): s32; stdcall;
   Trawsocket_ioctl = function(s: int32; cmd: int32; argp: Pointer): s32; stdcall;
   Trawsocket_accept = function(s: int32; addr: pts_sockaddr; addrlen: pts_socklen_t): s32; stdcall;
-  Trawsocket_bind = function(s: int32; name: pts_sockaddr; addrlen: ts_socklen_t): s32; stdcall;
+  Trawsocket_bind = function(s: int32; name: pts_sockaddr; addrlen: tts_socklen_t): s32; stdcall;
   Trawsocket_getsockname = function(s: int32; name: pts_sockaddr; namelen: pts_socklen_t): s32; stdcall;
   Trawsocket_getpeername = function(s: int32; name: pts_sockaddr; namelen: pts_socklen_t): s32; stdcall;
   Trawsocket_getsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: pts_socklen_t): s32; stdcall;
