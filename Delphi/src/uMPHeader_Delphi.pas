@@ -630,6 +630,9 @@ type
   Tappend_user_constants_from_c_header = function(const AHeaderFile: pansichar): s32; stdcall;
   Tappend_user_constant = function(const AConstantName: pansichar; const AValue: double; const ADesc: pansichar): s32; stdcall;
   Tdelete_user_constant = function(const AConstantName: pansichar): s32; stdcall;
+  Tget_mini_program_count = function(ACount: pInt32): s32; stdcall;
+  Tget_mini_program_info_by_index = function(const AIndex: int32; AKind: pInt32; AProgramName: PPAnsiChar; ADisplayName: PPAnsiChar): s32; stdcall;
+  Tcompile_mini_programs = function(const AProgramNames: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1520,7 +1523,10 @@ type
     append_user_constants_from_c_header: Tappend_user_constants_from_c_header;
     append_user_constant: Tappend_user_constant;
     delete_user_constant: Tdelete_user_constant;
-    FDummy: array [0..668-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_mini_program_count: Tget_mini_program_count;
+    get_mini_program_info_by_index: Tget_mini_program_info_by_index;
+    compile_mini_programs: Tcompile_mini_programs;
+    FDummy: array [0..665-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
