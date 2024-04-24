@@ -991,6 +991,9 @@ type
   Trawsocket_getsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: pts_socklen_t): s32; stdcall;
   Trawsocket_setsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: tts_socklen_t): s32; stdcall;
   Trawsocket_poll = function(ANetworkIndex: int32; fds: pts_pollfd; nfds: ts_nfds_t; timeout: int32): s32; stdcall;
+  Trawsocket_connect = function(s: int32; name: pts_sockaddr; namelen: tts_socklen_t): s32; stdcall;
+  Trawsocket_inet_ntop = function(af: int32; src: Pointer; dst: pansichar; size: tts_socklen_t): pansichar; stdcall;
+  Trawsocket_inet_pton = function(af: int32; src: pansichar; dst: Pointer): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1906,7 +1909,10 @@ type
     rawsocket_getsockopt: Trawsocket_getsockopt;
     rawsocket_setsockopt: Trawsocket_setsockopt;
     rawsocket_poll: Trawsocket_poll;
-    FDummy: array [0..689- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rawsocket_connect: Trawsocket_connect;
+    rawsocket_inet_ntop: Trawsocket_inet_ntop;
+    rawsocket_inet_pton: Trawsocket_inet_pton;
+    FDummy: array [0..686- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
