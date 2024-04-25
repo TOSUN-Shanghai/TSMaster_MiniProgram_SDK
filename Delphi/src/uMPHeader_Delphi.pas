@@ -886,6 +886,12 @@ type
   TEthernetUDPCalcChecksum = function(const AHeader: PLIBEthernetHeader; const AUDPPayloadAddr: pbyte; const AUDPPayloadLength: word; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthernetUDPCalcChecksumOnFrame = function(const AHeader: PLIBEthernetHeader; const AOverwriteChecksum: boolean; AChecksum: pword): s32; stdcall;
   TEthLogEthernetFrameData = function(const AHeader: PLIBEthernetHeader): s32; stdcall;
+  TRegisterEthernetEvent = function(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): s32; stdcall;
+  TUnregisterEthernetEvent = function(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): s32; stdcall;
+  TRegisterPreTxEthernetEvent = function(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): s32; stdcall;
+  TUnregisterPreTxEthernetEvent = function(const AObj: pointer; const AEvent: TEthernetQueueEvent_Win32): s32; stdcall;
+  TUnregisterEthernetEvents = function(const AObj: pointer): s32; stdcall;
+  TUnregisterPreTxEthernetEvents = function(const AObj: pointer): s32; stdcall;
   Tlin_clear_schedule_tables = function(const AChnIdx: int32): s32; stdcall;
   Tlin_stop_lin_channel = function(const AChnIdx: int32): s32; stdcall;
   Tlin_start_lin_channel = function(const AChnIdx: int32): s32; stdcall;
@@ -1798,6 +1804,12 @@ type
     transmit_ethernet_sync: TTransmitEthernetSync;
     inject_ethernet_frame: TInjectEthernetFrame;
     tslog_blf_write_ethernet: TTSLogBlfWriteEthernet;
+    internal_register_event_ethernet: TRegisterEthernetEvent;
+    internal_unregister_event_ethernet: TUnregisterEthernetEvent;
+    internal_unregister_events_ethernet: TUnregisterEthernetEvents;
+    internal_register_pretx_event_ethernet: TRegisterPreTxEthernetEvent;
+    internal_unregister_pretx_event_ethernet: TUnregisterPreTxEthernetEvent;
+    internal_unregister_pretx_events_ethernet: TUnregisterPreTxEthernetEvents;
     transmit_ethernet_async_wo_pretx: TTransmitEthernetAsyncWoPretx;
     ioip_set_tcp_server_connection_callback: TIoIpSetOnConnectionCallback;
     eth_build_ipv4_udp_packet: TEthBuildIPv4UDPPacket;
