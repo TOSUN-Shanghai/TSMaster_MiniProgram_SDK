@@ -1930,7 +1930,7 @@ type
     rawsocket_connect: Trawsocket_connect;
     rawsocket_inet_ntop: Trawsocket_inet_ntop;
     rawsocket_inet_pton: Trawsocket_inet_pton;
-    FDummy: array [0..686- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..680- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
