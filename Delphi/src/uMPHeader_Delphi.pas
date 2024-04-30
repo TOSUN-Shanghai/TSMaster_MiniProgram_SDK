@@ -902,8 +902,13 @@ type
   Tlin_batch_add_schedule_frame = function(const AChnIdx: int32; const ALINData: PLIBLIN; const ADelayMs: int32): s32; stdcall;
   Tlin_batch_set_schedule_end = function(const AChnIdx: int32): s32; stdcall;
   Tlin_set_node_functiontype = function(const AChnIdx: int32; const AFunctionType: int32): s32; stdcall;
+  Tlin_active_frame_in_schedule_table = function(const AChnIdx: uint32; const AID: byte; const AIndex: int32): s32; stdcall;
+  Tlin_deactive_frame_in_schedule_table = function(const AChnIdx: uint32; const AID: byte; const AIndex: int32): s32; stdcall;
   Tflexray_disable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
   Tflexray_enable_frame = function(const AChnIdx: int32; const ASlot: byte; const ABaseCycle: byte; const ACycleRep: byte; const ATimeoutMs: int32): s32; stdcall;
+  Tflexray_start_net = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
+  Tflexray_stop_net = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
+  Tflexray_wakeup_pattern = function(const AChnIdx: int32; const ATimeoutMs: int32): s32; stdcall;
   TSetFlexRayAutoUBHandle = function(const AIsAutoHandle: boolean): s32; stdcall;
   Teth_frame_clear_vlans = function(const AHeader: PLIBEthernetHeader): s32; stdcall;
   Teth_frame_append_vlan = function(AHeader: PLIBEthernetHeader; const AVLANId: word; const APriority: byte; const ACFI: Byte): s32; stdcall;
@@ -1829,8 +1834,13 @@ type
     lin_batch_add_schedule_frame: Tlin_batch_add_schedule_frame;
     lin_batch_set_schedule_end: Tlin_batch_set_schedule_end;
     lin_set_node_functiontype: Tlin_set_node_functiontype;
+    lin_active_frame_in_schedule_table: Tlin_active_frame_in_schedule_table;
+    lin_deactive_frame_in_schedule_table: Tlin_deactive_frame_in_schedule_table;
     flexray_disable_frame: Tflexray_disable_frame;
     flexray_enable_frame: Tflexray_enable_frame;
+    flexray_start_net: Tflexray_start_net;
+    flexray_stop_net: Tflexray_stop_net;
+    flexray_wakeup_pattern: Tflexray_wakeup_pattern;
     set_flexray_ub_bit_auto_handle: TSetFlexRayAutoUBHandle;
     eth_frame_clear_vlans: Teth_frame_clear_vlans;
     eth_frame_append_vlan: Teth_frame_append_vlan;
@@ -1930,7 +1940,7 @@ type
     rawsocket_connect: Trawsocket_connect;
     rawsocket_inet_ntop: Trawsocket_inet_ntop;
     rawsocket_inet_pton: Trawsocket_inet_pton;
-    FDummy: array [0..680- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..675- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
