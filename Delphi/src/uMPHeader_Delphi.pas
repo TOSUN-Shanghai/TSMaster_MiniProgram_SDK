@@ -637,6 +637,7 @@ type
   Tget_system_var_init_value = function(const ACompleteName: pansichar; AValue: PPAnsiChar): s32; stdcall;
   Treset_system_var_to_init = function(const ACompleteName: pansichar): s32; stdcall;
   Treset_all_system_var_to_init = function(const AOwner: pansichar): s32; stdcall;
+  Tget_system_var_generic_upg1 = function(const ACompleteName: pansichar; AValue: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1548,7 +1549,8 @@ type
     get_system_var_init_value: Tget_system_var_init_value;
     reset_system_var_to_init: Treset_system_var_to_init;
     reset_all_system_var_to_init: Treset_all_system_var_to_init;
-    FDummy: array [0..661-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_system_var_generic_upg1: Tget_system_var_generic_upg1;
+    FDummy: array [0..660-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
