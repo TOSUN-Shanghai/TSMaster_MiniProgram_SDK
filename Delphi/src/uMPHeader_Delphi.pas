@@ -633,6 +633,10 @@ type
   Tget_mini_program_count = function(ACount: pInt32): s32; stdcall;
   Tget_mini_program_info_by_index = function(const AIndex: int32; AKind: pInt32; AProgramName: PPAnsiChar; ADisplayName: PPAnsiChar): s32; stdcall;
   Tcompile_mini_programs = function(const AProgramNames: pansichar): s32; stdcall;
+  Tset_system_var_init_value = function(const ACompleteName: pansichar; const AValue: pansichar): s32; stdcall;
+  Tget_system_var_init_value = function(const ACompleteName: pansichar; AValue: PPAnsiChar): s32; stdcall;
+  Treset_system_var_to_init = function(const ACompleteName: pansichar): s32; stdcall;
+  Treset_all_system_var_to_init = function(const AOwner: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1540,7 +1544,11 @@ type
     get_mini_program_count: Tget_mini_program_count;
     get_mini_program_info_by_index: Tget_mini_program_info_by_index;
     compile_mini_programs: Tcompile_mini_programs;
-    FDummy: array [0..665-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    set_system_var_init_value: Tset_system_var_init_value;
+    get_system_var_init_value: Tget_system_var_init_value;
+    reset_system_var_to_init: Treset_system_var_to_init;
+    reset_all_system_var_to_init: Treset_all_system_var_to_init;
+    FDummy: array [0..661-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
