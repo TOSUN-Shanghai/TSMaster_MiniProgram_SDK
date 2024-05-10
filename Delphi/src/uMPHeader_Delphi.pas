@@ -1013,6 +1013,13 @@ type
   Trawsocket_connect = function(s: int32; name: pts_sockaddr; namelen: tts_socklen_t): s32; stdcall;
   Trawsocket_inet_ntop = function(af: int32; src: Pointer; dst: pansichar; size: tts_socklen_t): pansichar; stdcall;
   Trawsocket_inet_pton = function(af: int32; src: pansichar; dst: Pointer): s32; stdcall;
+  Trpc_tsmaster_cmd_set_can_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_get_can_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_get_lin_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_set_lin_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_set_flexray_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_get_flexray_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_get_constant = function(const AConstName: pansichar; AValue: pdouble): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1950,7 +1957,14 @@ type
     rawsocket_connect: Trawsocket_connect;
     rawsocket_inet_ntop: Trawsocket_inet_ntop;
     rawsocket_inet_pton: Trawsocket_inet_pton;
-    FDummy: array [0..675- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_set_can_signal: Trpc_tsmaster_cmd_set_can_signal;
+    rpc_tsmaster_cmd_get_can_signal: Trpc_tsmaster_cmd_get_can_signal;
+    rpc_tsmaster_cmd_get_lin_signal: Trpc_tsmaster_cmd_get_lin_signal;
+    rpc_tsmaster_cmd_set_lin_signal: Trpc_tsmaster_cmd_set_lin_signal;
+    rpc_tsmaster_cmd_set_flexray_signal: Trpc_tsmaster_cmd_set_flexray_signal;
+    rpc_tsmaster_cmd_get_flexray_signal: Trpc_tsmaster_cmd_get_flexray_signal;
+    rpc_tsmaster_cmd_get_constant: Trpc_tsmaster_cmd_get_constant;
+    FDummy: array [0..668- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
