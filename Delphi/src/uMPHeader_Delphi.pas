@@ -1013,13 +1013,13 @@ type
   Trawsocket_connect = function(s: int32; name: pts_sockaddr; namelen: tts_socklen_t): s32; stdcall;
   Trawsocket_inet_ntop = function(af: int32; src: Pointer; dst: pansichar; size: tts_socklen_t): pansichar; stdcall;
   Trawsocket_inet_pton = function(af: int32; src: pansichar; dst: Pointer): s32; stdcall;
-  Trpc_tsmaster_cmd_set_can_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
-  Trpc_tsmaster_cmd_get_can_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
-  Trpc_tsmaster_cmd_get_lin_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
-  Trpc_tsmaster_cmd_set_lin_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
-  Trpc_tsmaster_cmd_set_flexray_signal = function(const ASgnAddress: pansichar; AValue: double): s32; stdcall;
-  Trpc_tsmaster_cmd_get_flexray_signal = function(const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
-  Trpc_tsmaster_cmd_get_constant = function(const AConstName: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_set_can_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_get_can_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_get_lin_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_set_lin_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_set_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: double): s32; stdcall;
+  Trpc_tsmaster_cmd_get_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_cmd_get_constant = function(const AHandle: NativeInt; const AConstName: pansichar; AValue: pdouble): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
