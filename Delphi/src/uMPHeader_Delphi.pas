@@ -1020,6 +1020,9 @@ type
   Trpc_tsmaster_cmd_set_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: double): s32; stdcall;
   Trpc_tsmaster_cmd_get_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
   Trpc_tsmaster_cmd_get_constant = function(const AHandle: NativeInt; const AConstName: pansichar; AValue: pdouble): s32; stdcall;
+  Trpc_tsmaster_is_simulation_running = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_call_system_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
+  Trpc_tsmaster_call_library_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1964,7 +1967,10 @@ type
     rpc_tsmaster_cmd_set_flexray_signal: Trpc_tsmaster_cmd_set_flexray_signal;
     rpc_tsmaster_cmd_get_flexray_signal: Trpc_tsmaster_cmd_get_flexray_signal;
     rpc_tsmaster_cmd_get_constant: Trpc_tsmaster_cmd_get_constant;
-    FDummy: array [0..668- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_is_simulation_running: Trpc_tsmaster_is_simulation_running;
+    rpc_tsmaster_call_system_api: Trpc_tsmaster_call_system_api;
+    rpc_tsmaster_call_library_api: Trpc_tsmaster_call_library_api;
+    FDummy: array [0..665- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
