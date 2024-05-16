@@ -1020,7 +1020,7 @@ type
   Trpc_tsmaster_cmd_set_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: double): s32; stdcall;
   Trpc_tsmaster_cmd_get_flexray_signal = function(const AHandle: NativeInt; const ASgnAddress: pansichar; AValue: pdouble): s32; stdcall;
   Trpc_tsmaster_cmd_get_constant = function(const AHandle: NativeInt; const AConstName: pansichar; AValue: pdouble): s32; stdcall;
-  Trpc_tsmaster_is_simulation_running = function(const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_is_simulation_running = function(const AHandle: NativeInt; AIsRunning: pboolean): s32; stdcall;
   Trpc_tsmaster_call_system_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   Trpc_tsmaster_call_library_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
