@@ -638,6 +638,18 @@ type
   Treset_system_var_to_init = function(const ACompleteName: pansichar): s32; stdcall;
   Treset_all_system_var_to_init = function(const AOwner: pansichar): s32; stdcall;
   Tget_system_var_generic_upg1 = function(const ACompleteName: pansichar; AValue: PPAnsiChar): s32; stdcall;
+  Tmplib_load = function(const AMPFileName: PAnsiChar; const ARunAfterLoad: boolean): integer; stdcall;
+  Tmplib_unload = function(const AMPFileName: PAnsiChar): integer; stdcall;
+  Tmplib_unload_all = function(): integer; stdcall;
+  Tmplib_run = function(const AMPFileName: PAnsiChar): integer; stdcall;
+  Tmplib_is_running = function(const AMPFileName: PAnsiChar; out AIsRunning: boolean): integer; stdcall;
+  Tmplib_stop = function(const AMPFileName: pansichar): integer; stdcall;
+  Tmplib_run_all = function(): integer; stdcall;
+  Tmplib_stop_all = function(): integer; stdcall;
+  Tmplib_get_function_prototype = function(const AGroupName: pansichar; const AFuncName: pansichar; const APrototype: ppansichar): integer; stdcall;
+  Tmplib_get_mp_function_list = function(const AGroupName: pansichar; const AList: ppansichar): integer; stdcall;
+  Tmplib_get_mp_list = function(const AList: ppansichar): integer; stdcall;
+  Tget_tsmaster_binary_location = function(ADirectory: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1090,6 +1102,8 @@ type
   TSignalTesterSetItemTimeRangeByName = function(const AName: pansichar; const ATimeBegin: double; const ATimeEnd: double): s32; stdcall;
   TSignalTesterSetItemValueRangeByIndex = function(const AIdx: int32; const ALow: double; const AHigh: double): s32; stdcall;
   TSignalTesterSetItemValueRangeByName = function(const AName: pansichar; const ALow: double; const AHigh: double): s32; stdcall;
+  Tclassic_test_system_login = function(const AUserName: pansichar; const APassword: pansichar): s32; stdcall;
+  Tclassic_test_system_import = function(const AConfFile: pansichar): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -1560,7 +1574,19 @@ type
     reset_system_var_to_init: Treset_system_var_to_init;
     reset_all_system_var_to_init: Treset_all_system_var_to_init;
     get_system_var_generic_upg1: Tget_system_var_generic_upg1;
-    FDummy: array [0..660-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    mplib_load: Tmplib_load;
+    mplib_unload: Tmplib_unload;
+    mplib_unload_all: Tmplib_unload_all;
+    mplib_run: Tmplib_run;
+    mplib_is_running: Tmplib_is_running;
+    mplib_stop: Tmplib_stop;
+    mplib_run_all: Tmplib_run_all;
+    mplib_stop_all: Tmplib_stop_all;
+    mplib_get_function_prototype: Tmplib_get_function_prototype;
+    mplib_get_mp_function_list: Tmplib_get_mp_function_list;
+    mplib_get_mp_list: Tmplib_get_mp_list;
+    get_tsmaster_binary_location: Tget_tsmaster_binary_location;
+    FDummy: array [0..648-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2084,7 +2110,9 @@ type
     signal_tester_set_item_time_range_by_name: TSignalTesterSetItemTimeRangeByName;
     signal_tester_set_item_value_range_by_index: TSignalTesterSetItemValueRangeByIndex;
     signal_tester_set_item_value_range_by_name: TSignalTesterSetItemValueRangeByName;
-    FDummy: array [0..945-1] of NativeInt; // place holders, TS_TEST_PROTO_END
+    classic_test_system_login: Tclassic_test_system_login;
+    classic_test_system_import: Tclassic_test_system_import;
+    FDummy: array [0..943-1] of NativeInt; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
