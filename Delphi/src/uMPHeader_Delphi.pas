@@ -650,6 +650,8 @@ type
   Tmplib_get_mp_function_list = function(const AGroupName: pansichar; const AList: ppansichar): integer; stdcall;
   Tmplib_get_mp_list = function(const AList: ppansichar): integer; stdcall;
   Tget_tsmaster_binary_location = function(ADirectory: PPAnsiChar): s32; stdcall;
+  Tget_form_instance_count = function(const AClassName: pansichar; ACount: pInt32): s32; stdcall;
+  Tget_active_application_list = function(ATSMasterAppNames: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1586,7 +1588,9 @@ type
     mplib_get_mp_function_list: Tmplib_get_mp_function_list;
     mplib_get_mp_list: Tmplib_get_mp_list;
     get_tsmaster_binary_location: Tget_tsmaster_binary_location;
-    FDummy: array [0..648-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_form_instance_count: Tget_form_instance_count;
+    get_active_application_list: Tget_active_application_list;
+    FDummy: array [0..646-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
