@@ -652,6 +652,10 @@ type
   Tget_tsmaster_binary_location = function(ADirectory: PPAnsiChar): s32; stdcall;
   Tget_form_instance_count = function(const AClassName: pansichar; ACount: pInt32): s32; stdcall;
   Tget_active_application_list = function(ATSMasterAppNames: PPAnsiChar): s32; stdcall;
+  Tui_graphics_set_measurement_cursor = function(const AWindowCaption: pansichar; const ATimeUs: int64): s32; stdcall;
+  Tui_graphics_set_diff_cursor = function(const AWindowCaption: pansichar; const ATime1Us: int64; const ATime2Us: int64): s32; stdcall;
+  Tui_graphics_hide_diff_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tui_graphics_hide_measurement_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1590,7 +1594,11 @@ type
     get_tsmaster_binary_location: Tget_tsmaster_binary_location;
     get_form_instance_count: Tget_form_instance_count;
     get_active_application_list: Tget_active_application_list;
-    FDummy: array [0..646-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_graphics_set_measurement_cursor: Tui_graphics_set_measurement_cursor;
+    ui_graphics_set_diff_cursor: Tui_graphics_set_diff_cursor;
+    ui_graphics_hide_diff_cursor: Tui_graphics_hide_diff_cursor;
+    ui_graphics_hide_measurement_cursor: Tui_graphics_hide_measurement_cursor;
+    FDummy: array [0..642-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
