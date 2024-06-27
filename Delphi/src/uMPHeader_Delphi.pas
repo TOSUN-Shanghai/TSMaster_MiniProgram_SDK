@@ -656,6 +656,8 @@ type
   Tui_graphics_set_diff_cursor = function(const AWindowCaption: pansichar; const ATime1Us: int64; const ATime2Us: int64): s32; stdcall;
   Tui_graphics_hide_diff_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
   Tui_graphics_hide_measurement_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tencode_string = function(const ASrc: pansichar; ADest: PPAnsiChar): s32; stdcall;
+  Tdecode_string = function(const ASrc: pansichar; ADest: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1598,7 +1600,9 @@ type
     ui_graphics_set_diff_cursor: Tui_graphics_set_diff_cursor;
     ui_graphics_hide_diff_cursor: Tui_graphics_hide_diff_cursor;
     ui_graphics_hide_measurement_cursor: Tui_graphics_hide_measurement_cursor;
-    FDummy: array [0..642-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    encode_string: Tencode_string;
+    decode_string: Tdecode_string;
+    FDummy: array [0..640-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
