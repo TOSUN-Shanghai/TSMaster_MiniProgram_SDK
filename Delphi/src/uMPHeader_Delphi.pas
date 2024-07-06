@@ -1043,6 +1043,9 @@ type
   Trpc_tsmaster_is_simulation_running = function(const AHandle: NativeInt; AIsRunning: pboolean): s32; stdcall;
   Trpc_tsmaster_call_system_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
   Trpc_tsmaster_call_library_api = function(const AHandle: NativeInt; const AAPIName: pansichar; const AArgCount: int32; const AArgCapacity: int32; AArgs: PPAnsiChar): s32; stdcall;
+  Trpc_tsmaster_cmd_register_signal_cache = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar; AId: pint64): s32; stdcall;
+  Trpc_tsmaster_cmd_unregister_signal_cache = function(const AHandle: NativeInt; const AId: int64): s32; stdcall;
+  Trpc_tsmaster_cmd_get_signal_cache_value = function(const AHandle: NativeInt; const AId: int64; AValue: pdouble): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2012,7 +2015,10 @@ type
     rpc_tsmaster_is_simulation_running: Trpc_tsmaster_is_simulation_running;
     rpc_tsmaster_call_system_api: Trpc_tsmaster_call_system_api;
     rpc_tsmaster_call_library_api: Trpc_tsmaster_call_library_api;
-    FDummy: array [0..665- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_register_signal_cache: Trpc_tsmaster_cmd_register_signal_cache;
+    rpc_tsmaster_cmd_unregister_signal_cache: Trpc_tsmaster_cmd_unregister_signal_cache;
+    rpc_tsmaster_cmd_get_signal_cache_value: Trpc_tsmaster_cmd_get_signal_cache_value;
+    FDummy: array [0..662- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
