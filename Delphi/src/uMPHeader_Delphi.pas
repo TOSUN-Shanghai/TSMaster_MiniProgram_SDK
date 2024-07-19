@@ -1046,6 +1046,7 @@ type
   Trpc_tsmaster_cmd_register_signal_cache = function(const AHandle: NativeInt; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar; AId: pint64): s32; stdcall;
   Trpc_tsmaster_cmd_unregister_signal_cache = function(const AHandle: NativeInt; const AId: int64): s32; stdcall;
   Trpc_tsmaster_cmd_get_signal_cache_value = function(const AHandle: NativeInt; const AId: int64; AValue: pdouble): s32; stdcall;
+  Tcan_rbs_set_crc_signal_w_head_tail = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: int32; const AByteCount: int32; const AHeadAddr: pbyte; const AHeadSizeBytes: int32; const ATailAddr: pbyte; const ATailSizeBytes: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2018,7 +2019,8 @@ type
     rpc_tsmaster_cmd_register_signal_cache: Trpc_tsmaster_cmd_register_signal_cache;
     rpc_tsmaster_cmd_unregister_signal_cache: Trpc_tsmaster_cmd_unregister_signal_cache;
     rpc_tsmaster_cmd_get_signal_cache_value: Trpc_tsmaster_cmd_get_signal_cache_value;
-    FDummy: array [0..662- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_set_crc_signal_w_head_tail: Tcan_rbs_set_crc_signal_w_head_tail;
+    FDummy: array [0..661- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
