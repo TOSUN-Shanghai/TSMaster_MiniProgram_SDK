@@ -658,6 +658,8 @@ type
   Tui_graphics_hide_measurement_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
   Tencode_string = function(const ASrc: pansichar; ADest: PPAnsiChar): s32; stdcall;
   Tdecode_string = function(const ASrc: pansichar; ADest: PPAnsiChar): s32; stdcall;
+  Tis_realtime_mode = function(AValue: PBoolean): s32; stdcall;
+  Tis_simulation_mode = function(AValue: PBoolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1606,7 +1608,9 @@ type
     ui_graphics_hide_measurement_cursor: Tui_graphics_hide_measurement_cursor;
     encode_string: Tencode_string;
     decode_string: Tdecode_string;
-    FDummy: array [0..640-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    is_realtime_mode: Tis_realtime_mode;
+    is_simulation_mode: Tis_simulation_mode;
+    FDummy: array [0..638-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
