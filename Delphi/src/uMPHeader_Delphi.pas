@@ -660,6 +660,8 @@ type
   Tdecode_string = function(const ASrc: pansichar; ADest: PPAnsiChar): s32; stdcall;
   Tis_realtime_mode = function(AValue: PBoolean): s32; stdcall;
   Tis_simulation_mode = function(AValue: PBoolean): s32; stdcall;
+  Tui_ribbon_add_icon = function(const AFormClassName: pansichar; const ATabName: pansichar; const AGroupName: pansichar; const AButtonName: pansichar; const AIdxImageSmall: int32; const AIdxImageLarge: int32): s32; stdcall;
+  Tui_ribbon_del_icon = function(const ATabName: pansichar; const AGroupName: pansichar; const AButtonName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1610,7 +1612,9 @@ type
     decode_string: Tdecode_string;
     is_realtime_mode: Tis_realtime_mode;
     is_simulation_mode: Tis_simulation_mode;
-    FDummy: array [0..638-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_ribbon_add_icon: Tui_ribbon_add_icon;
+    ui_ribbon_del_icon: Tui_ribbon_del_icon;
+    FDummy: array [0..636-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
