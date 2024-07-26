@@ -661,7 +661,7 @@ type
   Tis_realtime_mode = function(AValue: PBoolean): s32; stdcall;
   Tis_simulation_mode = function(AValue: PBoolean): s32; stdcall;
   Tui_ribbon_add_icon = function(const AFormClassName: pansichar; const ATabName: pansichar; const AGroupName: pansichar; const AButtonName: pansichar; const AIdxImageSmall: int32; const AIdxImageLarge: int32): s32; stdcall;
-  Tui_ribbon_del_icon = function(const ATabName: pansichar; const AGroupName: pansichar; const AButtonName: pansichar): s32; stdcall;
+  Tui_ribbon_del_icon = function(const AFormClassName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
