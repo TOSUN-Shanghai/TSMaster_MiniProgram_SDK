@@ -662,6 +662,12 @@ type
   Tis_simulation_mode = function(AValue: PBoolean): s32; stdcall;
   Tui_ribbon_add_icon = function(const AFormClassName: pansichar; const ATabName: pansichar; const AGroupName: pansichar; const AButtonName: pansichar; const AIdxImageSmall: int32; const AIdxImageLarge: int32): s32; stdcall;
   Tui_ribbon_del_icon = function(const AFormClassName: pansichar): s32; stdcall;
+  Tpanel_create_control = function(const APanelName: pansichar; const AParentCtrlName: pansichar; const AParentCtrlSubIdx: int32; const AName: pansichar; const ACtrlType: TLIBPanelControlType; const ALeft: single; const ATop: single; const AWidth: single; const AHeight: single; const AVarType: TLIBPanelSignalType; const AVarLink: pansichar): s32; stdcall;
+  Tpanel_delete_control = function(const APanelName: pansichar; const ACtrlName: pansichar): s32; stdcall;
+  Tpanel_set_var = function(const APanelName: pansichar; const ACtrlName: pansichar; const AVarType: TLIBPanelSignalType; const AVarLink: pansichar): s32; stdcall;
+  Tpanel_get_var = function(const APanelName: pansichar; const ACtrlName: pansichar; AVarType: PLIBPanelSignalType; AVarLink: PPAnsiChar): s32; stdcall;
+  Tpanel_get_control_count = function(const APanelName: pansichar; ACount: pInt32): s32; stdcall;
+  Tpanel_get_control_by_index = function(const APanelName: pansichar; const AIndex: int32; ACtrlType: PLIBPanelControlType; AName: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1614,7 +1620,13 @@ type
     is_simulation_mode: Tis_simulation_mode;
     ui_ribbon_add_icon: Tui_ribbon_add_icon;
     ui_ribbon_del_icon: Tui_ribbon_del_icon;
-    FDummy: array [0..636-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    panel_create_control: Tpanel_create_control;
+    panel_delete_control: Tpanel_delete_control;
+    panel_set_var: Tpanel_set_var;
+    panel_get_var: Tpanel_get_var;
+    panel_get_control_count: Tpanel_get_control_count;
+    panel_get_control_by_index: Tpanel_get_control_by_index;
+    FDummy: array [0..630-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
