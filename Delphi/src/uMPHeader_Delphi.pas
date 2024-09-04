@@ -1059,7 +1059,7 @@ type
   Trpc_tsmaster_cmd_get_signal_cache_value = function(const AHandle: NativeInt; const AId: int64; AValue: pdouble): s32; stdcall;
   Tcan_rbs_set_crc_signal_w_head_tail = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: int32; const AByteCount: int32; const AHeadAddr: pbyte; const AHeadSizeBytes: int32; const ATailAddr: pbyte; const ATailSizeBytes: int32): s32; stdcall;
   Tcal_get_data_by_row_and_col = function(const AECUName: pansichar; const AVarName: pansichar; const AIdxRow: int32; const AIdxCol: int32; AValue: pdouble): s32; stdcall;
-  Tcal_set_data_by_row_and_col = function(const AECUName: pansichar; const AVarName: pansichar; const AIdxRow: int32; const AIdxCol: int32; AValue: double; AImmediateDownload: byte): s32; stdcall;
+  Tcal_set_data_by_row_and_col = function(const AECUName: pansichar; const AVarName: pansichar; const AIdxRow: int32; const AIdxCol: int32; const AValue: double; const AImmediateDownload: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
