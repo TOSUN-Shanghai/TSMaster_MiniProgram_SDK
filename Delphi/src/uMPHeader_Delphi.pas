@@ -1129,6 +1129,7 @@ type
   TSignalTesterSetItemValueRangeByName = function(const AName: pansichar; const ALow: double; const AHigh: double): s32; stdcall;
   Tclassic_test_system_login = function(const AUserName: pansichar; const APassword: pansichar): s32; stdcall;
   Tclassic_test_system_import = function(const AConfFile: pansichar): s32; stdcall;
+  Tlog_formatted_value = function(const AStr: pansichar; const AFormat: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2162,7 +2163,8 @@ type
     signal_tester_set_item_value_range_by_name: TSignalTesterSetItemValueRangeByName;
     classic_test_system_login: Tclassic_test_system_login;
     classic_test_system_import: Tclassic_test_system_import;
-    FDummy: array [0..943-1] of NativeInt; // place holders, TS_TEST_PROTO_END
+    log_formatted_value: Tlog_formatted_value;
+    FDummy: array [0..942-1] of NativeInt; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
