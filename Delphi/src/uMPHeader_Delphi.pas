@@ -670,6 +670,9 @@ type
   Tpanel_get_control_by_index = function(const APanelName: pansichar; const AIndex: int32; ACtrlType: PLIBPanelControlType; AName: PPAnsiChar): s32; stdcall;
   Tui_save_project = function(const AProjectFullPath: pansichar): s32; stdcall;
   Tretrieve_api_address = function(const AApiName: pansichar; AFlags: pInt32; AAddr: PNativeInt): s32; stdcall;
+  Tui_load_rpc_ip_configuration = function(const AFileName: pansichar): s32; stdcall;
+  Tui_unload_rpc_ip_configuration = function(const AFileName: pansichar): s32; stdcall;
+  Tui_unload_rpc_ip_configurations = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1633,7 +1636,10 @@ type
     panel_get_control_by_index: Tpanel_get_control_by_index;
     ui_save_project: Tui_save_project;
     retrieve_api_address: Tretrieve_api_address;
-    FDummy: array [0..628-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_load_rpc_ip_configuration: Tui_load_rpc_ip_configuration;
+    ui_unload_rpc_ip_configuration: Tui_unload_rpc_ip_configuration;
+    ui_unload_rpc_ip_configurations: Tui_unload_rpc_ip_configurations;
+    FDummy: array [0..625-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
