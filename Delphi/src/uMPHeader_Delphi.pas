@@ -673,6 +673,7 @@ type
   Tui_load_rpc_ip_configuration = function(const AFileName: pansichar): s32; stdcall;
   Tui_unload_rpc_ip_configuration = function(const AFileName: pansichar): s32; stdcall;
   Tui_unload_rpc_ip_configurations = function(): s32; stdcall;
+  Tam_set_custom_columns = function(const AModuleName: pansichar; const AColumnsConfig: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1639,7 +1640,8 @@ type
     ui_load_rpc_ip_configuration: Tui_load_rpc_ip_configuration;
     ui_unload_rpc_ip_configuration: Tui_unload_rpc_ip_configuration;
     ui_unload_rpc_ip_configurations: Tui_unload_rpc_ip_configurations;
-    FDummy: array [0..625-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    am_set_custom_columns: Tam_set_custom_columns;
+    FDummy: array [0..624-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
