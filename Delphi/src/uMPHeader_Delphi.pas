@@ -676,6 +676,8 @@ type
   Tam_set_custom_columns = function(const AModuleName: pansichar; const AColumnsConfig: pansichar): s32; stdcall;
   Twrite_realtime_comment_w_time = function(const AComment: pansichar; const ATimeUs: int64): s32; stdcall;
   Tui_graphics_set_relative_time = function(const AWindowCaption: pansichar; const ATimeUs: int64): s32; stdcall;
+  Tpanel_import_configuration = function(const APanelName: pansichar; const AFileName: pansichar): s32; stdcall;
+  Tui_graphics_set_y_axis_fixed_range = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASignalName: pansichar; const AMin: double; const AMax: double): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1067,6 +1069,15 @@ type
   Tcan_rbs_set_crc_signal_w_head_tail = function(const ASymbolAddress: pansichar; const AAlgorithmName: pansichar; const AIdxByteStart: int32; const AByteCount: int32; const AHeadAddr: pbyte; const AHeadSizeBytes: int32; const ATailAddr: pbyte; const ATailSizeBytes: int32): s32; stdcall;
   Tcal_get_data_by_row_and_col = function(const AECUName: pansichar; const AVarName: pansichar; const AIdxRow: int32; const AIdxCol: int32; AValue: pdouble): s32; stdcall;
   Tcal_set_data_by_row_and_col = function(const AECUName: pansichar; const AVarName: pansichar; const AIdxRow: int32; const AIdxCol: int32; const AValue: double; const AImmediateDownload: byte): s32; stdcall;
+  Ttslog_blf_write_sysvar_double = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: double): s32; stdcall;
+  Ttslog_blf_write_sysvar_s32 = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: int32): s32; stdcall;
+  Ttslog_blf_write_sysvar_u32 = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: uint32): s32; stdcall;
+  Ttslog_blf_write_sysvar_s64 = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: int64): s32; stdcall;
+  Ttslog_blf_write_sysvar_u64 = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: uint64): s32; stdcall;
+  Ttslog_blf_write_sysvar_string = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: pansichar): s32; stdcall;
+  Ttslog_blf_write_sysvar_double_array = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: pdouble; const AValueCount: int32): s32; stdcall;
+  Ttslog_blf_write_sysvar_s32_array = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: pInt32; const AValueCount: int32): s32; stdcall;
+  Ttslog_blf_write_sysvar_u8_array = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: pbyte; const AValueCount: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1645,7 +1656,9 @@ type
     am_set_custom_columns: Tam_set_custom_columns;
     write_realtime_comment_w_time: Twrite_realtime_comment_w_time;
     ui_graphics_set_relative_time: Tui_graphics_set_relative_time;
-    FDummy: array [0..622-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    panel_import_configuration: Tpanel_import_configuration;
+    ui_graphics_set_y_axis_fixed_range: Tui_graphics_set_y_axis_fixed_range;
+    FDummy: array [0..620-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2061,7 +2074,16 @@ type
     can_rbs_set_crc_signal_w_head_tail: Tcan_rbs_set_crc_signal_w_head_tail;
     cal_get_data_by_row_and_col: Tcal_get_data_by_row_and_col;
     cal_set_data_by_row_and_col: Tcal_set_data_by_row_and_col;
-    FDummy: array [0..659- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tslog_blf_write_sysvar_double: Ttslog_blf_write_sysvar_double;
+    tslog_blf_write_sysvar_s32: Ttslog_blf_write_sysvar_s32;
+    tslog_blf_write_sysvar_u32: Ttslog_blf_write_sysvar_u32;
+    tslog_blf_write_sysvar_s64: Ttslog_blf_write_sysvar_s64;
+    tslog_blf_write_sysvar_u64: Ttslog_blf_write_sysvar_u64;
+    tslog_blf_write_sysvar_string: Ttslog_blf_write_sysvar_string;
+    tslog_blf_write_sysvar_double_array: Ttslog_blf_write_sysvar_double_array;
+    tslog_blf_write_sysvar_s32_array: Ttslog_blf_write_sysvar_s32_array;
+    tslog_blf_write_sysvar_u8_array: Ttslog_blf_write_sysvar_u8_array;
+    FDummy: array [0..650- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
