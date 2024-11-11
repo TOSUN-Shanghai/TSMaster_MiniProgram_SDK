@@ -1081,6 +1081,7 @@ type
   Ttslog_blf_write_sysvar_u8_array = function(const AHandle: NativeInt; const AName: pansichar; const ATimeUs: int64; const AValue: pbyte; const AValueCount: int32): s32; stdcall;
   Tcal_add_measurement_item = function(const AECUName: pansichar; const AVarName: pansichar; const AEvt: pansichar; const AEvtType: int32; const APeriodMs: int32): s32; stdcall;
   Tcal_delete_measurement_item = function(const AECUName: pansichar; const AVarName: pansichar): s32; stdcall;
+  Tcal_clear_measurement_items = function(const AECUName: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2089,7 +2090,8 @@ type
     tslog_blf_write_sysvar_u8_array: Ttslog_blf_write_sysvar_u8_array;
     cal_add_measurement_item: Tcal_add_measurement_item;
     cal_delete_measurement_item: Tcal_delete_measurement_item;
-    FDummy: array [0..648- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_clear_measurement_items: Tcal_clear_measurement_items;
+    FDummy: array [0..647- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
