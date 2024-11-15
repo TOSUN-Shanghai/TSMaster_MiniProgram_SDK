@@ -1082,6 +1082,12 @@ type
   Tcal_add_measurement_item = function(const AECUName: pansichar; const AVarName: pansichar; const AEvt: pansichar; const AEvtType: int32; const APeriodMs: int32): s32; stdcall;
   Tcal_delete_measurement_item = function(const AECUName: pansichar; const AVarName: pansichar): s32; stdcall;
   Tcal_clear_measurement_items = function(const AECUName: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_start_can_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_stop_can_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_start_lin_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_stop_lin_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_start_flexray_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_stop_flexray_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2091,7 +2097,13 @@ type
     cal_add_measurement_item: Tcal_add_measurement_item;
     cal_delete_measurement_item: Tcal_delete_measurement_item;
     cal_clear_measurement_items: Tcal_clear_measurement_items;
-    FDummy: array [0..647- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_start_can_rbs: Trpc_tsmaster_cmd_start_can_rbs;
+    rpc_tsmaster_cmd_stop_can_rbs: Trpc_tsmaster_cmd_stop_can_rbs;
+    rpc_tsmaster_cmd_start_lin_rbs: Trpc_tsmaster_cmd_start_lin_rbs;
+    rpc_tsmaster_cmd_stop_lin_rbs: Trpc_tsmaster_cmd_stop_lin_rbs;
+    rpc_tsmaster_cmd_start_flexray_rbs: Trpc_tsmaster_cmd_start_flexray_rbs;
+    rpc_tsmaster_cmd_stop_flexray_rbs: Trpc_tsmaster_cmd_stop_flexray_rbs;
+    FDummy: array [0..641- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
