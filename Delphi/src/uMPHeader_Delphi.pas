@@ -1088,6 +1088,9 @@ type
   Trpc_tsmaster_cmd_stop_lin_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_start_flexray_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
   Trpc_tsmaster_cmd_stop_flexray_rbs = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Trpc_tsmaster_cmd_is_can_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
+  Trpc_tsmaster_cmd_is_lin_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
+  Trpc_tsmaster_cmd_is_flexray_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2103,7 +2106,10 @@ type
     rpc_tsmaster_cmd_stop_lin_rbs: Trpc_tsmaster_cmd_stop_lin_rbs;
     rpc_tsmaster_cmd_start_flexray_rbs: Trpc_tsmaster_cmd_start_flexray_rbs;
     rpc_tsmaster_cmd_stop_flexray_rbs: Trpc_tsmaster_cmd_stop_flexray_rbs;
-    FDummy: array [0..641- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_is_can_rbs_running: Trpc_tsmaster_cmd_is_can_rbs_running;
+    rpc_tsmaster_cmd_is_lin_rbs_running: Trpc_tsmaster_cmd_is_lin_rbs_running;
+    rpc_tsmaster_cmd_is_flexray_rbs_running: Trpc_tsmaster_cmd_is_flexray_rbs_running;
+    FDummy: array [0..638- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
