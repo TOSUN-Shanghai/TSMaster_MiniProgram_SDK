@@ -679,6 +679,7 @@ type
   Tpanel_import_configuration = function(const APanelName: pansichar; const AFileName: pansichar): s32; stdcall;
   Tui_graphics_set_y_axis_fixed_range = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASignalName: pansichar; const AMin: double; const AMax: double): s32; stdcall;
   Texport_system_messages = function(const AFileName: pansichar): s32; stdcall;
+  Tui_graphics_export_csv = function(const AWindowCaption: pansichar; const ASgnNames: pansichar; const AFileName: pansichar; const ATimeStartUs: int64; const ATimeEndUs: int64): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1672,7 +1673,8 @@ type
     panel_import_configuration: Tpanel_import_configuration;
     ui_graphics_set_y_axis_fixed_range: Tui_graphics_set_y_axis_fixed_range;
     export_system_messages: Texport_system_messages;
-    FDummy: array [0..619-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_graphics_export_csv: Tui_graphics_export_csv;
+    FDummy: array [0..618-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
