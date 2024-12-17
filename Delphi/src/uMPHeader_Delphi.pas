@@ -1094,6 +1094,34 @@ type
   Trpc_tsmaster_cmd_is_flexray_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
   Ttssocket_add_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; AHasVlan: int32; AVLanID: int32; AVLanPriority: int32; AIPAddress: pansichar; AIPMask: pansichar): s32; stdcall;
   Ttssocket_delete_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; AHasVlan: int32; AVLanID: int32; AVLanPriority: int32; AIPAddress: pansichar): s32; stdcall;
+  Ttsfifo_enable_receive_fifo = procedure; stdcall;
+  Ttsfifo_disable_receive_fifo = procedure; stdcall;
+  Ttsfifo_add_can_canfd_pass_filter = function(AIdxChn: int32; AIdentifier: int32; AIsStd: boolean): s32; stdcall;
+  Ttsfifo_add_lin_pass_filter = function(AIdxChn: int32; AIdentifier: int32): s32; stdcall;
+  Ttsfifo_delete_can_canfd_pass_filter = function(AIdxChn: int32; AIdentifier: int32): s32; stdcall;
+  Ttsfifo_delete_lin_pass_filter = function(AIdxChn: int32; AIdentifier: int32): s32; stdcall;
+  Ttsfifo_enable_receive_error_frames = procedure; stdcall;
+  Ttsfifo_disable_receive_error_frames = procedure; stdcall;
+  Ttsfifo_receive_can_msgs = function(ACANBuffers: PLIBCAN; ACANBufferSize: pInt32; AIdxChn: int32; AIncludeTx: boolean): s32; stdcall;
+  Ttsfifo_receive_canfd_msgs = function(ACANFDBuffers: PLIBCANFD; ACANBufferSize: pInt32; AIdxChn: int32; AIncludeTx: boolean): s32; stdcall;
+  Ttsfifo_receive_lin_msgs = function(ALINBuffers: PLIBLIN; ABufferSize: pInt32; AIdxChn: int32; AIncludeTx: boolean): s32; stdcall;
+  Ttsfifo_receive_flexray_msgs = function(AFRBuffers: PLIBFlexRay; ABufferSize: pInt32; AIdxChn: int32; AIncludeTx: boolean): s32; stdcall;
+  Ttsfifo_clear_can_receive_buffers = function(AIdxChn: int32): s32; stdcall;
+  Ttsfifo_clear_canfd_receive_buffers = function(AIdxChn: int32): s32; stdcall;
+  Ttsfifo_clear_lin_receive_buffers = function(AIdxChn: int32): s32; stdcall;
+  Ttsfifo_clear_flexray_receive_buffers = function(AIdxChn: int32): s32; stdcall;
+  Ttsfifo_read_can_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_can_tx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_can_rx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_canfd_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_canfd_tx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_canfd_rx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_lin_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_lin_tx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_lin_rx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_flexray_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_flexray_tx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
+  Ttsfifo_read_flexray_rx_buffer_frame_count = function(AIdxChn: int32; ACount: pInt32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2115,7 +2143,35 @@ type
     rpc_tsmaster_cmd_is_flexray_rbs_running: Trpc_tsmaster_cmd_is_flexray_rbs_running;
     tssocket_add_ipv4_device: Ttssocket_add_ipv4_device;
     tssocket_delete_ipv4_device: Ttssocket_delete_ipv4_device;
-    FDummy: array [0..636- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tsfifo_enable_receive_fifo: Ttsfifo_enable_receive_fifo;
+    tsfifo_disable_receive_fifo: Ttsfifo_disable_receive_fifo;
+    tsfifo_add_can_canfd_pass_filter: Ttsfifo_add_can_canfd_pass_filter;
+    tsfifo_add_lin_pass_filter: Ttsfifo_add_lin_pass_filter;
+    tsfifo_delete_can_canfd_pass_filter: Ttsfifo_delete_can_canfd_pass_filter;
+    tsfifo_delete_lin_pass_filter: Ttsfifo_delete_lin_pass_filter;
+    tsfifo_enable_receive_error_frames: Ttsfifo_enable_receive_error_frames;
+    tsfifo_disable_receive_error_frames: Ttsfifo_disable_receive_error_frames;
+    tsfifo_receive_can_msgs: Ttsfifo_receive_can_msgs;
+    tsfifo_receive_canfd_msgs: Ttsfifo_receive_canfd_msgs;
+    tsfifo_receive_lin_msgs: Ttsfifo_receive_lin_msgs;
+    tsfifo_receive_flexray_msgs: Ttsfifo_receive_flexray_msgs;
+    tsfifo_clear_can_receive_buffers: Ttsfifo_clear_can_receive_buffers;
+    tsfifo_clear_canfd_receive_buffers: Ttsfifo_clear_canfd_receive_buffers;
+    tsfifo_clear_lin_receive_buffers: Ttsfifo_clear_lin_receive_buffers;
+    tsfifo_clear_flexray_receive_buffers: Ttsfifo_clear_flexray_receive_buffers;
+    tsfifo_read_can_buffer_frame_count: Ttsfifo_read_can_buffer_frame_count;
+    tsfifo_read_can_tx_buffer_frame_count: Ttsfifo_read_can_tx_buffer_frame_count;
+    tsfifo_read_can_rx_buffer_frame_count: Ttsfifo_read_can_rx_buffer_frame_count;
+    tsfifo_read_canfd_buffer_frame_count: Ttsfifo_read_canfd_buffer_frame_count;
+    tsfifo_read_canfd_tx_buffer_frame_count: Ttsfifo_read_canfd_tx_buffer_frame_count;
+    tsfifo_read_canfd_rx_buffer_frame_count: Ttsfifo_read_canfd_rx_buffer_frame_count;
+    tsfifo_read_lin_buffer_frame_count: Ttsfifo_read_lin_buffer_frame_count;
+    tsfifo_read_lin_tx_buffer_frame_count: Ttsfifo_read_lin_tx_buffer_frame_count;
+    tsfifo_read_lin_rx_buffer_frame_count: Ttsfifo_read_lin_rx_buffer_frame_count;
+    tsfifo_read_flexray_buffer_frame_count: Ttsfifo_read_flexray_buffer_frame_count;
+    tsfifo_read_flexray_tx_buffer_frame_count: Ttsfifo_read_flexray_tx_buffer_frame_count;
+    tsfifo_read_flexray_rx_buffer_frame_count: Ttsfifo_read_flexray_rx_buffer_frame_count;
+    FDummy: array [0..608- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
