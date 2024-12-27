@@ -2439,7 +2439,7 @@ function tsdiag_set_fdmode(const ADiagModuleIndex: Integer; const AFDMode: boole
 function tsdiag_set_request_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer;  stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_response_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_function_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsdiag_set_stmin(const ADiagModuleIndex: Integer; const ASTMin:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_stmin(const ADiagModuleIndex: Integer; const ASTMin: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_tx_stmin(const ADiagModuleIndex: Integer; const ATxSTMinUserDefined: boolean; const ATxSTMin: integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_blocksize(const ADiagModuleIndex: Integer; const ABlockSize:Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_maxlength(const ADiagModuleIndex: Integer; const AMaxLength:Integer): Integer;  stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -2453,6 +2453,7 @@ function tsdiag_testerpresent_start(const ADiagModuleIndex: Integer): Integer; s
 function tsdiag_testerpresent_stop(const ADiagModuleIndex: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_testerpreset_checkState(const ADiagModuleIndex: Integer; const AStartState: PBoolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_testerpresent_update_para(const ADiagModuleIndex: Integer; const AIsFunctional: integer; const AReqData: PByte; const AReqDataSize: Integer; const AIntervalTimeMs: integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 {Common TP APIs}
 function tstp_send_functional(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_send_request(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -2497,13 +2498,11 @@ function tsdiag_can_write_data_by_identifier(const ADiagModuleIndex: Integer; co
      const AWriteDataSize: Integer): integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_can_read_data_by_identifier(const ADiagModuleIndex: Integer; const ADataIdentifier: UInt16; const AReturnArray: PByte;
      const AReturnArraySize: PInteger): integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-
 {Internal for delphi dev}
 function tstp_can_register_tx_completed_recall_internal(const ADiagModuleIndex: Integer;
-           const ATxcompleted: N_USData_TranslateCompleted_Recall_Obj): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+           const ATxcompleted: N_USData_TranslateCompleted_Recall_Obj): Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tstp_can_register_rx_completed_recall_internal(const ADiagModuleIndex: Integer;
-           const ARxcompleted: N_USData_TranslateCompleted_Recall_Obj): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-
+           const ARxcompleted: N_USData_TranslateCompleted_Recall_Obj): Integer;stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 //Logger
 {Data Log}
