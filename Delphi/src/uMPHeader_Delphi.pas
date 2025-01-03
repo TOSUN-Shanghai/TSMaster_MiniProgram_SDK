@@ -1126,6 +1126,8 @@ type
   Tcan_rbs_reset_update_bits = function(): s32; stdcall;
   Tcan_rbs_fault_inject_handle_on_autosar_crc_event = function(const AObj: Pointer; const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
   Tcan_rbs_fault_inject_handle_on_autosar_rc_event = function(const AObj: Pointer; const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
+  Tcan_rbs_fault_inject_unhandle_on_autosar_rc_event = function(const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
+  Tcan_rbs_fault_inject_unhandle_on_autosar_crc_event = function(const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2179,7 +2181,9 @@ type
     can_rbs_reset_update_bits: Tcan_rbs_reset_update_bits;
     can_rbs_fault_inject_handle_on_autosar_crc_event: Tcan_rbs_fault_inject_handle_on_autosar_crc_event;
     can_rbs_fault_inject_handle_on_autosar_rc_event: Tcan_rbs_fault_inject_handle_on_autosar_rc_event;
-    FDummy: array [0..604- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_fault_inject_unhandle_on_autosar_rc_event: Tcan_rbs_fault_inject_unhandle_on_autosar_rc_event;
+    can_rbs_fault_inject_unhandle_on_autosar_crc_event: Tcan_rbs_fault_inject_unhandle_on_autosar_crc_event;
+    FDummy: array [0..602- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
