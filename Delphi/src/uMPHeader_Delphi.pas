@@ -1092,8 +1092,8 @@ type
   Trpc_tsmaster_cmd_is_can_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
   Trpc_tsmaster_cmd_is_lin_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
   Trpc_tsmaster_cmd_is_flexray_rbs_running = function(const AObj: Pointer; const AHandle: NativeInt; AIsRunning: PBoolean): s32; stdcall;
-  Ttssocket_add_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; AHasVlan: int32; AVLanID: int32; AVLanPriority: int32; AIPAddress: pansichar; AIPMask: pansichar): s32; stdcall;
-  Ttssocket_delete_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; AHasVlan: int32; AVLanID: int32; AVLanPriority: int32; AIPAddress: pansichar): s32; stdcall;
+  Ttssocket_add_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; const AHasVlan: int32; const AVLanID: int32; const AVLanPriority: int32; const AIPAddress: pansichar; const AIPMask: pansichar): s32; stdcall;
+  Ttssocket_delete_ipv4_device = function(const AChannel: int32; const AMacAddress: pansichar; const AHasVlan: int32; const AVLanID: int32; const AVLanPriority: int32; const AIPAddress: pansichar): s32; stdcall;
   Ttsfifo_enable_receive_fifo = procedure; stdcall;
   Ttsfifo_disable_receive_fifo = procedure; stdcall;
   Ttsfifo_add_can_canfd_pass_filter = function(AIdxChn: int32; AIdentifier: int32; AIsStd: boolean): s32; stdcall;
@@ -1128,6 +1128,7 @@ type
   Tcan_rbs_fault_inject_handle_on_autosar_rc_event = function(const AObj: Pointer; const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
   Tcan_rbs_fault_inject_unhandle_on_autosar_rc_event = function(const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
   Tcan_rbs_fault_inject_unhandle_on_autosar_crc_event = function(const AEvent: TOnAutoSARE2ECanEvt): s32; stdcall;
+  Teth_rbs_set_pdu_phase_and_cycle_by_name = function(const AIdxChn: int32; const APhaseMs: int32; const ACycleMs: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2183,7 +2184,8 @@ type
     can_rbs_fault_inject_handle_on_autosar_rc_event: Tcan_rbs_fault_inject_handle_on_autosar_rc_event;
     can_rbs_fault_inject_unhandle_on_autosar_rc_event: Tcan_rbs_fault_inject_unhandle_on_autosar_rc_event;
     can_rbs_fault_inject_unhandle_on_autosar_crc_event: Tcan_rbs_fault_inject_unhandle_on_autosar_crc_event;
-    FDummy: array [0..602- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    eth_rbs_set_pdu_phase_and_cycle_by_name: Teth_rbs_set_pdu_phase_and_cycle_by_name;
+    FDummy: array [0..601- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
