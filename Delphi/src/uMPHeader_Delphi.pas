@@ -680,6 +680,10 @@ type
   Tui_graphics_set_y_axis_fixed_range = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASignalName: pansichar; const AMin: double; const AMax: double): s32; stdcall;
   Texport_system_messages = function(const AFileName: pansichar): s32; stdcall;
   Tui_graphics_export_csv = function(const AWindowCaption: pansichar; const ASgnNames: pansichar; const AFileName: pansichar; const ATimeStartUs: int64; const ATimeEndUs: int64): s32; stdcall;
+  Tregister_usb_insertion_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
+  Tunregister_usb_insertion_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
+  Tregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
+  Tunregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1711,7 +1715,11 @@ type
     ui_graphics_set_y_axis_fixed_range: Tui_graphics_set_y_axis_fixed_range;
     export_system_messages: Texport_system_messages;
     ui_graphics_export_csv: Tui_graphics_export_csv;
-    FDummy: array [0..618-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    register_usb_insertion_event: Tregister_usb_insertion_event;
+    unregister_usb_insertion_event: Tunregister_usb_insertion_event;
+    register_usb_removal_event: Tregister_usb_removal_event;
+    unregister_usb_removal_event: Tunregister_usb_removal_event;
+    FDummy: array [0..614-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
