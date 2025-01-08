@@ -1135,6 +1135,7 @@ type
   Teth_rbs_set_pdu_phase_and_cycle_by_name = function(const AIdxChn: int32; const APhaseMs: int32; const ACycleMs: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar): s32; stdcall;
   Tcan_rbs_set_update_bits = function(): s32; stdcall;
   Tflexray_rbs_set_update_bits = function(): s32; stdcall;
+  Trpc_ip_trigger_data_group = function(const AGroupId: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2197,7 +2198,8 @@ type
     eth_rbs_set_pdu_phase_and_cycle_by_name: Teth_rbs_set_pdu_phase_and_cycle_by_name;
     can_rbs_set_update_bits: Tcan_rbs_set_update_bits;
     flexray_rbs_set_update_bits: Tflexray_rbs_set_update_bits;
-    FDummy: array [0..599- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_ip_trigger_data_group: Trpc_ip_trigger_data_group;
+    FDummy: array [0..598- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
