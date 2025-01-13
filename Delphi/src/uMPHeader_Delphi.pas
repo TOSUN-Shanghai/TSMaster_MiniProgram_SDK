@@ -1136,6 +1136,7 @@ type
   Tcan_rbs_set_update_bits = function(): s32; stdcall;
   Tflexray_rbs_set_update_bits = function(): s32; stdcall;
   Trpc_ip_trigger_data_group = function(const AGroupId: int32): s32; stdcall;
+  Tcan_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2199,7 +2200,8 @@ type
     can_rbs_set_update_bits: Tcan_rbs_set_update_bits;
     flexray_rbs_set_update_bits: Tflexray_rbs_set_update_bits;
     rpc_ip_trigger_data_group: Trpc_ip_trigger_data_group;
-    FDummy: array [0..598- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_get_signal_raw_by_address: Tcan_rbs_get_signal_raw_by_address;
+    FDummy: array [0..597- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
