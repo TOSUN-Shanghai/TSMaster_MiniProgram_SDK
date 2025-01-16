@@ -1137,6 +1137,18 @@ type
   Tflexray_rbs_set_update_bits = function(): s32; stdcall;
   Trpc_ip_trigger_data_group = function(const AGroupId: int32): s32; stdcall;
   Tcan_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
+  Teth_rbs_start = function(): s32; stdcall;
+  Teth_rbs_stop = function(): s32; stdcall;
+  Teth_rbs_is_running = function(const AIsRunning: PBoolean): s32; stdcall;
+  Teth_rbs_configure = function(const AAutoStart: boolean; const AAutoSendOnModification: boolean; const AActivateNodeSimulation: boolean; const AInitValueOptions: int32): s32; stdcall;
+  Teth_rbs_activate_all_networks = function(const AEnable: boolean; const AIncludingChildren: boolean): s32; stdcall;
+  Teth_rbs_activate_network_by_name = function(const AIdxChn: int32; const AEnable: boolean; const ANetworkName: pansichar; const AIncludingChildren: boolean): s32; stdcall;
+  Teth_rbs_activate_node_by_name = function(const AIdxChn: int32; const AEnable: boolean; const ANetworkName: pansichar; ANodeName: pansichar; const AIncludingChildren: boolean): s32; stdcall;
+  Teth_rbs_activate_pdu_by_name = function(const AIdxChn: int32; const AEnable: boolean; const ANetworkName: pansichar; ANodeName: pansichar; const APDUName: pansichar): s32; stdcall;
+  Teth_rbs_get_signal_value_by_element = function(const AIdxChn: int32; const ANetworkName: pansichar; ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AValue: pdouble): s32; stdcall;
+  Teth_rbs_set_signal_value_by_element = function(const AIdxChn: int32; const ANetworkName: pansichar; ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AValue: double): s32; stdcall;
+  Teth_rbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: pdouble): s32; stdcall;
+  Teth_rbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2201,7 +2213,19 @@ type
     flexray_rbs_set_update_bits: Tflexray_rbs_set_update_bits;
     rpc_ip_trigger_data_group: Trpc_ip_trigger_data_group;
     can_rbs_get_signal_raw_by_address: Tcan_rbs_get_signal_raw_by_address;
-    FDummy: array [0..597- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    eth_rbs_start: Teth_rbs_start;
+    eth_rbs_stop: Teth_rbs_stop;
+    eth_rbs_is_running: Teth_rbs_is_running;
+    eth_rbs_configure: Teth_rbs_configure;
+    eth_rbs_activate_all_networks: Teth_rbs_activate_all_networks;
+    eth_rbs_activate_network_by_name: Teth_rbs_activate_network_by_name;
+    eth_rbs_activate_node_by_name: Teth_rbs_activate_node_by_name;
+    eth_rbs_activate_pdu_by_name: Teth_rbs_activate_pdu_by_name;
+    eth_rbs_get_signal_value_by_element: Teth_rbs_get_signal_value_by_element;
+    eth_rbs_set_signal_value_by_element: Teth_rbs_set_signal_value_by_element;
+    eth_rbs_get_signal_value_by_address: Teth_rbs_get_signal_value_by_address;
+    eth_rbs_set_signal_value_by_address: Teth_rbs_set_signal_value_by_address;
+    FDummy: array [0..585- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
