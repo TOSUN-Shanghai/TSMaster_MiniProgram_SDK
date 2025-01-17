@@ -1704,6 +1704,8 @@ type
     get_tsmaster_binary_location: Tget_tsmaster_binary_location;
     get_form_instance_count: Tget_form_instance_count;
     get_active_application_list: Tget_active_application_list;
+    enumerate_hw_devices: Tenumerate_hw_devices;
+    get_hw_info_by_index: Tget_hw_info_by_index;
     ui_graphics_set_measurement_cursor: Tui_graphics_set_measurement_cursor;
     ui_graphics_set_diff_cursor: Tui_graphics_set_diff_cursor;
     ui_graphics_hide_diff_cursor: Tui_graphics_hide_diff_cursor;
@@ -1737,7 +1739,7 @@ type
     register_usb_removal_event: Tregister_usb_removal_event;
     unregister_usb_removal_event: Tunregister_usb_removal_event;
     security_check_custom_license_valid: Tsecurity_check_custom_license_valid;
-    FDummy: array [0..613-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    FDummy: array [0..611-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
