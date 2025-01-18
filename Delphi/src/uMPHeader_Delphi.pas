@@ -652,6 +652,8 @@ type
   Tget_tsmaster_binary_location = function(ADirectory: PPAnsiChar): s32; stdcall;
   Tget_form_instance_count = function(const AClassName: pansichar; ACount: pInt32): s32; stdcall;
   Tget_active_application_list = function(ATSMasterAppNames: PPAnsiChar): s32; stdcall;
+  Tenumerate_hw_devices = function(out ACount: integer): s32; stdcall;
+  Tget_hw_info_by_index = function(const AIndex: s32; const AInfo: PLIBHWInfo): s32; stdcall;
   Tui_graphics_set_measurement_cursor = function(const AWindowCaption: pansichar; const ATimeUs: int64): s32; stdcall;
   Tui_graphics_set_diff_cursor = function(const AWindowCaption: pansichar; const ATime1Us: int64; const ATime2Us: int64): s32; stdcall;
   Tui_graphics_hide_diff_cursor = function(const AWindowCaption: pansichar): s32; stdcall;
