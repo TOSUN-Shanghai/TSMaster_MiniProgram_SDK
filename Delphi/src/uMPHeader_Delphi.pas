@@ -687,6 +687,9 @@ type
   Tregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
   Tunregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
   Tsecurity_check_custom_license_valid = function(const ALicenseName: pansichar): s32; stdcall;
+  Tcall_model_initialization = function(const AObj: Pointer; const ADiagramName: pansichar; const AInCnt: int32; const AOutCnt: int32; const AInTypes: PMBDDataType; const AOutTypes: PMBDDataType; AHandle: pInt32): s32; stdcall;
+  Tcall_model_step = function(const AObj: Pointer; const AHandle: int32; const AInValues: Pointer; AOutValues: Pointer): s32; stdcall;
+  Tcall_model_finalization = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1741,7 +1744,10 @@ type
     register_usb_removal_event: Tregister_usb_removal_event;
     unregister_usb_removal_event: Tunregister_usb_removal_event;
     security_check_custom_license_valid: Tsecurity_check_custom_license_valid;
-    FDummy: array [0..611-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    call_model_initialization: Tcall_model_initialization;
+    call_model_step: Tcall_model_step;
+    call_model_finalization: Tcall_model_finalization;
+    FDummy: array [0..608-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
