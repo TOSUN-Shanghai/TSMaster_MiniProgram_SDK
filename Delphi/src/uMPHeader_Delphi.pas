@@ -687,9 +687,9 @@ type
   Tregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
   Tunregister_usb_removal_event = function(const AObj: Pointer; const AEvent: TOnUSBPlugEvent): s32; stdcall;
   Tsecurity_check_custom_license_valid = function(const ALicenseName: pansichar): s32; stdcall;
-  Tcall_model_initialization = function(const AObj: Pointer; const ADiagramName: pansichar; const AInCnt: int32; const AOutCnt: int32; const AInTypes: PlibMBDDataType; const AOutTypes: PlibMBDDataType; AHandle: pInt32): s32; stdcall;
-  Tcall_model_step = function(const AObj: Pointer; const AHandle: int32; const AInValues: Pointer; AOutValues: Pointer): s32; stdcall;
-  Tcall_model_finalization = function(const AObj: Pointer; const AHandle: int32): s32; stdcall;
+  Tcall_model_initialization = function(const AObj: Pointer; const ADiagramName: pansichar; const AInCnt: int32; const AOutCnt: int32; const AInTypes: PlibMBDDataType; const AOutTypes: PlibMBDDataType; AHandle: PNativeInt): s32; stdcall;
+  Tcall_model_step = function(const AObj: Pointer; const AHandle: NativeInt; const ATimeUs: int64; const AInValues: Pointer; AOutValues: Pointer): s32; stdcall;
+  Tcall_model_finalization = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
