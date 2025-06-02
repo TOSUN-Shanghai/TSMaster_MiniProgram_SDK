@@ -1156,6 +1156,8 @@ type
   Teth_rbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: pdouble): s32; stdcall;
   Teth_rbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
   Tlin_rbs_update_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
+  Tlin_rbs_register_force_refresh_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
+  Tlin_rbs_unregister_force_refresh_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2239,7 +2241,9 @@ type
     eth_rbs_get_signal_value_by_address: Teth_rbs_get_signal_value_by_address;
     eth_rbs_set_signal_value_by_address: Teth_rbs_set_signal_value_by_address;
     lin_rbs_update_frame_by_id: Tlin_rbs_update_frame_by_id;
-    FDummy: array [0..584- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    lin_rbs_register_force_refresh_frame_by_id: Tlin_rbs_register_force_refresh_frame_by_id;
+    lin_rbs_unregister_force_refresh_frame_by_id: Tlin_rbs_unregister_force_refresh_frame_by_id;
+    FDummy: array [0..582- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
