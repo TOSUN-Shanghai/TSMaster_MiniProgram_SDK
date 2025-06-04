@@ -1158,6 +1158,9 @@ type
   Tlin_rbs_update_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
   Tlin_rbs_register_force_refresh_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
   Tlin_rbs_unregister_force_refresh_frame_by_id = function(const AChnIdx: int32; const AId: byte): s32; stdcall;
+  Trpc_data_channel_create = function(const AObj: Pointer; const ARpcName: pansichar; const AIsMaster: int32; const ABufferSizeBytes: NativeInt; const ARxEvent: TOnRpcData; AHandle: PNativeInt): s32; stdcall;
+  Trpc_data_channel_delete = function(const AObj: Pointer; AHandle: NativeInt): s32; stdcall;
+  Trpc_data_channel_transmit = function(const AObj: Pointer; AHandle: NativeInt; AAddr: pbyte; ASizeBytes: NativeInt; ATimeOutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2243,7 +2246,10 @@ type
     lin_rbs_update_frame_by_id: Tlin_rbs_update_frame_by_id;
     lin_rbs_register_force_refresh_frame_by_id: Tlin_rbs_register_force_refresh_frame_by_id;
     lin_rbs_unregister_force_refresh_frame_by_id: Tlin_rbs_unregister_force_refresh_frame_by_id;
-    FDummy: array [0..582- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_data_channel_create: Trpc_data_channel_create;
+    rpc_data_channel_delete: Trpc_data_channel_delete;
+    rpc_data_channel_transmit: Trpc_data_channel_transmit;
+    FDummy: array [0..579- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
