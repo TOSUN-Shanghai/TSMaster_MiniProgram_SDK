@@ -690,6 +690,8 @@ type
   Tcall_model_initialization = function(const AObj: Pointer; const ADiagramName: pansichar; const AInCnt: int32; const AOutCnt: int32; const AInTypes: PlibMBDDataType; const AOutTypes: PlibMBDDataType; AHandle: PNativeInt): s32; stdcall;
   Tcall_model_step = function(const AObj: Pointer; const AHandle: NativeInt; const ATimeUs: int64; const AInValues: Pointer; AOutValues: Pointer): s32; stdcall;
   Tcall_model_finalization = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
+  Tui_hide_main_form = function(): s32; stdcall;
+  Tui_show_main_form = function(const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1753,7 +1755,9 @@ type
     call_model_initialization: Tcall_model_initialization;
     call_model_step: Tcall_model_step;
     call_model_finalization: Tcall_model_finalization;
-    FDummy: array [0..608-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_hide_main_form: Tui_hide_main_form;
+    ui_show_main_form: Tui_show_main_form;
+    FDummy: array [0..606-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
