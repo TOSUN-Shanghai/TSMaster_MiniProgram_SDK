@@ -1163,6 +1163,11 @@ type
   Trpc_data_channel_create = function(const AObj: Pointer; const ARpcName: pansichar; const AIsMaster: int32; const ABufferSizeBytes: NativeInt; const ARxEvent: TOnRpcData; AHandle: PNativeInt): s32; stdcall;
   Trpc_data_channel_delete = function(const AObj: Pointer; AHandle: NativeInt): s32; stdcall;
   Trpc_data_channel_transmit = function(const AObj: Pointer; AHandle: NativeInt; AAddr: pbyte; ASizeBytes: NativeInt; ATimeOutMs: int32): s32; stdcall;
+  Ttssocket_getaddrinfo = function(const ANetworkIndex: int32; const nodename: pansichar; const servname: pansichar; const hints: pts_addrinfo; res: ppts_addrinfo): s32; stdcall;
+  Ttssocket_freeaddrinfo = function(const ANetworkIndex: int32; const ai: pts_addrinfo): s32; stdcall;
+  Ttssocket_gethostname = function(const ANetworkIndex: int32; const name: pansichar; ahostent: ppts_hostent): s32; stdcall;
+  Ttssocket_getalldevices = function(const ANetworkIndex: int32; devs: ppts_net_device): s32; stdcall;
+  Ttssocket_freedevices = function(const ANetworkIndex: int32; devs: pts_net_device): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2253,7 +2258,12 @@ type
     rpc_data_channel_create: Trpc_data_channel_create;
     rpc_data_channel_delete: Trpc_data_channel_delete;
     rpc_data_channel_transmit: Trpc_data_channel_transmit;
-    FDummy: array [0..579- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tssocket_getaddrinfo: Ttssocket_getaddrinfo;
+    tssocket_freeaddrinfo: Ttssocket_freeaddrinfo;
+    tssocket_gethostname: Ttssocket_gethostname;
+    tssocket_getalldevices: Ttssocket_getalldevices;
+    tssocket_freedevices: Ttssocket_freedevices;
+    FDummy: array [0..574- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
