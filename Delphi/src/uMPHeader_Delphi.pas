@@ -1169,6 +1169,7 @@ type
   Ttssocket_getalldevices = function(const ANetworkIndex: int32; devs: ppts_net_device): s32; stdcall;
   Ttssocket_freedevices = function(const ANetworkIndex: int32; devs: pts_net_device): s32; stdcall;
   Trawsocket_select = function(const ANetworkIndex: int32; const maxfdp1: int32; const readset: pts_fd_set; const writeset: pts_fd_set; const exceptset: pts_fd_set; const timeout: pts_timeval): s32; stdcall;
+  Ttssocket_set_host_name = function(const ANetworkIndex: int32; const AIPAddress: pansichar; const AHostName: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2265,7 +2266,8 @@ type
     tssocket_getalldevices: Ttssocket_getalldevices;
     tssocket_freedevices: Ttssocket_freedevices;
     rawsocket_select: Trawsocket_select;
-    FDummy: array [0..573- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tssocket_set_host_name: Ttssocket_set_host_name;
+    FDummy: array [0..572- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
