@@ -692,6 +692,8 @@ type
   Tcall_model_finalization = function(const AObj: Pointer; const AHandle: NativeInt): s32; stdcall;
   Tui_hide_main_form = function(): s32; stdcall;
   Tui_show_main_form = function(const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
+  Tconfigure_can_regs = function(const AChn: int32; const ABaudrateKbps: single; const ASEG1: uint32; const ASEG2: uint32; const APrescaler: uint32; const ASJW: uint32; const AOnlyListen: boolean; const A120OhmConnected: boolean): s32; stdcall;
+  Tconfigure_canfd_regs = function(const AChn: int32; const AArbBaudrateKbps: single; const AArbSEG1: uint32; const AArbSEG2: uint32; const AArbPrescaler: uint32; const AArbSJW: uint32; const ADataBaudrateKbps: single; const ADataSEG1: uint32; const ADataSEG2: uint32; const ADataPrescaler: uint32; const ADataSJW: uint32; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const A120OhmConnected: boolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1770,7 +1772,9 @@ type
     call_model_finalization: Tcall_model_finalization;
     ui_hide_main_form: Tui_hide_main_form;
     ui_show_main_form: Tui_show_main_form;
-    FDummy: array [0..606-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    configure_can_regs: Tconfigure_can_regs;
+    configure_canfd_regs: Tconfigure_canfd_regs;
+    FDummy: array [0..604-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
