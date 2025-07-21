@@ -1178,6 +1178,9 @@ type
   Tcan_il_unregister_autosar_pdu_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
   Tcan_il_register_autosar_pdu_pretx_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
   Tcan_il_unregister_autosar_pdu_pretx_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
+  Tcan_rbs_fault_inject_disturb_sequencecounter = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const type: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32; const continueMode: int32): s32; stdcall;
+  Tcan_rbs_fault_inject_disturb_checksum = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const type: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
+  Tcan_rbs_fault_inject_disturb_updatebit = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2283,7 +2286,10 @@ type
     can_il_unregister_autosar_pdu_event: Tcan_il_unregister_autosar_pdu_event;
     can_il_register_autosar_pdu_pretx_event: Tcan_il_register_autosar_pdu_pretx_event;
     can_il_unregister_autosar_pdu_pretx_event: Tcan_il_unregister_autosar_pdu_pretx_event;
-    FDummy: array [0..566- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_fault_inject_disturb_sequencecounter: Tcan_rbs_fault_inject_disturb_sequencecounter;
+    can_rbs_fault_inject_disturb_checksum: Tcan_rbs_fault_inject_disturb_checksum;
+    can_rbs_fault_inject_disturb_updatebit: Tcan_rbs_fault_inject_disturb_updatebit;
+    FDummy: array [0..563- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
