@@ -694,6 +694,8 @@ type
   Tui_show_main_form = function(const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   Tconfigure_can_regs = function(const AChn: int32; const ABaudrateKbps: single; const ASEG1: uint32; const ASEG2: uint32; const APrescaler: uint32; const ASJW: uint32; const AOnlyListen: boolean; const A120OhmConnected: boolean): s32; stdcall;
   Tconfigure_canfd_regs = function(const AChn: int32; const AArbBaudrateKbps: single; const AArbSEG1: uint32; const AArbSEG2: uint32; const AArbPrescaler: uint32; const AArbSJW: uint32; const ADataBaudrateKbps: single; const ADataSEG1: uint32; const ADataSEG2: uint32; const ADataPrescaler: uint32; const ADataSJW: uint32; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const A120OhmConnected: boolean): s32; stdcall;
+  Tstart_log_verbose = function(const AObj: Pointer; AFilesizeType: int32; ASizeValue: int64): s32; stdcall;
+  Tstart_log_w_filename_verbose = function(const AObj: Pointer; AFileName: pansichar; AFilesizeType: int32; ASizeValue: int64): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1777,7 +1779,9 @@ type
     ui_show_main_form: Tui_show_main_form;
     configure_can_regs: Tconfigure_can_regs;
     configure_canfd_regs: Tconfigure_canfd_regs;
-    FDummy: array [0..604-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    start_log_verbose: Tstart_log_verbose;
+    start_log_w_filename_verbose: Tstart_log_w_filename_verbose;
+    FDummy: array [0..602-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
