@@ -1258,6 +1258,14 @@ type
   // MBD Features
   Tdelete_all_diagrams = function: s32; stdcall;
   Tget_diagram_count = function(ACount: pInt32): s32; stdcall;
+  Tget_diagram_id_by_index = function(const AIndex: int32; AId: pint64): s32; stdcall;
+  Tget_diagram_name = function(const AId: int64; AName: PPAnsiChar): s32; stdcall;
+  Tset_diagram_name = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tfind_diagram_by_name = function(const AName: PAnsichar; AId: pint64): s32; stdcall;
+  Tcreate_diagram = function(const AName: PAnsichar; AId: pint64): s32; stdcall;
+  Tdelete_diagram = function(const AId: int64): s32; stdcall;
+  Tshow_diagram = function(const AId: int64; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
+  Thide_diagram = function(const AId: int64): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2434,7 +2442,15 @@ type
     FObj: Pointer;
     Fdelete_all_diagrams: Tdelete_all_diagrams;
     get_diagram_count: Tget_diagram_count;
-    FDummy: array [0..798-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    get_diagram_id_by_index: Tget_diagram_id_by_index;
+    get_diagram_name: Tget_diagram_name;
+    set_diagram_name: Tset_diagram_name;
+    find_diagram_by_name: Tfind_diagram_by_name;
+    create_diagram: Tcreate_diagram;
+    delete_diagram: Tdelete_diagram;
+    show_diagram: Tshow_diagram;
+    hide_diagram: Thide_diagram;
+    FDummy: array [0..790-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
