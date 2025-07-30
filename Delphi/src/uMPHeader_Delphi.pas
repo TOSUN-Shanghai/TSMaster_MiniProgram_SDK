@@ -1266,6 +1266,7 @@ type
   Tdelete_diagram = function(const AId: int64): s32; stdcall;
   Tshow_diagram = function(const AId: int64; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   Thide_diagram = function(const AId: int64): s32; stdcall;
+  Tget_diagram_info = function(const AId: int64; AName: PPAnsiChar; AIsLibrary: PBoolean; AVersion: PPAnsiChar; ALastModifiedBy: PPAnsiChar; ALastModified: PPAnsiChar; AFilePath: PPAnsiChar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2450,7 +2451,8 @@ type
     delete_diagram: Tdelete_diagram;
     show_diagram: Tshow_diagram;
     hide_diagram: Thide_diagram;
-    FDummy: array [0..790-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    get_diagram_info: Tget_diagram_info;
+    FDummy: array [0..789-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
