@@ -2,7 +2,7 @@ unit uMPHeader_Delphi;
 
 {
   F3 for fast location
-  TS_APP_PROTO_END  TS_COM_PROTO_END  TS_TEST_PROTO_END
+  TS_APP_PROTO_END  TS_COM_PROTO_END  TS_TEST_PROTO_END  TS_MBD_PROTO_END
 
   Note: dynamic address cannot be used in mp library !!!
         because multiple script may also use the same library function, but global object cannot be used more than one!!!
@@ -1255,6 +1255,11 @@ type
   Tlog_formatted_value = function(const AStr: pansichar; const AFormat: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
+  // MBD Features
+  Tdelete_all_diagrams = function: s32; stdcall;
+  Tget_diagram_count = function(ACount: pInt32): s32; stdcall;
+  // TS_MBD_PROTO_END (do not modify this line) ================================
+
   // TSMaster variables =========================================================
   TEventInC = procedure; cdecl;
   // integer
@@ -2424,11 +2429,21 @@ type
   end;
   PTSTest = ^TTSTest;
 
+  // TSMaster mbd feature in C script
+  TTSMBD = packed record // C type
+    FObj: Pointer;
+    Fdelete_all_diagrams: Tdelete_all_diagrams;
+    get_diagram_count: Tget_diagram_count;
+    FDummy: array [0..798-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+  end;
+  PTSMBD = ^TTSMBD;
+
   // TSMaster Configuration
   TTSMasterConfiguration = packed record // C type
     FTSApp: TTSApp;
     FTSCOM: TTSCOM;
     FTSTest: TTSTest;
+    FTSMBD: TTSMBD;
     // place holders
     FDummy: array [0..3000-1] of NativeInt;
   end;
