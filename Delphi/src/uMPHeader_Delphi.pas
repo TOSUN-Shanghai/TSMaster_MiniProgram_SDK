@@ -1295,6 +1295,22 @@ type
   Tset_block_property_generic = function(const AId: int64; const AName: PAnsichar; const AProperty: PAnsichar; const AValue: PAnsichar): s32; stdcall;
   Tget_block_property_generic = function(const AId: int64; const AName: PAnsichar; const AProperty: PAnsichar; AValue: PPAnsiChar): s32; stdcall;
   Tset_block_priority = function(const AId: int64; const AName: PAnsichar; const APriority: int32): s32; stdcall;
+  Tclear_all_in_diagram = function(const AId: int64; const AParentBlockName: PAnsichar): s32; stdcall;
+  Tset_view_rect = function(const AId: int64; const AParentBlockName: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
+  Tget_view_rect = function(const AId: int64; const AParentBlockName: PAnsichar; ALeft: pInt32; ATop: pInt32; AWidth: pInt32; AHeight: pInt32): s32; stdcall;
+  Tauto_zoom_view = function(const AId: int64; const AParentBlockName: PAnsichar): s32; stdcall;
+  Tget_content_rect = function(const AId: int64; const AParentBlockName: PAnsichar; ALeft: pInt32; ATop: pInt32; AWidth: pInt32; AHeight: pInt32): s32; stdcall;
+  Tis_diagram_running = function(const AId: int64; AIsRunning: PBoolean): s32; stdcall;
+  Tget_block_io_count = function(const AId: int64; const AName: PAnsichar; AInportCount: pInt32; AOutportCount: pInt32): s32; stdcall;
+  Tget_block_inport_name = function(const AId: int64; const AName: PAnsichar; const AInportIndex: int32; AInportName: PPAnsiChar): s32; stdcall;
+  Tget_block_outport_name = function(const AId: int64; const AName: PAnsichar; const AOutportIndex: int32; AOutportName: PPAnsiChar): s32; stdcall;
+  Tis_block_inport_connected = function(const AId: int64; const AName: PAnsichar; const AInportIndex: int32; AIsConnected: PBoolean): s32; stdcall;
+  Tis_block_outport_connected = function(const AId: int64; const AName: PAnsichar; const AOutportIndex: int32; AIsConnected: PBoolean): s32; stdcall;
+  Tremove_block_io_lines = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tremove_block_inport_line = function(const AId: int64; const AName: PAnsichar; const AInportIndex: int32): s32; stdcall;
+  Tremove_block_outport_line = function(const AId: int64; const AName: PAnsichar; const AOutportIndex: int32): s32; stdcall;
+  Tconnect_block_io = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32; const ADstInPortIndex: int32): s32; stdcall;
+  Tenter_subsystem = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2508,7 +2524,23 @@ type
     set_block_property_generic: Tset_block_property_generic;
     get_block_property_generic: Tget_block_property_generic;
     set_block_priority: Tset_block_priority;
-    FDummy: array [0..761-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    clear_all_in_diagram: Tclear_all_in_diagram;
+    set_view_rect: Tset_view_rect;
+    get_view_rect: Tget_view_rect;
+    auto_zoom_view: Tauto_zoom_view;
+    get_content_rect: Tget_content_rect;
+    is_diagram_running: Tis_diagram_running;
+    get_block_io_count: Tget_block_io_count;
+    get_block_inport_name: Tget_block_inport_name;
+    get_block_outport_name: Tget_block_outport_name;
+    is_block_inport_connected: Tis_block_inport_connected;
+    is_block_outport_connected: Tis_block_outport_connected;
+    remove_block_io_lines: Tremove_block_io_lines;
+    remove_block_inport_line: Tremove_block_inport_line;
+    remove_block_outport_line: Tremove_block_outport_line;
+    connect_block_io: Tconnect_block_io;
+    enter_subsystem: Tenter_subsystem;
+    FDummy: array [0..745-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
