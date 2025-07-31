@@ -1267,6 +1267,34 @@ type
   Tshow_diagram = function(const AId: int64; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
   Thide_diagram = function(const AId: int64): s32; stdcall;
   Tget_diagram_info = function(const AId: int64; AName: PPAnsiChar; AIsLibrary: PBoolean; AVersion: PPAnsiChar; ALastModifiedBy: PPAnsiChar; ALastModified: PPAnsiChar; AFilePath: PPAnsiChar): s32; stdcall;
+  Tcreate_block = function(const AId: int64; const AName: PAnsichar; const AType: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
+  Tdelete_block = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tget_block_count = function(const AId: int64; const AParentBlockName: PAnsichar; ACount: pInt32): s32; stdcall;
+  Tget_block_name_by_index = function(const AId: int64; const AParentBlockName: PAnsichar; const AIndex: int32; AName: PPAnsiChar): s32; stdcall;
+  Tset_block_name = function(const AId: int64; const AOldName: PAnsichar; const ANewName: PAnsichar): s32; stdcall;
+  Tis_block_exist = function(const AId: int64; const AName: PAnsichar; AExist: PBoolean): s32; stdcall;
+  Tenable_block = function(const AId: int64; const AName: PAnsichar; const AEnable: boolean): s32; stdcall;
+  Tget_block_info = function(const AId: int64; const AName: PAnsichar; AEnable: PBoolean; AType: PPAnsiChar; ALeft: pInt32; ATop: pInt32; AWidth: pInt32; AHeight: pInt32): s32; stdcall;
+  Tbring_block_to_front = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tsend_block_to_back = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tget_block_z_order = function(const AId: int64; const AName: PAnsichar; AIndex: pInt32): s32; stdcall;
+  Tset_block_z_order = function(const AId: int64; const AName: PAnsichar; const AIndex: int32): s32; stdcall;
+  Tget_block_show_name = function(const AId: int64; const AName: PAnsichar; AShowName: PBoolean): s32; stdcall;
+  Tset_block_show_name = function(const AId: int64; const AName: PAnsichar; const AShowName: boolean): s32; stdcall;
+  Tget_block_bounds = function(const AId: int64; const AName: PAnsichar; ALeft: pInt32; ATop: pInt32; AWidth: pInt32; AHeight: pInt32): s32; stdcall;
+  Tset_block_bounds = function(const AId: int64; const AName: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32): s32; stdcall;
+  Tget_block_color_fill = function(const AId: int64; const AName: PAnsichar; AColor: pInt32): s32; stdcall;
+  Tset_block_color_fill = function(const AId: int64; const AName: PAnsichar; const AColor: int32): s32; stdcall;
+  Tget_block_color_stroke = function(const AId: int64; const AName: PAnsichar; AColor: pInt32): s32; stdcall;
+  Tset_block_color_stroke = function(const AId: int64; const AName: PAnsichar; const AColor: int32): s32; stdcall;
+  Tget_block_priority = function(const AId: int64; const AName: PAnsichar; APriority: pInt32): s32; stdcall;
+  Tget_block_priority_kind = function(const AId: int64; const AName: PAnsichar; APriorityKind: PMBD_PriorityKind): s32; stdcall;
+  Tset_block_priority_kind = function(const AId: int64; const AName: PAnsichar; const APriorityKind: TMBD_PriorityKind): s32; stdcall;
+  Tget_block_tag = function(const AId: int64; const AName: PAnsichar; ATag: PPAnsiChar): s32; stdcall;
+  Tset_block_tag = function(const AId: int64; const AName: PAnsichar; const ATag: PAnsichar): s32; stdcall;
+  Tset_block_property_generic = function(const AId: int64; const AName: PAnsichar; const AProperty: PAnsichar; const AValue: PAnsichar): s32; stdcall;
+  Tget_block_property_generic = function(const AId: int64; const AName: PAnsichar; const AProperty: PAnsichar; AValue: PPAnsiChar): s32; stdcall;
+  Tset_block_priority = function(const AId: int64; const AName: PAnsichar; const APriority: int32): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2452,7 +2480,35 @@ type
     show_diagram: Tshow_diagram;
     hide_diagram: Thide_diagram;
     get_diagram_info: Tget_diagram_info;
-    FDummy: array [0..789-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    create_block: Tcreate_block;
+    delete_block: Tdelete_block;
+    get_block_count: Tget_block_count;
+    get_block_name_by_index: Tget_block_name_by_index;
+    set_block_name: Tset_block_name;
+    is_block_exist: Tis_block_exist;
+    enable_block: Tenable_block;
+    get_block_info: Tget_block_info;
+    bring_block_to_front: Tbring_block_to_front;
+    send_block_to_back: Tsend_block_to_back;
+    get_block_z_order: Tget_block_z_order;
+    set_block_z_order: Tset_block_z_order;
+    get_block_show_name: Tget_block_show_name;
+    set_block_show_name: Tset_block_show_name;
+    get_block_bounds: Tget_block_bounds;
+    set_block_bounds: Tset_block_bounds;
+    get_block_color_fill: Tget_block_color_fill;
+    set_block_color_fill: Tset_block_color_fill;
+    get_block_color_stroke: Tget_block_color_stroke;
+    set_block_color_stroke: Tset_block_color_stroke;
+    get_block_priority: Tget_block_priority;
+    get_block_priority_kind: Tget_block_priority_kind;
+    set_block_priority_kind: Tset_block_priority_kind;
+    get_block_tag: Tget_block_tag;
+    set_block_tag: Tset_block_tag;
+    set_block_property_generic: Tset_block_property_generic;
+    get_block_property_generic: Tget_block_property_generic;
+    set_block_priority: Tset_block_priority;
+    FDummy: array [0..761-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
