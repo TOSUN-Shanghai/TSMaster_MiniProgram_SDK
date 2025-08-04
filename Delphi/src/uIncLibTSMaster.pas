@@ -809,11 +809,17 @@ type
     TS_USB_IF_DEVICE           = 14,
     BUS_DEV_TYPE_COUNT         = 15
   );
+
   TLIBApplicationChannelType = (
     APP_CAN = 0,
     APP_LIN = 1,
     APP_FlexRay = 2,
-    APP_Ethernet = 3
+    APP_Ethernet = 3,
+    APP_AI = 4,
+    APP_AO = 5,
+    APP_DI = 6,
+    APP_DO = 7,
+    APP_GPS = 8
   );
   TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar, stFlexRay, stEthernet);
   TTimeRangeTestMode = (trmRelativeMode, trmTriggeredMode, trmAbsoluteMode);
@@ -2257,15 +2263,15 @@ function tsapp_get_can_channel_count(out ACount: Integer): integer; stdcall; {$I
 function tsapp_get_lin_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_flexray_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_mapping(const AMapping: PLIBTSMapping): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_set_mapping_verbose(const AAppName:PAnsiChar;
-                                   const AAppChannelType:TLIBApplicationChannelType;
-                                   const AAppChannel:Integer;  //APP_CHANNEL
-                                   const AHardwareName:PAnsiChar;
-                                   const AHardwareType:TLIBBusToolDeviceType;
-                                   const AHardwareSubType:Integer;
-                                   const AHardwareIndex:Integer;
-                                   const AHardwareChannel:Integer;  //HARDWARE_CHANNEL
-                                   const AEnableMapping:Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_set_mapping_verbose(const AAppName: PAnsiChar;
+                                   const AAppChannelType: TLIBApplicationChannelType;
+                                   const AAppChannel: Integer;  //APP_CHANNEL
+                                   const AHardwareName: PAnsiChar;
+                                   const AHardwareType: TLIBBusToolDeviceType;
+                                   const AHardwareSubType: Integer;
+                                   const AHardwareIndex: Integer;
+                                   const AHardwareChannel: Integer;  //HARDWARE_CHANNEL
+                                   const AEnableMapping: Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_mapping(const AMapping: PLIBTSMapping): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_del_mapping(const AMapping: PLIBTSMapping): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_del_mapping_verbose(const AAppName:PAnsiChar;
@@ -3364,8 +3370,8 @@ function rpc_data_channel_create(const ARpcName: pansichar; const AIsMaster: int
 function rpc_data_channel_delete(AHandle: NativeInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function rpc_data_channel_transmit(AHandle: NativeInt; AAddr: pbyte; ASizeBytes: NativeInt; ATimeOutMs: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tssocket_set_host_name(const ANetworkIndex: int32; const AIPAddress: pansichar; const AHostName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsdio_set_pwm_output_async(const AChn: int32; ADuty: double; AFrequency: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsdio_set_vlevel_output_async(const AChn: int32; AIOStatus: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdo_set_pwm_output_async(const AChn: int32; ADuty: double; AFrequency: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdo_set_vlevel_output_async(const AChn: int32; AIOStatus: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_il_register_autosar_pdu_event(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUQueueEvent): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_il_unregister_autosar_pdu_event(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUQueueEvent): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_il_register_autosar_pdu_pretx_event(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUPreTxEvent): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}

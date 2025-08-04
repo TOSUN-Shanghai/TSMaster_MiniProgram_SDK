@@ -1174,8 +1174,8 @@ type
   Ttssocket_freedevices = function(const ANetworkIndex: int32; devs: pts_net_device): s32; stdcall;
   Trawsocket_select = function(const ANetworkIndex: int32; const maxfdp1: int32; const readset: pts_fd_set; const writeset: pts_fd_set; const exceptset: pts_fd_set; const timeout: pts_timeval): s32; stdcall;
   Ttssocket_set_host_name = function(const ANetworkIndex: int32; const AIPAddress: pansichar; const AHostName: pansichar): s32; stdcall;
-  Ttsdio_set_pwm_output_async = function(const AChn: int32; ADuty: double; AFrequency: double): s32; stdcall;
-  Ttsdio_set_vlevel_output_async = function(const AChn: int32; AIOStatus: int32): s32; stdcall;
+  Ttsdo_set_pwm_output_async = function(const AChn: int32; ADuty: double; AFrequency: double): s32; stdcall;
+  Ttsdo_set_vlevel_output_async = function(const AChn: int32; AIOStatus: int32): s32; stdcall;
   Tcan_il_register_autosar_pdu_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
   Tcan_il_unregister_autosar_pdu_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
   Tcan_il_register_autosar_pdu_pretx_event = function(const AChn: int32; const AID: int32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
@@ -2346,8 +2346,8 @@ type
     tssocket_freedevices: Ttssocket_freedevices;
     rawsocket_select: Trawsocket_select;
     tssocket_set_host_name: Ttssocket_set_host_name;
-    tsdio_set_pwm_output_async: Ttsdio_set_pwm_output_async;
-    tsdio_set_vlevel_output_async: Ttsdio_set_vlevel_output_async;
+    tsdo_set_pwm_output_async: Ttsdo_set_pwm_output_async;
+    tsdo_set_vlevel_output_async: Ttsdo_set_vlevel_output_async;
     can_il_register_autosar_pdu_event: Tcan_il_register_autosar_pdu_event;
     can_il_unregister_autosar_pdu_event: Tcan_il_unregister_autosar_pdu_event;
     can_il_register_autosar_pdu_pretx_event: Tcan_il_register_autosar_pdu_pretx_event;
