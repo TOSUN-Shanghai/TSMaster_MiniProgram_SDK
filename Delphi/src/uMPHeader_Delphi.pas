@@ -1183,6 +1183,10 @@ type
   Tcan_rbs_fault_inject_disturb_sequencecounter = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const atype: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32; const continueMode: int32): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_checksum = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const atype: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_updatebit = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
+  Ttsio_start_configuration = function(): s32; stdcall;
+  Ttsio_end_configuration = function(): s32; stdcall;
+  Ttsdi_config_sync = function(const AChn: int32; const ASampleRate: double; const AInputThrsholdMv: int32; const AReportPWMFreq: int32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsdo_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputLevel: int32; const AOutputMode: int32; const AOutputType: int32; const ATimeoutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2351,7 +2355,11 @@ type
     can_rbs_fault_inject_disturb_sequencecounter: Tcan_rbs_fault_inject_disturb_sequencecounter;
     can_rbs_fault_inject_disturb_checksum: Tcan_rbs_fault_inject_disturb_checksum;
     can_rbs_fault_inject_disturb_updatebit: Tcan_rbs_fault_inject_disturb_updatebit;
-    FDummy: array [0..563- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tsio_start_configuration: Ttsio_start_configuration;
+    tsio_end_configuration: Ttsio_end_configuration;
+    tsdi_config_sync: Ttsdi_config_sync;
+    tsdo_config_sync: Ttsdo_config_sync;
+    FDummy: array [0..559- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
