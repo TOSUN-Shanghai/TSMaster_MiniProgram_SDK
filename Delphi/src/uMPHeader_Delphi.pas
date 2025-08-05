@@ -1187,6 +1187,9 @@ type
   Ttsio_end_configuration = function(): s32; stdcall;
   Ttsdi_config_sync = function(const AChn: int32; const ASampleRate: double; const AInputThrsholdMv: int32; const AReportPWMFreq: int32; const ATimeoutMs: int32): s32; stdcall;
   Ttsdo_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputLevel: int32; const AOutputMode: int32; const AOutputType: int32; const ATimeoutMs: int32): s32; stdcall;
+  Tcal_add_xcp_ecu = function(const AECUName: pansichar; const AA2LFile: pansichar; const ATPLayer: int32; const AChnIdx: int32; const AEnabled: int32): s32; stdcall;
+  Tcal_add_ccp_ecu = function(const AECUName: pansichar; const AA2LFile: pansichar; const AChnIdx: int32; const AEnabled: int32): s32; stdcall;
+  Tcal_remove_ecu = function(const AECUName: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2359,7 +2362,10 @@ type
     tsio_end_configuration: Ttsio_end_configuration;
     tsdi_config_sync: Ttsdi_config_sync;
     tsdo_config_sync: Ttsdo_config_sync;
-    FDummy: array [0..559- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_add_xcp_ecu: Tcal_add_xcp_ecu;
+    cal_add_ccp_ecu: Tcal_add_ccp_ecu;
+    cal_remove_ecu: Tcal_remove_ecu;
+    FDummy: array [0..556- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
