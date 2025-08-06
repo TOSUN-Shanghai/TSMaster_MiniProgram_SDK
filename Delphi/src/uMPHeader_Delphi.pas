@@ -696,6 +696,18 @@ type
   Tconfigure_canfd_regs = function(const AChn: int32; const AArbBaudrateKbps: single; const AArbSEG1: uint32; const AArbSEG2: uint32; const AArbPrescaler: uint32; const AArbSJW: uint32; const ADataBaudrateKbps: single; const ADataSEG1: uint32; const ADataSEG2: uint32; const ADataPrescaler: uint32; const ADataSJW: uint32; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const A120OhmConnected: boolean): s32; stdcall;
   Tstart_log_verbose = function(const AObj: Pointer; AFilesizeType: int32; ASizeValue: int64): s32; stdcall;
   Tstart_log_w_filename_verbose = function(const AObj: Pointer; AFileName: pansichar; AFilesizeType: int32; ASizeValue: int64): s32; stdcall;
+  Ttsio_start_configuration = function(): s32; stdcall;
+  Ttsio_end_configuration = function(): s32; stdcall;
+  Ttsdi_config_sync = function(const AChn: int32; const ASampleRate: double; const AInputThrsholdMv: int32; const AReportPWMFreq: int32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsdo_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputLevel: int32; const AOutputMode: int32; const AOutputType: int32; const ATimeoutMs: int32): s32; stdcall;
+  Tset_di_channel_count = function(const ACount: int32): s32; stdcall;
+  Tset_do_channel_count = function(const ACount: int32): s32; stdcall;
+  Tset_ao_channel_count = function(const ACount: int32): s32; stdcall;
+  Tset_ai_channel_count = function(const ACount: int32): s32; stdcall;
+  Tget_ai_channel_count = function(const ACount: pInt32): s32; stdcall;
+  Tget_ao_channel_count = function(const ACount: pInt32): s32; stdcall;
+  Tget_do_channel_count = function(const ACount: pInt32): s32; stdcall;
+  Tget_di_channel_count = function(const ACount: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1183,10 +1195,6 @@ type
   Tcan_rbs_fault_inject_disturb_sequencecounter = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const atype: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32; const continueMode: int32): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_checksum = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const atype: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_updatebit = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalGroupName: pansichar; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
-  Ttsio_start_configuration = function(): s32; stdcall;
-  Ttsio_end_configuration = function(): s32; stdcall;
-  Ttsdi_config_sync = function(const AChn: int32; const ASampleRate: double; const AInputThrsholdMv: int32; const AReportPWMFreq: int32; const ATimeoutMs: int32): s32; stdcall;
-  Ttsdo_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputLevel: int32; const AOutputMode: int32; const AOutputType: int32; const ATimeoutMs: int32): s32; stdcall;
   Tcal_add_xcp_ecu = function(const AECUName: pansichar; const AA2LFile: pansichar; const ATPLayer: int32; const AChnIdx: int32; const AEnabled: int32): s32; stdcall;
   Tcal_add_ccp_ecu = function(const AECUName: pansichar; const AA2LFile: pansichar; const AChnIdx: int32; const AEnabled: int32): s32; stdcall;
   Tcal_remove_ecu = function(const AECUName: pansichar): s32; stdcall;
@@ -1846,7 +1854,19 @@ type
     configure_canfd_regs: Tconfigure_canfd_regs;
     start_log_verbose: Tstart_log_verbose;
     start_log_w_filename_verbose: Tstart_log_w_filename_verbose;
-    FDummy: array [0..602-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    tsio_start_configuration: Ttsio_start_configuration;
+    tsio_end_configuration: Ttsio_end_configuration;
+    tsdi_config_sync: Ttsdi_config_sync;
+    tsdo_config_sync: Ttsdo_config_sync;
+    set_di_channel_count: Tset_di_channel_count;
+    set_do_channel_count: Tset_do_channel_count;
+    set_ao_channel_count: Tset_ao_channel_count;
+    set_ai_channel_count: Tset_ai_channel_count;
+    get_ai_channel_count: Tget_ai_channel_count;
+    get_ao_channel_count: Tget_ao_channel_count;
+    get_do_channel_count: Tget_do_channel_count;
+    get_di_channel_count: Tget_di_channel_count;
+    FDummy: array [0..590-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2358,14 +2378,10 @@ type
     can_rbs_fault_inject_disturb_sequencecounter: Tcan_rbs_fault_inject_disturb_sequencecounter;
     can_rbs_fault_inject_disturb_checksum: Tcan_rbs_fault_inject_disturb_checksum;
     can_rbs_fault_inject_disturb_updatebit: Tcan_rbs_fault_inject_disturb_updatebit;
-    tsio_start_configuration: Ttsio_start_configuration;
-    tsio_end_configuration: Ttsio_end_configuration;
-    tsdi_config_sync: Ttsdi_config_sync;
-    tsdo_config_sync: Ttsdo_config_sync;
     cal_add_xcp_ecu: Tcal_add_xcp_ecu;
     cal_add_ccp_ecu: Tcal_add_ccp_ecu;
     cal_remove_ecu: Tcal_remove_ecu;
-    FDummy: array [0..556- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..560- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
