@@ -1331,9 +1331,37 @@ type
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
-  Ttac_debugger_create = function(const AObj: Pointer; const ACallback: TMPProcedure; const AUserData: Pointer; const ADebuggerPtr: PPointer): s32; stdcall;
+  Ttac_debugger_create = function(const AObj: Pointer; const ACallback: TMPProcedure; const AUserData: Pointer; ADebuggerPtr: PPointer): s32; stdcall;
   Ttac_debugger_destroy = function(const AObj: Pointer; const ADebugger: TMPTacDebugger): s32; stdcall;
   Tdebugger_terminate = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_register_struct_from_json = function(const AObj: Pointer; const debugger: TMPTacDebugger; const type_name: pansichar; const json_definition: pansichar): s32; stdcall;
+  Tdebugger_get_last_error = function(const AObj: Pointer; const debugger: TMPTacDebugger; message: pansichar; message_size: pInt32; afile: pansichar; file_size: pInt32; line: pInt32; column: pInt32): s32; stdcall;
+  Tdebugger_run_script = function(const AObj: Pointer; const debugger: TMPTacDebugger; const script_content: pansichar; const script_name: pansichar): s32; stdcall;
+  Tdebugger_run_file = function(const AObj: Pointer; const debugger: TMPTacDebugger; const file_path: pansichar): s32; stdcall;
+  Tdebugger_is_running = function(const AObj: Pointer; const debugger: TMPTacDebugger; is_running: PBoolean): s32; stdcall;
+  Tdebugger_set_breakpoint = function(const AObj: Pointer; const debugger: TMPTacDebugger; const afile: pansichar; line: int32; breakpoint_ptr: PMPTacBreakpoint): s32; stdcall;
+  Tdebugger_remove_breakpoint = function(const AObj: Pointer; const debugger: TMPTacDebugger; const breakpoint: TMPTacBreakpoint): s32; stdcall;
+  Tdebugger_clear_breakpoints = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_get_breakpoints = function(const AObj: Pointer; const debugger: TMPTacDebugger; breakpoints_array: PMPTacBreakpoint; count: pInt32): s32; stdcall;
+  Tdebugger_has_breakpoint_at = function(const AObj: Pointer; const debugger: TMPTacDebugger; const afile: pansichar; line: int32; exists: PBoolean): s32; stdcall;
+  Tbreakpoint_get_info = function(const AObj: Pointer; const breakpoint: TMPTacBreakpoint; file_buffer: pansichar; const file_buffer_size: int32; line_ptr: pInt32): s32; stdcall;
+  Tdebugger_pause = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_continue = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_step_over = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_step_into = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_step_out = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_get_call_stack_count = function(const AObj: Pointer; const debugger: TMPTacDebugger; frame_count: pInt32): s32; stdcall;
+  Tdebugger_get_call_stack_item = function(const AObj: Pointer; const debugger: TMPTacDebugger; const frame_index: int32; item: pansichar; item_buffer_cnt: pInt32): s32; stdcall;
+  Tdebugger_get_local_variables_count = function(const AObj: Pointer; const debugger: TMPTacDebugger; const frame_index: int32; variable_cnt: pInt32): s32; stdcall;
+  Tdebugger_get_local_variable = function(const AObj: Pointer; const debugger: TMPTacDebugger; const frame_index: int32; const var_index: int32; variable: PMPTacValue): s32; stdcall;
+  Tdebugger_evaluate_expression = function(const AObj: Pointer; const debugger: TMPTacDebugger; frame_index: int32; const expression: pansichar; result_value: PMPTacValue): s32; stdcall;
+  Tvalue_destroy = function(const AObj: Pointer; const value: TMPTacValue): s32; stdcall;
+  Tvalue_get_type = function(const AObj: Pointer; const value: TMPTacValue; type_out: PMPTacValueType): s32; stdcall;
+  Tvalue_get_name = function(const AObj: Pointer; const value: TMPTacValue; name_buffer: pansichar; const buffer_size: int32): s32; stdcall;
+  Tvalue_to_string = function(const AObj: Pointer; const value: TMPTacValue; str_buffer: pansichar; const buffer_size: int32): s32; stdcall;
+  Tvalue_as_integer = function(const AObj: Pointer; const value: TMPTacValue; out: pint64): s32; stdcall;
+  Tvalue_as_float = function(const AObj: Pointer; const value: TMPTacValue; out: pdouble): s32; stdcall;
+  Tvalue_as_boolean = function(const AObj: Pointer; const value: TMPTacValue; out: PBoolean): s32; stdcall;
   // TS_TAC_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2590,7 +2618,35 @@ type
     Fdebugger_create: Ttac_debugger_create;
     Fdebugger_destroy: Ttac_debugger_destroy;
     debugger_terminate: Tdebugger_terminate;
-    FDummy: array [0..97-1] of NativeInt; // place holders, TS_TAC_PROTO_END
+    debugger_register_struct_from_json: Tdebugger_register_struct_from_json;
+    debugger_get_last_error: Tdebugger_get_last_error;
+    debugger_run_script: Tdebugger_run_script;
+    debugger_run_file: Tdebugger_run_file;
+    debugger_is_running: Tdebugger_is_running;
+    debugger_set_breakpoint: Tdebugger_set_breakpoint;
+    debugger_remove_breakpoint: Tdebugger_remove_breakpoint;
+    debugger_clear_breakpoints: Tdebugger_clear_breakpoints;
+    debugger_get_breakpoints: Tdebugger_get_breakpoints;
+    debugger_has_breakpoint_at: Tdebugger_has_breakpoint_at;
+    breakpoint_get_info: Tbreakpoint_get_info;
+    debugger_pause: Tdebugger_pause;
+    debugger_continue: Tdebugger_continue;
+    debugger_step_over: Tdebugger_step_over;
+    debugger_step_into: Tdebugger_step_into;
+    debugger_step_out: Tdebugger_step_out;
+    debugger_get_call_stack_count: Tdebugger_get_call_stack_count;
+    debugger_get_call_stack_item: Tdebugger_get_call_stack_item;
+    debugger_get_local_variables_count: Tdebugger_get_local_variables_count;
+    debugger_get_local_variable: Tdebugger_get_local_variable;
+    debugger_evaluate_expression: Tdebugger_evaluate_expression;
+    value_destroy: Tvalue_destroy;
+    value_get_type: Tvalue_get_type;
+    value_get_name: Tvalue_get_name;
+    value_to_string: Tvalue_to_string;
+    value_as_integer: Tvalue_as_integer;
+    value_as_float: Tvalue_as_float;
+    value_as_boolean: Tvalue_as_boolean;
+    FDummy: array [0..69-1] of NativeInt; // place holders, TS_TAC_PROTO_END
   end;
   PTSTAC = ^TTSTAC;
 
