@@ -2,7 +2,7 @@ unit uMPHeader_Delphi;
 
 {
   F3 for fast location
-  TS_APP_PROTO_END  TS_COM_PROTO_END  TS_TEST_PROTO_END  TS_MBD_PROTO_END
+  TS_APP_PROTO_END  TS_COM_PROTO_END  TS_TEST_PROTO_END  TS_MBD_PROTO_END  TS_TAC_PROTO_END
 
   Note: dynamic address cannot be used in mp library !!!
         because multiple script may also use the same library function, but global object cannot be used more than one!!!
@@ -1330,6 +1330,12 @@ type
   Tenter_subsystem = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
+  // tac features
+  Ttac_debugger_create = function(const AObj: Pointer; const ACallback: TMPProcedure; const AUserData: Pointer; const ADebuggerPtr: PPointer): s32; stdcall;
+  Ttac_debugger_destroy = function(const AObj: Pointer; const ADebugger: TMPTacDebugger): s32; stdcall;
+  Tdebugger_terminate = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
+  // TS_TAC_PROTO_END (do not modify this line) ================================
+
   // TSMaster variables =========================================================
   TEventInC = procedure; cdecl;
   // integer
@@ -2578,12 +2584,23 @@ type
   end;
   PTSMBD = ^TTSMBD;
 
+  // TSMaster tac feature in C script
+  TTSTAC = packed record // C type
+    FObj: Pointer;
+    Fdebugger_create: Ttac_debugger_create;
+    Fdebugger_destroy: Ttac_debugger_destroy;
+    debugger_terminate: Tdebugger_terminate;
+    FDummy: array [0..97-1] of NativeInt; // place holders, TS_TAC_PROTO_END
+  end;
+  PTSTAC = ^TTSTAC;
+
   // TSMaster Configuration
   TTSMasterConfiguration = packed record // C type
     FTSApp: TTSApp;
     FTSCOM: TTSCOM;
     FTSTest: TTSTest;
     FTSMBD: TTSMBD;
+    FTSTAC: TTSTAC;
     // place holders
     FDummy: array [0..3000-1] of NativeInt;
   end;
@@ -3327,24 +3344,31 @@ const
 {$IFDEF WIN32}
   SIZE_TSAPP = 4216;
   SIZE_TSCOM = 4128;
-  SIZE_TSTEST = 4028;
-  SIZE_TSMASTERCONFIGURATION = 24372;
+  SIZE_TSTEST = 828;
+  SIZE_TSMBD = 3204;
+  SIZE_TTSTAC = 404;
+  SIZE_TSMASTERCONFIGURATION = 24780;
 {$ELSE}
   SIZE_TSAPP = 8432;
   SIZE_TSCOM = 8256;
-  SIZE_TSTEST = 8056;
-  SIZE_TSMASTERCONFIGURATION = 48744;
+  SIZE_TSTEST = 1656;
+  SIZE_TSMBD = 6408;
+  SIZE_TTSTAC = 808;
+  SIZE_TSMASTERCONFIGURATION = 49560;
 {$ENDIF}
 begin
-{$ifdef debug}
+{$ifdef DEBUG_RECORD_SIZE}
   OutputDebugString(PChar('TTSApp size = ' + IntToStr(SizeOf(ttsapp))));
   OutputDebugString(PChar('TTSCOM size = ' + IntToStr(SizeOf(TTSCOM))));
   OutputDebugString(PChar('TTSTest size = ' + IntToStr(SizeOf(ttstest))));
+  OutputDebugString(PChar('TTSMBD size = ' + IntToStr(SizeOf(TTSMBD))));
+  OutputDebugString(PChar('TTSTAC size = ' + IntToStr(SizeOf(TTSTAC))));
   OutputDebugString(PChar('TTSMasterConfiguration size = ' + IntToStr(SizeOf(TTSMasterConfiguration))));
   // check size
   Assert(SizeOf(ttsapp) = SIZE_TSAPP, 'TTSApp size should be ' + SIZE_TSAPP.tostring);
   Assert(SizeOf(TTSCOM) = SIZE_TSCOM, 'TTSApp size should be ' + SIZE_TSCOM.tostring);
   Assert(SizeOf(ttstest) = SIZE_TSTEST, 'TTSApp size should be ' + SIZE_TSTEST.tostring);
+  Assert(SizeOf(TTSMBD) = SIZE_TSMBD, 'TTSApp size should be ' + SIZE_TSMBD.tostring);
   Assert(SizeOf(TTSMasterConfiguration) = SIZE_TSMASTERCONFIGURATION, 'TTSApp size should be ' + SIZE_TSMASTERCONFIGURATION.tostring);
   // 2022-12-03 check record types
   Assert(SizeOf(TMPCANSignal) = 26, 'TMPCANSignal size should be 26');
@@ -3355,6 +3379,7 @@ begin
   Assert(SizeOf(TMPDBFrameProperties) = 1088, 'TMPDBFrameProperties size should be 1088');
   Assert(SizeOf(TMPDBSignalProperties) = 1152, 'TMPDBSignalProperties size should be 1152');
 {$endif}
+
 end;
 
 initialization
