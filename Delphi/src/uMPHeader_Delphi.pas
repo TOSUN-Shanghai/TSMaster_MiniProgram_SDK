@@ -1328,6 +1328,15 @@ type
   Tremove_block_outport_line = function(const AId: int64; const AName: PAnsichar; const AOutportIndex: int32): s32; stdcall;
   Tconnect_block_io = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32; const ADstInPortIndex: int32): s32; stdcall;
   Tenter_subsystem = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tset_view_on_block = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tsort_diagram_z_order = function(const AId: int64; const AName: PAnsichar; const AUp: boolean): s32; stdcall;
+  Tset_block_io_count = function(const AId: int64; const AName: PAnsichar; const AInportCount: int32; const AOutportCount: int32): s32; stdcall;
+  Tremove_block_enable_line = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tremove_block_trigger_line = function(const AId: int64; const AName: PAnsichar): s32; stdcall;
+  Tis_block_enable_connected = function(const AId: int64; const AName: PAnsichar; AIsConnected: PBoolean): s32; stdcall;
+  Tis_block_trigger_connected = function(const AId: int64; const AName: PAnsichar; AIsConnected: PBoolean): s32; stdcall;
+  Tconnect_block_enable = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32): s32; stdcall;
+  Tconnect_block_trigger = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -2608,7 +2617,16 @@ type
     remove_block_outport_line: Tremove_block_outport_line;
     connect_block_io: Tconnect_block_io;
     enter_subsystem: Tenter_subsystem;
-    FDummy: array [0..745-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    set_view_on_block: Tset_view_on_block;
+    sort_diagram_z_order: Tsort_diagram_z_order;
+    set_block_io_count: Tset_block_io_count;
+    remove_block_enable_line: Tremove_block_enable_line;
+    remove_block_trigger_line: Tremove_block_trigger_line;
+    is_block_enable_connected: Tis_block_enable_connected;
+    is_block_trigger_connected: Tis_block_trigger_connected;
+    connect_block_enable: Tconnect_block_enable;
+    connect_block_trigger: Tconnect_block_trigger;
+    FDummy: array [0..736-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
