@@ -1337,6 +1337,9 @@ type
   Tis_block_trigger_connected = function(const AId: int64; const AName: PAnsichar; AIsConnected: PBoolean): s32; stdcall;
   Tconnect_block_enable = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32): s32; stdcall;
   Tconnect_block_trigger = function(const AId: int64; const ASrcName: PAnsichar; const ADstName: PAnsichar; const ASrcOutPortIndex: int32): s32; stdcall;
+  Tget_block_value_config = function(const AId: int64; const AName: PAnsichar; AValue: PPAnsiChar): s32; stdcall;
+  Tset_block_value_config = function(const AId: int64; const AName: PAnsichar; const AValue: PAnsichar): s32; stdcall;
+  Tswitch_block_types = function(const AId: int64; const AName: PAnsichar; const AFromType: PAnsichar; const AToType: PAnsichar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -2626,7 +2629,10 @@ type
     is_block_trigger_connected: Tis_block_trigger_connected;
     connect_block_enable: Tconnect_block_enable;
     connect_block_trigger: Tconnect_block_trigger;
-    FDummy: array [0..736-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    get_block_value_config: Tget_block_value_config;
+    set_block_value_config: Tset_block_value_config;
+    switch_block_types: Tswitch_block_types;
+    FDummy: array [0..733-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
