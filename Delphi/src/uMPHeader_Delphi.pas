@@ -1343,7 +1343,7 @@ type
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
-  Ttac_debugger_create = function(const AObj: Pointer; const ACallback: TMPTacDebugEvent; const AUserData: Pointer; ADebuggerPtr: PPointer): s32; stdcall;
+  Ttac_debugger_create = function(const AObj: Pointer; const ACallback: TMPTacDebugCallback; const AUserData: Pointer; ADebuggerPtr: PPointer): s32; stdcall;
   Ttac_debugger_destroy = function(const AObj: Pointer; const ADebugger: TMPTacDebugger): s32; stdcall;
   Tdebugger_terminate = function(const AObj: Pointer; const debugger: TMPTacDebugger): s32; stdcall;
   Tdebugger_register_struct_from_json = function(const AObj: Pointer; const debugger: TMPTacDebugger; const type_name: pansichar; const json_definition: pansichar): s32; stdcall;
