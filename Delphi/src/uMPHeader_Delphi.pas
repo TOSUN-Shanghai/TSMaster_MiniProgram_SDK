@@ -1374,6 +1374,8 @@ type
   Tvalue_as_integer = function(const AObj: Pointer; const value: TMPTacValue; out: pint64): s32; stdcall;
   Tvalue_as_float = function(const AObj: Pointer; const value: TMPTacValue; out: pdouble): s32; stdcall;
   Tvalue_as_boolean = function(const AObj: Pointer; const value: TMPTacValue; out: PBoolean): s32; stdcall;
+  Trun_script_sync = function(const script_content: pansichar; const script_name: pansichar): s32; stdcall;
+  Trun_file_sync = function(const file_path: pansichar): s32; stdcall;
   // TS_TAC_PROTO_END (do not modify this line) ================================
 
   // TSMaster variables =========================================================
@@ -2670,7 +2672,9 @@ type
     value_as_integer: Tvalue_as_integer;
     value_as_float: Tvalue_as_float;
     value_as_boolean: Tvalue_as_boolean;
-    FDummy: array [0..69-1] of NativeInt; // place holders, TS_TAC_PROTO_END
+    run_script_sync: Trun_script_sync;
+    run_file_sync: Trun_file_sync;
+    FDummy: array [0..67-1] of NativeInt; // place holders, TS_TAC_PROTO_END
   end;
   PTSTAC = ^TTSTAC;
 
