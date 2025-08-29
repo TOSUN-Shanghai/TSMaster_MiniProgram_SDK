@@ -1201,6 +1201,8 @@ type
   Tcal_get_var_property = function(const AECUName: pansichar; const AVarName: pansichar; ADataType: PPAnsiChar; ALowerValue: pdouble; AUpperValue: pdouble; AStepValue: pdouble): s32; stdcall;
   Tcal_get_measurement_list = function(const AECUName: pansichar; AMeasurementList: PPAnsiChar): s32; stdcall;
   Trpc_set_global_timeout = function(const ATimeOutMs: int32): s32; stdcall;
+  Ttsdi_get_vlevel_input_sync = function(const AChnIdx: int32; AIOStatus: pInt32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsdi_get_pwm_input_sync = function(const AChnIdx: int32; ADuty: pdouble; AFreq: pdouble; const ATimeoutMs: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2435,7 +2437,9 @@ type
     cal_get_var_property: Tcal_get_var_property;
     cal_get_measurement_list: Tcal_get_measurement_list;
     rpc_set_global_timeout: Trpc_set_global_timeout;
-    FDummy: array [0..557- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tsdi_get_vlevel_input_sync: Ttsdi_get_vlevel_input_sync;
+    tsdi_get_pwm_input_sync: Ttsdi_get_pwm_input_sync;
+    FDummy: array [0..555- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
