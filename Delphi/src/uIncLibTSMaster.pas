@@ -3505,6 +3505,7 @@ function tsdi_get_vlevel_input_sync(const AChnIdx: int32; AIOStatus: pInt32; con
 function tsdi_get_pwm_input_sync(const AChnIdx: int32; ADuty: pdouble; AFreq: pdouble; const ATimeoutMs: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function cal_get_ecu_a2l_list(AECUsAndA2Ls: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function cal_set_all_datas_by_value(const AECUName: pansichar; const AVarName: pansichar; AValue: double; AImmediateDownload: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function cal_set_all_datas_by_offset(const AECUName: pansichar; const AVarName: pansichar; AOffset: double; AImmediateDownload: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}

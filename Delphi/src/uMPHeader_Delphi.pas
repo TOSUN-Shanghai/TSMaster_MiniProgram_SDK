@@ -1205,6 +1205,7 @@ type
   Ttsdi_get_pwm_input_sync = function(const AChnIdx: int32; ADuty: pdouble; AFreq: pdouble; const ATimeoutMs: int32): s32; stdcall;
   Tcal_get_ecu_a2l_list = function(AECUsAndA2Ls: PPAnsiChar): s32; stdcall;
   Tcal_set_all_datas_by_value = function(const AECUName: pansichar; const AVarName: pansichar; AValue: double; AImmediateDownload: byte): s32; stdcall;
+  Tcal_set_all_datas_by_offset = function(const AECUName: pansichar; const AVarName: pansichar; AOffset: double; AImmediateDownload: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2443,7 +2444,8 @@ type
     tsdi_get_pwm_input_sync: Ttsdi_get_pwm_input_sync;
     cal_get_ecu_a2l_list: Tcal_get_ecu_a2l_list;
     cal_set_all_datas_by_value: Tcal_set_all_datas_by_value;
-    FDummy: array [0..553- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_set_all_datas_by_offset: Tcal_set_all_datas_by_offset;
+    FDummy: array [0..552- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
