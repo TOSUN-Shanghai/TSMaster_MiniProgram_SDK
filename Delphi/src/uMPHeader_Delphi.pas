@@ -1203,6 +1203,7 @@ type
   Trpc_set_global_timeout = function(const ATimeOutMs: int32): s32; stdcall;
   Ttsdi_get_vlevel_input_sync = function(const AChnIdx: int32; AIOStatus: pInt32; const ATimeoutMs: int32): s32; stdcall;
   Ttsdi_get_pwm_input_sync = function(const AChnIdx: int32; ADuty: pdouble; AFreq: pdouble; const ATimeoutMs: int32): s32; stdcall;
+  Tcal_get_ecu_a2l_list = function(AECUsAndA2Ls: PPAnsiChar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2439,7 +2440,8 @@ type
     rpc_set_global_timeout: Trpc_set_global_timeout;
     tsdi_get_vlevel_input_sync: Ttsdi_get_vlevel_input_sync;
     tsdi_get_pwm_input_sync: Ttsdi_get_pwm_input_sync;
-    FDummy: array [0..555- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_get_ecu_a2l_list: Tcal_get_ecu_a2l_list;
+    FDummy: array [0..554- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
