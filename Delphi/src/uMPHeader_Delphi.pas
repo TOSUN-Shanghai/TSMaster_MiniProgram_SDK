@@ -1206,6 +1206,8 @@ type
   Tcal_get_ecu_a2l_list = function(AECUsAndA2Ls: PPAnsiChar): s32; stdcall;
   Tcal_set_all_datas_by_value = function(const AECUName: pansichar; const AVarName: pansichar; AValue: double; AImmediateDownload: byte): s32; stdcall;
   Tcal_set_all_datas_by_offset = function(const AECUName: pansichar; const AVarName: pansichar; AOffset: double; AImmediateDownload: byte): s32; stdcall;
+  Tcal_set_datas_by_offset = function(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AOffset: double; AImmediateDownload: byte): s32; stdcall;
+  Tcal_set_datas_by_value = function(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AValue: double; AImmediateDownload: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2445,7 +2447,9 @@ type
     cal_get_ecu_a2l_list: Tcal_get_ecu_a2l_list;
     cal_set_all_datas_by_value: Tcal_set_all_datas_by_value;
     cal_set_all_datas_by_offset: Tcal_set_all_datas_by_offset;
-    FDummy: array [0..552- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_set_datas_by_offset: Tcal_set_datas_by_offset;
+    cal_set_datas_by_value: Tcal_set_datas_by_value;
+    FDummy: array [0..550- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
