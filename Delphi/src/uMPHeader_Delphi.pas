@@ -708,8 +708,8 @@ type
   Tget_ao_channel_count = function(const ACount: pInt32): s32; stdcall;
   Tget_do_channel_count = function(const ACount: pInt32): s32; stdcall;
   Tget_di_channel_count = function(const ACount: pInt32): s32; stdcall;
-  Tcrypto_encrypt_aes128_ecb = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): s32; stdcall;
-  Tcrypto_decrypt_aes128_ecb = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_encrypt_aes_128_ecb = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_decrypt_aes_128_ecb = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
   Tcrypto_decrypt_aes_128_cbc = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
   Tcrypto_decrypt_aes_256_cbc = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
   Tcrypto_decrypt_rsa = function(key_coding: byte; private_key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt; padding_mode: byte): s32; stdcall;
@@ -1941,8 +1941,8 @@ type
     get_ao_channel_count: Tget_ao_channel_count;
     get_do_channel_count: Tget_do_channel_count;
     get_di_channel_count: Tget_di_channel_count;
-    crypto_encrypt_aes128_ecb: Tcrypto_encrypt_aes128_ecb;
-    crypto_decrypt_aes128_ecb: Tcrypto_decrypt_aes128_ecb;
+    crypto_encrypt_aes_128_ecb: Tcrypto_encrypt_aes_128_ecb;
+    crypto_decrypt_aes_128_ecb: Tcrypto_decrypt_aes_128_ecb;
     crypto_decrypt_aes_128_cbc: Tcrypto_decrypt_aes_128_cbc;
     crypto_decrypt_aes_256_cbc: Tcrypto_decrypt_aes_256_cbc;
     crypto_decrypt_rsa: Tcrypto_decrypt_rsa;
