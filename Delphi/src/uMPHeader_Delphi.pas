@@ -708,6 +708,22 @@ type
   Tget_ao_channel_count = function(const ACount: pInt32): s32; stdcall;
   Tget_do_channel_count = function(const ACount: pInt32): s32; stdcall;
   Tget_di_channel_count = function(const ACount: pInt32): s32; stdcall;
+  Tcrypto_encrypt_aes128_ecb = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_decrypt_aes128_ecb = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_decrypt_aes_128_cbc = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_decrypt_aes_256_cbc = function(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_decrypt_rsa = function(key_coding: byte; private_key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt; padding_mode: byte): s32; stdcall;
+  Tcrypto_encrypt_rsa = function(key_coding: byte; public_key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt; padding_mode: byte): s32; stdcall;
+  Tcrypto_encrypt_aes_128_cbc = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_encrypt_aes_256_cbc = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): s32; stdcall;
+  Tcrypto_digest_sha2_256 = function(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_digest_sha2_512 = function(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_digest_sha3_512 = function(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_digest_sha3_256 = function(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_digest_md5 = function(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_generate_cmac = function(key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; cmac: pbyte; cmac_length: PNativeUInt): s32; stdcall;
+  Tcrypto_generate_random_bytes = function(data: pbyte; data_length: int32): s32; stdcall;
+  Tcrypto_crypt_aes_128_ctr = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; ciphertext: pbyte; text_length: NativeUInt; nonce: pbyte; noncelength: NativeUInt): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1925,7 +1941,23 @@ type
     get_ao_channel_count: Tget_ao_channel_count;
     get_do_channel_count: Tget_do_channel_count;
     get_di_channel_count: Tget_di_channel_count;
-    FDummy: array [0..590-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    crypto_encrypt_aes128_ecb: Tcrypto_encrypt_aes128_ecb;
+    crypto_decrypt_aes128_ecb: Tcrypto_decrypt_aes128_ecb;
+    crypto_decrypt_aes_128_cbc: Tcrypto_decrypt_aes_128_cbc;
+    crypto_decrypt_aes_256_cbc: Tcrypto_decrypt_aes_256_cbc;
+    crypto_decrypt_rsa: Tcrypto_decrypt_rsa;
+    crypto_encrypt_rsa: Tcrypto_encrypt_rsa;
+    crypto_encrypt_aes_128_cbc: Tcrypto_encrypt_aes_128_cbc;
+    crypto_encrypt_aes_256_cbc: Tcrypto_encrypt_aes_256_cbc;
+    crypto_digest_sha2_256: Tcrypto_digest_sha2_256;
+    crypto_digest_sha2_512: Tcrypto_digest_sha2_512;
+    crypto_digest_sha3_512: Tcrypto_digest_sha3_512;
+    crypto_digest_sha3_256: Tcrypto_digest_sha3_256;
+    crypto_digest_md5: Tcrypto_digest_md5;
+    crypto_generate_cmac: Tcrypto_generate_cmac;
+    crypto_generate_random_bytes: Tcrypto_generate_random_bytes;
+    crypto_crypt_aes_128_ctr: Tcrypto_crypt_aes_128_ctr;
+    FDummy: array [0..574-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
