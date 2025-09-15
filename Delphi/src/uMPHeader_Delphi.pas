@@ -1228,6 +1228,8 @@ type
   Tcan_rbs_transmit_pdu = function(AChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; AData: pbyte; ADataLength: int32): s32; stdcall;
   Tcan_rbs_get_signal_value_by_element_verbose = function(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: pdouble): s32; stdcall;
   Tcan_rbs_set_signal_value_by_element_verbose = function(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: double): s32; stdcall;
+  Tflexray_rbs_set_signal_value_by_element_verbose = function(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: double): s32; stdcall;
+  Tflexray_rbs_get_signal_value_by_element_verbose = function(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: pdouble): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2489,7 +2491,9 @@ type
     can_rbs_transmit_pdu: Tcan_rbs_transmit_pdu;
     can_rbs_get_signal_value_by_element_verbose: Tcan_rbs_get_signal_value_by_element_verbose;
     can_rbs_set_signal_value_by_element_verbose: Tcan_rbs_set_signal_value_by_element_verbose;
-    FDummy: array [0..546- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    flexray_rbs_set_signal_value_by_element_verbose: Tflexray_rbs_set_signal_value_by_element_verbose;
+    flexray_rbs_get_signal_value_by_element_verbose: Tflexray_rbs_get_signal_value_by_element_verbose;
+    FDummy: array [0..544- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
