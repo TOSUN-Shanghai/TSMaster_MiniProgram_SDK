@@ -1225,6 +1225,7 @@ type
   Tcal_set_datas_by_offset = function(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AOffset: double; AImmediateDownload: byte): s32; stdcall;
   Tcal_set_datas_by_value = function(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AValue: double; AImmediateDownload: byte): s32; stdcall;
   Tcal_get_axisnum_and_address = function(const AECUName: pansichar; const AVarName: pansichar; AXPointsNum: pInt32; AYPointsNum: pInt32; AAdress: PUint32; AExtAddress: PUint32): s32; stdcall;
+  Tcan_rbs_transmit_pdu = function(AChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; AData: pbyte; ADataLength: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2483,7 +2484,8 @@ type
     cal_set_datas_by_offset: Tcal_set_datas_by_offset;
     cal_set_datas_by_value: Tcal_set_datas_by_value;
     cal_get_axisnum_and_address: Tcal_get_axisnum_and_address;
-    FDummy: array [0..549- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_transmit_pdu: Tcan_rbs_transmit_pdu;
+    FDummy: array [0..548- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
