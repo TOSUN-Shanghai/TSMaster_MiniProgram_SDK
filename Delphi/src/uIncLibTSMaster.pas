@@ -3531,6 +3531,8 @@ function crypto_crypt_aes_128_ctr(key: pbyte; key_length: NativeUInt; plaintext:
 function can_rbs_transmit_pdu(AChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; AData: pbyte; ADataLength: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_signal_value_by_element_verbose(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_set_signal_value_by_element_verbose(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function flexray_rbs_set_signal_value_by_element_verbose(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function flexray_rbs_get_signal_value_by_element_verbose(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
