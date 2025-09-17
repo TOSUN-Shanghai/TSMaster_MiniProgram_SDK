@@ -3536,6 +3536,7 @@ function flexray_rbs_set_signal_value_by_element_verbose(AIdxChn: int32; ANetwor
 function flexray_rbs_get_signal_value_by_element_verbose(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_il_register_signal_event(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; ATriggerOnlyChanged: int32; AEvent: TOnSignalEvent): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_il_unregister_signal_event(AIdxChn: int32; ANetworkName: pansichar; ANodeName: pansichar; AMessageName: pansichar; APDUName: pansichar; ASignalName: pansichar; AEvent: TOnSignalEvent): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_time_monitor_config(const AEnableTimeMonitor: boolean; const ATimeoutMs: int32; const AEnableCyclicPeriodRate: boolean; const ACyclicPeriodRateValue: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
