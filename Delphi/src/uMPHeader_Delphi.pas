@@ -724,6 +724,7 @@ type
   Tcrypto_generate_cmac = function(key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; cmac: pbyte; cmac_length: PNativeUInt): s32; stdcall;
   Tcrypto_generate_random_bytes = function(data: pbyte; data_length: int32): s32; stdcall;
   Tcrypto_crypt_aes_128_ctr = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; ciphertext: pbyte; text_length: NativeUInt; nonce: pbyte; noncelength: NativeUInt): s32; stdcall;
+  Tcrypto_crypt_test_ctr = function(const AInput: pansichar; const AIdx: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1965,7 +1966,8 @@ type
     crypto_generate_cmac: Tcrypto_generate_cmac;
     crypto_generate_random_bytes: Tcrypto_generate_random_bytes;
     crypto_crypt_aes_128_ctr: Tcrypto_crypt_aes_128_ctr;
-    FDummy: array [0..574-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    crypto_crypt_test_ctr: Tcrypto_crypt_test_ctr;
+    FDummy: array [0..573-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
