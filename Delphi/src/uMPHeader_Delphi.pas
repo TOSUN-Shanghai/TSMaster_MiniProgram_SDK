@@ -1377,6 +1377,7 @@ type
   Tget_block_value_config = function(const AId: int64; const AName: PAnsichar; AValue: PPAnsiChar): s32; stdcall;
   Tset_block_value_config = function(const AId: int64; const AName: PAnsichar; const AValue: PAnsichar): s32; stdcall;
   Tswitch_block_types = function(const AId: int64; const AName: PAnsichar; const AFromType: PAnsichar; const AToType: PAnsichar): s32; stdcall;
+  Tset_block_out_datatype = function(const AId: int64; const AName: PAnsichar; const ADataType: PAnsichar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -2708,7 +2709,8 @@ type
     get_block_value_config: Tget_block_value_config;
     set_block_value_config: Tset_block_value_config;
     switch_block_types: Tswitch_block_types;
-    FDummy: array [0..733-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    set_block_out_datatype: Tset_block_out_datatype;
+    FDummy: array [0..732-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
