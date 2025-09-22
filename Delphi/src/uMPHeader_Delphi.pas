@@ -726,6 +726,8 @@ type
   Tcrypto_crypt_aes_128_ctr = function(key: pbyte; key_length: NativeUInt; plaintext: pbyte; ciphertext: pbyte; text_length: NativeUInt; nonce: pbyte; noncelength: NativeUInt): s32; stdcall;
   Tcrypto_crypt_test_ctr = function(const AInput: pansichar; const AIdx: int32): s32; stdcall;
   Tui_graphics_set_split_count = function(const AWindowCaption: pansichar; const ACount: int32): s32; stdcall;
+  Tui_graphics_set_y_axis_split_mode = function(const AWindowCaption: pansichar; const AIsSplitMode: boolean): s32; stdcall;
+  Tui_graphics_set_signal_step_style = function(const AWindowCaption: pansichar; const AIdxSplit: int32; const ASgnName: pansichar; const AIsStepStyle: boolean): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1972,7 +1974,9 @@ type
     crypto_crypt_aes_128_ctr: Tcrypto_crypt_aes_128_ctr;
     crypto_crypt_test_ctr: Tcrypto_crypt_test_ctr;
     ui_graphics_set_split_count: Tui_graphics_set_split_count;
-    FDummy: array [0..572-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_graphics_set_y_axis_split_mode: Tui_graphics_set_y_axis_split_mode;
+    ui_graphics_set_signal_step_style: Tui_graphics_set_signal_step_style;
+    FDummy: array [0..570-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
