@@ -733,6 +733,8 @@ type
   Tunregister_app_system_var_module = function(const AAppModuleName: pansichar): s32; stdcall;
   Tcreate_app_system_var = function(const AAppModuleName: pansichar; const ACompleteName: pansichar; const AType: TLIBSystemVarType; const ADefaultValue: pansichar; const AComment: pansichar): s32; stdcall;
   Tdelete_app_system_var = function(const AAppModuleName: pansichar; const ACompleteName: pansichar): s32; stdcall;
+  Tui_hide_toolbar = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tui_show_toolbar = function(const AWindowCaption: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1986,7 +1988,9 @@ type
     unregister_app_system_var_module: Tunregister_app_system_var_module;
     create_app_system_var: Tcreate_app_system_var;
     delete_app_system_var: Tdelete_app_system_var;
-    FDummy: array [0..565-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_hide_toolbar: Tui_hide_toolbar;
+    ui_show_toolbar: Tui_show_toolbar;
+    FDummy: array [0..563-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
