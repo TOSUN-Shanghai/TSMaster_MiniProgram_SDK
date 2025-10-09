@@ -735,6 +735,8 @@ type
   Tdelete_app_system_var = function(const AAppModuleName: pansichar; const ACompleteName: pansichar): s32; stdcall;
   Tui_hide_toolbar = function(const AWindowCaption: pansichar): s32; stdcall;
   Tui_show_toolbar = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tui_maximize_form = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tui_restore_form = function(const AWindowCaption: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1990,7 +1992,9 @@ type
     delete_app_system_var: Tdelete_app_system_var;
     ui_hide_toolbar: Tui_hide_toolbar;
     ui_show_toolbar: Tui_show_toolbar;
-    FDummy: array [0..563-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_maximize_form: Tui_maximize_form;
+    ui_restore_form: Tui_restore_form;
+    FDummy: array [0..561-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
