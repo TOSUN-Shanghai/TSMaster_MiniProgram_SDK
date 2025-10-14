@@ -737,6 +737,7 @@ type
   Tui_show_toolbar = function(const AWindowCaption: pansichar): s32; stdcall;
   Tui_maximize_form = function(const AWindowCaption: pansichar): s32; stdcall;
   Tui_restore_form = function(const AWindowCaption: pansichar): s32; stdcall;
+  Tconfigure_lin_baudrate = function(const AChn: int32; const ABaudrateKbps: single; const AProtocol: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1248,6 +1249,10 @@ type
   Tcan_rbs_time_monitor_config = function(const AEnableTimeMonitor: boolean; const ATimeoutMs: int32; const AEnableCyclicPeriodRate: boolean; const ACyclicPeriodRateValue: int32): s32; stdcall;
   Tcan_il_register_signal_event_by_id = function(const AIdxChn: int32; const AFrameID: int32; const APDUID: uint32; const ASignalName: pansichar; const ATriggerOnlyChanged: int32; AEvent: TOnSignalEvent): s32; stdcall;
   Tcan_il_unregister_signal_event_by_id = function(const AIdxChn: int32; const AFrameID: int32; const APDUID: uint32; const ASignalName: pansichar; AEvent: TOnSignalEvent): s32; stdcall;
+  Teth_il_register_autosar_pdu_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
+  Teth_il_unregister_autosar_pdu_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
+  Teth_il_register_autosar_pdu_pretx_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
+  Teth_il_unregister_autosar_pdu_pretx_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -1994,7 +1999,8 @@ type
     ui_show_toolbar: Tui_show_toolbar;
     ui_maximize_form: Tui_maximize_form;
     ui_restore_form: Tui_restore_form;
-    FDummy: array [0..561-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    configure_lin_baudrate: Tconfigure_lin_baudrate;
+    FDummy: array [0..560-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2530,7 +2536,11 @@ type
     can_rbs_time_monitor_config: Tcan_rbs_time_monitor_config;
     can_il_register_signal_event_by_id: Tcan_il_register_signal_event_by_id;
     can_il_unregister_signal_event_by_id: Tcan_il_unregister_signal_event_by_id;
-    FDummy: array [0..539- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    eth_il_register_autosar_pdu_event: Teth_il_register_autosar_pdu_event;
+    eth_il_unregister_autosar_pdu_event: Teth_il_unregister_autosar_pdu_event;
+    eth_il_register_autosar_pdu_pretx_event: Teth_il_register_autosar_pdu_pretx_event;
+    eth_il_unregister_autosar_pdu_pretx_event: Teth_il_unregister_autosar_pdu_pretx_event;
+    FDummy: array [0..535- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
