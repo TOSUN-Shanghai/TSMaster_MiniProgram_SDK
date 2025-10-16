@@ -1253,6 +1253,11 @@ type
   Teth_il_unregister_autosar_pdu_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUQueueEvent): s32; stdcall;
   Teth_il_register_autosar_pdu_pretx_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
   Teth_il_unregister_autosar_pdu_pretx_event = function(const AChn: int32; const AHeaderID: uint32; const AEvent: TOnAutoSARPDUPreTxEvent): s32; stdcall;
+  Tsimulate_can_async = function(const ACAN: PLIBCAN; const AIsTx: byte): s32; stdcall;
+  Tsimulate_canfd_async = function(const ACANFD: PLIBCANFD; const AIsTx: byte): s32; stdcall;
+  Tsimulate_lin_async = function(const ALIN: PLIBLIN; const AIsTx: byte): s32; stdcall;
+  Tsimulate_flexray_async = function(const AFlexRay: PLIBFlexRay; const AIsTx: byte): s32; stdcall;
+  Tsimulate_ethernet_async = function(const AEthernetHeader: PLIBEthernetHeader; const AIsTx: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2540,7 +2545,12 @@ type
     eth_il_unregister_autosar_pdu_event: Teth_il_unregister_autosar_pdu_event;
     eth_il_register_autosar_pdu_pretx_event: Teth_il_register_autosar_pdu_pretx_event;
     eth_il_unregister_autosar_pdu_pretx_event: Teth_il_unregister_autosar_pdu_pretx_event;
-    FDummy: array [0..535- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    simulate_can_async: Tsimulate_can_async;
+    simulate_canfd_async: Tsimulate_canfd_async;
+    simulate_lin_async: Tsimulate_lin_async;
+    simulate_flexray_async: Tsimulate_flexray_async;
+    simulate_ethernet_async: Tsimulate_ethernet_async;
+    FDummy: array [0..530- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
