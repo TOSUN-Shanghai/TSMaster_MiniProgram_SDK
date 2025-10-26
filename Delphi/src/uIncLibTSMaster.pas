@@ -3063,6 +3063,8 @@ function tssocket_tcp_connect(const s: Integer; const AIPEndPoint: PAnsichar): i
 function tssocket_tcp_close(const s: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tssocket_tcp_close_v2(const s: Integer; const AForceExitTimeWait: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tssocket_tcp_send(const s: Integer; const AData: PByte; const ASize: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tssocket_tcp_send_sync(const s: Integer; const AData: PByte; const ASize: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tssocket_tcp_send_async(const s: Integer; const AData: PByte; const ASize: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tssocket_tcp_sendto_client(const s: Integer; const AIPEndPoint: PAnsiChar; const AData: PByte; const ASize: integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 //function tssocket_udp
 function tssocket_udp(const ANetworkIndex: Integer; const AIPEndPoint: PAnsichar; const ASocketHandle: PInteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
