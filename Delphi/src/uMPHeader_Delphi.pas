@@ -1043,8 +1043,6 @@ type
   Ttssocket_udp_close = function(const ASocket: pInt32): s32; stdcall;
   Ttssocket_tcp_connect = function(const ASocket: int32; const AIPEndPoint: pansichar): s32; stdcall;
   Ttssocket_tcp_send = function(const ASocket: int32; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_tcp_send_sync = function(const ASocket: int32; const AData: pbyte; const ASize: int32): s32; stdcall;
-  Ttssocket_tcp_send_async = function(const ASocket: int32; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_tcp_sendto_client = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_udp_sendto = function(const ASocket: int32; const AIPEndPoint: pansichar; const AData: pbyte; const ASize: int32): s32; stdcall;
   Ttssocket_udp_sendto_v2 = function(const ASocket: int32; const AIPAddress: uint32; const APort: word; const AData: pbyte; const ASize: int32): s32; stdcall;
@@ -2552,9 +2550,7 @@ type
     simulate_lin_async: Tsimulate_lin_async;
     simulate_flexray_async: Tsimulate_flexray_async;
     simulate_ethernet_async: Tsimulate_ethernet_async;
-    tssocket_tcp_send_sync: Ttssocket_tcp_send_sync;
-    tssocket_tcp_send_async: Ttssocket_tcp_send_async;
-    FDummy: array [0..528- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..530- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
