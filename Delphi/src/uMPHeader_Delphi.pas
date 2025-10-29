@@ -1260,6 +1260,9 @@ type
   Tsimulate_lin_async = function(const ALIN: PLIBLIN; const AIsTx: byte): s32; stdcall;
   Tsimulate_flexray_async = function(const AFlexRay: PLIBFlexRay; const AIsTx: byte): s32; stdcall;
   Tsimulate_ethernet_async = function(const AEthernetHeader: PLIBEthernetHeader; const AIsTx: byte): s32; stdcall;
+  Tcan_rbs_set_signal_raw_by_address = function(const ASymbolAddress: pansichar; const ARaw: uint64): s32; stdcall;
+  Tlin_rbs_set_signal_raw_by_address = function(const ASymbolAddress: pansichar; const ARaw: uint64): s32; stdcall;
+  Tlin_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2554,7 +2557,10 @@ type
     simulate_ethernet_async: Tsimulate_ethernet_async;
     tssocket_tcp_send_sync: Ttssocket_tcp_send_sync;
     tssocket_tcp_send_async: Ttssocket_tcp_send_async;
-    FDummy: array [0..528- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_set_signal_raw_by_address: Tcan_rbs_set_signal_raw_by_address;
+    lin_rbs_set_signal_raw_by_address: Tlin_rbs_set_signal_raw_by_address;
+    lin_rbs_get_signal_raw_by_address: Tlin_rbs_get_signal_raw_by_address;
+    FDummy: array [0..525- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
