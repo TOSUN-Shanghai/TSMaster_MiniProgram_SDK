@@ -738,6 +738,10 @@ type
   Tui_maximize_form = function(const AWindowCaption: pansichar): s32; stdcall;
   Tui_restore_form = function(const AWindowCaption: pansichar): s32; stdcall;
   Tconfigure_lin_baudrate = function(const AChn: int32; const ABaudrateKbps: single; const AProtocol: int32): s32; stdcall;
+  Tdb_get_can_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
+  Tdb_get_flexray_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
+  Tdb_get_ethernet_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2010,7 +2014,11 @@ type
     ui_maximize_form: Tui_maximize_form;
     ui_restore_form: Tui_restore_form;
     configure_lin_baudrate: Tconfigure_lin_baudrate;
-    FDummy: array [0..560-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    db_get_can_network_info_by_index: Tdb_get_can_network_info_by_index;
+    db_get_lin_network_info_by_index: Tdb_get_lin_network_info_by_index;
+    db_get_flexray_network_info_by_index: Tdb_get_flexray_network_info_by_index;
+    db_get_ethernet_network_info_by_index: Tdb_get_ethernet_network_info_by_index;
+    FDummy: array [0..556-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
