@@ -1275,6 +1275,8 @@ type
   Tcan_rbs_set_signal_raw_by_address = function(const ASymbolAddress: pansichar; const ARaw: uint64): s32; stdcall;
   Tlin_rbs_set_signal_raw_by_address = function(const ASymbolAddress: pansichar; const ARaw: uint64): s32; stdcall;
   Tlin_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
+  Trbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; AValue: pdouble): s32; stdcall;
+  Trbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2584,7 +2586,9 @@ type
     can_rbs_set_signal_raw_by_address: Tcan_rbs_set_signal_raw_by_address;
     lin_rbs_set_signal_raw_by_address: Tlin_rbs_set_signal_raw_by_address;
     lin_rbs_get_signal_raw_by_address: Tlin_rbs_get_signal_raw_by_address;
-    FDummy: array [0..525- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rbs_get_signal_value_by_address: Trbs_get_signal_value_by_address;
+    rbs_set_signal_value_by_address: Trbs_set_signal_value_by_address;
+    FDummy: array [0..523- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
