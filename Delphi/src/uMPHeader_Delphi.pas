@@ -1,4 +1,4 @@
-unit uMPHeader_Delphi;
+﻿unit uMPHeader_Delphi;
 
 {
   F3 for fast location
@@ -742,6 +742,14 @@ type
   Tdb_get_lin_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
   Tdb_get_flexray_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
   Tdb_get_ethernet_network_info_by_index = function(const AChn: int32; const ANetworkInfo: PPAnsiChar): s32; stdcall;
+  Tset_system_var_uint8_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: byte): s32; stdcall;
+  Tget_system_var_uint8_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pbyte): s32; stdcall;
+  Tget_system_var_int32_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pInt32): s32; stdcall;
+  Tset_system_var_int32_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: int32): s32; stdcall;
+  Tget_system_var_int64_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pint64): s32; stdcall;
+  Tset_system_var_int64_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: int64): s32; stdcall;
+  Tget_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pdouble): s32; stdcall;
+  Tset_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: double): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2018,7 +2026,15 @@ type
     db_get_lin_network_info_by_index: Tdb_get_lin_network_info_by_index;
     db_get_flexray_network_info_by_index: Tdb_get_flexray_network_info_by_index;
     db_get_ethernet_network_info_by_index: Tdb_get_ethernet_network_info_by_index;
-    FDummy: array [0..556-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    set_system_var_uint8_array_element: Tset_system_var_uint8_array_element;
+    get_system_var_uint8_array_element: Tget_system_var_uint8_array_element;
+    get_system_var_int32_array_element: Tget_system_var_int32_array_element;
+    set_system_var_int32_array_element: Tset_system_var_int32_array_element;
+    get_system_var_int64_array_element: Tget_system_var_int64_array_element;
+    set_system_var_int64_array_element: Tset_system_var_int64_array_element;
+    get_system_var_double_array_element: Tget_system_var_double_array_element;
+    set_system_var_double_array_element: Tset_system_var_double_array_element;
+    FDummy: array [0..548-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
