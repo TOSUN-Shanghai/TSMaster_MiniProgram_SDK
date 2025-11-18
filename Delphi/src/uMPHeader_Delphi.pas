@@ -750,6 +750,7 @@ type
   Tset_system_var_int64_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: int64): s32; stdcall;
   Tget_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pdouble): s32; stdcall;
   Tset_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: double): s32; stdcall;
+  Tget_system_var_type = function(const ACompleteName: pansichar; AType: PLIBSystemVarType): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2036,7 +2037,8 @@ type
     set_system_var_int64_array_element: Tset_system_var_int64_array_element;
     get_system_var_double_array_element: Tget_system_var_double_array_element;
     set_system_var_double_array_element: Tset_system_var_double_array_element;
-    FDummy: array [0..548-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_system_var_type: Tget_system_var_type;
+    FDummy: array [0..547-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
