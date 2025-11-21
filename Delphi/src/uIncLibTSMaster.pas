@@ -1895,8 +1895,7 @@ will need to increase long long }
 
   // Metric
   PTSMetricIntegerSnapshot = ^TTSMetricIntegerSnapshot;
-  TTSMetricIntegerSnapshot = record
-  public
+  TTSMetricIntegerSnapshot = packed record
     FCount: UInt64;
     FMinValue: Int64;
     FMaxValue: Int64;
