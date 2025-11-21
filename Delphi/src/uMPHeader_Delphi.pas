@@ -751,6 +751,17 @@ type
   Tget_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; AValue: pdouble): s32; stdcall;
   Tset_system_var_double_array_element = function(const ACompleteName: pansichar; const AIdx: int32; const AValue: double): s32; stdcall;
   Tget_system_var_type = function(const ACompleteName: pansichar; AType: PLIBSystemVarType): s32; stdcall;
+  Tmetric_get_frame_interval_stat = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32; const AFrameId: uint64; const AIdxStat: PTSMetricIntegerSnapshot): s32; stdcall;
+  Tmetric_start = function(): s32; stdcall;
+  Tmetric_stop = function(): s32; stdcall;
+  Tmetric_is_running = function(AIsRunning: PBoolean): s32; stdcall;
+  Tmetric_register_can_frame_interval = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32; const AFrameId: uint64): s32; stdcall;
+  Tmetric_unregister_can_frame_interval = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32; const AFrameId: uint64): s32; stdcall;
+  Tmetric_get_w_reset_frame_interval_stat = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32; const AFrameId: uint64; const AIdxStat: PTSMetricIntegerSnapshot): s32; stdcall;
+  Tmetric_reset_frame_interval_stat = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32; const AFrameId: uint64): s32; stdcall;
+  Tmetric_reset_frames_interval_stat_of_channel = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32): s32; stdcall;
+  Tmetric_reset_frames_interval_stat_of_bus = function(const ABusType: TLIBApplicationChannelType): s32; stdcall;
+  Tmetric_reset_frames_interval_stat_of_all = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2038,7 +2049,18 @@ type
     get_system_var_double_array_element: Tget_system_var_double_array_element;
     set_system_var_double_array_element: Tset_system_var_double_array_element;
     get_system_var_type: Tget_system_var_type;
-    FDummy: array [0..547-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    metric_get_frame_interval_stat: Tmetric_get_frame_interval_stat;
+    metric_start: Tmetric_start;
+    metric_stop: Tmetric_stop;
+    metric_is_running: Tmetric_is_running;
+    metric_register_can_frame_interval: Tmetric_register_can_frame_interval;
+    metric_unregister_can_frame_interval: Tmetric_unregister_can_frame_interval;
+    metric_get_w_reset_frame_interval_stat: Tmetric_get_w_reset_frame_interval_stat;
+    metric_reset_frame_interval_stat: Tmetric_reset_frame_interval_stat;
+    metric_reset_frames_interval_stat_of_channel: Tmetric_reset_frames_interval_stat_of_channel;
+    metric_reset_frames_interval_stat_of_bus: Tmetric_reset_frames_interval_stat_of_bus;
+    metric_reset_frames_interval_stat_of_all: Tmetric_reset_frames_interval_stat_of_all;
+    FDummy: array [0..536-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
