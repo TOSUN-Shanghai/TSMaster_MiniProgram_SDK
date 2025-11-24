@@ -762,6 +762,8 @@ type
   Tmetric_reset_frames_interval_stat_of_channel = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_bus = function(const ABusType: TLIBApplicationChannelType): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_all = function(): s32; stdcall;
+  Ttsai_config_sync = function(const AChn: int32; const ASampleRate: double; const ASampleBits: int32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsao_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputValue: int32; const ATimeoutMs: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1289,6 +1291,8 @@ type
   Tlin_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
   Trbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; AValue: pdouble): s32; stdcall;
   Trbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
+  Ttsai_get_value_input_sync = function(const AChnIdx: int32; AIOStatus: pInt32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsao_set_value_output_async = function(const AChnIdx: int32; AIOStatus: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2060,7 +2064,9 @@ type
     metric_reset_frames_interval_stat_of_channel: Tmetric_reset_frames_interval_stat_of_channel;
     metric_reset_frames_interval_stat_of_bus: Tmetric_reset_frames_interval_stat_of_bus;
     metric_reset_frames_interval_stat_of_all: Tmetric_reset_frames_interval_stat_of_all;
-    FDummy: array [0..536-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    tsai_config_sync: Ttsai_config_sync;
+    tsao_config_sync: Ttsao_config_sync;
+    FDummy: array [0..534-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2612,7 +2618,9 @@ type
     lin_rbs_get_signal_raw_by_address: Tlin_rbs_get_signal_raw_by_address;
     rbs_get_signal_value_by_address: Trbs_get_signal_value_by_address;
     rbs_set_signal_value_by_address: Trbs_set_signal_value_by_address;
-    FDummy: array [0..523- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    tsai_get_value_input_sync: Ttsai_get_value_input_sync;
+    tsao_set_value_output_async: Ttsao_set_value_output_async;
+    FDummy: array [0..521- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
