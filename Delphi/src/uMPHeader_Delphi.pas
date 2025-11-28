@@ -762,6 +762,8 @@ type
   Tmetric_reset_frames_interval_stat_of_channel = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_bus = function(const ABusType: TLIBApplicationChannelType): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_all = function(): s32; stdcall;
+  Tcall_system_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
+  Tcall_library_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -1289,6 +1291,8 @@ type
   Tlin_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
   Trbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; AValue: pdouble): s32; stdcall;
   Trbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
+  Trpc_tsmaster_call_system_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
+  Trpc_tsmaster_call_library_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2060,7 +2064,9 @@ type
     metric_reset_frames_interval_stat_of_channel: Tmetric_reset_frames_interval_stat_of_channel;
     metric_reset_frames_interval_stat_of_bus: Tmetric_reset_frames_interval_stat_of_bus;
     metric_reset_frames_interval_stat_of_all: Tmetric_reset_frames_interval_stat_of_all;
-    FDummy: array [0..536-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    call_system_api_w_serialized_args: Tcall_system_api_w_serialized_args;
+    call_library_api_w_serialized_args: Tcall_library_api_w_serialized_args;
+    FDummy: array [0..534-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2612,7 +2618,9 @@ type
     lin_rbs_get_signal_raw_by_address: Tlin_rbs_get_signal_raw_by_address;
     rbs_get_signal_value_by_address: Trbs_get_signal_value_by_address;
     rbs_set_signal_value_by_address: Trbs_set_signal_value_by_address;
-    FDummy: array [0..523- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_call_system_api_w_serialized_args: Trpc_tsmaster_call_system_api_w_serialized_args;
+    rpc_tsmaster_call_library_api_w_serialized_args: Trpc_tsmaster_call_library_api_w_serialized_args;
+    FDummy: array [0..521- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
