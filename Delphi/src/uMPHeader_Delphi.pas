@@ -1524,6 +1524,8 @@ type
   Taiflow_enum_objects_by_type = function(const ABlockId: int64; const AType: TAiFlowObjectType; ASIDs: pint64; AMaxCount: pInt32): s32; stdcall;
   Taiflow_get_object_parent = function(const ABlockId: int64; const ASID: int64; AParentSID: pint64): s32; stdcall;
   Taiflow_get_state_children = function(const ABlockId: int64; const AStateSID: int64; AChildSIDs: pint64; AMaxCount: pInt32): s32; stdcall;
+  Tcreate_block_w_sid = function(const AId: int64; const AName: PAnsichar; const AType: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32; ASid: pint64): s32; stdcall;
+  Tget_block_sid = function(const AId: int64; const AName: PAnsichar; ASid: pint64): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -3002,7 +3004,9 @@ type
     aiflow_enum_objects_by_type: Taiflow_enum_objects_by_type;
     aiflow_get_object_parent: Taiflow_get_object_parent;
     aiflow_get_state_children: Taiflow_get_state_children;
-    FDummy: array [0..642-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    create_block_w_sid: Tcreate_block_w_sid;
+    get_block_sid: Tget_block_sid;
+    FDummy: array [0..640-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
