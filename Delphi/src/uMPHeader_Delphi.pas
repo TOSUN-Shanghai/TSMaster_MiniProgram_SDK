@@ -764,6 +764,7 @@ type
   Tmetric_reset_frames_interval_stat_of_all = function(): s32; stdcall;
   Tcall_system_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Tcall_library_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
+  Tcan_set_load_balance_control = function(const AIdxChn: int32; const AIsEnabled: byte; const ADelayUs: uint32; const ATimeoutMS: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2158,7 +2159,8 @@ type
     metric_reset_frames_interval_stat_of_all: Tmetric_reset_frames_interval_stat_of_all;
     call_system_api_w_serialized_args: Tcall_system_api_w_serialized_args;
     call_library_api_w_serialized_args: Tcall_library_api_w_serialized_args;
-    FDummy: array [0..534-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    can_set_load_balance_control: Tcan_set_load_balance_control;
+    FDummy: array [0..533-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
