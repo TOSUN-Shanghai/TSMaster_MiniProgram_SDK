@@ -1293,6 +1293,7 @@ type
   Trbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
   Trpc_tsmaster_call_system_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Trpc_tsmaster_call_library_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
+  Tcan_rbs_get_e2e_list_and_save_to_file = function(const AChnIdx: int32; const AFilePath: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2712,7 +2713,8 @@ type
     rbs_set_signal_value_by_address: Trbs_set_signal_value_by_address;
     rpc_tsmaster_call_system_api_w_serialized_args: Trpc_tsmaster_call_system_api_w_serialized_args;
     rpc_tsmaster_call_library_api_w_serialized_args: Trpc_tsmaster_call_library_api_w_serialized_args;
-    FDummy: array [0..521- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_get_e2e_list_and_save_to_file: Tcan_rbs_get_e2e_list_and_save_to_file;
+    FDummy: array [0..520- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
