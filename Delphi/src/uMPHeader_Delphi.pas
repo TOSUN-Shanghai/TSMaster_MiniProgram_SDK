@@ -766,6 +766,7 @@ type
   Tcall_library_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Tget_hardware_id_string_upg1 = function(AIDString: PPAnsiChar): s32; stdcall;
   Tget_hardware_id_array_upg1 = function(AArray8B: pbyte): s32; stdcall;
+  Tget_mapping_property = function(const AMapping: PLIBTSMapping; const AKey: int32; const AValue: PPAnsiChar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2163,7 +2164,8 @@ type
     call_library_api_w_serialized_args: Tcall_library_api_w_serialized_args;
     get_hardware_id_string_upg1: Tget_hardware_id_string_upg1;
     get_hardware_id_array_upg1: Tget_hardware_id_array_upg1;
-    FDummy: array [0..532-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_mapping_property: Tget_mapping_property;
+    FDummy: array [0..531-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
