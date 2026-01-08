@@ -1264,16 +1264,34 @@ type
     FFRSlotId: uint16;
     FFRDLC: uint16;
     FFRCycleMask: uint64;
+    //FPDUCount or signal Count
+    FPDUCount: Int32;
     FSignalCount: int32;
     FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
     FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
   end;
   PMPDBFrameProperties = ^TMPDBFrameProperties;
+  // TMPDBFrameProperties for database Frame properties, size = 1088
+  TMPDBPDUProperties = packed record
+    FDBIndex: int32;
+    FECUIndex: int32;
+    FFrameIndex: int32;
+    FPDUIndex: Int32;
+    FIsTx: uint8;
+    FReserved1: uint8;
+    FCycleTimeMs: uint16;
+    FPDUType: TSignalType;
+    FSignalCount: int32;
+    FName: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+    FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
+  end;
+  PMPDBPDUProperties = ^TMPDBPDUProperties;
   // TMPDBSignalProperties for database signal properties, size = 1144
   TMPDBSignalProperties = packed record
     FDBIndex: int32;
     FECUIndex: int32;
     FFrameIndex: int32;
+    FPDUIndex: Int32;
     FSignalIndex: int32;
     FIsTx: uint8;
     FReserved1: uint8;
@@ -1386,6 +1404,7 @@ type
                       const AFunctionIDIsStd: Boolean): Integer; stdcall;
   Ttsdiag_set_fdmode = function(const ADiagModuleIndex: Integer; const AFDMode: boolean; const ASupportBRS: Boolean; const AMaxDLC: Integer): Integer; stdcall;
   Ttsdiag_can_delete = function(const ADiagModuleIndex: Integer): Integer; stdcall;
+  TTsdiag_set_is_valid = function(const ADiagModuleIndex: Integer; const AIsValid: boolean): integer; stdcall;
   Ttsdiag_can_delete_all = procedure; stdcall;
   Ttstp_can_request_and_get_response = function(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer; const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall;
   Ttstp_can_request_and_get_response_functional = function(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer; const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall;
@@ -2979,8 +2998,9 @@ function tsdiag_lin_create(const pDiagModuleIndex: PInteger; const AChnIndex: UI
 function tstp_lin_set_run_with_normal_schedule_table(const ADiagModuleIndex: Integer; const ADiagRunWithNormalScheduleTable: boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_lin_set_nad(const ADiagModuleIndex: Integer; const ANAD: byte): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 {Parameter setting}
-function tsdiag_set_channel(const ADiagModuleIndex: Integer; const AChnIndex: Integer): Integer;  stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_channel(const ADiagModuleIndex: Integer; const AChnIndex: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_fdmode(const ADiagModuleIndex: Integer; const AFDMode: boolean; const ASupportBRS: boolean; const AMaxLength: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdiag_set_is_valid(const ADiagModuleIndex: Integer; const AIsValid: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_request_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer;  stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_response_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_set_function_id(const ADiagModuleIndex: Integer; const ARequestID: Integer; const AIsStandard: Boolean): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -3009,6 +3029,7 @@ function tstp_request_and_get_response(const ADiagModuleIndex: Integer; const AR
 function tstp_request_and_get_response_functional(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer;const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdiag_delete(const ADiagModuleIndex: Integer): Integer; stdcall;{$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tsdiag_delete_all; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 
 {Commen Diagnostic Service APIs}
 function tsdiag_session_control(const ADiagModuleIndex: Integer; const ASubSession: Byte):Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -3676,6 +3697,10 @@ function can_rbs_get_e2e_list_and_save_to_file(const AChnIdx: int32; const AFile
 function get_hardware_id_string_upg1(AIDString: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_hardware_id_array_upg1(AArray8B: pbyte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_mapping_property(const AMapping: PLIBTSMapping; const AKey: int32; const AValue: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function db_get_can_pdu_properties_by_index(const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function db_get_can_pdu_properties_by_address(const AAdress: pansichar; const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function db_get_flexray_pdu_properties_by_address(const AAdress: pansichar; const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function db_get_flexray_pdu_properties_by_index(const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
