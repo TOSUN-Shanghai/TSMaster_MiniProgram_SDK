@@ -1301,6 +1301,10 @@ type
   Trpc_tsmaster_call_system_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Trpc_tsmaster_call_library_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Tcan_rbs_get_e2e_list_and_save_to_file = function(const AChnIdx: int32; const AFilePath: pansichar): s32; stdcall;
+  Tcal_set_logical_channel_index = function(const AECUName: pansichar; const AChnIdx: int32): s32; stdcall;
+  Tcal_load_new_a2l = function(const AECUName: pansichar; const AA2LPath: pansichar): s32; stdcall;
+  Tcal_switch_to_xcp = function(const AECUName: pansichar; const ATPLayer: int32): s32; stdcall;
+  Tcal_switch_to_ccp = function(const AECUName: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2728,7 +2732,11 @@ type
     rpc_tsmaster_call_system_api_w_serialized_args: Trpc_tsmaster_call_system_api_w_serialized_args;
     rpc_tsmaster_call_library_api_w_serialized_args: Trpc_tsmaster_call_library_api_w_serialized_args;
     can_rbs_get_e2e_list_and_save_to_file: Tcan_rbs_get_e2e_list_and_save_to_file;
-    FDummy: array [0..520- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    cal_set_logical_channel_index: Tcal_set_logical_channel_index;
+    cal_load_new_a2l: Tcal_load_new_a2l;
+    cal_switch_to_xcp: Tcal_switch_to_xcp;
+    cal_switch_to_ccp: Tcal_switch_to_ccp;
+    FDummy: array [0..516- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;

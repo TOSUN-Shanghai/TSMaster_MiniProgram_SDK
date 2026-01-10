@@ -3701,6 +3701,10 @@ function db_get_can_pdu_properties_by_index(const AValue: PMPDBPDUProperties): i
 function db_get_can_pdu_properties_by_address(const AAdress: pansichar; const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_flexray_pdu_properties_by_address(const AAdress: pansichar; const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_flexray_pdu_properties_by_index(const AValue: PMPDBPDUProperties): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function cal_set_logical_channel_index(const AECUName: pansichar; const AChnIdx: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function cal_load_new_a2l(const AECUName: pansichar; const AA2LPath: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function cal_switch_to_xcp(const AECUName: pansichar; const ATPLayer: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function cal_switch_to_ccp(const AECUName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
