@@ -669,7 +669,7 @@ type
     //          more bytes of the address.
     //bit0-47:  same as filter_perfect0
     filter_perfect1: UInt64;
-    params: array[0..15] of Byte;   // 16 bytes parameters align with tsdev
+    Fparams: array[0..15] of Byte;   // 16 bytes parameters align with tsdev
     rev: array[0..3] of UInt64;  // 32 bytes
   end; //9*8 + 6 = 80
   //TSLogger
@@ -1319,7 +1319,7 @@ type
   end;
   // Mapping definition
   TLIBTSMapping = packed record
-    FAppName: array[0..31] of AnsiChar;
+    FAppName: array[0..31] of AnsiChar;    //Real char number of FAppName is 31
     FAppChannelIndex: integer;
     FAppChannelType: TLIBApplicationChannelType;
     FHWDeviceType: TLIBBusToolDeviceType;
@@ -4486,7 +4486,7 @@ begin
   Result := false;
   if Length(AAppName) >= 32 then exit;
   if Length(AHWDeviceName) >= 32 then exit;
-  System.AnsiStrings.StrPCopy(@FAppName[0], AnsiString(AAppName));
+  System.AnsiStrings.StrPCopy(@FAppName[0], AnsiString(AAppName));  //Always add #0 behind the last char
   FAppChannelIndex := AIdxLogicalChannel;
   FAppChannelType := AChnType;
   FHWDeviceType := AHWDeviceType;
