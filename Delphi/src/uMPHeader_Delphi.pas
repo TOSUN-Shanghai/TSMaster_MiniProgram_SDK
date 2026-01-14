@@ -1305,6 +1305,8 @@ type
   Tcal_load_new_a2l = function(const AECUName: pansichar; const AA2LPath: pansichar): s32; stdcall;
   Tcal_switch_to_xcp = function(const AECUName: pansichar; const ATPLayer: int32): s32; stdcall;
   Tcal_switch_to_ccp = function(const AECUName: pansichar): s32; stdcall;
+  Tcan_rbs_fault_inject_disturb_checksum_verbose = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const AType: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
+  Tcan_rbs_fault_inject_disturb_sequencecounter_verbose = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const AType: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32; const continueMode: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2736,7 +2738,9 @@ type
     cal_load_new_a2l: Tcal_load_new_a2l;
     cal_switch_to_xcp: Tcal_switch_to_xcp;
     cal_switch_to_ccp: Tcal_switch_to_ccp;
-    FDummy: array [0..516- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_fault_inject_disturb_checksum_verbose: Tcan_rbs_fault_inject_disturb_checksum_verbose;
+    can_rbs_fault_inject_disturb_sequencecounter_verbose: Tcan_rbs_fault_inject_disturb_sequencecounter_verbose;
+    FDummy: array [0..514- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
