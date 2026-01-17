@@ -1307,6 +1307,14 @@ type
   Tcal_switch_to_ccp = function(const AECUName: pansichar): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_checksum_verbose = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const AType: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32): s32; stdcall;
   Tcan_rbs_fault_inject_disturb_sequencecounter_verbose = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const AType: int32; const disturbanceMode: int32; const disturbanceCount: int32; const disturbanceValue: int32; const continueMode: int32): s32; stdcall;
+  Tset_can_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const ACANFD: PLIBCANFD; AValue: double): s32; stdcall;
+  Tget_can_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const ACANFD: PLIBCANFD; AValue: pdouble): s32; stdcall;
+  Tget_flexray_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AFlexray: PLIBFlexRay; AValue: pdouble): s32; stdcall;
+  Tset_flexray_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AFlexray: PLIBFlexRay; AValue: double): s32; stdcall;
+  Tset_lin_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const ALIN: PLIBLIN; AValue: double): s32; stdcall;
+  Tget_lin_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const ALIN: PLIBLIN; AValue: pdouble): s32; stdcall;
+  Tget_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): s32; stdcall;
+  Tset_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2740,7 +2748,15 @@ type
     cal_switch_to_ccp: Tcal_switch_to_ccp;
     can_rbs_fault_inject_disturb_checksum_verbose: Tcan_rbs_fault_inject_disturb_checksum_verbose;
     can_rbs_fault_inject_disturb_sequencecounter_verbose: Tcan_rbs_fault_inject_disturb_sequencecounter_verbose;
-    FDummy: array [0..514- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    set_can_signal_value_verbose: Tset_can_signal_value_verbose;
+    get_can_signal_value_verbose: Tget_can_signal_value_verbose;
+    get_flexray_signal_value_verbose: Tget_flexray_signal_value_verbose;
+    set_flexray_signal_value_verbose: Tset_flexray_signal_value_verbose;
+    set_lin_signal_value_verbose: Tset_lin_signal_value_verbose;
+    get_lin_signal_value_verbose: Tget_lin_signal_value_verbose;
+    get_ethernet_signal_value_verbose: Tget_ethernet_signal_value_verbose;
+    set_ethernet_signal_value_verbose: Tset_ethernet_signal_value_verbose;
+    FDummy: array [0..506- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
