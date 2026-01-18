@@ -771,6 +771,9 @@ type
   Tdb_get_can_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_index = function(const AValue: PMPDBPDUProperties): s32; stdcall;
+  Tregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TOnSystemVarPreReadEvent): s32; stdcall;
+  Tunregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TOnSystemVarPreReadEvent): s32; stdcall;
+  Tunregister_system_var_pre_read_events = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2187,7 +2190,10 @@ type
     db_get_can_pdu_properties_by_address: Tdb_get_can_pdu_properties_by_address;
     db_get_flexray_pdu_properties_by_address: Tdb_get_flexray_pdu_properties_by_address;
     db_get_flexray_pdu_properties_by_index: Tdb_get_flexray_pdu_properties_by_index;
-    FDummy: array [0..527-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    register_system_var_pre_read_event: Tregister_system_var_pre_read_event;
+    unregister_system_var_pre_read_event: Tunregister_system_var_pre_read_event;
+    unregister_system_var_pre_read_events: Tunregister_system_var_pre_read_events;
+    FDummy: array [0..524-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
