@@ -771,8 +771,8 @@ type
   Tdb_get_can_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_index = function(const AValue: PMPDBPDUProperties): s32; stdcall;
-  Tregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TOnSystemVarPreReadEvent): s32; stdcall;
-  Tunregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TOnSystemVarPreReadEvent): s32; stdcall;
+  Tregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TLIBOnSystemVarPreReadEvent): s32; stdcall;
+  Tunregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TLIBOnSystemVarPreReadEvent): s32; stdcall;
   Tunregister_system_var_pre_read_events = function(): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
