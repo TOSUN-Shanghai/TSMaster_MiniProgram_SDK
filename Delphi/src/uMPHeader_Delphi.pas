@@ -1318,6 +1318,7 @@ type
   Tget_lin_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const ASignalName: pansichar; const ALIN: PLIBLIN; AValue: pdouble): s32; stdcall;
   Tget_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): s32; stdcall;
   Tset_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): s32; stdcall;
+  Ttransmit_canfd_sequential = function(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2762,7 +2763,8 @@ type
     get_lin_signal_value_verbose: Tget_lin_signal_value_verbose;
     get_ethernet_signal_value_verbose: Tget_ethernet_signal_value_verbose;
     set_ethernet_signal_value_verbose: Tset_ethernet_signal_value_verbose;
-    FDummy: array [0..506- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    transmit_canfd_sequential(const s32 AIdxChn, const PCANFD ACANFDs, const pu32 AIntervalsUs, const s32 ACount, const u8 AFlags): Ttransmit_canfd_sequential;
+    FDummy: array [0..505- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
