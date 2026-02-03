@@ -774,6 +774,8 @@ type
   Tregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TLIBOnSystemVarPreReadEvent): s32; stdcall;
   Tunregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TLIBOnSystemVarPreReadEvent): s32; stdcall;
   Tunregister_system_var_pre_read_events = function(): s32; stdcall;
+  Ttransmit_lin_wakeup_async = function(const AIdxChn: int32; const AWakeupLength: int32; const AWakeupIntervalTime: int32; const AWakeupTimes: int32): s32; stdcall;
+  Ttransmit_lin_gotosleep_async = function(const AIdxChn: int32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2194,7 +2196,9 @@ type
     register_system_var_pre_read_event: Tregister_system_var_pre_read_event;
     unregister_system_var_pre_read_event: Tunregister_system_var_pre_read_event;
     unregister_system_var_pre_read_events: Tunregister_system_var_pre_read_events;
-    FDummy: array [0..524-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    transmit_lin_wakeup_async: Ttransmit_lin_wakeup_async;
+    transmit_lin_gotosleep_async: Ttransmit_lin_gotosleep_async;
+    FDummy: array [0..522-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
