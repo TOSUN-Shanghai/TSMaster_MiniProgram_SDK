@@ -34,3 +34,4 @@
 *.stat
 *.opendb
 *.orig
+.autonomous/
