@@ -998,10 +998,14 @@ type
   // Graphic Program
   TLIBAutomationModuleRunningState = (amrsNotRun, amrsPrepareRun, amrsRunning, amrsPaused, amrsStepping, amrsFinished);
   PLIBAutomationModuleRunningState = ^TLIBAutomationModuleRunningState;
+  // 设计说明：兼容旧命名，避免历史工程依赖的运行态指针类型失效。
+  PAutomationModuleRunningState = PLIBAutomationModuleRunningState;
   TLIBAutomationSignalType = (lastCANSignal = 0, lastLINSignal, lastSysVar, lastLocalVar, lastConst, lastFlexRaySignal, lastImmediateValue, lastUnknown = $FFFFFFF);
   PLIBAutomationSignalType = ^TLIBAutomationSignalType;
   TLIBMPFuncSource = (lmfsSystemFunc, lmfsMPLib, lmfsInternal);
   TLIBSimVarType = (lvtInteger = 0, lvtDouble, lvtString, lvtCANMsg, lvtCANFDMsg, lvtLINMsg, lvtUnknown = $FFFFFFF);
+  // 设计说明：补充指针别名，支持头文件参数使用 PLIBSimVarType 进行严格映射。
+  PLIBSimVarType = ^TLIBSimVarType;
   // STIM
   TSTIMSignalStatus = (sssStopped, sssRunning, sssPaused);
   PSTIMSignalStatus = ^TSTIMSignalStatus;
