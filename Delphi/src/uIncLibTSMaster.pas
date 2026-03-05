@@ -188,6 +188,20 @@ type
     property IsErrorFrame: boolean read GetIsErrorFrame write SetIsErrorFrame;
   end;
 
+  PLIBCANXL = ^TLIBCANXL;
+  TLIBCANXL = packed record
+    FTimestamp: UInt64;   // hw local timestamp when this command is issued
+    FIdentifier: UInt32;  // 0x55, can identifier
+    FIdxChn: UInt8;       // 0, 0-channel 1, 1-channel 2
+    FVCID: UInt8;         // only for xl mode
+    FStatusGrp: UInt8;    // [7] 0-normal frame, 1-error frame; [6-4] tbd; [3] 0-non xl frame, 1-xl frame; [1] 0-data frame, 1-remote frame; [0] dir: 0-RX, 1-TX
+    FFDProperties: UInt8; // [7] is_v1: 0 for v0 mode, 1 for v1 mode; [6-3] tbd; [2] ESI; [1] BRS; [0] EDL
+    FDLC: UInt16;         // data length in bytes
+    FSDT: UInt8;          // upper layer, e.g. TCP/IP, CANopen
+    FCtrl_0: UInt8;       // bit1: FAST; bit2: SEC; bit4-7: ADS
+    FAF: UInt32;          // 32bit hardware address filter for addressing
+    FData: array[0..2047] of UInt8;
+  end;
   // LIN frame definition = 24 B
   PLIBLIN = ^TLIBLIN;
   TLIBLIN = packed record
@@ -1113,7 +1127,8 @@ type
     GW2212              = 66,
     TA821               = 67,
     TX1000              = 68,
-    TS_DEV_END          = 69
+    TC1055ProPlus       = 69,
+    TS_DEV_END          = 70
   // the table need to updated in time, otherwise cause problem to recognizing the device
   );
   // Vector XL device type
@@ -3722,6 +3737,7 @@ function get_lin_signal_value_verbose(const AChn: int32; const ANetworkName: pan
 function get_ethernet_signal_value_verbose(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function set_ethernet_signal_value_verbose(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function transmit_canfd_sequential(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function transmit_canxl_async(const ACANXL: PLIBCANXL): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
