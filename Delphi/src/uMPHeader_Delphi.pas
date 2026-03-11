@@ -762,8 +762,11 @@ type
   Tmetric_reset_frames_interval_stat_of_channel = function(const ABusType: TLIBApplicationChannelType; const AIdxChn: int32): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_bus = function(const ABusType: TLIBApplicationChannelType): s32; stdcall;
   Tmetric_reset_frames_interval_stat_of_all = function(): s32; stdcall;
+  Ttsai_config_sync = function(const AChn: int32; const ASampleRate: double; const ASampleBits: int32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsao_config_sync = function(const AChn: int32; const AEnableReport: int32; const ASampleRate: double; const AOutputValue: int32; const ATimeoutMs: int32): s32; stdcall;
   Tcall_system_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Tcall_library_api_w_serialized_args = function(const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
+  Tcan_set_load_balance_control = function(const AIdxChn: int32; const AIsEnabled: byte; const ADelayUs: uint32; const ATimeoutMS: int32): s32; stdcall;
   Tget_hardware_id_string_upg1 = function(AIDString: PPAnsiChar): s32; stdcall;
   Tget_hardware_id_array_upg1 = function(AArray8B: pbyte): s32; stdcall;
   Tget_mapping_property = function(const AMapping: PLIBTSMapping; const AKey: int32; const AValue: PPAnsiChar): s32; stdcall;
@@ -1347,6 +1350,8 @@ type
   Tlin_rbs_get_signal_raw_by_address = function(const ASymbolAddress: pansichar; ARaw: puint64): s32; stdcall;
   Trbs_get_signal_value_by_address = function(const ASymbolAddress: pansichar; AValue: pdouble): s32; stdcall;
   Trbs_set_signal_value_by_address = function(const ASymbolAddress: pansichar; const AValue: double): s32; stdcall;
+  Ttsai_get_value_input_sync = function(const AChnIdx: int32; AIOStatus: pInt32; const ATimeoutMs: int32): s32; stdcall;
+  Ttsao_set_value_output_async = function(const AChnIdx: int32; AIOStatus: int32): s32; stdcall;
   Trpc_tsmaster_call_system_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Trpc_tsmaster_call_library_api_w_serialized_args = function(const AObj: Pointer; const AHandle: NativeInt; const AAPIName: pansichar; const ASeparator: pansichar; const AArgsCapacity: int32; AArgs: pansichar): s32; stdcall;
   Tcan_rbs_get_e2e_list_and_save_to_file = function(const AChnIdx: int32; const AFilePath: pansichar): s32; stdcall;
@@ -1365,6 +1370,7 @@ type
   Tget_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): s32; stdcall;
   Tset_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): s32; stdcall;
   Ttransmit_canfd_sequential = function(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): s32; stdcall;
+  Ttransmit_canxl_async = function(const ACANXL: PLIBCANXL): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2228,8 +2234,11 @@ type
     metric_reset_frames_interval_stat_of_channel: Tmetric_reset_frames_interval_stat_of_channel;
     metric_reset_frames_interval_stat_of_bus: Tmetric_reset_frames_interval_stat_of_bus;
     metric_reset_frames_interval_stat_of_all: Tmetric_reset_frames_interval_stat_of_all;
+    tsai_config_sync: Ttsai_config_sync;
+    tsao_config_sync: Ttsao_config_sync;
     call_system_api_w_serialized_args: Tcall_system_api_w_serialized_args;
     call_library_api_w_serialized_args: Tcall_library_api_w_serialized_args;
+    can_set_load_balance_control: Tcan_set_load_balance_control;
     get_hardware_id_string_upg1: Tget_hardware_id_string_upg1;
     get_hardware_id_array_upg1: Tget_hardware_id_array_upg1;
     get_mapping_property: Tget_mapping_property;
@@ -2286,7 +2295,7 @@ type
     am_set_editor_locked: Tam_set_editor_locked;
     am_get_editor_locked: Tam_get_editor_locked;
     am_get_count: Tam_get_count;
-    FDummy: array [0..478-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    FDummy: array [0..475-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2838,6 +2847,8 @@ type
     lin_rbs_get_signal_raw_by_address: Tlin_rbs_get_signal_raw_by_address;
     rbs_get_signal_value_by_address: Trbs_get_signal_value_by_address;
     rbs_set_signal_value_by_address: Trbs_set_signal_value_by_address;
+    tsai_get_value_input_sync: Ttsai_get_value_input_sync;
+    tsao_set_value_output_async: Ttsao_set_value_output_async;
     rpc_tsmaster_call_system_api_w_serialized_args: Trpc_tsmaster_call_system_api_w_serialized_args;
     rpc_tsmaster_call_library_api_w_serialized_args: Trpc_tsmaster_call_library_api_w_serialized_args;
     can_rbs_get_e2e_list_and_save_to_file: Tcan_rbs_get_e2e_list_and_save_to_file;
@@ -2856,7 +2867,8 @@ type
     get_ethernet_signal_value_verbose: Tget_ethernet_signal_value_verbose;
     set_ethernet_signal_value_verbose: Tset_ethernet_signal_value_verbose;
     transmit_canfd_sequential: Ttransmit_canfd_sequential;
-    FDummy: array [0..505- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    transmit_canxl_async: Ttransmit_canxl_async;
+    FDummy: array [0..502- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -2973,7 +2985,7 @@ type
     classic_test_system_login: Tclassic_test_system_login;
     classic_test_system_import: Tclassic_test_system_import;
     log_formatted_value: Tlog_formatted_value;
-    FDummy: array [0..942-1] of NativeInt; // place holders, TS_TEST_PROTO_END
+    FDummy: array [0..142-1] of NativeInt; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;
@@ -3986,4 +3998,3 @@ initialization
   CheckMPRecordSize;
   
 end.
-
