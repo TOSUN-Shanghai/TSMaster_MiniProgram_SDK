@@ -823,6 +823,9 @@ type
   Tam_set_editor_locked = function(const AModuleName: PAnsichar; const ALocked: boolean): s32; stdcall;
   Tam_get_editor_locked = function(const AModuleName: PAnsichar; ALocked: PBoolean): s32; stdcall;
   Tam_get_count = function(ACount: pInt32): s32; stdcall;
+  Tget_system_var_app_def_by_index = function(const AAppName: pansichar; const AIndex: int32; AVarDef: PLIBSystemVarDef): s32; stdcall;
+  Tget_system_var_app_def_by_name = function(const AAppName: pansichar; const ACompleteName: pansichar; AVarDef: PLIBSystemVarDef): s32; stdcall;
+  Tget_system_var_app_count = function(const AAppName: pansichar; ACount: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2295,7 +2298,10 @@ type
     am_set_editor_locked: Tam_set_editor_locked;
     am_get_editor_locked: Tam_get_editor_locked;
     am_get_count: Tam_get_count;
-    FDummy: array [0..475-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    get_system_var_app_def_by_index: Tget_system_var_app_def_by_index;
+    get_system_var_app_def_by_name: Tget_system_var_app_def_by_name;
+    get_system_var_app_count: Tget_system_var_app_count;
+    FDummy: array [0..472-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
