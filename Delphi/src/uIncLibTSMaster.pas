@@ -3741,6 +3741,8 @@ function transmit_canxl_async(const ACANXL: PLIBCANXL): integer; stdcall; {$IFND
 function get_system_var_app_def_by_index(const AAppName: pansichar; const AIndex: int32; AVarDef: PLIBSystemVarDef): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_system_var_app_def_by_name(const AAppName: pansichar; const ACompleteName: pansichar; AVarDef: PLIBSystemVarDef): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_system_var_app_count(const AAppName: pansichar; ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rawsocket_etharp_add_static_entry_ex(const ANetworkIndex: int32; const AIpAddr: pansichar; AEthAddr: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rawsocket_etharp_remove_static_entry_ex(const ANetworkIndex: int32; const ipaddr: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}

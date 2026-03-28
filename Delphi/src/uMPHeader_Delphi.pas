@@ -1374,6 +1374,8 @@ type
   Tset_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): s32; stdcall;
   Ttransmit_canfd_sequential = function(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): s32; stdcall;
   Ttransmit_canxl_async = function(const ACANXL: PLIBCANXL): s32; stdcall;
+  Trawsocket_etharp_add_static_entry_ex = function(const ANetworkIndex: int32; const AIpAddr: pansichar; AEthAddr: pansichar): s32; stdcall;
+  Trawsocket_etharp_remove_static_entry_ex = function(const ANetworkIndex: int32; const ipaddr: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2874,7 +2876,9 @@ type
     set_ethernet_signal_value_verbose: Tset_ethernet_signal_value_verbose;
     transmit_canfd_sequential: Ttransmit_canfd_sequential;
     transmit_canxl_async: Ttransmit_canxl_async;
-    FDummy: array [0..502- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rawsocket_etharp_add_static_entry_ex: Trawsocket_etharp_add_static_entry_ex;
+    rawsocket_etharp_remove_static_entry_ex: Trawsocket_etharp_remove_static_entry_ex;
+    FDummy: array [0..500- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
