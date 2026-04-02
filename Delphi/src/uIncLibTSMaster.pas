@@ -2779,6 +2779,7 @@ function tsdb_get_flexray_db_signal_properties_by_address(const AAddr: pansichar
 function tsdb_get_can_signal_range_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_lin_signal_range_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_lin_schedule_table_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsdb_get_lin_schedule_tables_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_lin_frame_category_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_get_lin_node_mode_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsdb_load_lin_db(const ALDF: PAnsiChar; const ASupportedChannelsBased0: PAnsiChar; out AId: Cardinal): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -3692,6 +3693,7 @@ function db_get_ethernet_network_info_by_index(const AChn: int32; const ANetwork
 function db_get_can_signal_range_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_lin_signal_range_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_lin_schedule_table_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function db_get_lin_schedule_tables_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_lin_frame_category_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function db_get_lin_node_mode_json_by_address(const AAdress: pansichar; const AJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function set_system_var_uint8_array_element(const ACompleteName: pansichar; const AIdx: int32; const AValue: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
