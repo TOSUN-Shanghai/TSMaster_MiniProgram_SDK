@@ -1609,6 +1609,7 @@ type
   Taiflow_get_state_children = function(const ABlockId: int64; const AStateSID: int64; AChildSIDs: pint64; AMaxCount: pInt32): s32; stdcall;
   Tcreate_block_w_sid = function(const AId: int64; const AName: PAnsichar; const AType: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32; ASid: pint64): s32; stdcall;
   Tget_block_sid = function(const AId: int64; const AName: PAnsichar; ASid: pint64): s32; stdcall;
+  Tgenerate_code = function(const AId: int64; const ADir: pansichar): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -3172,7 +3173,8 @@ type
     aiflow_get_state_children: Taiflow_get_state_children;
     create_block_w_sid: Tcreate_block_w_sid;
     get_block_sid: Tget_block_sid;
-    FDummy: array [0..640-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    generate_code: Tgenerate_code;
+    FDummy: array [0..639-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
