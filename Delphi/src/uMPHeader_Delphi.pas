@@ -1610,6 +1610,7 @@ type
   Tcreate_block_w_sid = function(const AId: int64; const AName: PAnsichar; const AType: PAnsichar; const ALeft: int32; const ATop: int32; const AWidth: int32; const AHeight: int32; ASid: pint64): s32; stdcall;
   Tget_block_sid = function(const AId: int64; const AName: PAnsichar; ASid: pint64): s32; stdcall;
   Tgenerate_code = function(const AId: int64; const ADir: pansichar): s32; stdcall;
+  Tload_diagram = function(const AFile: pansichar; AId: pint64): s32; stdcall;
   // TS_MBD_PROTO_END (do not modify this line) ================================
 
   // tac features
@@ -3174,7 +3175,8 @@ type
     create_block_w_sid: Tcreate_block_w_sid;
     get_block_sid: Tget_block_sid;
     generate_code: Tgenerate_code;
-    FDummy: array [0..639-1] of NativeInt; // place holders, TS_MBD_PROTO_END
+    load_diagram: Tload_diagram;
+    FDummy: array [0..638-1] of NativeInt; // place holders, TS_MBD_PROTO_END
   end;
   PTSMBD = ^TTSMBD;
 
