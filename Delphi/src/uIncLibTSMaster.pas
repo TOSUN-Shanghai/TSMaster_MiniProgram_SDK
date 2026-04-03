@@ -1128,7 +1128,8 @@ type
     TA821               = 67,
     TX1000              = 68,
     TC1055ProPlus       = 69,
-    TS_DEV_END          = 70
+    TC1043              = 70,
+    TS_DEV_END          = 71
   // the table need to updated in time, otherwise cause problem to recognizing the device
   );
   // Vector XL device type
@@ -1429,6 +1430,18 @@ type
   Ttsdiag_can_delete_all = procedure; stdcall;
   Ttstp_can_request_and_get_response = function(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer; const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall;
   Ttstp_can_request_and_get_response_functional = function(const ADiagModuleIndex: Integer; const AReqDataArray: PByte; const AReqDataSize: Integer; const AResponseDataArray: PByte; const AResponseDataSize: PInteger): integer; stdcall;
+
+  // TSSecurity API types
+  TTSSecurity_return_t = Int32;
+  TTSX509_handle_t = Pointer;
+  PTSX509_handle_t = ^TTSX509_handle_t;
+
+  Trawsocket_get_errno = function: Int32; stdcall;
+  Trawsocket_close = function(s: integer; AForceExitTimeWait: integer): Int32; stdcall;
+  Trawsocket_recv = function(s: integer; mem: pointer; len: nativeint; flags: integer): NativeInt; stdcall;
+  Trawsocket_write = function(s: integer; dataptr: Pointer; size: NativeInt): NativeInt; stdcall;
+  Trawsocket_setsockopt = function(s: integer; level: integer; optname: integer; optval: Pointer; optlen: UInt32): Int32; stdcall;
+  Trawsocket_shutdown = function(s: integer; how: integer): Int32; stdcall;
 
   N_USData_RevData_Recall_Obj = procedure(const ATpModuleIndex: Integer; const AChn: Integer) of object; stdcall;
 
@@ -3646,6 +3659,8 @@ function cal_set_all_datas_by_offset(const AECUName: pansichar; const AVarName: 
 function cal_set_datas_by_offset(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AOffset: double; AImmediateDownload: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function cal_set_datas_by_value(const AECUName: pansichar; const AVarName: pansichar; const AStartX: int32; const AStartY: int32; const AXPointsNum: int32; const AYPointsNum: int32; AValue: double; AImmediateDownload: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function cal_get_axisnum_and_address(const AECUName: pansichar; const AVarName: pansichar; AXPointsNum: pInt32; AYPointsNum: pInt32; AAdress: PUint32; AExtAddress: PUint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+function crypto_get_error_description(buffer: PAnsiChar; buffer_length: NativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_encrypt_aes_128_ecb(key: pbyte; key_length: NativeUInt; plaintext: pbyte; plaintext_length: NativeUInt; ciphertext: pbyte; ciphertext_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_decrypt_aes_128_ecb(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_decrypt_aes_128_cbc(key: pbyte; key_length: NativeUInt; ciphertext: pbyte; ciphertext_length: NativeUInt; iv: pbyte; iv_length: NativeUInt; plaintext: pbyte; plaintext_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -3660,8 +3675,34 @@ function crypto_digest_sha3_512(data: Pointer; data_length: NativeUInt; hash: pb
 function crypto_digest_sha3_256(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_digest_md5(data: Pointer; data_length: NativeUInt; hash: pbyte; hash_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_generate_cmac(key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; cmac: pbyte; cmac_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function crypto_generate_hmac(const hash_method: byte; key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; hmac: pbyte; hmac_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function crypto_generate_siphash_2_4(key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; siphash: pbyte; siphash_length: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_generate_random_bytes(data: pbyte; data_length: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function crypto_crypt_aes_128_ctr(key: pbyte; key_length: NativeUInt; plaintext: pbyte; ciphertext: pbyte; text_length: NativeUInt; nonce: pbyte; noncelength: NativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function crypto_verify_rsa(const key_coding: byte; const hash_method: byte; const rsa_padding_mode: byte; const data: pbyte; const datalength: NativeUInt; const privatekey: pbyte; const keylength: NativeUInt; const signature: pbyte; const signaturelength: NativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+function tls_register_tssocket(_1: Trawsocket_get_errno; _2: Trawsocket_close; _3: Trawsocket_recv; _4: Trawsocket_write; _5: Trawsocket_setsockopt; _6: Trawsocket_shutdown): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_tcp_client_internal(s: Integer; verify_mode: Integer; CA_file: PAnsiChar; CA_path: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_tcp_server_internal(s: Integer; cert_file: PAnsiChar; private_key_file: PAnsiChar; private_key_type: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_connect(s: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_accept(s: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_write(s: Integer; data: PByte; data_size: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_read(s: Integer; data: PByte; data_size: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_shutdown(s: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tls_free(s: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+function certificate_load(data: Pointer; size: NativeUInt; handle: PTSX509_handle_t): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_unload(handle: TTSX509_handle_t): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_version(handle: TTSX509_handle_t; version: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_subject_name(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_issuer_name(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_serial_number(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_tbs_signature_algorithm(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_signature_algorithm(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_not_before(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_not_after(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function certificate_get_pubkey_algorithm(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
 function can_rbs_transmit_pdu(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; AData: pbyte; ADataLength: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_signal_value_by_element_verbose(const AIdxChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_set_signal_value_by_element_verbose(const AIdxChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
