@@ -3797,6 +3797,9 @@ function get_system_var_app_def_by_name(const AAppName: pansichar; const AComple
 function get_system_var_app_count(const AAppName: pansichar; ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function rawsocket_etharp_add_static_entry_ex(const ANetworkIndex: int32; const AIpAddr: pansichar; AEthAddr: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function rawsocket_etharp_remove_static_entry_ex(const ANetworkIndex: int32; const ipaddr: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function gpg_begin_batch_import(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function gpg_end_batch_import(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function gpg_set_module_execution_record_options(const AModuleName: pansichar; const AOptionMask: uint32; const AEnableLog: int32; const ALogFlowchart: int32; const ALogScreen: int32; const AInclSgnLog: int32; const ASaveInOneDir: int32; const AUseDefaultLogDir: int32; const ALogLocation: pansichar; const AApplyImmediately: int32; AChangedMask: PUint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
