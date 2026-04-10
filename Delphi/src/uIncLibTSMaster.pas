@@ -3800,6 +3800,15 @@ function rawsocket_etharp_remove_static_entry_ex(const ANetworkIndex: int32; con
 function gpg_begin_batch_import(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function gpg_end_batch_import(): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function gpg_set_module_execution_record_options(const AModuleName: pansichar; const AOptionMask: uint32; const AEnableLog: int32; const ALogFlowchart: int32; const ALogScreen: int32; const AInclSgnLog: int32; const ASaveInOneDir: int32; const AUseDefaultLogDir: int32; const ALogLocation: pansichar; const AApplyImmediately: int32; AChangedMask: PUint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function initialize_lib_tsmaster_w_ui(const AAppName: PAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function initialize_lib_tsmaster_with_project_w_ui(const AAppName: PAnsiChar; const AProjectDir: PAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_create(const AClassName: PAnsiChar; const AForceCreate: Boolean; AFormGuid: PInt64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_get_hwnd(const AFormGuid: Int64; AHandle: PNativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_set_parent(const AFormGuid: Int64; const AParentHwnd: NativeUInt): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_set_bounds(const AFormGuid: Int64; const ALeft, ATop, AWidth, AHeight: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_set_visible(const AFormGuid: Int64; const AVisible: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_destroy(const AFormGuid: Int64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsui_form_get_instance_count(const AClassName: PAnsiChar; ACount: PInteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
