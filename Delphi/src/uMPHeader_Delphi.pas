@@ -1379,6 +1379,12 @@ type
   Ttransmit_canxl_async = function(const ACANXL: PLIBCANXL): s32; stdcall;
   Trawsocket_etharp_add_static_entry_ex = function(const ANetworkIndex: int32; const AIpAddr: pansichar; AEthAddr: pansichar): s32; stdcall;
   Trawsocket_etharp_remove_static_entry_ex = function(const ANetworkIndex: int32; const ipaddr: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_create_handle = function(const AObj: Pointer; const AHandle: NativeInt; ABatchHandle: pint64): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_register = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_unregister = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_read = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const AValuesCapacity: int32; AValueText: pansichar): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_release = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64): s32; stdcall;
+  Trpc_tsmaster_cmd_batch_get_signal_list = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const AListCapacity: int32; ARegisteredListText: pansichar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2886,7 +2892,13 @@ type
     transmit_canxl_async: Ttransmit_canxl_async;
     rawsocket_etharp_add_static_entry_ex: Trawsocket_etharp_add_static_entry_ex;
     rawsocket_etharp_remove_static_entry_ex: Trawsocket_etharp_remove_static_entry_ex;
-    FDummy: array [0..500- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    rpc_tsmaster_cmd_batch_get_signal_create_handle: Trpc_tsmaster_cmd_batch_get_signal_create_handle;
+    rpc_tsmaster_cmd_batch_get_signal_register: Trpc_tsmaster_cmd_batch_get_signal_register;
+    rpc_tsmaster_cmd_batch_get_signal_unregister: Trpc_tsmaster_cmd_batch_get_signal_unregister;
+    rpc_tsmaster_cmd_batch_get_signal_read: Trpc_tsmaster_cmd_batch_get_signal_read;
+    rpc_tsmaster_cmd_batch_get_signal_release: Trpc_tsmaster_cmd_batch_get_signal_release;
+    rpc_tsmaster_cmd_batch_get_signal_list: Trpc_tsmaster_cmd_batch_get_signal_list;
+    FDummy: array [0..494- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
