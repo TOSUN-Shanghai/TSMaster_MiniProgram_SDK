@@ -3809,6 +3809,12 @@ function tsui_form_set_bounds(const AFormGuid: Int64; const ALeft, ATop, AWidth,
 function tsui_form_set_visible(const AFormGuid: Int64; const AVisible: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsui_form_destroy(const AFormGuid: Int64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsui_form_get_instance_count(const AClassName: PAnsiChar; ACount: PInteger): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_create_handle(const AHandle: NativeInt; ABatchHandle: pint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_register(const AHandle: NativeInt; const ABatchHandle: int64; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_unregister(const AHandle: NativeInt; const ABatchHandle: int64; const ABusType: TLIBApplicationChannelType; const ASgnAddress: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_read(const AHandle: NativeInt; const ABatchHandle: int64; const AValuesCapacity: int32; AValueText: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_release(const AHandle: NativeInt; const ABatchHandle: int64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function rpc_tsmaster_cmd_batch_get_signal_list(const AHandle: NativeInt; const ABatchHandle: int64; const AListCapacity: int32; ARegisteredListText: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
