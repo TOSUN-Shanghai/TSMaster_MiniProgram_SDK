@@ -3815,6 +3815,12 @@ function rpc_tsmaster_cmd_batch_get_signal_unregister(const AHandle: NativeInt; 
 function rpc_tsmaster_cmd_batch_get_signal_read(const AHandle: NativeInt; const ABatchHandle: int64; const AValuesCapacity: int32; AValueText: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function rpc_tsmaster_cmd_batch_get_signal_release(const AHandle: NativeInt; const ABatchHandle: int64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function rpc_tsmaster_cmd_batch_get_signal_list(const AHandle: NativeInt; const ABatchHandle: int64; const AListCapacity: int32; ARegisteredListText: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_get_can_signal_value(const ASignal: PMPCANSignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+procedure tscom_set_can_signal_value(const ASignal: PMPCANSignal; const AData: PByte; const AValue: Double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_get_lin_signal_value(const ASignal: PMPLINSignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+procedure tscom_set_lin_signal_value(const ASignal: PMPLINSignal; const AData: PByte; const AValue: Double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_get_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+procedure tscom_set_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte; const AValue: double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
