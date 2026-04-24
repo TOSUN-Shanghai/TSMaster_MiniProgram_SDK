@@ -1129,7 +1129,9 @@ type
     TX1000              = 68,
     TC1055ProPlus       = 69,
     TC1043              = 70,
-    TS_DEV_END          = 71
+    TC1013_BC           = 71,
+    TA422               = 72,
+    TS_DEV_END          = 73
   // the table need to updated in time, otherwise cause problem to recognizing the device
   );
   // Vector XL device type
@@ -3791,7 +3793,7 @@ function get_lin_signal_value_verbose(const AChn: int32; const ANetworkName: pan
 function get_ethernet_signal_value_verbose(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function set_ethernet_signal_value_verbose(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function transmit_canfd_sequential(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function transmit_canfd_sequential_w_json(const AIdxChn: int32; const AJsonString: pansichar; const AFlags: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function transmit_canfd_sequential_w_json(const AIdxChn: int32; const AJsonString: pansichar; const AFlags: byte; const AJsonEncoding: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function transmit_canxl_async(const ACANXL: PLIBCANXL): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_system_var_app_def_by_index(const AAppName: pansichar; const AIndex: int32; AVarDef: PLIBSystemVarDef): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function get_system_var_app_def_by_name(const AAppName: pansichar; const ACompleteName: pansichar; AVarDef: PLIBSystemVarDef): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
