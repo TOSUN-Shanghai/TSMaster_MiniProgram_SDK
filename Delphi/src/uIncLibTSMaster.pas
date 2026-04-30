@@ -2503,6 +2503,7 @@ function tsapp_get_system_constant_count(const AIdxType: integer; ACount: pinteg
 function tsapp_get_system_constant_value_by_index(const AIdxType: integer; const AIdxValue: integer; AName: ppansichar; AValue: pdouble; ADesc: ppansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 
 // hardware settings
+function tsapp_set_refresh_ethif_devices(const AEnable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_enumerate_hw_devices(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_hw_info_by_index(const AIndex: Integer; const AHWInfo: PLIBHWInfo): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
