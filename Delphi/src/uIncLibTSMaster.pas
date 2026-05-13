@@ -4051,7 +4051,8 @@ end;
 
 function TLIBCAN.GetIsErrorFrame: boolean;
 begin
-  Result := fidentifier = (CAN_ID_ERROR);
+  // 设计说明：错误帧可能来自硬件状态位或历史 CAN_ID_ERROR 标识，两种编码都必须被统一识别。
+  Result := ((FProperties and MASK_CANProp_ERROR) <> 0) or (FIdentifier = CAN_ID_ERROR);
 
 end;
 
@@ -4110,8 +4111,13 @@ end;
 
 procedure TLIBCAN.SetIsErrorFrame(const Value: Boolean);
 begin
-  IsErrToken := true;
-  fidentifier := (CAN_ID_ERROR);
+  // 设计说明：属性 setter 必须尊重入参，避免调用 IsErrorFrame := False 时反向污染普通帧。
+  IsErrToken := Value;
+  if Value then begin
+    FIdentifier := CAN_ID_ERROR;
+  end else if FIdentifier = CAN_ID_ERROR then begin
+    FIdentifier := 0;
+  end;
 
 end;
 
@@ -4389,7 +4395,8 @@ end;
 
 function TLIBCANFD.GetIsErrorFrame: boolean;
 begin
-  Result := fidentifier = (CAN_ID_ERROR);
+  // 设计说明：错误帧可能来自硬件状态位或历史 CAN_ID_ERROR 标识，两种编码都必须被统一识别。
+  Result := ((FProperties and MASK_CANProp_ERROR) <> 0) or (FIdentifier = CAN_ID_ERROR);
 
 end;
 
@@ -4470,8 +4477,13 @@ end;
 
 procedure TLIBCANFD.SetIsErrorFrame(const Value: Boolean);
 begin
-  IsErrToken := true;
-  fidentifier := (CAN_ID_ERROR);
+  // 设计说明：属性 setter 必须尊重入参，避免调用 IsErrorFrame := False 时反向污染普通帧。
+  IsErrToken := Value;
+  if Value then begin
+    FIdentifier := CAN_ID_ERROR;
+  end else if FIdentifier = CAN_ID_ERROR then begin
+    FIdentifier := 0;
+  end;
 
 end;
 
