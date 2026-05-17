@@ -2505,6 +2505,7 @@ function tsapp_get_system_constant_value_by_index(const AIdxType: integer; const
 // hardware settings
 function tsapp_set_refresh_ethif_devices(const AEnable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_enumerate_hw_devices(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_ethif_devices_json(const ARequestJson: PAnsiChar; const AResponseJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_hw_info_by_index(const AIndex: Integer; const AHWInfo: PLIBHWInfo): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
                                       ADeviceType: PLIBBusToolDeviceType;
@@ -2515,6 +2516,7 @@ function tsapp_get_hw_info_by_index_verbose(const AIndex: Integer;
                                       ASerialStringBuffer: PAnsiChar; //array[0..63] of AnsiChar
                                       ASerialStringBufferSize: Integer
                                       ): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_set_ethif_device_network_config_json(const ARequestJson: PAnsiChar; const AResponseJson: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_vendor_detect_preferences(const AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_vendor_detect_preferences(out AScanTOSUN, AScanVector, AScanPeak, AScanKvaser, AScanZLG, ADetectIntrepidcs, ADetectCANable: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_baudrate_lin(const AIdxChn: Integer; const ABaudrateKbps: Single; const AProtocol: Integer): Integer; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF} {Bps:such as 19200 bps}
