@@ -2495,6 +2495,7 @@ function tsapp_show_channel_mapping_window: integer; stdcall; {$IFNDEF LIBTSMAST
 function tsapp_show_hardware_configuration_window: integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_show_tsmaster_window(const AWindowName: PAnsiChar; const AWaitClose: Boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_timestamp(ATimeUs: PInt64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_measurement_absolute_time_start(ATimeNs: PInt64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_execute_python_string(const AString: PAnsiChar; const AArguments: pansichar; const ASync: boolean; const AIsX64: Boolean; AResultLog: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_execute_python_script(const AFilePath: PAnsiChar; const AArguments: pansichar; const ASync: boolean; const AIsX64: Boolean; AResultLog: PPAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_analysis_time_range(const ATimeStartUs: int64; const ATimeEndUs: int64): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
