@@ -268,7 +268,7 @@ type
 	 channelBSymbolTransmitted: UInt8 ; // Enable Symble Transmit function of Channel B: 0: Disable 1: Enable
 	 ALLOW_HALT_DUE_TO_CLOCK: UInt8;
 	 SINGLE_SLOT_ENABLED: UInt8;        // FALSE_0, TRUE_1
-   WAKE_UP_CHANNEL_AOrB: UInt8;       // Wake up channe: 0:ChannelA�� 1:ChannelB
+   WAKE_UP_CHANNEL_AOrB: UInt8;       // Wake up channel: 0:ChannelA, 1:ChannelB
 	 ALLOW_PASSIVE_TO_ACTIVE: UInt8;
 	 COLD_START_ATTEMPTS: UInt8;
 	 synchFrameTransmitted: UInt8;      // Need to transmit sync frame
@@ -2617,6 +2617,9 @@ function tsapp_unregister_event_can_filtered(const AObj: pointer; const AEvent: 
 function tsapp_get_can_filtered_callback_queue_status(out AQueueSize: Integer; out ADroppedCount: uint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_canfd(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_canfd(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_register_event_canfd_filtered(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32; const AIdxChn: Integer; const AIdentifier: uint32; const AIdMask: uint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_unregister_event_canfd_filtered(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_canfd_filtered_callback_queue_status(out AQueueSize: Integer; out ADroppedCount: uint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_flexray(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
