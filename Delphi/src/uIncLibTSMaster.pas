@@ -89,6 +89,12 @@ type
   pInt32 = ^Int32;
   ppInt32 = ^pInt32;
   ppByte = ^PByte;
+  // 设计说明：CAN/CANFD filtered 注册接口使用的 ID/Mask 过滤项；调用方传入连续数组，注册层会复制内容。
+  PLIBCANIdMaskFilter = ^TLIBCANIdMaskFilter;
+  TLIBCANIdMaskFilter = packed record
+    FIdentifier: UInt32;
+    FIdMask: UInt32;
+  end;
   // CAN frame definition = 24 B
   PLIBCAN = ^TLIBCAN;
   TLIBCAN = packed record
@@ -2614,12 +2620,12 @@ function tsapp_get_fps_lin(const AIdxChn: Integer; const AIdentifier: Integer; o
 // bus callback handler
 function tsapp_register_event_can(const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_can(const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_register_event_can_filtered(const AObj: pointer; const AEvent: TCANQueueEvent_Win32; const AIdxChn: Integer; const AIdentifier: uint32; const AIdMask: uint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_register_event_can_filtered(const AObj: pointer; const AEvent: TCANQueueEvent_Win32; const AIdxChn: Integer; const AFilters: PLIBCANIdMaskFilter; const AFilterCount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_can_filtered(const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_can_filtered_callback_queue_status(out AQueueSize: Integer; out ADroppedCount: uint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_canfd(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_canfd(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function tsapp_register_event_canfd_filtered(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32; const AIdxChn: Integer; const AIdentifier: uint32; const AIdMask: uint32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_register_event_canfd_filtered(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32; const AIdxChn: Integer; const AFilters: PLIBCANIdMaskFilter; const AFilterCount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_canfd_filtered(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_canfd_filtered_callback_queue_status(out AQueueSize: Integer; out ADroppedCount: uint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
