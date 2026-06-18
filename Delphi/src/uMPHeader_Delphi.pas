@@ -829,6 +829,7 @@ type
   Tgpg_begin_batch_import = function(): s32; stdcall;
   Tgpg_end_batch_import = function(): s32; stdcall;
   Tgpg_set_module_execution_record_options = function(const AModuleName: pansichar; const AOptionMask: uint32; const AEnableLog: int32; const ALogFlowchart: int32; const ALogScreen: int32; const AInclSgnLog: int32; const ASaveInOneDir: int32; const AUseDefaultLogDir: int32; const ALogLocation: pansichar; const AApplyImmediately: int32; AChangedMask: PUint32): s32; stdcall;
+  Tam_select_sub_module_verbose = function(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleDisplayName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2317,7 +2318,8 @@ type
     gpg_begin_batch_import: Tgpg_begin_batch_import;
     gpg_end_batch_import: Tgpg_end_batch_import;
     gpg_set_module_execution_record_options: Tgpg_set_module_execution_record_options;
-    FDummy: array [0..469-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    am_select_sub_module_verbose: Tam_select_sub_module_verbose;
+    FDummy: array [0..468-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;

@@ -3843,6 +3843,7 @@ function tscom_get_lin_signal_value(const ASignal: PMPLINSignal; const AData: PB
 procedure tscom_set_lin_signal_value(const ASignal: PMPLINSignal; const AData: PByte; const AValue: Double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tscom_get_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tscom_set_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte; const AValue: double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function am_select_sub_module_verbose(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleDisplayName: pansichar; const AParameterGroupName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
