@@ -23,3 +23,6 @@ You can now develop your own mini program library in your favorite programming l
 [5] call your dll library functions in any mini program  
 ![image](https://github.com/TOSUN-Shanghai/TSMaster_MiniProgram_SDK/blob/main/res/step5_call.png)
 
+## 仓库规范
+
+- [AGENTS.md](AGENTS.md)：仓库开发与缺陷修复规则。
