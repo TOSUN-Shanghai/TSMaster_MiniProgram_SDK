@@ -84,11 +84,108 @@ const
   FLEXRAY_CMD_WRITE_REGISTER       = 6;    //6写入寄存器
   FLEXRAY_CMD_MODIFY_HEADER_CRC    = 7;    //7修改HeaderCRC
 
+  // A429 public constants
+  A429_DIRECTION_RX = 0;
+  A429_DIRECTION_TX = 1;
+  A429_DIRECTION_TX_REQUEST = 2;
+  A429_RANDOM_MESSAGE_INDEX = 255;
+  A429_MAX_CYCLIC_MESSAGE_INDEX = 254;
+  A429_MAX_RX_LABEL_COUNT = 255;
+  A429_MAX_LOGICAL_CHANNEL_INDEX = 255;
+  A429_MAX_LOGICAL_CHANNEL_COUNT = 256;
+  A429_CHANNEL_CAP_RX = $01;
+  A429_CHANNEL_CAP_TX = $02;
+
 
 type
   pInt32 = ^Int32;
   ppInt32 = ^pInt32;
   ppByte = ^PByte;
+  TLIBA429BitRate = (
+    A429_BITRATE_100K = 0,
+    A429_BITRATE_12K5 = 1,
+    A429_BITRATE_50K = 2
+  );
+  TLIBA429Bit32Mode = (
+    A429_BIT32_DATA = 0,
+    A429_BIT32_PARITY = 1
+  );
+  TLIBA429Parity = (
+    A429_PARITY_ODD = 0,
+    A429_PARITY_EVEN = 1
+  );
+  TLIBA429TxMode = (
+    A429_TX_NORMAL = 0,
+    A429_TX_LOOPBACK = 1
+  );
+  // 设计说明：公共 A429 帧固定为 16 字节，Label/SDI/Payload/SSM/Parity 均保存在 FData 中。
+  PLIBA429 = ^TLIBA429;
+  TLIBA429 = packed record
+  private
+    function GetDirection: UInt8;
+    procedure SetDirection(const AValue: UInt8);
+    function GetIsRx: Boolean;
+    function GetIsTx: Boolean;
+    function GetIsTxRequest: Boolean;
+    function GetIsParityCorrect: Boolean;
+    procedure SetIsParityCorrect(const AValue: Boolean);
+    function GetIsFifoMode: Boolean;
+    procedure SetIsFifoMode(const AValue: Boolean);
+  public
+    FVersion: UInt8;
+    FProperties: UInt8;
+    FIdxChn: UInt8;
+    FMessageIndex: UInt8;
+    FData: UInt32;
+    FTimeUs: Int64;
+    procedure Init;
+    property Direction: UInt8 read GetDirection write SetDirection;
+    property IsRx: Boolean read GetIsRx;
+    property IsTx: Boolean read GetIsTx;
+    property IsTxRequest: Boolean read GetIsTxRequest;
+    property IsParityCorrect: Boolean read GetIsParityCorrect write SetIsParityCorrect;
+    property IsFifoMode: Boolean read GetIsFifoMode write SetIsFifoMode;
+  end;
+  PLIBA429TxConfig = ^TLIBA429TxConfig;
+  TLIBA429TxConfig = packed record
+    FVersion: UInt8;
+    FIdxChn: UInt8;
+    FBitRate: TLIBA429BitRate;
+    FBit32Mode: TLIBA429Bit32Mode;
+    FParity: TLIBA429Parity;
+    FTxMode: TLIBA429TxMode;
+    FWordIntervalUs: UInt16;
+  end;
+  PLIBA429RxConfig = ^TLIBA429RxConfig;
+  TLIBA429RxConfig = packed record
+    FVersion: UInt8;
+    FIdxChn: UInt8;
+    FBitRate: TLIBA429BitRate;
+    FBit32Mode: TLIBA429Bit32Mode;
+    FParity: TLIBA429Parity;
+    FEnableSDIFilter: UInt8;
+    FSDI: UInt8;
+    FEnableLabelFilter: UInt8;
+    FLabelCount: UInt16;
+    FReserved: array[0..1] of UInt8;
+    FLabels: array[0..255] of UInt8;
+  end;
+  PLIBA429CyclicMessage = ^TLIBA429CyclicMessage;
+  TLIBA429CyclicMessage = packed record
+    FMessageIndex: UInt8;
+    FReserved0: UInt8;
+    FPeriodMs: UInt16;
+    FSendCount: UInt16;
+    FReserved1: UInt16;
+    FData: UInt32;
+  end;
+  PLIBA429ChannelCapability = ^TLIBA429ChannelCapability;
+  TLIBA429ChannelCapability = packed record
+    FVersion: UInt8;
+    FIdxChn: UInt8;
+    FDirectionMask: UInt8;
+    FReserved: array[0..4] of UInt8;
+  end;
   // 设计说明：CAN/CANFD filtered 注册接口使用的 ID/Mask 过滤项；调用方传入连续数组，注册层会复制内容。
   PLIBCANIdMaskFilter = ^TLIBCANIdMaskFilter;
   TLIBCANIdMaskFilter = packed record
@@ -745,6 +842,7 @@ type
   end;
   TCProcedure = procedure; cdecl;
   TCANQueueEvent_API = procedure(const AData: PlibCAN) of object; stdcall;
+  TA429QueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PLIBA429); stdcall;
   TGPSQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PLibGPSData); stdcall;
   TCANQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCAN); stdcall;
   TCANFDQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCANFD); stdcall;
@@ -914,7 +1012,9 @@ type
     APP_AO = 5,
     APP_DI = 6,
     APP_DO = 7,
-    APP_GPS = 8
+    APP_GPS = 8,
+    APP_DAP = 9,
+    APP_A429 = 10
   );
   TSignalType = (stCANSignal = 0, stLINSignal, stSystemVar, stFlexRay, stEthernet);
   TTimeRangeTestMode = (trmRelativeMode, trmTriggeredMode, trmAbsoluteMode);
@@ -2478,6 +2578,16 @@ function tsapp_set_lin_channel_count(const ACount: Integer): integer; stdcall; {
 function tsapp_set_flexray_channel_count(const ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_can_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_lin_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+
+function tsapp_set_a429_channel_count(const ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_a429_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_a429_channel_capability(const AIdxChn: Integer; const ACapability: PLIBA429ChannelCapability): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_a429_tx(const AConfig: PLIBA429TxConfig): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_a429_rx(const AConfig: PLIBA429RxConfig): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_a429_tx_config(const AIdxChn: Integer; const AConfig: PLIBA429TxConfig): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_get_a429_rx_config(const AIdxChn: Integer; const AConfig: PLIBA429RxConfig): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_start_a429_channel(const AIdxChn: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_stop_a429_channel(const AIdxChn: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_get_flexray_channel_count(out ACount: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_mapping(const AMapping: PLIBTSMapping): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_set_mapping_verbose(const AAppName: PAnsiChar;
@@ -2565,10 +2675,15 @@ function tsapp_transmit_lin_wakeup_async(const AIdxChn: Integer; const AWakeupLe
                    const AWakeupIntervalTime: Integer; const AWakeupTimes: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_lin_gotosleep_async(const AIdxChn: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_flexray_async(const AFlexRay: PLIBFlexRay): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_transmit_a429_async(const AFrame: PLIBA429): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication sync functions
 function tsapp_transmit_can_sync(const ACAN: PLIBCAN; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_canfd_sync(const ACANfd: PLIBCANfd; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_lin_sync(const ALIN: PLIBLIN; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_transmit_a429_sync(const AFrame: PLIBA429; const ATimeoutMS: Integer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_add_a429_cyclic_message(const AIdxChn: Integer; const AMessage: PLIBA429CyclicMessage): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_update_a429_cyclic_message(const AIdxChn: Integer; const AMessage: PLIBA429CyclicMessage): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_delete_a429_cyclic_message(const AIdxChn: Integer; const AMessageIndex: UInt8): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication receive functions
 procedure tsfifo_enable_receive_fifo; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tsfifo_disable_receive_fifo; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -2630,6 +2745,8 @@ function tsapp_unregister_event_canfd_filtered(const AObj: pointer; const AEvent
 function tsapp_get_canfd_filtered_callback_queue_status(out AQueueSize: Integer; out ADroppedCount: uint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_register_event_a429(const AObj: pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_unregister_event_a429(const AObj: pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_event_flexray(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_event_flexray(const AObj: pointer; const AEvent: TFlexRayQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_events_flexray(const AObj: pointer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -2644,6 +2761,8 @@ function tsapp_register_pretx_event_canfd(const AObj: pointer; const AEvent: TCA
 function tsapp_unregister_pretx_event_canfd(const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_pretx_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_pretx_event_lin(const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_register_pretx_event_a429(const AObj: pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_unregister_pretx_event_a429(const AObj: pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_register_pretx_event_flexray(const AObj: pointer; const AEvent: TflexrayQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_pretx_event_flexray(const AObj: pointer; const AEvent: TflexrayQueueEvent_Win32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_unregister_pretx_events_flexray(const AObj: pointer): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -3861,6 +3980,10 @@ uses
   Winapi.WinSock;
 
 const
+  // A429 message properties
+  MASK_A429_DIRECTION = $03;
+  MASK_A429_PARITY_ERROR = $04;
+  MASK_A429_NOT_FIFO = $08;
   // CAN message properties
   MASK_CANProp_DIR_TX  = $01;
   MASK_CANProp_REMOTE  = $02;
@@ -4024,6 +4147,76 @@ begin
   f := d + (f * 60 / 100);
   Longitude := f * 100;
 
+end;
+
+function TLIBA429.GetDirection: UInt8;
+begin
+  // 设计说明：仅返回底层定义的两位方向字段，保留其他属性位。
+  Result := FProperties and MASK_A429_DIRECTION;
+end;
+
+function TLIBA429.GetIsFifoMode: Boolean;
+begin
+  // 设计说明：TSDev bit3 表示“非 FIFO”，公共属性转换为正向的 FIFO 语义。
+  Result := (FProperties and MASK_A429_NOT_FIFO) = 0;
+end;
+
+function TLIBA429.GetIsParityCorrect: Boolean;
+begin
+  // 设计说明：TSDev bit2 为奇偶校验错误标志，公共属性返回校验是否正确。
+  Result := (FProperties and MASK_A429_PARITY_ERROR) = 0;
+end;
+
+function TLIBA429.GetIsRx: Boolean;
+begin
+  // 设计说明：方向值零表示接收完成帧。
+  Result := Direction = A429_DIRECTION_RX;
+end;
+
+function TLIBA429.GetIsTx: Boolean;
+begin
+  // 设计说明：方向值一表示发送完成帧。
+  Result := Direction = A429_DIRECTION_TX;
+end;
+
+function TLIBA429.GetIsTxRequest: Boolean;
+begin
+  // 设计说明：方向值二表示提交给硬件的发送请求帧。
+  Result := Direction = A429_DIRECTION_TX_REQUEST;
+end;
+
+procedure TLIBA429.Init;
+begin
+  // 设计说明：公共帧默认初始化为随机 RX 帧，调用方发送前再设置通道、方向和数据。
+  FillChar(Self, SizeOf(Self), 0);
+  FMessageIndex := A429_RANDOM_MESSAGE_INDEX;
+end;
+
+procedure TLIBA429.SetDirection(const AValue: UInt8);
+begin
+  // 设计说明：只覆盖方向字段，防止清除奇偶校验和 FIFO 状态位。
+  FProperties := (FProperties and not MASK_A429_DIRECTION) or
+    (AValue and MASK_A429_DIRECTION);
+end;
+
+procedure TLIBA429.SetIsFifoMode(const AValue: Boolean);
+begin
+  // 设计说明：把公共正向 FIFO 语义转换为 TSDev 的反向“非 FIFO”标志。
+  if AValue then begin
+    FProperties := FProperties and not MASK_A429_NOT_FIFO;
+  end else begin
+    FProperties := FProperties or MASK_A429_NOT_FIFO;
+  end;
+end;
+
+procedure TLIBA429.SetIsParityCorrect(const AValue: Boolean);
+begin
+  // 设计说明：把公共正向校验语义转换为 TSDev 的奇偶校验错误位。
+  if AValue then begin
+    FProperties := FProperties and not MASK_A429_PARITY_ERROR;
+  end else begin
+    FProperties := FProperties or MASK_A429_PARITY_ERROR;
+  end;
 end;
 
 procedure TLIBCAN.FromString(const AStr: string);
@@ -5104,6 +5297,10 @@ end;
 
 {$ifdef debug}
 initialization
+  Assert(SizeOf(TLIBA429) = 16, 'TLIBA429.size = 16');
+  Assert(SizeOf(TLIBA429TxConfig) = 8, 'TLIBA429TxConfig.size = 8');
+  Assert(SizeOf(TLIBA429RxConfig) = 268, 'TLIBA429RxConfig.size = 268');
+  Assert(SizeOf(TLIBA429CyclicMessage) = 12, 'TLIBA429CyclicMessage.size = 12');
   Assert(sizeof(TLIBCAN) = 24, 'TLIBCAN.size = 24');
   Assert(sizeof(TLIBLIN) = 23, 'TLIBLIN.size = 23');
   Assert(sizeof(TLIBCANFD) = 80, 'TLIBCANFD.size = 80');
