@@ -342,7 +342,7 @@ type
   TWriteMatFileEnd = function(const AHandle: NativeInt): s32; stdcall;
   TReadMatFileStart = function(const AFileName: PAnsiChar; AHandle: PNativeInt): s32; stdcall;
   TReadMatFileVariableCount = function(const AHandle: NativeInt; const AVarName: PAnsiChar; ACount: ps32): s32; stdcall;
-  TReadMatFileVariableString = function(const AHandle: NativeInt; const AVarName: PAnsiChar; AValue: PPAnsiChar; const ACapacity: s32): s32; stdcall;
+  TReadMatFileVariableString = function(const AHandle: NativeInt; const AVarName: PAnsiChar; AValue: PAnsiChar; const ACapacity: s32): s32; stdcall;
   TReadMatFileVariableDouble = function(const AHandle: NativeInt; const AVarName: PAnsiChar; const AValue: PDouble; const AStartIdx: s32; const ACount: s32): s32; stdcall;
   TReadMatFileEnd = function(const AHandle: NativeInt): s32; stdcall;
   // ini file
