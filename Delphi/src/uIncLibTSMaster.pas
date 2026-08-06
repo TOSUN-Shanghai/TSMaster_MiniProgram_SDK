@@ -1054,6 +1054,37 @@ type
     tfrJumpNotDetected
   );
   PSignalTesterFailReason = ^TSignalTesterFailReason;
+  TSignalTesterLifecycle = (
+    stlNotStarted = 0,
+    stlTesting = 1,
+    stlInterrupted = 2,
+    stlCompleted = 3
+  );
+  TSignalTesterTestResult = (
+    sttrNotTested = 0,
+    sttrFailed = 1,
+    sttrSucceeded = 2
+  );
+  TSignalTesterItemState = packed record
+    Lifecycle: int32;
+    TestResult: int32;
+    FailReason: int32;
+    EventTimeUs: int64;
+  end;
+  PSignalTesterItemState = ^TSignalTesterItemState;
+  TSignalTesterState = packed record
+    Lifecycle: int32;
+    TestResult: int32;
+    TotalCount: int32;
+    NotStartedCount: int32;
+    TestingCount: int32;
+    InterruptedCount: int32;
+    CompletedCount: int32;
+    NotTestedCount: int32;
+    FailedCount: int32;
+    SucceededCount: int32;
+  end;
+  PSignalTesterState = ^TSignalTesterState;
   TSignalStatisticsKind = (sskMin = 0, sskMax, sskAverage, sskStdDeviation);
   TFlexRayCompuMethod = (fcmIdentical = 0, fcmLinear, fcmScaleLinear, fcmTextTable, fcmTABNoIntp, fcmFormula);
   // bus statistics
