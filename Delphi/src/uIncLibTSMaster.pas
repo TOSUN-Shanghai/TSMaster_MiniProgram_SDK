@@ -299,7 +299,7 @@ type
     FVCID: UInt8;         // only for xl mode
     FStatusGrp: UInt8;    // [7] 0-normal frame, 1-error frame; [6-4] tbd; [3] 0-non xl frame, 1-xl frame; [1] 0-data frame, 1-remote frame; [0] dir: 0-RX, 1-TX
     FFDProperties: UInt8; // [7] is_v1: 0 for v0 mode, 1 for v1 mode; [6-3] tbd; [2] ESI; [1] BRS; [0] EDL
-    FDLC: UInt16;         // data length in bytes
+    FDLC: UInt16;         // encoded length: 0..2047 represents 1..2048 bytes
     FSDT: UInt8;          // upper layer, e.g. TCP/IP, CANopen
     FCtrl_0: UInt8;       // bit1: FAST; bit2: SEC; bit4-7: ADS
     FAF: UInt32;          // 32bit hardware address filter for addressing
@@ -846,6 +846,7 @@ type
   TGPSQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PLibGPSData); stdcall;
   TCANQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCAN); stdcall;
   TCANFDQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibCANFD); stdcall;
+  TCANXLQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PLIBCANXL); stdcall;
   TFlexRayQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: Plibflexray); stdcall;
   TEthernetQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibEthernetHeader); stdcall;
   TLINQueueEvent_Win32 = procedure(const AObj: Pointer; const AData: PlibLIN); stdcall;
