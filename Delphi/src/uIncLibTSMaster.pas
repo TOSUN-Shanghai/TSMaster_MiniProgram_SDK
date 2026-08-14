@@ -1022,7 +1022,8 @@ type
   TTriggerSignalType = (tstCANSignal = 0, tstLINSignal, tstSystemVar, tstFlexRay, tstExpression);
   TSignalCheckKind = (
     sckAlways = 0, sckAppear, sckStatistics, sckRisingEdge, sckFallingEdge,
-    sckMonotonyRising, sckMonotonyFalling, sckFollow, sckJump, sckNoChange
+    sckMonotonyRising, sckMonotonyFalling, sckFollow, sckJump, sckNoChange,
+    sckBaselineFluctuation = 10
   );
   TSignalTesterFailReason = (
     tfrNoError = 0,
@@ -1052,7 +1053,15 @@ type
     tfrRisingNotDetected,
     tfrFallingNotDetected,
     tfrNotAppeared,
-    tfrJumpNotDetected
+    tfrJumpNotDetected = 27,
+    tfrBaselineFluctuationSignalCountInvalid = 28,
+    tfrBaselineFluctuationSignalTypeNotSupported = 29,
+    tfrBaselineFluctuationStartMissed = 30,
+    tfrBaselineFluctuationNotCaptured = 31,
+    tfrBaselineFluctuationSampleInvalid = 32,
+    tfrBaselineFluctuationRangeOverflow = 33,
+    tfrBaselineFluctuationBelowRange = 34,
+    tfrBaselineFluctuationAboveRange = 35
   );
   PSignalTesterFailReason = ^TSignalTesterFailReason;
   TSignalTesterLifecycle = (
