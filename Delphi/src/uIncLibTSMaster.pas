@@ -1280,7 +1280,10 @@ type
     TA422               = 72,
     TC1015              = 73,
     TC1013Pro           = 74,
-    TS_DEV_END          = 75
+    TC1016_GENERIC      = 75,
+    TA1015              = 76,
+    TC1058              = 77,
+    TS_DEV_END          = 78
   // the table need to updated in time, otherwise cause problem to recognizing the device
   );
   // Vector XL device type
