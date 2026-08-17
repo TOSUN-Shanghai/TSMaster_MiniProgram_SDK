@@ -1388,6 +1388,18 @@ type
   Trpc_tsmaster_cmd_batch_get_signal_read = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const AValuesCapacity: int32; AValueText: pansichar): s32; stdcall;
   Trpc_tsmaster_cmd_batch_get_signal_release = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64): s32; stdcall;
   Trpc_tsmaster_cmd_batch_get_signal_list = function(const AObj: Pointer; const AHandle: NativeInt; const ABatchHandle: int64; const AListCapacity: int32; ARegisteredListText: pansichar): s32; stdcall;
+  Tcan_rbs_register_first_frame_monitor_by_node = function(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): s32; stdcall;
+  Tcan_rbs_unregister_first_frame_monitor_by_node = function(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): s32; stdcall;
+  Tcan_rbs_register_first_frame_monitor_by_id = function(const AChnIdx: int32; const AIdentifier: int32): s32; stdcall;
+  Tcan_rbs_unregister_first_frame_monitor_by_id = function(const AChnIdx: int32; const AIdentifier: int32): s32; stdcall;
+  Tcan_rbs_clear_first_frame_monitor_registrations = function(const AChnIdx: int32): s32; stdcall;
+  Tcan_rbs_start_first_frame_monitor = function(const AChnIdx: int32): s32; stdcall;
+  Tcan_rbs_stop_first_frame_monitor = function(const AChnIdx: int32): s32; stdcall;
+  Tcan_rbs_read_first_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const AFrame: PLIBCANFD): s32; stdcall;
+  Tcan_rbs_read_first_signal = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AValue: pdouble; const ATimestampUs: pint64): s32; stdcall;
+  Tcan_rbs_read_first_frame_monitor_by_id = function(const AChnIdx: int32; const AIdentifier: int32; const AFrame: PLIBCANFD): s32; stdcall;
+  Tcan_rbs_get_first_frame_monitor_undefined_count = function(const AChnIdx: int32; const ACount: pInt32): s32; stdcall;
+  Tcan_rbs_get_first_frame_monitor_undefined_by_index = function(const AChnIdx: int32; const AIndex: int32; const AFrame: PLIBCANFD): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2904,7 +2916,19 @@ type
     rpc_tsmaster_cmd_batch_get_signal_read: Trpc_tsmaster_cmd_batch_get_signal_read;
     rpc_tsmaster_cmd_batch_get_signal_release: Trpc_tsmaster_cmd_batch_get_signal_release;
     rpc_tsmaster_cmd_batch_get_signal_list: Trpc_tsmaster_cmd_batch_get_signal_list;
-    FDummy: array [0..494- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_register_first_frame_monitor_by_node: Tcan_rbs_register_first_frame_monitor_by_node;
+    can_rbs_unregister_first_frame_monitor_by_node: Tcan_rbs_unregister_first_frame_monitor_by_node;
+    can_rbs_register_first_frame_monitor_by_id: Tcan_rbs_register_first_frame_monitor_by_id;
+    can_rbs_unregister_first_frame_monitor_by_id: Tcan_rbs_unregister_first_frame_monitor_by_id;
+    can_rbs_clear_first_frame_monitor_registrations: Tcan_rbs_clear_first_frame_monitor_registrations;
+    can_rbs_start_first_frame_monitor: Tcan_rbs_start_first_frame_monitor;
+    can_rbs_stop_first_frame_monitor: Tcan_rbs_stop_first_frame_monitor;
+    can_rbs_read_first_frame: Tcan_rbs_read_first_frame;
+    can_rbs_read_first_signal: Tcan_rbs_read_first_signal;
+    can_rbs_read_first_frame_monitor_by_id: Tcan_rbs_read_first_frame_monitor_by_id;
+    can_rbs_get_first_frame_monitor_undefined_count: Tcan_rbs_get_first_frame_monitor_undefined_count;
+    can_rbs_get_first_frame_monitor_undefined_by_index: Tcan_rbs_get_first_frame_monitor_undefined_by_index;
+    FDummy: array [0..482- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;

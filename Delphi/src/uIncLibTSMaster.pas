@@ -1283,7 +1283,9 @@ type
     TC1016_GENERIC      = 75,
     TA1015              = 76,
     TC1058              = 77,
-    TS_DEV_END          = 78
+    TLog1004Plus        = 78,
+    TLog1002Plus        = 79,
+    TS_DEV_END          = 80
   // the table need to updated in time, otherwise cause problem to recognizing the device
   );
   // Vector XL device type
