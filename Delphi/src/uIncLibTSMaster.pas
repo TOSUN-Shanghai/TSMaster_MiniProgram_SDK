@@ -4014,6 +4014,18 @@ procedure tscom_set_lin_signal_value(const ASignal: PMPLINSignal; const AData: P
 function tscom_get_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tscom_set_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte; const AValue: double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function am_select_sub_module_verbose(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleDisplayName: pansichar; const AParameterGroupName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_register_first_frame_monitor_by_node(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_unregister_first_frame_monitor_by_node(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_register_first_frame_monitor_by_id(const AChnIdx: int32; const AIdentifier: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_unregister_first_frame_monitor_by_id(const AChnIdx: int32; const AIdentifier: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_clear_first_frame_monitor_registrations(const AChnIdx: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_start_first_frame_monitor(const AChnIdx: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_stop_first_frame_monitor(const AChnIdx: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_read_first_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const AFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_read_first_signal(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AValue: pdouble; const ATimestampUs: pint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_read_first_frame_monitor_by_id(const AChnIdx: int32; const AIdentifier: int32; const AFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_get_first_frame_monitor_undefined_count(const AChnIdx: int32; const ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_get_first_frame_monitor_undefined_by_index(const AChnIdx: int32; const AIndex: int32; const AFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
