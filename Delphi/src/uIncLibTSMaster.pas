@@ -2700,6 +2700,17 @@ function tsapp_configure_ethernet_parameter(
                   const ALoopModeType: Integer;
                   const AByPassMode: Integer;
                   const AMacAddress: PAnsichar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_ethernet_parameter_ex(
+                  const AIdxChn: Integer;
+                  const AEnabled: Integer;
+                  const APhyType: Integer;
+                  const AIsMaster: Integer;
+                  const AIsAutoNegotiation: Integer;
+                  const ASpeedType: Integer;
+                  const ALoopModeType: Integer;
+                  const AByPassMode: Integer;
+                  const AMacAddress: PAnsichar;
+                  const AEnableLayer2Switch: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_configure_can_regs(
       const AIdxChn: Integer;
       const ABaudrateKbps: Single;
