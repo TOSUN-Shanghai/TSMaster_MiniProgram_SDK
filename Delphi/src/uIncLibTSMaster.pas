@@ -4037,6 +4037,12 @@ function can_rbs_read_first_signal(const AChnIdx: int32; const ANetworkName: pan
 function can_rbs_read_first_frame_monitor_by_id(const AChnIdx: int32; const AIdentifier: int32; const AFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_first_frame_monitor_undefined_count(const AChnIdx: int32; const ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_first_frame_monitor_undefined_by_index(const AChnIdx: int32; const AIndex: int32; const AFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_activate_appointed_channel(const AChnIdx: int32; const AEnable: boolean; const AIncludingChildren: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_set_frame_data(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_get_frame_data(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_set_byte_in_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_get_byte_in_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tscom_can_rbs_fault_injection_dlc_error(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
