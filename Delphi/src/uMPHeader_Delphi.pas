@@ -1406,6 +1406,7 @@ type
   Tcan_rbs_set_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: byte): s32; stdcall;
   Tcan_rbs_get_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): s32; stdcall;
   Tcan_rbs_fault_injection_dlc_error = function(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): s32; stdcall;
+  Tcan_rbs_get_read_first_frame_all_ready_timestamp = function(const AIdxChn: int32; const ATimestamp: pint64): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2940,7 +2941,8 @@ type
     tscom_can_rbs_set_byte_in_frame: Ttscom_can_rbs_set_byte_in_frame;
     tscom_can_rbs_get_byte_in_frame: Ttscom_can_rbs_get_byte_in_frame;
     tscom_can_rbs_fault_injection_dlc_error: Ttscom_can_rbs_fault_injection_dlc_error;
-    FDummy: array [0..476- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_get_read_first_frame_all_ready_timestamp: Tcan_rbs_get_read_first_frame_all_ready_timestamp;
+    FDummy: array [0..475- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
