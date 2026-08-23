@@ -1400,12 +1400,12 @@ type
   Tcan_rbs_read_first_frame_monitor_by_id = function(const AChnIdx: int32; const AIdentifier: int32; const AFrame: PLIBCANFD): s32; stdcall;
   Tcan_rbs_get_first_frame_monitor_undefined_count = function(const AChnIdx: int32; const ACount: pInt32): s32; stdcall;
   Tcan_rbs_get_first_frame_monitor_undefined_by_index = function(const AChnIdx: int32; const AIndex: int32; const AFrame: PLIBCANFD): s32; stdcall;
-  Ttscom_can_rbs_activate_appointed_channel = function(const AChnIdx: int32; const AEnable: boolean; const AIncludingChildren: boolean): s32; stdcall;
-  Ttscom_can_rbs_set_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: int32): s32; stdcall;
-  Ttscom_can_rbs_get_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: pInt32): s32; stdcall;
-  Ttscom_can_rbs_set_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: byte): s32; stdcall;
-  Ttscom_can_rbs_get_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): s32; stdcall;
-  Ttscom_can_rbs_fault_injection_dlc_error = function(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): s32; stdcall;
+  Tcan_rbs_activate_appointed_channel = function(const AChnIdx: int32; const AEnable: boolean; const AIncludingChildren: boolean): s32; stdcall;
+  Tcan_rbs_set_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: int32): s32; stdcall;
+  Tcan_rbs_get_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: pInt32): s32; stdcall;
+  Tcan_rbs_set_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: byte): s32; stdcall;
+  Tcan_rbs_get_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): s32; stdcall;
+  Tcan_rbs_fault_injection_dlc_error = function(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
