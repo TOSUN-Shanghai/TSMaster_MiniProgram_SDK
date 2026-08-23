@@ -1407,6 +1407,15 @@ type
   Tcan_rbs_get_byte_in_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): s32; stdcall;
   Tcan_rbs_fault_injection_dlc_error = function(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): s32; stdcall;
   Tcan_rbs_get_read_first_frame_all_ready_timestamp = function(const AIdxChn: int32; const ATimestamp: pint64): s32; stdcall;
+  Tcan_rbs_is_first_received_frame = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const AIsFirstFrame: pInt32): s32; stdcall;
+  Tcan_rbs_check_frame_undefined_bits_by_address = function(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tlin_rbs_check_frame_undefined_bits_by_address = function(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tflexray_rbs_check_frame_undefined_bits_by_address = function(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tethernet_rbs_check_pdu_undefined_bits_by_address = function(const APDUAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tcan_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tlin_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
+  Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address = function(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -2942,7 +2951,16 @@ type
     tscom_can_rbs_get_byte_in_frame: Ttscom_can_rbs_get_byte_in_frame;
     tscom_can_rbs_fault_injection_dlc_error: Ttscom_can_rbs_fault_injection_dlc_error;
     can_rbs_get_read_first_frame_all_ready_timestamp: Tcan_rbs_get_read_first_frame_all_ready_timestamp;
-    FDummy: array [0..475- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_is_first_received_frame: Tcan_rbs_is_first_received_frame;
+    can_rbs_check_frame_undefined_bits_by_address: Tcan_rbs_check_frame_undefined_bits_by_address;
+    lin_rbs_check_frame_undefined_bits_by_address: Tlin_rbs_check_frame_undefined_bits_by_address;
+    flexray_rbs_check_frame_undefined_bits_by_address: Tflexray_rbs_check_frame_undefined_bits_by_address;
+    ethernet_rbs_check_pdu_undefined_bits_by_address: Tethernet_rbs_check_pdu_undefined_bits_by_address;
+    can_rbs_check_frame_trailing_undefined_bytes_by_address: Tcan_rbs_check_frame_trailing_undefined_bytes_by_address;
+    lin_rbs_check_frame_trailing_undefined_bytes_by_address: Tlin_rbs_check_frame_trailing_undefined_bytes_by_address;
+    flexray_rbs_check_frame_trailing_undefined_bytes_by_address: Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address;
+    ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address: Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address;
+    FDummy: array [0..466- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
