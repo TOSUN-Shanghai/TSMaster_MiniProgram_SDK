@@ -236,6 +236,15 @@ type
   TTSAppSetLINChannelCount = function (const ACount: Integer): integer; stdcall;
   TTSAppGetCANChannelCount = function (out ACount: Integer): integer; stdcall;
   TTSAppGetLINChannelCount = function (out ACount: Integer): integer; stdcall;
+  TTSAppSetA429ChannelCount = function(const ACount: Integer): integer; stdcall;
+  TTSAppGetA429ChannelCount = function(out ACount: Integer): integer; stdcall;
+  TTSAppGetA429ChannelCapability = function(const AIdxChn: Integer; const ACapability: PLIBA429ChannelCapability): integer; stdcall;
+  TTSAppConfigureA429Tx = function(const AConfig: PLIBA429TxConfig): integer; stdcall;
+  TTSAppConfigureA429Rx = function(const AConfig: PLIBA429RxConfig): integer; stdcall;
+  TTSAppGetA429TxConfig = function(const AIdxChn: Integer; const AConfig: PLIBA429TxConfig): integer; stdcall;
+  TTSAppGetA429RxConfig = function(const AIdxChn: Integer; const AConfig: PLIBA429RxConfig): integer; stdcall;
+  TTSAppStartA429Channel = function(const AIdxChn: Integer): integer; stdcall;
+  TTSAppStopA429Channel = function(const AIdxChn: Integer): integer; stdcall;
   TTSAppSetMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppGetMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
   TTSAppDeleteMapping = function (const AMapping: PLIBTSMapping): integer; stdcall;
@@ -546,6 +555,7 @@ type
   TTSAppSetSystemVarUInt64WTime = function(const ACompleteName: pansichar; const AValue: uint64; ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarUInt8ArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pbyte; ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarInt32ArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pInt32; ATimeUs: int64): s32; stdcall;
+  TTSAppSetSystemVarInt64ArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pint64; ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarDoubleArrayWTime = function(const ACompleteName: pansichar; const ACount: int32; const AValue: pdouble; ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarStringWTime = function(const ACompleteName: pansichar; const AValue: pansichar; ATimeUs: int64): s32; stdcall;
   TTSAppSetSystemVarGenericWTime = function(const ACompleteName: pansichar; const AValue: pansichar; ATimeUs: int64): s32; stdcall;
@@ -646,6 +656,7 @@ type
   Tmplib_stop = function(const AMPFileName: pansichar): integer; stdcall;
   Tmplib_run_all = function(): integer; stdcall;
   Tmplib_stop_all = function(): integer; stdcall;
+  Tmplib_get_function_address = function(const AGroupName: pansichar; const AFuncName: pansichar; out AAddress: Pointer): integer; stdcall;
   Tmplib_get_function_prototype = function(const AGroupName: pansichar; const AFuncName: pansichar; const APrototype: ppansichar): integer; stdcall;
   Tmplib_get_mp_function_list = function(const AGroupName: pansichar; const AList: ppansichar): integer; stdcall;
   Tmplib_get_mp_list = function(const AList: ppansichar): integer; stdcall;
@@ -832,12 +843,50 @@ type
   Tam_select_sub_module_verbose = function(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleDisplayName: pansichar; const AParameterGroupName: pansichar): s32; stdcall;
   Tload_code_file_to_ccode_editor = function(const AEditorDisplayName: pansichar; const AFilePath: pansichar; const ACreateIfEditorNotReady: boolean): s32; stdcall;
   Tload_code_file_to_python_editor = function(const AEditorDisplayName: pansichar; const AFilePath: pansichar; const ACreateIfEditorNotReady: boolean): s32; stdcall;
+  Tconfigure_ethernet_parameter_ex = function(const AIdxChn: int32; const AEnabled: s32; const APhyType: s32; const AIsMaster: s32; const AIsAutoNegotiation: s32; const ASpeedType: s32; const ALoopModeType: s32; const AByPassMode: s32; const AMacAddress: pansichar; const AEnableLayer2Switch: s32): s32; stdcall;
+  Tdb_get_can_signal_range_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_signal_range_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_schedule_table_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_frame_category_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_node_mode_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tdb_get_lin_schedule_tables_json_by_address = function(const AAdress: pansichar; const AJson: PPAnsiChar): s32; stdcall;
+  Tcrypto_get_error_description = function(buffer: PAnsiChar; buffer_length: NativeUInt): s32; stdcall;
+  Tcrypto_generate_hmac = function(hash_method: byte; key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; hmac: pbyte; hmac_length: PNativeUInt): s32; stdcall;
+  Tcrypto_generate_siphash_2_4 = function(key: pbyte; key_length: NativeUInt; data: pbyte; data_length: NativeUInt; siphash: pbyte; siphash_length: PNativeUInt): s32; stdcall;
+  Tcrypto_verify_rsa = function(const key_coding: byte; const hash_method: byte; const rsa_padding_mode: byte; const data: pbyte; const datalength: NativeUInt; const privatekey: pbyte; const keylength: NativeUInt; const signature: pbyte; const signaturelength: NativeUInt): s32; stdcall;
+  Ttls_rawsocket_get_errno = function: s32; stdcall;
+  Ttls_rawsocket_close = function(s: int32; AForceExitTimeWait: int32): s32; stdcall;
+  Ttls_rawsocket_recv = function(s: int32; mem: Pointer; len: NativeInt; flags: int32): NativeInt; stdcall;
+  Ttls_rawsocket_write = function(s: int32; dataptr: Pointer; size: NativeInt): NativeInt; stdcall;
+  Ttls_rawsocket_setsockopt = function(s: int32; level: int32; optname: int32; optval: Pointer; optlen: uint32): s32; stdcall;
+  Ttls_rawsocket_shutdown = function(s: int32; how: int32): s32; stdcall;
+  Ttls_register_tssocket = function(_1: Ttls_rawsocket_get_errno; _2: Ttls_rawsocket_close; _3: Ttls_rawsocket_recv; _4: Ttls_rawsocket_write; _5: Ttls_rawsocket_setsockopt; _6: Ttls_rawsocket_shutdown): s32; stdcall;
+  Ttls_tcp_client_internal = function(s: Integer; verify_mode: Integer; CA_file: PAnsiChar; CA_path: PAnsiChar): s32; stdcall;
+  Ttls_tcp_server_internal = function(s: Integer; cert_file: PAnsiChar; private_key_file: PAnsiChar; private_key_type: Integer): s32; stdcall;
+  Ttls_connect = function(s: Integer): s32; stdcall;
+  Ttls_accept = function(s: Integer): s32; stdcall;
+  Ttls_write = function(s: Integer; data: PByte; data_size: Integer): Integer; stdcall;
+  Ttls_read = function(s: Integer; data: PByte; data_size: Integer): Integer; stdcall;
+  Ttls_shutdown = function(s: Integer): s32; stdcall;
+  Ttls_free = function(s: Integer): s32; stdcall;
+  Tcertificate_load = function(data: Pointer; size: NativeUInt; handle: PTSX509_handle_t): s32; stdcall;
+  Tcertificate_unload = function(handle: TTSX509_handle_t): s32; stdcall;
+  Tcertificate_get_version = function(handle: TTSX509_handle_t; version: Ps32): s32; stdcall;
+  Tcertificate_get_subject_name = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_issuer_name = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_serial_number = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_tbs_signature_algorithm = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_signature_algorithm = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_not_before = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_not_after = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tcertificate_get_pubkey_algorithm = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
   TTSConfigureBaudrateCANFD = function(const AIdxChn: integer; const ABaudrateKbpsArb, ABaudrateKbpsData: Single; const AControllerType: TLIBCANFDControllerType; const AControllerMode: TLIBCANFDControllerMode; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
   // communication async functions
   TTransmitCANAsync = function (const ACAN: PLIBCAN): integer; stdcall;
+  TTransmitA429Async = function(const AFrame: PLIBA429): integer; stdcall;
   TTransmitCANFDAsync = function (const ACANFD: PLIBCANFD): integer; stdcall;
   TTransmitLINAsync = function (const ALIN: PLIBLIN): integer; stdcall;
   TTransmitFastLINAsync = function (const ALIN: PLIBLIN): integer; stdcall;
@@ -854,6 +903,7 @@ type
   TTransmitCANSync = function (const ACAN: PLIBCAN; const ATimeoutMS: Integer): integer; stdcall;
   TTransmitCANFDSync = function (const ACANFD: PLIBCANFD; const ATimeoutMS: Integer): integer; stdcall;
   TTransmitLINSync = function (const ALIN: PLIBLIN; const ATimeoutMS: Integer): integer; stdcall;
+  TTransmitA429Sync = function(const AFrame: PLIBA429; const ATimeoutMS: Integer): integer; stdcall;
   // bus functions
   TWaitCANMessage = function (const AObj: Pointer; const ATxCAN: PLIBCAN; const ARxCAN: PLIBCAN; const ATimeoutMS: s32): integer; stdcall;
   TWaitCANFDMessage = function (const AObj: Pointer; const ATxCANFD: PLIBCANFD; const ARxCANFD: PLIBCANFD; const ATimeoutMS: s32): integer; stdcall;
@@ -863,6 +913,9 @@ type
   TDeleteCyclicMsgCAN = function (const ACAN: PLIBCAN): integer; stdcall;
   TDeleteCyclicMsgCANFD = function (const ACANFD: PLIBCANfd): integer; stdcall;
   TDeleteCyclicMsgs = function : Integer; stdcall;
+  TAddA429CyclicMessage = function(const AIdxChn: Integer; const AMessage: PLIBA429CyclicMessage): integer; stdcall;
+  TUpdateA429CyclicMessage = function(const AIdxChn: Integer; const AMessage: PLIBA429CyclicMessage): integer; stdcall;
+  TDeleteA429CyclicMessage = function(const AIdxChn: Integer; const AMessageIndex: UInt8): integer; stdcall;
   Tadd_precise_cyclic_message = function (const AIdentifier:integer; const AChn:byte; const AIsExt:byte; const APeriodMS: Single; const ATimeoutMS:Integer): Integer; stdcall;
   Tdelete_precise_cyclic_message = function (const AIdentifier:integer; const AChn:byte; const AIsExt:byte; const ATimeoutMS:Integer): Integer; stdcall;
   // bus statistics
@@ -877,11 +930,16 @@ type
   TUnregisterCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall;
   TRegisterCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall;
   TUnregisterCANFDEvent = function (const AObj: pointer; const AEvent: TCANfdQueueEvent_Win32): integer; stdcall;
+  TRegisterCANXLEvent = function (const AObj: pointer; const AEvent: TCANXLQueueEvent_Win32): integer; stdcall;
+  TUnregisterCANXLEvent = function (const AObj: pointer; const AEvent: TCANXLQueueEvent_Win32): integer; stdcall;
   TRegisterLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall;
   TUnregisterLINEvent = function (const AObj: pointer; const AEvent: TliNQueueEvent_Win32): integer; stdcall;
+  TRegisterA429Event = function(const AObj: Pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall;
+  TUnregisterA429Event = function(const AObj: Pointer; const AEvent: TA429QueueEvent_Win32): integer; stdcall;
   TUnregisterCANEvents = function (const AObj: pointer): integer; stdcall;
   TUnregisterLINEvents = function (const AObj: pointer): integer; stdcall;
   TUnregisterCANFDEvents = function (const AObj: pointer): integer; stdcall;
+  TUnregisterCANXLEvents = function (const AObj: pointer): integer; stdcall;
   TUnregisterALLEvents = function (const AObj: pointer): integer; stdcall;
   // bus pre-tx callback handler
   TRegisterPreTxCANEvent = function (const AObj: pointer; const AEvent: TCANQueueEvent_Win32): integer; stdcall;
@@ -1379,6 +1437,7 @@ type
   Tget_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: pdouble): s32; stdcall;
   Tset_ethernet_signal_value_verbose = function(const AChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const APDUName: pansichar; const ASignalName: pansichar; const AEthernet: PLIBEthernetHeader; AValue: double): s32; stdcall;
   Ttransmit_canfd_sequential = function(const AIdxChn: int32; const ACANFDs: PLIBCANFD; const AIntervalsUs: PUint32; const ACount: int32; const AFlags: byte): s32; stdcall;
+  Ttransmit_canfd_sequential_w_json = function(const AIdxChn: int32; const AJsonString: pansichar; const AFlags: byte; const AJsonEncoding: byte): s32; stdcall;
   Ttransmit_canxl_async = function(const ACANXL: PLIBCANXL): s32; stdcall;
   Trawsocket_etharp_add_static_entry_ex = function(const ANetworkIndex: int32; const AIpAddr: pansichar; AEthAddr: pansichar): s32; stdcall;
   Trawsocket_etharp_remove_static_entry_ex = function(const ANetworkIndex: int32; const ipaddr: pansichar): s32; stdcall;
@@ -1400,6 +1459,8 @@ type
   Tcan_rbs_read_first_frame_monitor_by_id = function(const AChnIdx: int32; const AIdentifier: int32; const AFrame: PLIBCANFD): s32; stdcall;
   Tcan_rbs_get_first_frame_monitor_undefined_count = function(const AChnIdx: int32; const ACount: pInt32): s32; stdcall;
   Tcan_rbs_get_first_frame_monitor_undefined_by_index = function(const AChnIdx: int32; const AIndex: int32; const AFrame: PLIBCANFD): s32; stdcall;
+  Ttssocket_add_ipv6_device = function(const AChannel: int32; const AMacAddress: pansichar; const AHasVlan: int32; const AVLanID: int32; const AVLanPriority: int32; const AIPAddress: pansichar; const APrefix: pansichar): s32; stdcall;
+  Ttssocket_delete_ipv6_device = function(const AChannel: int32; const AMacAddress: pansichar; const AHasVlan: int32; const AVLanID: int32; const AVLanPriority: int32; const AIPAddress: pansichar): s32; stdcall;
   Tcan_rbs_activate_appointed_channel = function(const AChnIdx: int32; const AEnable: boolean; const AIncludingChildren: boolean): s32; stdcall;
   Tcan_rbs_set_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: int32): s32; stdcall;
   Tcan_rbs_get_frame_data = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ADatas: pbyte; const ADataLength: pInt32): s32; stdcall;
@@ -1487,6 +1548,11 @@ type
   Tclassic_test_system_login = function(const AUserName: pansichar; const APassword: pansichar): s32; stdcall;
   Tclassic_test_system_import = function(const AConfFile: pansichar): s32; stdcall;
   Tlog_formatted_value = function(const AStr: pansichar; const AFormat: pansichar; const AValue: double; const ALevel: Integer): s32; stdcall;
+  TSignalTesterConfigureItemByIndex = function(const AIdx: int32; const ATimeBegin, ATimeEnd, AMin, AMax: double; const AEnabled: boolean): s32; stdcall;
+  TSignalTesterConfigureItemByName = function(const AName: pansichar; const ATimeBegin, ATimeEnd, AMin, AMax: double; const AEnabled: boolean): s32; stdcall;
+  TSignalTesterGetItemStateByIndex = function(const AIdx: int32; AState: PSignalTesterItemState; AValues, ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetItemStateByName = function(const AName: pansichar; AState: PSignalTesterItemState; AValues, ADescription: PPAnsiChar): s32; stdcall;
+  TSignalTesterGetState = function(AState: PSignalTesterState): s32; stdcall;
   // TS_TEST_PROTO_END (do not modify this line) ================================
 
   // MBD Features
@@ -2346,13 +2412,55 @@ type
     get_system_var_app_def_by_index: Tget_system_var_app_def_by_index;
     get_system_var_app_def_by_name: Tget_system_var_app_def_by_name;
     get_system_var_app_count: Tget_system_var_app_count;
+    db_get_can_signal_range_json_by_address: Tdb_get_can_signal_range_json_by_address;
+    db_get_lin_signal_range_json_by_address: Tdb_get_lin_signal_range_json_by_address;
+    db_get_lin_schedule_table_json_by_address: Tdb_get_lin_schedule_table_json_by_address;
+    db_get_lin_frame_category_json_by_address: Tdb_get_lin_frame_category_json_by_address;
+    db_get_lin_node_mode_json_by_address: Tdb_get_lin_node_mode_json_by_address;
+    db_get_lin_schedule_tables_json_by_address: Tdb_get_lin_schedule_tables_json_by_address;
+    crypto_get_error_description: Tcrypto_get_error_description;
+    crypto_generate_hmac: Tcrypto_generate_hmac;
+    crypto_generate_siphash_2_4: Tcrypto_generate_siphash_2_4;
+    crypto_verify_rsa: Tcrypto_verify_rsa;
+    tls_register_tssocket: Ttls_register_tssocket;
+    tls_tcp_client_internal: Ttls_tcp_client_internal;
+    tls_tcp_server_internal: Ttls_tcp_server_internal;
+    tls_connect: Ttls_connect;
+    tls_accept: Ttls_accept;
+    tls_write: Ttls_write;
+    tls_read: Ttls_read;
+    tls_shutdown: Ttls_shutdown;
+    tls_free: Ttls_free;
+    certificate_load: Tcertificate_load;
+    certificate_unload: Tcertificate_unload;
+    certificate_get_version: Tcertificate_get_version;
+    certificate_get_subject_name: Tcertificate_get_subject_name;
+    certificate_get_issuer_name: Tcertificate_get_issuer_name;
+    certificate_get_serial_number: Tcertificate_get_serial_number;
+    certificate_get_tbs_signature_algorithm: Tcertificate_get_tbs_signature_algorithm;
+    certificate_get_signature_algorithm: Tcertificate_get_signature_algorithm;
+    certificate_get_not_before: Tcertificate_get_not_before;
+    certificate_get_not_after: Tcertificate_get_not_after;
+    certificate_get_pubkey_algorithm: Tcertificate_get_pubkey_algorithm;
     gpg_begin_batch_import: Tgpg_begin_batch_import;
     gpg_end_batch_import: Tgpg_end_batch_import;
     gpg_set_module_execution_record_options: Tgpg_set_module_execution_record_options;
     am_select_sub_module_verbose: Tam_select_sub_module_verbose;
+    set_system_var_int64_array_w_time: TTSAppSetSystemVarInt64ArrayWTime;
+    mplib_get_function_address: Tmplib_get_function_address;
+    set_a429_channel_count: TTSAppSetA429ChannelCount;
+    get_a429_channel_count: TTSAppGetA429ChannelCount;
+    get_a429_channel_capability: TTSAppGetA429ChannelCapability;
+    configure_a429_tx: TTSAppConfigureA429Tx;
+    configure_a429_rx: TTSAppConfigureA429Rx;
+    get_a429_tx_config: TTSAppGetA429TxConfig;
+    get_a429_rx_config: TTSAppGetA429RxConfig;
+    start_a429_channel: TTSAppStartA429Channel;
+    stop_a429_channel: TTSAppStopA429Channel;
     load_code_file_to_ccode_editor: Tload_code_file_to_ccode_editor;
     load_code_file_to_python_editor: Tload_code_file_to_python_editor;
-    FDummy: array [0..466-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    configure_ethernet_parameter_ex: Tconfigure_ethernet_parameter_ex;
+    FDummy: array [0..424-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
@@ -2566,6 +2674,7 @@ type
     flexray_rbs_stop                        :       TFlexRayRBSStop;
     flexray_rbs_is_running                  :       TFlexRayRBSIsRunning;
     flexray_rbs_configure                   :       TFlexRayRBSConfigure;
+    flexray_rbs_enable                      :       TFlexRayRBSEnable;
     flexray_rbs_activate_all_clusters       :       TFlexRayRBSActivateAllClusters;
     flexray_rbs_activate_cluster_by_name    :       TFlexRayRBSActivateClusterByName;
     flexray_rbs_activate_ecu_by_name        :       TFlexRayRBSActivateECUByName;
@@ -2574,7 +2683,6 @@ type
     flexray_rbs_get_signal_value_by_address :       TFlexRayRBSGetSignalValueByAddress;
     flexray_rbs_set_signal_value_by_element :       TFlexRayRBSSetSignalValueByElement;
     flexray_rbs_set_signal_value_by_address :       TFlexRayRBSSetSignalValueByAddress;
-    flexray_rbs_enable                      :       TFlexRayRBSEnable;
     flexray_rbs_batch_set_start             :       TFlexRayRBSBatchSetStart;
     flexray_rbs_batch_set_end               :       TFlexRayRBSBatchSetEnd;
     flexray_rbs_batch_set_signal            :       TFlexRayRBSBatchSetSignal;
@@ -2924,6 +3032,7 @@ type
     get_ethernet_signal_value_verbose: Tget_ethernet_signal_value_verbose;
     set_ethernet_signal_value_verbose: Tset_ethernet_signal_value_verbose;
     transmit_canfd_sequential: Ttransmit_canfd_sequential;
+    transmit_canfd_sequential_w_json: Ttransmit_canfd_sequential_w_json;
     transmit_canxl_async: Ttransmit_canxl_async;
     rawsocket_etharp_add_static_entry_ex: Trawsocket_etharp_add_static_entry_ex;
     rawsocket_etharp_remove_static_entry_ex: Trawsocket_etharp_remove_static_entry_ex;
@@ -2933,6 +3042,18 @@ type
     rpc_tsmaster_cmd_batch_get_signal_read: Trpc_tsmaster_cmd_batch_get_signal_read;
     rpc_tsmaster_cmd_batch_get_signal_release: Trpc_tsmaster_cmd_batch_get_signal_release;
     rpc_tsmaster_cmd_batch_get_signal_list: Trpc_tsmaster_cmd_batch_get_signal_list;
+    transmit_a429_async: TTransmitA429Async;
+    transmit_a429_sync: TTransmitA429Sync;
+    add_a429_cyclic_message: TAddA429CyclicMessage;
+    update_a429_cyclic_message: TUpdateA429CyclicMessage;
+    delete_a429_cyclic_message: TDeleteA429CyclicMessage;
+    register_event_a429: TRegisterA429Event;
+    unregister_event_a429: TUnregisterA429Event;
+    register_pretx_event_a429: TRegisterA429Event;
+    unregister_pretx_event_a429: TUnregisterA429Event;
+    register_event_canxl: TRegisterCANXLEvent;
+    unregister_event_canxl: TUnregisterCANXLEvent;
+    unregister_events_canxl: TUnregisterCANXLEvents;
     can_rbs_register_first_frame_monitor_by_node: Tcan_rbs_register_first_frame_monitor_by_node;
     can_rbs_unregister_first_frame_monitor_by_node: Tcan_rbs_unregister_first_frame_monitor_by_node;
     can_rbs_register_first_frame_monitor_by_id: Tcan_rbs_register_first_frame_monitor_by_id;
@@ -2945,12 +3066,14 @@ type
     can_rbs_read_first_frame_monitor_by_id: Tcan_rbs_read_first_frame_monitor_by_id;
     can_rbs_get_first_frame_monitor_undefined_count: Tcan_rbs_get_first_frame_monitor_undefined_count;
     can_rbs_get_first_frame_monitor_undefined_by_index: Tcan_rbs_get_first_frame_monitor_undefined_by_index;
-    tscom_can_rbs_activate_appointed_channel: Ttscom_can_rbs_activate_appointed_channel;
-    tscom_can_rbs_set_frame_data: Ttscom_can_rbs_set_frame_data;
-    tscom_can_rbs_get_frame_data: Ttscom_can_rbs_get_frame_data;
-    tscom_can_rbs_set_byte_in_frame: Ttscom_can_rbs_set_byte_in_frame;
-    tscom_can_rbs_get_byte_in_frame: Ttscom_can_rbs_get_byte_in_frame;
-    tscom_can_rbs_fault_injection_dlc_error: Ttscom_can_rbs_fault_injection_dlc_error;
+    tssocket_add_ipv6_device: Ttssocket_add_ipv6_device;
+    tssocket_delete_ipv6_device: Ttssocket_delete_ipv6_device;
+    can_rbs_activate_appointed_channel: Tcan_rbs_activate_appointed_channel;
+    can_rbs_set_frame_data: Tcan_rbs_set_frame_data;
+    can_rbs_get_frame_data: Tcan_rbs_get_frame_data;
+    can_rbs_set_byte_in_frame: Tcan_rbs_set_byte_in_frame;
+    can_rbs_get_byte_in_frame: Tcan_rbs_get_byte_in_frame;
+    can_rbs_fault_injection_dlc_error: Tcan_rbs_fault_injection_dlc_error;
     can_rbs_get_read_first_frame_all_ready_timestamp: Tcan_rbs_get_read_first_frame_all_ready_timestamp;
     can_rbs_is_first_received_frame: Tcan_rbs_is_first_received_frame;
     can_rbs_check_frame_undefined_bits_by_address: Tcan_rbs_check_frame_undefined_bits_by_address;
@@ -2962,7 +3085,7 @@ type
     flexray_rbs_check_frame_trailing_undefined_bytes_by_address: Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address;
     ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address: Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address;
     can_rbs_is_first_received_frame_by_id: Tcan_rbs_is_first_received_frame_by_id;
-    FDummy: array [0..465- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    FDummy: array [0..450- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -3079,7 +3202,12 @@ type
     classic_test_system_login: Tclassic_test_system_login;
     classic_test_system_import: Tclassic_test_system_import;
     log_formatted_value: Tlog_formatted_value;
-    FDummy: array [0..142-1] of NativeInt; // place holders, TS_TEST_PROTO_END
+    signal_tester_configure_item_by_index: TSignalTesterConfigureItemByIndex;
+    signal_tester_configure_item_by_name: TSignalTesterConfigureItemByName;
+    signal_tester_get_item_state_by_index: TSignalTesterGetItemStateByIndex;
+    signal_tester_get_item_state_by_name: TSignalTesterGetItemStateByName;
+    signal_tester_get_state: TSignalTesterGetState;
+    FDummy: array [0..137-1] of NativeInt; // place holders, TS_TEST_PROTO_END
     procedure set_verdict_ok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_nok(const AStr: PAnsiChar); cdecl;
     procedure set_verdict_cok(const AStr: PAnsiChar); cdecl;

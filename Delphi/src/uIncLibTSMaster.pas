@@ -4043,6 +4043,17 @@ function can_rbs_get_frame_data(const AChnIdx: int32; const ANetworkName: pansic
 function can_rbs_set_byte_in_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: byte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_byte_in_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const AIndex: int32; const AByteData: pbyte): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_fault_injection_dlc_error(const AEnable: boolean; const AIdxChn: int32; const AIdentifier: int32; const ADLC: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_get_read_first_frame_all_ready_timestamp(const AIdxChn: int32; const ATimestamp: pint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_is_first_received_frame(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AFrameName: pansichar; const AIsFirstFrame: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_check_frame_undefined_bits_by_address(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function lin_rbs_check_frame_undefined_bits_by_address(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function flexray_rbs_check_frame_undefined_bits_by_address(const AFrameAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function ethernet_rbs_check_pdu_undefined_bits_by_address(const APDUAddress: pansichar; const AExpectedBit: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function lin_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function flexray_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_is_first_received_frame_by_id(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
