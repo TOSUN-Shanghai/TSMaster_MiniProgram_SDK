@@ -1485,7 +1485,22 @@ type
     FComment: array [0..MP_DATABASE_STR_LEN-1] of ansichar;
   end;
   PMPDBSignalProperties = ^TMPDBSignalProperties;
-
+  // CAN RBS public ABI types. The Host implementation owns its internal
+  // snapshot type; this declaration is the public DLL-client mirror.
+  TLibCANRBSFramePeriodStatistics = packed record
+    FStructSize: UInt32;
+    FFlags: UInt32;
+    FFrameCount: UInt64;
+    FPeriodSampleCount: UInt64;
+    FFirstTimestampUs: UInt64;
+    FLastTimestampUs: UInt64;
+    FCurrentPeriodUs: UInt64;
+    FMinPeriodUs: UInt64;
+    FMaxPeriodUs: UInt64;
+    FAveragePeriodUs: Double;
+    FNonMonotonicTimestampCount: UInt64;
+  end;
+  PLibCANRBSFramePeriodStatistics = ^TLibCANRBSFramePeriodStatistics;
   // Hardware Info definition
   PLIBHWInfo = ^TLIBHWInfo;
   TLIBHWInfo = packed record
@@ -4097,22 +4112,6 @@ procedure tscom_set_lin_signal_value(const ASignal: PMPLINSignal; const AData: P
 function tscom_get_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte): double; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 procedure tscom_set_flexray_signal_value(const AFlexRaySignal: pmpflexraysignal; const AData: PByte; const AValue: double); stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function am_select_sub_module_verbose(const AIsSelect: boolean; const AModuleName: pansichar; const ASubModuleDisplayName: pansichar; const AParameterGroupName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-type
-  TCANRBSFramePeriodStatistics = packed record
-    FStructSize: UInt32;
-    FFlags: UInt32;
-    FFrameCount: UInt64;
-    FPeriodSampleCount: UInt64;
-    FFirstTimestampUs: UInt64;
-    FLastTimestampUs: UInt64;
-    FCurrentPeriodUs: UInt64;
-    FMinPeriodUs: UInt64;
-    FMaxPeriodUs: UInt64;
-    FAveragePeriodUs: Double;
-    FNonMonotonicTimestampCount: UInt64;
-  end;
-  PCANRBSFramePeriodStatistics = ^TCANRBSFramePeriodStatistics;
-
 function can_rbs_register_first_frame_monitor_by_node(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_unregister_first_frame_monitor_by_node(const AChnIdx: int32; const ANetworkName: pansichar; const AECUName: pansichar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_register_first_frame_monitor_by_id(const AChnIdx: int32; const AIdentifier: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -4144,7 +4143,7 @@ function ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address(const APDUAd
 function can_rbs_is_first_received_frame_by_id(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_enable_frame_property_monitor(const AChnIdx: int32; const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_frame_dlc_monitor_result(const AChnIdx: int32; const AIdentifier: uint32; const ADLC: uint8): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function can_rbs_get_frame_period_statistics(const AChnIdx: int32; const AIdentifier: uint32; const AStatistics: PCANRBSFramePeriodStatistics): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_get_frame_period_statistics(const AChnIdx: int32; const AIdentifier: uint32; const AStatistics: PLibCANRBSFramePeriodStatistics): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_frame_ack_error_monitor_result(const AChnIdx: int32; const AHasACKError: pInt32; const AFirstACKTimestampUs: pint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_rx_rc_error_by_address(const ASymbolAddress: pansichar; const AHasError: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_rx_crc_error_by_address(const ASymbolAddress: pansichar; const AHasError: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
