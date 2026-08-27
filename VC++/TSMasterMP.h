@@ -4407,7 +4407,7 @@ typedef struct _TTSCOM {
     Tcan_rbs_get_first_frame_monitor_undefined_by_index can_rbs_get_first_frame_monitor_undefined_by_index;
     Ttssocket_add_ipv6_device tssocket_add_ipv6_device;
     Ttssocket_delete_ipv6_device tssocket_delete_ipv6_device;
-    Tcan_rbs_activate_appointed_channel tscom_can_rbs_activate_appointed_channel;
+    Tcan_rbs_activate_appointed_channel can_rbs_activate_appointed_channel;
     Tcan_rbs_set_frame_data can_rbs_set_frame_data;
     Tcan_rbs_get_frame_data can_rbs_get_frame_data;
     Tcan_rbs_set_byte_in_frame can_rbs_set_byte_in_frame;
