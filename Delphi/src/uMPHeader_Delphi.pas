@@ -98,7 +98,46 @@ type
     fptTSTIMSignalStatus, fptpSTIMSignalStatus, fptSignalType, fptSignalCheckKind,
     fptSignalStatisticsKind, fptReplayPhase, fptSymbolMappingDirection, fptPFlexRaySignal,
     fptPFlexRay, fptPLINSignal, fptPDBProperties, fptPDBECUProperties, fptPDBFrameProperties,
-    fptPDBSignalProperties, fptTReadProgressCallback
+    fptPDBSignalProperties, fptTReadProgressCallback, fptPFlexRayClusterParameters,
+    fptPFlexRayControllerParameters, fptTAutomationSignalType, fptpTAutomationSignalType,
+    fptTMPFuncSource, fptTSimVarType, fptpFlexRayProtected, fptPEthernetHeader,
+    fptOnIoIPConnection, fptOnSysVarChange, fptpTCANp, fptpTCANFDp, fptpTLINp,
+    fptpTEthernetHeaderp, fptCProcedure, fptpTSignalTesterFailReason,
+    fptpPUDPFragmentProcessStatus, fptppU8, fptTLIBRBSInitValueOptions,
+    fptTLIBApplicationChannelType, fptTLIBCANBusStatistics, fptTSupportedObjType,
+    fptNativeInt, fptPNativeInt, fptOnRpcData,
+    fpttip4_addr_t, fptpip4_addr_t, fpttip6_addr_t, fptpip6_addr_t,
+    fpttip_addr_t, fptpip_addr_t, fpttts_sockaddr_private, fptpts_sockaddr,
+    fpttts_sockaddr_in_private, fptpts_sockaddr_in, fpttts_iovec,
+    fptpts_iovec, fpttts_timeval, fptpts_timeval, fptpts_fd_set,
+    fptpts_pollfd, fpttts_msghdr, fptpts_msghdr, fpttts_socklen_t,
+    fptpts_socklen_t, tptts_sa_family_t, fptts_in_port_t, fptts_in_addr_t,
+    fptts_socket_t, fptts_nfds_t, fptts_sockaddr_in_union, fptpLIBHWInfo,
+    fptTLIBPanelControlType, fptpLIBPanelControlType, fptTPanelSignalType,
+    fptpPanelSignalType, fptChar, fptOnAutoSARE2ECanEvt, fptOnUSBPlugEvent,
+    fptTMBDDataType, fptpPMBDDataType, fpttts_net_device, fptpts_net_device,
+    fptppts_net_device, fpttts_addrinfo, fptpts_addrinfo, fptppts_addrinfo,
+    fpttts_hostent, fptpts_hostent, fptppts_hostent, fptOnAutoSARPDUQueueEvent,
+    fptOnAutoSARPDUPreTxEvent, fptMBDPriorityKind, fptpMBDPriorityKind,
+    fptTacDebugger, fptTacValue, fptTacBreakpoint, fptTacValueType,
+    fptTacDebugEvent, fptpTacDebugger, fptpTacValue, fptpTacBreakpoint,
+    fptpTacValueType, fptpTacDebugEvent, fptTacDebuggerCallback,
+    fptNativeUInt, fptPNativeUInt, fptpMPTimerMSUpg1, fptOnSignalEvent,
+    fptTdds_pre_deserialize_callback, fptTdds_after_serialize_callback,
+    fptpSystemVarType, fptSMetricIntegerSnapshot, fptAiFlowObjectType,
+    fptpAiFlowObjectType, fptAiFlowDecomposition, fptpAiFlowDecomposition,
+    fptAiFlowDragHandlePosition, fptpAiFlowDragHandlePosition,
+    fptAiFlowAlignMode, fptpAiFlowAlignMode, fptPDBPDUProperties,
+    fptOnSystemVarPreReadEvent, fptPCANXL, fptpLIBSimVarType,
+    fptpsomeip_handle_t, fptpsomeip_service_instance_t,
+    fptpsomeip_endpoint_options_t, fptpsomeip_event_options_t,
+    fptpsomeip_field_options_t, fptpsomeip_method_options_t,
+    fptTtls_rawsocket_get_errno, fptTtls_rawsocket_close,
+    fptTtls_rawsocket_recv, fptTtls_rawsocket_write,
+    fptTtls_rawsocket_setsockopt, fptTtls_rawsocket_shutdown,
+    fptTTSX509_handle_t, fptPTSX509_handle_t, fptPLIBA429,
+    fptPLIBA429TxConfig, fptPLIBA429RxConfig, fptPLIBA429CyclicMessage,
+    fptPLIBA429ChannelCapability, fptPCANRBSFramePeriodStatistics
   );
   TMPCANSignal = packed record
     FCANSgnType: u8; // 0 - Unsigned, 1 - Signed, 2 - Single 32, 3 - Double 64
@@ -1478,6 +1517,30 @@ type
   Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address = function(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tcan_rbs_is_first_received_frame_by_id = function(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): s32; stdcall;
+  TMPCANRBSFramePeriodStatistics = packed record
+    FStructSize: UInt32;
+    FFlags: UInt32;
+    FFrameCount: UInt64;
+    FPeriodSampleCount: UInt64;
+    FFirstTimestampUs: UInt64;
+    FLastTimestampUs: UInt64;
+    FCurrentPeriodUs: UInt64;
+    FMinPeriodUs: UInt64;
+    FMaxPeriodUs: UInt64;
+    FAveragePeriodUs: Double;
+    FNonMonotonicTimestampCount: UInt64;
+  end;
+  PMPCANRBSFramePeriodStatistics = ^TMPCANRBSFramePeriodStatistics;
+  Tcan_rbs_enable_frame_property_monitor = function(const AChnIdx: int32; const AEnable: boolean): s32; stdcall;
+  Tcan_rbs_get_frame_dlc_monitor_result = function(const AChnIdx: int32; const AIdentifier: uint32; const ADLC: u8): s32; stdcall;
+  Tcan_rbs_get_frame_period_statistics = function(const AChnIdx: int32; const AIdentifier: uint32; const AStatistics: PMPCANRBSFramePeriodStatistics): s32; stdcall;
+  Tcan_rbs_get_frame_ack_error_monitor_result = function(const AChnIdx: int32; const AHasACKError: pInt32; const AFirstACKTimestampUs: pint64): s32; stdcall;
+  Tcan_rbs_get_rx_rc_error_by_address = function(const ASymbolAddress: pansichar; const AHasError: pInt32): s32; stdcall;
+  Tcan_rbs_get_rx_crc_error_by_address = function(const ASymbolAddress: pansichar; const AHasError: pInt32): s32; stdcall;
+  Tcan_rbs_fault_injection_message_lost_count = function(const AIdxChn: int32; const AIdentifier: int32; const ALostCount: int32): s32; stdcall;
+  Tcan_rbs_send_message_by_name_n_times = function(const AIdxChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ASendCount: int32; const AIntervalMs: int32): s32; stdcall;
+  Tcan_rbs_set_rc_fault_mode = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ARCSignalName: pansichar; const AMode: int32): s32; stdcall;
+  Tcan_rbs_set_crc_fault_mode = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ACRCSignalName: pansichar; const AMode: int32): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -3085,7 +3148,17 @@ type
     flexray_rbs_check_frame_trailing_undefined_bytes_by_address: Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address;
     ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address: Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address;
     can_rbs_is_first_received_frame_by_id: Tcan_rbs_is_first_received_frame_by_id;
-    FDummy: array [0..450- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_enable_frame_property_monitor: Tcan_rbs_enable_frame_property_monitor;
+    can_rbs_get_frame_dlc_monitor_result: Tcan_rbs_get_frame_dlc_monitor_result;
+    can_rbs_get_frame_period_statistics: Tcan_rbs_get_frame_period_statistics;
+    can_rbs_get_frame_ack_error_monitor_result: Tcan_rbs_get_frame_ack_error_monitor_result;
+    can_rbs_get_rx_rc_error_by_address: Tcan_rbs_get_rx_rc_error_by_address;
+    can_rbs_get_rx_crc_error_by_address: Tcan_rbs_get_rx_crc_error_by_address;
+    can_rbs_fault_injection_message_lost_count: Tcan_rbs_fault_injection_message_lost_count;
+    can_rbs_send_message_by_name_n_times: Tcan_rbs_send_message_by_name_n_times;
+    can_rbs_set_rc_fault_mode: Tcan_rbs_set_rc_fault_mode;
+    can_rbs_set_crc_fault_mode: Tcan_rbs_set_crc_fault_mode;
+    FDummy: array [0..440- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
@@ -3484,7 +3557,47 @@ const
     'TSTIMSignalStatus', 'PSTIMSignalStatus', 'TSignalType', 'TSignalCheckKind',
     'TSignalStatisticsKind', 'TReplayPhase', 'TSymbolMappingDirection', 'PFlexRaySignal',
     'PFlexRay', 'PLINSignal', 'PDBProperties', 'PDBECUProperties', 'PDBFrameProperties',
-    'PDBSignalProperties', 'TReadProgressCallback'
+    'PDBSignalProperties', 'TProgressCallback', 'PFlexRayClusterParameters',
+    'PFlexRayControllerParameters', 'TLIBAutomationSignalType',
+    'PLIBAutomationSignalType', 'TLIBMPFuncSource', 'TLIBSimVarType',
+    'TFlexRay*', 'PEthernetHeader', 'TOnIoIPConnection', 'TOnSysVarChange',
+    'TCAN*', 'TCANFD*', 'TLIN*', 'TEthernetHeader*', 'TCProcedure',
+    'PSignalTesterFailReason', 'PUDPFragmentProcessStatus', 'ppu8',
+    'TLIBRBSInitValueOptions', 'TLIBApplicationChannelType',
+    'TLIBCANBusStatistics', 'TSupportedBLFObjType', 'native_int',
+    'pnative_int', 'TOnRpcData', 'tip4_addr_t', 'pip4_addr_t', 'tip6_addr_t',
+    'pip6_addr_t', 'tip_addr_t', 'pip_addr_t', 'tts_sockaddr_private',
+    'pts_sockaddr', 'tts_sockaddr_in_private', 'pts_sockaddr_in', 'tts_iovec',
+    'pts_iovec', 'tts_timeval', 'pts_timeval', 'pts_fd_set', 'pts_pollfd',
+    'tts_msghdr', 'pts_msghdr', 'tts_socklen_t', 'pts_socklen_t',
+    'ts_sa_family_t', 'ts_in_port_t', 'ts_in_addr_t', 'ts_socket_t',
+    'ts_nfds_t', 'ts_sockaddr_in_union', 'PLIBHWInfo',
+    'TLIBPanelControlType', 'PLIBPanelControlType', 'TLIBPanelSignalType',
+    'PLIBPanelSignalType', 'char', 'TOnAutoSARE2ECanEvt', 'TOnUSBPlugEvent',
+    'TMBDDataType', 'PMBDDataType', 'tts_net_device', 'pts_net_device',
+    'ppts_net_device', 'tts_addrinfo', 'pts_addrinfo', 'ppts_addrinfo',
+    'tts_hostent', 'pts_hostent', 'ppts_hostent', 'TOnAutoSARPDUQueueEvent',
+    'TOnAutoSARPDUPreTxEvent', 'TMBD_PriorityKind', 'PMBD_PriorityKind',
+    'tac_debugger_t', 'tac_value_t', 'tac_breakpoint_t', 'tac_value_type_t',
+    'tac_debug_event_t', 'p_tac_debugger_t', 'p_tac_value_t',
+    'p_tac_breakpoint_t', 'p_tac_value_type_t', 'p_tac_debug_event_t',
+    'tac_debug_callback_t', 'native_uint', 'pnative_uint', 'PMPTimerMSUpg1',
+    'TOnSignalEvent', 'Tdds_pre_deserialize_callback',
+    'Tdds_after_serialize_callback', 'PLIBSystemVarType',
+    'PTSMetricIntegerSnapshot', 'TAiFlowObjectType', 'pTAiFlowObjectType',
+    'TAiFlowDecomposition', 'pTAiFlowDecomposition',
+    'TAiFlowDragHandlePosition', 'pTAiFlowDragHandlePosition',
+    'TAiFlowAlignMode', 'pTAiFlowAlignMode', 'PDBPDUProperties',
+    'TOnSystemVarPreReadEvent', 'PCANXL', 'PLIBSimVarType',
+    'someip_handle_t*', 'someip_service_instance_t*',
+    'someip_endpoint_options_t*', 'someip_event_options_t*',
+    'someip_field_options_t*', 'someip_method_options_t*',
+    'Ttls_rawsocket_get_errno', 'Ttls_rawsocket_close',
+    'Ttls_rawsocket_recv', 'Ttls_rawsocket_write',
+    'Ttls_rawsocket_setsockopt', 'Ttls_rawsocket_shutdown',
+    'TTSX509_handle_t', 'PTSX509_handle_t', 'PLIBA429',
+    'PLIBA429TxConfig', 'PLIBA429RxConfig', 'PLIBA429CyclicMessage',
+    'PLIBA429ChannelCapability', 'PCANRBSFramePeriodStatistics'
   );
 
 implementation
@@ -4214,6 +4327,8 @@ begin
   Assert(SizeOf(TMPDBECUProperties) = 1040, 'TMPDBECUProperties size should be 1040');
   Assert(SizeOf(TMPDBFrameProperties) = 1088, 'TMPDBFrameProperties size should be 1088');
   Assert(SizeOf(TMPDBSignalProperties) = 1152, 'TMPDBSignalProperties size should be 1152');
+  Assert(SizeOf(TMPCANRBSFramePeriodStatistics) = 80,
+    'TMPCANRBSFramePeriodStatistics size should be 80');
 {$endif}
 
 end;

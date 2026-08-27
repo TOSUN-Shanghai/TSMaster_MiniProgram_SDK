@@ -104,6 +104,7 @@ begin
   if not AReg(AObj, 'check_mp_internal', 'struct_size', 'struct_size_TMPVarLIN', pointer(sizeof(TMPVarLIN)), '') then Exit(-1);
   if not AReg(AObj, 'check_mp_internal', 'struct_size', 'struct_size_TLIBTSMapping', pointer(sizeof(TLIBTSMapping)), '') then Exit(-1);
   if not AReg(AObj, 'check_mp_internal', 'struct_size', 'struct_size_TLIBSystemVarDef', pointer(sizeof(TLIBSystemVarDef)), '') then Exit(-1);
+  if not AReg(AObj, 'check_mp_internal', 'struct_size', 'struct_size_TCANRBSFramePeriodStatistics', pointer(sizeof(TMPCANRBSFramePeriodStatistics)), '') then Exit(-1);
   // register functions
   if not AReg(AObj, 'step_function', 'step', '5', @internal_step, '') then Exit(-1);
   // register mini program functions
