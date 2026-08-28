@@ -1541,6 +1541,8 @@ type
   Tcan_rbs_send_message_by_name_n_times = function(const AIdxChn: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMsgName: pansichar; const ASendCount: int32; const AIntervalMs: int32): s32; stdcall;
   Tcan_rbs_set_rc_fault_mode = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ARCSignalName: pansichar; const AMode: int32): s32; stdcall;
   Tcan_rbs_set_crc_fault_mode = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ACRCSignalName: pansichar; const AMode: int32): s32; stdcall;
+  Tcan_rbs_enable_automatic_tx_algorithm = function(const AEnable: boolean): s32; stdcall;
+  Tcan_rbs_enable_automatic_rx_algorithm = function(const AEnable: boolean): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -3158,7 +3160,9 @@ type
     can_rbs_send_message_by_name_n_times: Tcan_rbs_send_message_by_name_n_times;
     can_rbs_set_rc_fault_mode: Tcan_rbs_set_rc_fault_mode;
     can_rbs_set_crc_fault_mode: Tcan_rbs_set_crc_fault_mode;
-    FDummy: array [0..440- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_enable_automatic_tx_algorithm: Tcan_rbs_enable_automatic_tx_algorithm;
+    can_rbs_enable_automatic_rx_algorithm: Tcan_rbs_enable_automatic_rx_algorithm;
+    FDummy: array [0..438- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;
