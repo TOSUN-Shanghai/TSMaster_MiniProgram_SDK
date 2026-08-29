@@ -1531,7 +1531,7 @@ type
     FNonMonotonicTimestampCount: UInt64;
   end;
   PMPCANRBSFramePeriodStatistics = ^TMPCANRBSFramePeriodStatistics;
-  Tcan_rbs_enable_frame_property_monitor = function(const AChnIdx: int32; const AEnable: boolean): s32; stdcall;
+  Tcan_rbs_enable_frame_property_monitor = function(const AChnIdx: int32; const AEnable, AReset: boolean): s32; stdcall;
   Tcan_rbs_get_frame_dlc_monitor_result = function(const AChnIdx: int32; const AIdentifier: uint32; const ADLC: u8): s32; stdcall;
   Tcan_rbs_get_frame_period_statistics = function(const AChnIdx: int32; const AIdentifier: uint32; const AStatistics: PMPCANRBSFramePeriodStatistics): s32; stdcall;
   Tcan_rbs_get_frame_ack_error_monitor_result = function(const AChnIdx: int32; const AHasACKError: pInt32; const AFirstACKTimestampUs: pint64): s32; stdcall;

@@ -3828,7 +3828,7 @@ typedef struct _TCANRBSFramePeriodStatistics {
     double FAveragePeriodUs;
     u64 FNonMonotonicTimestampCount;
 } TCANRBSFramePeriodStatistics, *PCANRBSFramePeriodStatistics;
-typedef s32 (__stdcall* Tcan_rbs_enable_frame_property_monitor)(const s32 AChnIdx, const bool AEnable);
+typedef s32 (__stdcall* Tcan_rbs_enable_frame_property_monitor)(const s32 AChnIdx, const bool AEnable, const bool AReset);
 typedef s32 (__stdcall* Tcan_rbs_get_frame_dlc_monitor_result)(const s32 AChnIdx, const u32 AIdentifier, const u8 ADLC);
 typedef s32 (__stdcall* Tcan_rbs_get_frame_period_statistics)(const s32 AChnIdx, const u32 AIdentifier, const PCANRBSFramePeriodStatistics AStatistics);
 typedef s32 (__stdcall* Tcan_rbs_get_frame_ack_error_monitor_result)(const s32 AChnIdx, const ps32 AHasACKError, const ps64 AFirstACKTimestampUs);
