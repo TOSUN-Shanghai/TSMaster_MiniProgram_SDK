@@ -1516,7 +1516,7 @@ type
   Tlin_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address = function(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
-  Tcan_rbs_is_first_received_frame_by_id = function(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): s32; stdcall;
+  Tcan_rbs_is_first_received_frame_by_id = function(const AChnIdx: int32; const AIdentifier: uint32; const ARequireRegisteredId: boolean; const AIsFirstFrame: pInt32): s32; stdcall;
   TMPCANRBSFramePeriodStatistics = packed record
     FStructSize: UInt32;
     FFlags: UInt32;

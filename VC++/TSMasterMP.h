@@ -3814,7 +3814,7 @@ typedef s32 (__stdcall* Tcan_rbs_check_frame_trailing_undefined_bytes_by_address
 typedef s32 (__stdcall* Tlin_rbs_check_frame_trailing_undefined_bytes_by_address)(const char* AFrameAddress, const u8 AExpectedByte, const pbool AIsMatched);
 typedef s32 (__stdcall* Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address)(const char* AFrameAddress, const u8 AExpectedByte, const pbool AIsMatched);
 typedef s32 (__stdcall* Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address)(const char* APDUAddress, const u8 AExpectedByte, const pbool AIsMatched);
-typedef s32 (__stdcall* Tcan_rbs_is_first_received_frame_by_id)(const s32 AChnIdx, const u32 AIdentifier, const ps32 AIsFirstFrame);
+typedef s32 (__stdcall* Tcan_rbs_is_first_received_frame_by_id)(const s32 AChnIdx, const u32 AIdentifier, const bool ARequireRegisteredId, const ps32 AIsFirstFrame);
 typedef struct _TCANRBSFramePeriodStatistics {
     u32 FStructSize;
     u32 FFlags;
