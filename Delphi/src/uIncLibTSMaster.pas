@@ -4153,6 +4153,7 @@ function can_rbs_set_rc_fault_mode(const AChnIdx: int32; const ANetworkName: pan
 function can_rbs_set_crc_fault_mode(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ACRCSignalName: pansichar; const AMode: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_enable_automatic_tx_algorithm(const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_enable_automatic_rx_algorithm(const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_read_first_received_frame(const AChnIdx: int32; const AActualFirstFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
