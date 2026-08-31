@@ -1516,7 +1516,7 @@ type
   Tlin_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tflexray_rbs_check_frame_trailing_undefined_bytes_by_address = function(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
   Tethernet_rbs_check_pdu_trailing_undefined_bytes_by_address = function(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): s32; stdcall;
-  Tcan_rbs_is_first_received_frame_by_id = function(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): s32; stdcall;
+  Tcan_rbs_is_first_received_frame_by_id = function(const AChnIdx: int32; const AIdentifier: uint32; const ARequireRegisteredId: boolean; const AIsFirstFrame: pInt32): s32; stdcall;
   TMPCANRBSFramePeriodStatistics = packed record
     FStructSize: UInt32;
     FFlags: UInt32;
@@ -1543,6 +1543,7 @@ type
   Tcan_rbs_set_crc_fault_mode = function(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ACRCSignalName: pansichar; const AMode: int32): s32; stdcall;
   Tcan_rbs_enable_automatic_tx_algorithm = function(const AEnable: boolean): s32; stdcall;
   Tcan_rbs_enable_automatic_rx_algorithm = function(const AEnable: boolean): s32; stdcall;
+  Tcan_rbs_read_first_received_frame = function(const AChnIdx: int32; const AActualFirstFrame: PLIBCANFD): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -3162,7 +3163,8 @@ type
     can_rbs_set_crc_fault_mode: Tcan_rbs_set_crc_fault_mode;
     can_rbs_enable_automatic_tx_algorithm: Tcan_rbs_enable_automatic_tx_algorithm;
     can_rbs_enable_automatic_rx_algorithm: Tcan_rbs_enable_automatic_rx_algorithm;
-    FDummy: array [0..438- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_read_first_received_frame: Tcan_rbs_read_first_received_frame;
+    FDummy: array [0..437- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;

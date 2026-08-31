@@ -4140,8 +4140,8 @@ function can_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAdd
 function lin_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function flexray_rbs_check_frame_trailing_undefined_bytes_by_address(const AFrameAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function ethernet_rbs_check_pdu_trailing_undefined_bytes_by_address(const APDUAddress: pansichar; const AExpectedByte: byte; const AIsMatched: PBoolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function can_rbs_is_first_received_frame_by_id(const AChnIdx: int32; const AIdentifier: uint32; const AIsFirstFrame: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
-function can_rbs_enable_frame_property_monitor(const AChnIdx: int32; const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_is_first_received_frame_by_id(const AChnIdx: int32; const AIdentifier: uint32; const ARequireRegisteredId: boolean; const AIsFirstFrame: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_enable_frame_property_monitor(const AChnIdx: int32; const AEnable: boolean; const AReset: boolean = False): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_frame_dlc_monitor_result(const AChnIdx: int32; const AIdentifier: uint32; const ADLC: uint8): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_frame_period_statistics(const AChnIdx: int32; const AIdentifier: uint32; const AStatistics: PLibCANRBSFramePeriodStatistics): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_get_frame_ack_error_monitor_result(const AChnIdx: int32; const AHasACKError: pInt32; const AFirstACKTimestampUs: pint64): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
@@ -4153,6 +4153,7 @@ function can_rbs_set_rc_fault_mode(const AChnIdx: int32; const ANetworkName: pan
 function can_rbs_set_crc_fault_mode(const AChnIdx: int32; const ANetworkName: pansichar; const ANodeName: pansichar; const AMessageName: pansichar; const APDUName: pansichar; const ACRCSignalName: pansichar; const AMode: int32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_enable_automatic_tx_algorithm(const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function can_rbs_enable_automatic_rx_algorithm(const AEnable: boolean): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function can_rbs_read_first_received_frame(const AChnIdx: int32; const AActualFirstFrame: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
