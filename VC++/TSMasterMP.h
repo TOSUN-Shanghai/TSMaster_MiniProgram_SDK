@@ -2420,6 +2420,14 @@ typedef s32 (__stdcall* Tget_hardware_id_array_upg1)(pu8 AArray8B);
 typedef s32 (__stdcall* Tget_mapping_property)(const PLIBTSMapping AMapping, const s32 AKey, const char** AValue);
 typedef s32 (__stdcall* Tdb_get_can_pdu_properties_by_index)(const PDBPDUProperties AValue);
 typedef s32 (__stdcall* Tdb_get_can_pdu_properties_by_address)(const char* AAdress, const PDBPDUProperties AValue);
+typedef s32 (__stdcall* Tdb_resolve_can_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_can_message_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_lin_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_lin_message_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_flexray_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_flexray_message_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_ethernet_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Tdb_resolve_ethernet_pdu_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
 typedef s32 (__stdcall* Tdb_get_flexray_pdu_properties_by_address)(const char* AAdress, const PDBPDUProperties AValue);
 typedef s32 (__stdcall* Tdb_get_flexray_pdu_properties_by_index)(const PDBPDUProperties AValue);
 typedef s32 (__stdcall* Tregister_system_var_pre_read_event)(const char* ACompleteName, TOnSystemVarPreReadEvent AEvent);
@@ -3125,7 +3133,15 @@ typedef struct _TTSApp {
     Tload_code_file_to_ccode_editor load_code_file_to_ccode_editor;
     Tload_code_file_to_python_editor load_code_file_to_python_editor;
     Tconfigure_ethernet_parameter_ex configure_ethernet_parameter_ex;
-    native_int FDummy[424]; // >>> mp app end <<<
+    Tdb_resolve_can_signal_address db_resolve_can_signal_address;
+    Tdb_resolve_can_message_address db_resolve_can_message_address;
+    Tdb_resolve_lin_signal_address db_resolve_lin_signal_address;
+    Tdb_resolve_lin_message_address db_resolve_lin_message_address;
+    Tdb_resolve_flexray_signal_address db_resolve_flexray_signal_address;
+    Tdb_resolve_flexray_message_address db_resolve_flexray_message_address;
+    Tdb_resolve_ethernet_signal_address db_resolve_ethernet_signal_address;
+    Tdb_resolve_ethernet_pdu_address db_resolve_ethernet_pdu_address;
+    native_int FDummy[416]; // >>> mp app end <<<
     s32 start_log_w_filename_verbose(char* AFileName, s32 AFilesizeType, s64 ASizeValue){return internal_start_log_w_filename_verbose(FObj, AFileName, AFilesizeType, ASizeValue);}
     s32 start_log_verbose(s32 AFilesizeType, s64 ASizeValue){return internal_start_log_verbose(FObj, AFilesizeType, ASizeValue);}
     s32 call_model_finalization(const native_int AHandle){return internal_call_model_finalization(FObj, AHandle);}

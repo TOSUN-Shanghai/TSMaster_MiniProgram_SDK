@@ -822,6 +822,14 @@ type
   Tget_mapping_property = function(const AMapping: PLIBTSMapping; const AKey: int32; const AValue: PPAnsiChar): s32; stdcall;
   Tdb_get_can_pdu_properties_by_index = function(const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_can_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
+  Tdb_resolve_can_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_can_message_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_lin_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_lin_message_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_flexray_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_flexray_message_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_ethernet_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Tdb_resolve_ethernet_pdu_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_flexray_pdu_properties_by_index = function(const AValue: PMPDBPDUProperties): s32; stdcall;
   Tregister_system_var_pre_read_event = function(const ACompleteName: pansichar; AEvent: TLIBOnSystemVarPreReadEvent): s32; stdcall;
@@ -2526,7 +2534,15 @@ type
     load_code_file_to_ccode_editor: Tload_code_file_to_ccode_editor;
     load_code_file_to_python_editor: Tload_code_file_to_python_editor;
     configure_ethernet_parameter_ex: Tconfigure_ethernet_parameter_ex;
-    FDummy: array [0..424-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    db_resolve_can_signal_address: Tdb_resolve_can_signal_address;
+    db_resolve_can_message_address: Tdb_resolve_can_message_address;
+    db_resolve_lin_signal_address: Tdb_resolve_lin_signal_address;
+    db_resolve_lin_message_address: Tdb_resolve_lin_message_address;
+    db_resolve_flexray_signal_address: Tdb_resolve_flexray_signal_address;
+    db_resolve_flexray_message_address: Tdb_resolve_flexray_message_address;
+    db_resolve_ethernet_signal_address: Tdb_resolve_ethernet_signal_address;
+    db_resolve_ethernet_pdu_address: Tdb_resolve_ethernet_pdu_address;
+    FDummy: array [0..416-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
