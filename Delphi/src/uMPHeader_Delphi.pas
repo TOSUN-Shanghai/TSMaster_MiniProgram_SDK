@@ -1552,6 +1552,14 @@ type
   Tcan_rbs_enable_automatic_tx_algorithm = function(const AEnable: boolean): s32; stdcall;
   Tcan_rbs_enable_automatic_rx_algorithm = function(const AEnable: boolean): s32; stdcall;
   Tcan_rbs_read_first_received_frame = function(const AChnIdx: int32; const AActualFirstFrame: PLIBCANFD): s32; stdcall;
+  Tcan_rbs_import_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tcan_rbs_export_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tlin_rbs_import_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tlin_rbs_export_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tflexray_rbs_import_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tflexray_rbs_export_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tethernet_rbs_import_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
+  Tethernet_rbs_export_configuration = function(const AFileName: PAnsiChar): s32; stdcall;
   // TS_COM_PROTO_END (do not modify this line) ================================
 
   // Test features
@@ -3180,7 +3188,15 @@ type
     can_rbs_enable_automatic_tx_algorithm: Tcan_rbs_enable_automatic_tx_algorithm;
     can_rbs_enable_automatic_rx_algorithm: Tcan_rbs_enable_automatic_rx_algorithm;
     can_rbs_read_first_received_frame: Tcan_rbs_read_first_received_frame;
-    FDummy: array [0..437- 1] of NativeInt; // place holders, TS_COM_PROTO_END
+    can_rbs_import_configuration: Tcan_rbs_import_configuration;
+    can_rbs_export_configuration: Tcan_rbs_export_configuration;
+    lin_rbs_import_configuration: Tlin_rbs_import_configuration;
+    lin_rbs_export_configuration: Tlin_rbs_export_configuration;
+    flexray_rbs_import_configuration: Tflexray_rbs_import_configuration;
+    flexray_rbs_export_configuration: Tflexray_rbs_export_configuration;
+    ethernet_rbs_import_configuration: Tethernet_rbs_import_configuration;
+    ethernet_rbs_export_configuration: Tethernet_rbs_export_configuration;
+    FDummy: array [0..429- 1] of NativeInt; // place holders, TS_COM_PROTO_END
     // internal functions
     function wait_can_message(const ATxCAN: plibcan; const ARxCAN: PLIBCAN; const ATimeoutMs: s32): s32; cdecl;
     function wait_canfd_message(const ATxCANFD: plibcanFD; const ARxCANFD: PLIBCANFD; const ATimeoutMs: s32): s32; cdecl;

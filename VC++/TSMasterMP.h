@@ -3857,6 +3857,14 @@ typedef s32 (__stdcall* Tcan_rbs_set_crc_fault_mode)(const s32 AChnIdx, const ch
 typedef s32 (__stdcall* Tcan_rbs_enable_automatic_tx_algorithm)(const bool AEnable);
 typedef s32 (__stdcall* Tcan_rbs_enable_automatic_rx_algorithm)(const bool AEnable);
 typedef s32 (__stdcall* Tcan_rbs_read_first_received_frame)(const s32 AChnIdx, const PCANFD AActualFirstFrame);
+typedef s32 (__stdcall* Tcan_rbs_import_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tcan_rbs_export_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tlin_rbs_import_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tlin_rbs_export_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tflexray_rbs_import_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tflexray_rbs_export_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tethernet_rbs_import_configuration)(const char* AFileName);
+typedef s32 (__stdcall* Tethernet_rbs_export_configuration)(const char* AFileName);
 // >>> mp com prototype end <<<
 
 typedef struct _TTSCOM {
@@ -4456,7 +4464,15 @@ typedef struct _TTSCOM {
     Tcan_rbs_enable_automatic_tx_algorithm can_rbs_enable_automatic_tx_algorithm;
     Tcan_rbs_enable_automatic_rx_algorithm can_rbs_enable_automatic_rx_algorithm;
     Tcan_rbs_read_first_received_frame can_rbs_read_first_received_frame;
-    native_int FDummy[437]; // >>> mp com end <<<
+    Tcan_rbs_import_configuration can_rbs_import_configuration;
+    Tcan_rbs_export_configuration can_rbs_export_configuration;
+    Tlin_rbs_import_configuration lin_rbs_import_configuration;
+    Tlin_rbs_export_configuration lin_rbs_export_configuration;
+    Tflexray_rbs_import_configuration flexray_rbs_import_configuration;
+    Tflexray_rbs_export_configuration flexray_rbs_export_configuration;
+    Tethernet_rbs_import_configuration ethernet_rbs_import_configuration;
+    Tethernet_rbs_export_configuration ethernet_rbs_export_configuration;
+    native_int FDummy[429]; // >>> mp com end <<<
     s32 rpc_tsmaster_cmd_batch_get_signal_list(const native_int AHandle, const s64 ABatchHandle, const s32 AListCapacity, char* ARegisteredListText){return internal_rpc_tsmaster_cmd_batch_get_signal_list(FObj, AHandle, ABatchHandle, AListCapacity, ARegisteredListText);}
     s32 rpc_tsmaster_cmd_batch_get_signal_release(const native_int AHandle, const s64 ABatchHandle){return internal_rpc_tsmaster_cmd_batch_get_signal_release(FObj, AHandle, ABatchHandle);}
     s32 rpc_tsmaster_cmd_batch_get_signal_read(const native_int AHandle, const s64 ABatchHandle, const s32 AValuesCapacity, char* AValueText){return internal_rpc_tsmaster_cmd_batch_get_signal_read(FObj, AHandle, ABatchHandle, AValuesCapacity, AValueText);}
