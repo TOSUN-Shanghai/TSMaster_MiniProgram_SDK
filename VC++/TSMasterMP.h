@@ -2421,6 +2421,8 @@ typedef s32 (__stdcall* Tget_mapping_property)(const PLIBTSMapping AMapping, con
 typedef s32 (__stdcall* Tdb_get_can_pdu_properties_by_index)(const PDBPDUProperties AValue);
 typedef s32 (__stdcall* Tdb_get_can_pdu_properties_by_address)(const char* AAdress, const PDBPDUProperties AValue);
 typedef s32 (__stdcall* Tdb_resolve_can_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
+typedef s32 (__stdcall* Texport_system_user_vars)(const char* AFileName);
+typedef s32 (__stdcall* Timport_system_user_vars)(const char* AFileName, const bool AIsOverWrite);
 typedef s32 (__stdcall* Tdb_resolve_can_message_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
 typedef s32 (__stdcall* Tdb_resolve_lin_signal_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
 typedef s32 (__stdcall* Tdb_resolve_lin_message_address)(const char* AAddress, const bool AIsTx, char* AFullAddress, const ps32 AFullAddressCapacity);
@@ -3141,7 +3143,9 @@ typedef struct _TTSApp {
     Tdb_resolve_flexray_message_address db_resolve_flexray_message_address;
     Tdb_resolve_ethernet_signal_address db_resolve_ethernet_signal_address;
     Tdb_resolve_ethernet_pdu_address db_resolve_ethernet_pdu_address;
-    native_int FDummy[416]; // >>> mp app end <<<
+    Texport_system_user_vars export_system_user_vars;
+    Timport_system_user_vars import_system_user_vars;
+    native_int FDummy[414]; // >>> mp app end <<<
     s32 start_log_w_filename_verbose(char* AFileName, s32 AFilesizeType, s64 ASizeValue){return internal_start_log_w_filename_verbose(FObj, AFileName, AFilesizeType, ASizeValue);}
     s32 start_log_verbose(s32 AFilesizeType, s64 ASizeValue){return internal_start_log_verbose(FObj, AFilesizeType, ASizeValue);}
     s32 call_model_finalization(const native_int AHandle){return internal_call_model_finalization(FObj, AHandle);}

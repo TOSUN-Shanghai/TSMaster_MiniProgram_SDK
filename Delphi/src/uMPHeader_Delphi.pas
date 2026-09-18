@@ -823,6 +823,8 @@ type
   Tdb_get_can_pdu_properties_by_index = function(const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_get_can_pdu_properties_by_address = function(const AAdress: pansichar; const AValue: PMPDBPDUProperties): s32; stdcall;
   Tdb_resolve_can_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
+  Texport_system_user_vars = function(const AFileName: PAnsiChar): s32; stdcall;
+  Timport_system_user_vars = function(const AFileName: PAnsiChar; const AIsOverWrite: Boolean): s32; stdcall;
   Tdb_resolve_can_message_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
   Tdb_resolve_lin_signal_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
   Tdb_resolve_lin_message_address = function(const AAddress: PAnsiChar; const AIsTx: Boolean; AFullAddress: PAnsiChar; const AFullAddressCapacity: ps32): s32; stdcall;
@@ -2550,7 +2552,9 @@ type
     db_resolve_flexray_message_address: Tdb_resolve_flexray_message_address;
     db_resolve_ethernet_signal_address: Tdb_resolve_ethernet_signal_address;
     db_resolve_ethernet_pdu_address: Tdb_resolve_ethernet_pdu_address;
-    FDummy: array [0..416-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    export_system_user_vars: Texport_system_user_vars;
+    import_system_user_vars: Timport_system_user_vars;
+    FDummy: array [0..414-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
