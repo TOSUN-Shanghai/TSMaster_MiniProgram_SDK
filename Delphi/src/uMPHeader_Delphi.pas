@@ -929,6 +929,8 @@ type
   Tcertificate_get_not_before = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
   Tcertificate_get_not_after = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
   Tcertificate_get_pubkey_algorithm = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
+  Tui_select_signals = function(const ASgnType: TSignalType; const AMultiSelect: boolean; AAddresses: PPAnsiChar; ACount: pInt32): s32; stdcall;
+  Tui_select_constants = function(const AMultiSelect: boolean; ANames: PPAnsiChar; ACount: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2554,7 +2556,9 @@ type
     db_resolve_ethernet_pdu_address: Tdb_resolve_ethernet_pdu_address;
     export_system_user_vars: Texport_system_user_vars;
     import_system_user_vars: Timport_system_user_vars;
-    FDummy: array [0..414-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    ui_select_signals: Tui_select_signals;
+    ui_select_constants: Tui_select_constants;
+    FDummy: array [0..412-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
