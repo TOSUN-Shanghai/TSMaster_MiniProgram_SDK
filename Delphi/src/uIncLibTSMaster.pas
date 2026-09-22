@@ -4171,6 +4171,8 @@ function flexray_rbs_import_configuration(const AFileName: PAnsiChar): integer; 
 function flexray_rbs_export_configuration(const AFileName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function ethernet_rbs_import_configuration(const AFileName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function ethernet_rbs_export_configuration(const AFileName: PAnsiChar): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function ui_select_signals(const ASgnType: TSignalType; const AMultiSelect: boolean; AAddresses: PPAnsiChar; ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function ui_select_constants(const AMultiSelect: boolean; ANames: PPAnsiChar; ACount: pInt32): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // MP DLL function import end (do not modify this line)
 
 {$ENDIF}
