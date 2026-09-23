@@ -1,0 +1,5 @@
+schema: 2
+mode: ai-cli
+subjectFormat: story-bug-conventional
+requireStagedChanges: true
+toolProtocol: 1
