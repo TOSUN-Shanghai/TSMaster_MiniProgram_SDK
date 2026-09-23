@@ -2304,6 +2304,7 @@ typedef s32 (__stdcall* Tui_hide_main_form)(void);
 typedef s32 (__stdcall* Tui_show_main_form)(const s32 ALeft, const s32 ATop, const s32 AWidth, const s32 AHeight);
 typedef s32 (__stdcall* Tconfigure_can_regs)(const s32 AChn, const float ABaudrateKbps, const u32 ASEG1, const u32 ASEG2, const u32 APrescaler, const u32 ASJW, const bool AOnlyListen, const bool A120OhmConnected);
 typedef s32 (__stdcall* Tconfigure_canfd_regs)(const s32 AChn, const float AArbBaudrateKbps, const u32 AArbSEG1, const u32 AArbSEG2, const u32 AArbPrescaler, const u32 AArbSJW, const float ADataBaudrateKbps, const u32 ADataSEG1, const u32 ADataSEG2, const u32 ADataPrescaler, const u32 ADataSJW, const TCANFDControllerType AControllerType, const TCANFDControllerMode AControllerMode, const bool A120OhmConnected);
+typedef s32 (__stdcall* Tconfigure_canfd_regs_ex)(const s32 AChn, const float AArbBaudrateKbps, const u32 AArbSEG1, const u32 AArbSEG2, const u32 AArbPrescaler, const u32 AArbSJW, const float ADataBaudrateKbps, const u32 ADataSEG1, const u32 ADataSEG2, const u32 ADataPrescaler, const u32 ADataSJW, const TCANFDControllerType AControllerType, const TCANFDControllerMode AControllerMode, const bool A120OhmConnected, const char* AOptions);
 typedef s32 (__stdcall* Tstart_log_verbose)(const pvoid AObj, s32 AFilesizeType, s64 ASizeValue);
 typedef s32 (__stdcall* Tstart_log_w_filename_verbose)(const pvoid AObj, char* AFileName, s32 AFilesizeType, s64 ASizeValue);
 typedef s32 (__stdcall* Ttsio_start_configuration)(void);
@@ -2500,6 +2501,8 @@ typedef s32 (__stdcall* TTSAppStopA429Channel)(const s32 AIdxChn);
 typedef s32 (__stdcall* Tload_code_file_to_ccode_editor)(const char* AEditorDisplayName, const char* AFilePath, const bool ACreateIfEditorNotReady);
 typedef s32 (__stdcall* Tload_code_file_to_python_editor)(const char* AEditorDisplayName, const char* AFilePath, const bool ACreateIfEditorNotReady);
 typedef s32 (__stdcall* Tconfigure_ethernet_parameter_ex)(const s32 AIdxChn, const s32 AEnabled, const s32 APhyType, const s32 AIsMaster, const s32 AIsAutoNegotiation, const s32 ASpeedType, const s32 ALoopModeType, const s32 AByPassMode, const char* AMacAddress, const s32 AEnableLayer2Switch);
+typedef s32 (__stdcall* Tui_select_signals)(const TSignalType ASgnType, const bool AMultiSelect, char** AAddresses, ps32 ACount);
+typedef s32 (__stdcall* Tui_select_constants)(const bool AMultiSelect, char** ANames, ps32 ACount);
 // >>> mp app prototype end <<<
 
 typedef struct _TTSApp {
@@ -3145,7 +3148,10 @@ typedef struct _TTSApp {
     Tdb_resolve_ethernet_pdu_address db_resolve_ethernet_pdu_address;
     Texport_system_user_vars export_system_user_vars;
     Timport_system_user_vars import_system_user_vars;
-    native_int FDummy[414]; // >>> mp app end <<<
+    Tui_select_signals ui_select_signals;
+    Tui_select_constants ui_select_constants;
+    Tconfigure_canfd_regs_ex configure_canfd_regs_ex;
+    native_int FDummy[411]; // >>> mp app end <<<
     s32 start_log_w_filename_verbose(char* AFileName, s32 AFilesizeType, s64 ASizeValue){return internal_start_log_w_filename_verbose(FObj, AFileName, AFilesizeType, ASizeValue);}
     s32 start_log_verbose(s32 AFilesizeType, s64 ASizeValue){return internal_start_log_verbose(FObj, AFilesizeType, ASizeValue);}
     s32 call_model_finalization(const native_int AHandle){return internal_call_model_finalization(FObj, AHandle);}
