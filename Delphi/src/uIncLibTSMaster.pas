@@ -2814,6 +2814,16 @@ function tsapp_configure_canfd_regs(
       const AControllerType: TLIBCANFDControllerType;
       const AControllerMode: TLIBCANFDControllerMode;
       const A120OhmConnected: Integer): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
+function tsapp_configure_canfd_regs_ex(
+      const AIdxChn: Integer;
+      const AArbBaudrate: Single;
+      const AArbSEG1, AArbSEG2, AArbPrescaler, AArbSJW: Integer;
+      const ADataBaudrate: Single;
+      const ADataSEG1, ADataSEG2, ADataPrescaler, ADataSJW: Integer;
+      const AControllerType: TLIBCANFDControllerType;
+      const AControllerMode: TLIBCANFDControllerMode;
+      const A120OhmConnected: Integer;
+      const AOptions: PAnsiChar): Integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 // communication async functions
 function tsapp_transmit_can_async(const ACAN: PLIBCAN): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
 function tsapp_transmit_canfd_async(const ACANFD: PLIBCANFD): integer; stdcall; {$IFNDEF LIBTSMASTER_IMPL} external DLL_LIB_TSMASTER; {$ENDIF}
