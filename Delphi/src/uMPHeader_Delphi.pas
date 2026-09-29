@@ -932,6 +932,16 @@ type
   Tcertificate_get_pubkey_algorithm = function(handle: TTSX509_handle_t; out_: PAnsiChar; out_len: PNativeUInt): s32; stdcall;
   Tui_select_signals = function(const ASgnType: TSignalType; const AMultiSelect: boolean; AAddresses: PPAnsiChar; ACount: pInt32): s32; stdcall;
   Tui_select_constants = function(const AMultiSelect: boolean; ANames: PPAnsiChar; ACount: pInt32): s32; stdcall;
+  Tfigure_close = function(const AFormId: int64): s32; stdcall;
+  Tfigure_clear = function(const AFormId: int64): s32; stdcall;
+  Tfigure_hold = function(const AFormId: int64; const AHold: boolean): s32; stdcall;
+  Tfigure_plot_xy = function(const AFormId: int64; const AX: pdouble; const AY: pdouble; const ACount: int32; ALineId: pint64): s32; stdcall;
+  Tfigure_set_line_xy = function(const AFormId: int64; const ALineId: int64; const AX: pdouble; const AY: pdouble; const ACount: int32): s32; stdcall;
+  Tfigure_append_xy = function(const AFormId: int64; const ALineId: int64; const AX: pdouble; const AY: pdouble; const ACount: int32): s32; stdcall;
+  Tfigure_set_title = function(const AFormId: int64; const ATitle: pansichar): s32; stdcall;
+  Tfigure_set_labels = function(const AFormId: int64; const AXLabel: pansichar; const AYLabel: pansichar): s32; stdcall;
+  Tfigure_run_tac = function(const AFormId: int64; const ASource: pansichar): s32; stdcall;
+  Tfigure_get_tac_state = function(const AFormId: int64; AState: pInt32): s32; stdcall;
   // TS_APP_PROTO_END (do not modify this line) ================================
   // hardware settings
   TTSConfigureBaudrateCAN = function(const AIdxChn: integer; const ABaudrateKbps: Single; const AListenOnly: boolean; const AInstallTermResistor120Ohm: Boolean): integer; stdcall;
@@ -2560,7 +2570,17 @@ type
     ui_select_signals: Tui_select_signals;
     ui_select_constants: Tui_select_constants;
     configure_canfd_regs_ex: Tconfigure_canfd_regs_ex;
-    FDummy: array [0..411-1] of NativeInt; // place holders, TS_APP_PROTO_END
+    figure_close: Tfigure_close;
+    figure_clear: Tfigure_clear;
+    figure_hold: Tfigure_hold;
+    figure_plot_xy: Tfigure_plot_xy;
+    figure_set_line_xy: Tfigure_set_line_xy;
+    figure_append_xy: Tfigure_append_xy;
+    figure_set_title: Tfigure_set_title;
+    figure_set_labels: Tfigure_set_labels;
+    figure_run_tac: Tfigure_run_tac;
+    figure_get_tac_state: Tfigure_get_tac_state;
+    FDummy: array [0..401-1] of NativeInt; // place holders, TS_APP_PROTO_END
     function start_log_w_filename(const AFileName: string): s32; cdecl;
     function disconnect(): s32; cdecl;
     procedure terminate_application; cdecl;
